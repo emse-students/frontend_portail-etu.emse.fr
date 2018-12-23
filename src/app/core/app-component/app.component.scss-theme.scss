@@ -1,0 +1,67 @@
+@import '~@angular/material/theming';
+
+@mixin app-app-component-theme($theme) {
+  $primary: map-get($theme, primary);
+  $accent: map-get($theme, accent);
+
+  mat-sidenav-container {
+    mat-toolbar {
+      button {
+        &.active {
+          a{
+            color: mat-contrast($accent, 500);
+          }
+          background-color: mat-color($accent);
+        }
+      }
+
+      .sign-in-button {
+        color: mat-contrast($primary, 500);
+        border: 1px solid mat-contrast($primary, 500);
+      }
+
+      .link a {
+        color: mat-contrast($primary, 500);
+      }
+
+      .mat-menu-content{
+        background-color: mat-color($primary);
+        .mat-button {
+          a {
+            color: mat-contrast($primary, 500);;
+          }
+        }
+      }
+
+
+    }
+
+    mat-sidenav {
+      .mat-list-item {
+        &.active {
+          color: mat-color($accent, default-contrast);
+          background-color: mat-color($accent) !important;
+
+          &:hover {
+            background-color: mat-color($accent, darker) !important;
+          }
+        }
+      }
+    }
+    
+    footer {
+      color: mat-color($primary, lighter);
+      background-color: mat-color($primary, darker);
+
+      .links,
+      .signature {
+        a {
+          color: mat-color($primary, lighter);
+          &:hover {
+            color: mat-color($accent);
+          }
+        }
+      }
+    }
+  }
+}

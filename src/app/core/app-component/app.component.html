@@ -1,0 +1,145 @@
+<mat-sidenav-container>
+  <mat-sidenav #sidenav mode="push" [opened]="showSidenav" (closedStart)="closeSidenav()">
+
+    <mat-toolbar color="primary" class="branding">
+      <span class="w-100 text-center">
+        <a routerLink="" (click)="sidenav.close()">
+          <img [src]="logo"/>
+        </a>
+      </span>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <!--<ng-container>-->
+        <!--<a mat-list-item class="nav-button link mb-4" [routerLink]="'/'" routerLinkActive="active" (click)="sidenav.close()">-->
+          <!--Paramètres-->
+        <!--</a>-->
+      <!--</ng-container>-->
+
+      <a mat-list-item *ngFor="let item of navigation" (click)="sidenav.close()"
+         [routerLink]="[item.link]" routerLinkActive="active">
+        {{item.label}}
+      </a>
+
+      <!--<a mat-list-item (click)="sidenav.close()"-->
+         <!--[routerLink]="'settings'" routerLinkActive="active">-->
+        <!--<mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Settings-->
+      <!--</a>-->
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-sidenav #usernav mode="push" position="end" [opened]="showUsernav" (closedStart)="closeSidenav()" >
+    <mat-toolbar color="primary" class="branding" *ngIf="(authenticatedUser)">
+      <span class="w-100 text-center">
+        {{authenticatedUser.firstname}} {{authenticatedUser.lastname}}
+      </span>
+    </mat-toolbar>
+
+    <mat-nav-list>
+      <div class="user-list" *ngIf="($bdeUser | async)">Solde BDE : {{($bdeUser | async).solde}}</div>
+      <div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>
+      <a mat-list-item (click)="usernav.close()"
+      [routerLink]="'/'">
+        <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Changer de mot de passe
+      </a>
+      <mat-list-item (click)="onLogoutClick()">
+        <mat-icon fontSet="fas" fontIcon="fa-power-off"></mat-icon>
+        <span>Déconnexion</span>
+      </mat-list-item>
+
+    </mat-nav-list>
+  </mat-sidenav>
+
+  <mat-toolbar color="primary">
+    <button mat-icon-button class="d-md-none" (click)="openSidenav()">
+      <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
+    </button>
+
+    <span class="branding spacer center d-inline d-sm-none link position-absolute w-100" style="margin-left: -16px; z-index: -1">
+      <a routerLink="">
+        <img [src]="logo"/>
+      </a>
+    </span>
+
+    <span routerLink="" class="branding spacer center d-inline d-sm-none link">
+
+    </span>
+
+    <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none link">
+      <a routerLink="">
+        <img [src]="logo"/>
+        <span class="app-title">Portail Etu</span>
+      </a>
+    </span>
+
+    <span routerLink="" class="branding spacer d-none d-md-inline link">
+      <a routerLink="">
+        <img [src]="logo"/>
+        <span class="app-title">Portail des Étudiants</span>
+      </a>
+    </span>
+
+    <span class="d-none d-md-inline">
+
+      <button mat-button class="mat-button link d-none active " *ngFor="let item of navigation"
+              [routerLink]="[item.link]" routerLinkActive="d-inline">
+          <a [routerLink]="[item.link]">{{item.label}}</a>
+      </button>
+
+      <button mat-button [matMenuTriggerFor]="rooms">Pages</button>
+
+      <mat-menu #rooms="matMenu">
+        <button mat-menu-item class="mat-button link" *ngFor="let item of navigation"
+                  [routerLink]="[item.link]" routerLinkActive="active">
+          <a [routerLink]="[item.link]">{{item.label}}</a>
+        </button>
+      </mat-menu>
+
+
+
+      <!--<ng-container>-->
+        <!--<button mat-button class="nav-button link"-->
+                <!--[routerLink]="'/'" routerLinkActive="active">-->
+          <!--<a [routerLink]="'settings/admin'">Paramètres</a>-->
+        <!--</button>-->
+      <!--</ng-container>-->
+
+
+    </span>
+
+    <button mat-button class="sign-in-button "
+            *ngIf="!((authenticatedUser) || isLoginPage)"
+            (click)="onLoginClick()">
+      Se connecter
+    </button>
+
+    <button *ngIf="authenticatedUser" mat-icon-button (click)="openUsernav()">
+      <mat-icon fontSet="fas" fontIcon="fa-user-circle"></mat-icon>
+    </button>
+
+    <!--<button mat-icon-button routerLink="settings" class="d-none d-sm-inline">-->
+      <!--<mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>-->
+    <!--</button>-->
+  </mat-toolbar>
+
+  <div class="wrapper">
+    <div class="content">
+      <app-info></app-info>
+      <router-outlet #o="outlet"></router-outlet>
+    </div>
+
+    <footer>
+      <div class="row">
+        <div class="col-12 signature">
+          &#169; <span class="year">{{year}}</span> - BDE de l'EMSE
+        </div>
+      </div>
+      <div class="row">
+        <div class="col-12 signature">
+          Site developpé en 2018 par Corentin Doué - ICM 2016
+        </div>
+      </div>
+    </footer>
+  </div>
+</mat-sidenav-container>
+

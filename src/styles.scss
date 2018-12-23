@@ -1,0 +1,61 @@
+@import "styles-variables";
+
+@import '~bootstrap/scss/bootstrap-reboot';
+@import '~bootstrap/scss/bootstrap-grid';
+@import '~bootstrap/scss/bootstrap';
+@import '../node_modules/@fortawesome/fontawesome-free-webfonts/scss/fontawesome';
+@import '../node_modules/@fortawesome/fontawesome-free-webfonts/scss/fa-solid';
+@import '../node_modules/@fortawesome/fontawesome-free-webfonts/scss/fa-brands';
+
+@import 'styles-reset';
+
+//Theming
+@import '../node_modules/@angular/material/theming';
+
+@include mat-core();
+
+@import 'styles-reset.scss-theme';
+@import 'themes/app-theme.scss';
+@import 'themes/purple-theme.scss';
+
+@import 'app/core/app-component/app.component.scss-theme';
+
+
+@mixin custom-components-theme($theme) {
+  @include app-styles-reset-theme($theme);
+  @include app-app-component-theme($theme);
+}
+
+.default-theme {
+  @include angular-material-theme($purple-theme);
+  @include custom-components-theme($purple-theme);
+  //Error
+  .error-snackbar {
+    background: #F8D7DA;
+    color: #721C24;
+    font-size: 1em;
+    .mat-simple-snackbar-action {
+      color: #000000;
+    }
+  }
+
+  .success-snackbar {
+    background: #D4EDDA;
+    color: #155724;
+    font-size: 1em;
+    .mat-simple-snackbar-action {
+      color: #000000;
+    }
+  }
+
+  .info-snackbar {
+    background: #D1ECF1;
+    color: #0C5460;
+    font-size: 1em;
+    .mat-simple-snackbar-action {
+      color: #000000;
+    }
+  }
+}
+
+

@@ -1,0 +1,14 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <p>
+    <mat-form-field class="w-100">
+      <textarea matInput placeholder="Description" formControlName="textInput" style="min-height: 300px;"></textarea>
+    </mat-form-field>
+  </p>
+  <p>Vous pouvez utiliser des balises html pour mettre en forme votre texte.<br> Attention aucun retour à la ligne n'est éffectué sans balise &lt;br&gt;</p>
+
+  <p class="loginButtons">
+    <button class="ml-2"  mat-flat-button color="warn" (click)="canceled.emit(true)">Annuler</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Sauveguarder</button>
+  </p>
+
+</form>

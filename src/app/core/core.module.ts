@@ -11,6 +11,10 @@ import {AuthService} from './services/auth.service';
 import {InfoService} from './services/info.service';
 import {ErrorInterceptorService} from './services/error-interceptor.service';
 import {JwtInterceptorService} from './services/jwt-interceptor.service';
+import {UrlSafeStringService} from './services/url-safe-string.service';
+import {JsonLdService} from './services/json-ld.service';
+import {HTTP_INTERCEPTORS} from '@angular/common/http';
+import {MenuListItemComponent} from './components/menu-list-item/menu-list-item.component';
 
 
 
@@ -18,10 +22,18 @@ import {JwtInterceptorService} from './services/jwt-interceptor.service';
 export const COMPONENTS = [
   AppComponent,
   NotFoundPageComponent,
-  InfoComponent
+  InfoComponent,
+  MenuListItemComponent
 ];
 
-export const SERVICES = [AuthService, InfoService, ErrorInterceptorService, JwtInterceptorService];
+export const SERVICES = [
+  AuthService,
+  InfoService,
+  UrlSafeStringService,
+  JsonLdService,
+  { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
+  { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true }
+];
 
 @NgModule({
   imports: [

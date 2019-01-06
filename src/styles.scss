@@ -19,11 +19,13 @@
 @import 'themes/purple-theme.scss';
 
 @import 'app/core/app-component/app.component.scss-theme';
+@import 'app/core/components/menu-list-item/menu-list-item.component.scss';
 
 
 @mixin custom-components-theme($theme) {
   @include app-styles-reset-theme($theme);
   @include app-app-component-theme($theme);
+  @include app-menu-list-item-theme($theme);
 }
 
 .default-theme {

@@ -1,0 +1,34 @@
+<mat-card-title>Ajouter un membre</mat-card-title>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <p>
+    <mat-form-field class="w-100" *ngIf="!user.value">
+      <input type="text" placeholder="Membre" matInput [formControl]="userText" [matAutocomplete]="auto">
+      <mat-autocomplete #auto="matAutocomplete">
+        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.firstname +' '+ option.lastname" (click)="user.patchValue(option)">
+          {{option.firstname}} {{option.lastname}} promo {{option.promo}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="userText.touched && user.invalid">{{getErrorMessage(user)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <div *ngIf="user.value">
+    {{user.value.firstname}} {{user.value.lastname}} promo {{user.value.promo}}
+    <button class="ml-2" mat-flat-button color="warn" (click)="user.reset()">Changer</button>
+  </div>
+
+  <p>
+    <mat-form-field class="w-100">
+      <mat-select placeholder="Role" formControlName="role">
+        <mat-option [value]="api_url + '/roles/' + selectRole.id" *ngFor="let selectRole of roles">{{selectRole.name}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="role.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <p class="loginButtons">
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Créer</button>
+  </p>
+
+</form>
+

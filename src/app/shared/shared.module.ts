@@ -28,6 +28,10 @@ import {RouterModule} from '@angular/router';
 import {HourPipe} from './pipes/hour.pipe';
 import {TranslateDayPipe} from './pipes/translate-day.pipe';
 import {TranslateMonthPipe} from './pipes/translate-month.pipe';
+import {SearchComponent} from './components/search.component';
+import {EscapeHtmlPipe} from './pipes/escape-html.pipe';
+import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { OrderByPipe } from './pipes/order-by.pipe';
 
 
 @NgModule({
@@ -60,13 +64,19 @@ import {TranslateMonthPipe} from './pipes/translate-month.pipe';
     MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatAutocompleteModule,
 
     AngularSvgIconModule,
   ],
   declarations: [
     HourPipe,
     TranslateDayPipe,
-    TranslateMonthPipe
+    TranslateMonthPipe,
+    EscapeHtmlPipe,
+
+    SearchComponent,
+
+    OrderByPipe,
   ],
   exports: [
     CommonModule,
@@ -97,12 +107,17 @@ import {TranslateMonthPipe} from './pipes/translate-month.pipe';
     MatSortModule,
     MatDatepickerModule,
     MatNativeDateModule,
+    MatAutocompleteModule,
 
     AngularSvgIconModule,
 
     HourPipe,
     TranslateDayPipe,
-    TranslateMonthPipe
+    TranslateMonthPipe,
+    EscapeHtmlPipe,
+    OrderByPipe,
+
+    SearchComponent,
   ]
 })
 export class SharedModule {}

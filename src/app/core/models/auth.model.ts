@@ -6,11 +6,19 @@ export interface Token {
 export interface AuthenticatedUser {
   id: number;
   email: string;
-  firstName: string;
-  lastName: string;
-  role: string;
+  firstname: string;
+  lastname: string;
+  roles: string[];
   type: string;
   token: Token;
+}
+
+export interface UserLight {
+  id: number;
+  firstname: string;
+  lastname: string;
+  type: string;
+  promo: number;
 }
 
 

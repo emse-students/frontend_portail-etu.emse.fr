@@ -1,0 +1,15 @@
+<mat-card-content>
+  <form [formGroup]="form" (ngSubmit)="submit()">
+    <p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Nom" formControlName="name">
+        <mat-error *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
+      </mat-form-field>
+    </p>
+
+    <p class="loginButtons">
+      <mat-spinner *ngIf="ispending" [diameter]="35" ></mat-spinner><button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="!ispending">{{isNew?'Créer':'Mettre à jour'}}</button>
+    </p>
+
+  </form>
+</mat-card-content>

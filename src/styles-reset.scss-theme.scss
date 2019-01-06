@@ -33,4 +33,13 @@
       }
     }
   }
+
+  .member-card {
+    background: mat-color($primary);
+    color: mat-contrast($primary, 500);
+  }
+  .member-title {
+    background: mat-color($accent);
+    color: mat-contrast($accent, 500);
+  }
 }

@@ -1,30 +1,16 @@
 <mat-sidenav-container>
-  <mat-sidenav #sidenav mode="push" [opened]="showSidenav" (closedStart)="closeSidenav()">
+  <mat-sidenav #sidenav mode="push" opened="false" (closedStart)="closeSidenav()">
 
     <mat-toolbar color="primary" class="branding">
       <span class="w-100 text-center">
-        <a routerLink="" (click)="sidenav.close()">
+        <a routerLink="" (click)="navService.closeNav()">
           <img [src]="logo"/>
         </a>
       </span>
     </mat-toolbar>
 
     <mat-nav-list>
-      <!--<ng-container>-->
-        <!--<a mat-list-item class="nav-button link mb-4" [routerLink]="'/'" routerLinkActive="active" (click)="sidenav.close()">-->
-          <!--Paramètres-->
-        <!--</a>-->
-      <!--</ng-container>-->
-
-      <a mat-list-item *ngFor="let item of navigation" (click)="sidenav.close()"
-         [routerLink]="[item.link]" routerLinkActive="active">
-        {{item.label}}
-      </a>
-
-      <!--<a mat-list-item (click)="sidenav.close()"-->
-         <!--[routerLink]="'settings'" routerLinkActive="active">-->
-        <!--<mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Settings-->
-      <!--</a>-->
+        <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
     </mat-nav-list>
   </mat-sidenav>
 
@@ -39,8 +25,8 @@
       <div class="user-list" *ngIf="($bdeUser | async)">Solde BDE : {{($bdeUser | async).solde}}</div>
       <div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>
       <a mat-list-item (click)="usernav.close()"
-      [routerLink]="'/'">
-        <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Changer de mot de passe
+      [routerLink]="'/settings'">
+        <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Paramètres
       </a>
       <mat-list-item (click)="onLogoutClick()">
         <mat-icon fontSet="fas" fontIcon="fa-power-off"></mat-icon>
@@ -51,7 +37,7 @@
   </mat-sidenav>
 
   <mat-toolbar color="primary">
-    <button mat-icon-button class="d-md-none" (click)="openSidenav()">
+    <button mat-icon-button class="d-md-none" (click)="navService.openNav()">
       <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
     </button>
 
@@ -62,7 +48,9 @@
     </span>
 
     <span routerLink="" class="branding spacer center d-inline d-sm-none link">
-
+      <a routerLink="">
+        <img [src]="logo"/>
+      </a>
     </span>
 
     <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none link">
@@ -79,20 +67,35 @@
       </a>
     </span>
 
-    <span class="d-none d-md-inline">
+    <span class="spacer center d-none d-md-inline">
 
-      <button mat-button class="mat-button link d-none active " *ngFor="let item of navigation"
+    </span>
+
+    <span class="d-none d-md-inline">
+      <button mat-button class="mat-button link d-none active" *ngFor="let item of allNav"
               [routerLink]="[item.link]" routerLinkActive="d-inline">
-          <a [routerLink]="[item.link]">{{item.label}}</a>
+          <a class="h5 font-weight-bold" [routerLink]="[item.link]">{{item.label}}</a>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="rooms">Pages</button>
+      <button mat-button [matMenuTriggerFor]="menuAssos" >Associations</button>
+      <button mat-button [matMenuTriggerFor]="pages" *ngIf="navItems[0]">Pages</button>
 
-      <mat-menu #rooms="matMenu">
-        <button mat-menu-item class="mat-button link" *ngFor="let item of navigation"
-                  [routerLink]="[item.link]" routerLinkActive="active">
-          <a [routerLink]="[item.link]">{{item.label}}</a>
-        </button>
+      <mat-menu #menuAssos="matMenu">
+        <ng-container *ngIf="navItems[1]">
+          <button mat-menu-item class="mat-button link" *ngFor="let asso of navItems[1].children"
+                  [routerLink]="[asso.route]" routerLinkActive="active">
+            <a [routerLink]="[asso.route]">{{asso.displayName}}</a>
+          </button>
+        </ng-container>
+      </mat-menu>
+
+      <mat-menu #pages="matMenu">
+        <ng-container *ngIf="navItems[0]">
+          <button mat-menu-item class="mat-button link" *ngFor="let item of navItems[0].children"
+                    [routerLink]="[item.route]" routerLinkActive="active">
+            <a [routerLink]="[item.route]">{{item.displayName}}</a>
+          </button>
+        </ng-container>
       </mat-menu>
 
 

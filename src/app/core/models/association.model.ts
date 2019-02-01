@@ -1,5 +1,6 @@
 import {FileDTO} from './file.model';
 import {Position} from './position.model';
+import {EventLight} from './event.model';
 
 export interface Association {
   id: number;
@@ -10,10 +11,16 @@ export interface Association {
   logo: FileDTO;
   lastActionDate: string;
   positions: Position[];
+  events: EventLight[];
+}
+
+export interface NewAssociation {
+  name: string;
+  tag: string;
 }
 
 export interface AssociationLight {
-  id?: number;
+  id: number;
   name: string;
   tag: string;
 }

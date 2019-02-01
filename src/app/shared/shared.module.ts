@@ -32,6 +32,8 @@ import {SearchComponent} from './components/search.component';
 import {EscapeHtmlPipe} from './pipes/escape-html.pipe';
 import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { OrderByPipe } from './pipes/order-by.pipe';
+import { TranslateStatusPipe } from './pipes/translate-status.pipe';
+import {ResolveComponentDirective} from './directives/resolve-component.directive';
 
 
 @NgModule({
@@ -77,6 +79,9 @@ import { OrderByPipe } from './pipes/order-by.pipe';
     SearchComponent,
 
     OrderByPipe,
+    TranslateStatusPipe,
+
+    ResolveComponentDirective
   ],
   exports: [
     CommonModule,
@@ -116,6 +121,8 @@ import { OrderByPipe } from './pipes/order-by.pipe';
     TranslateMonthPipe,
     EscapeHtmlPipe,
     OrderByPipe,
+    TranslateStatusPipe,
+    ResolveComponentDirective,
 
     SearchComponent,
   ]

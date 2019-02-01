@@ -2,6 +2,7 @@ Client of portail-etu.emse.fr
 ===============
 
 This application is the frontend of [portail-etu.emse.fr](https://portail-etu.emse.fr).
+It work on top of [backend_portail-etu.emse.fr](https://github.com/CorentinDoue/frontend_portail-etu.emse.fr.git)
 
 Installation
 ------------
@@ -16,15 +17,14 @@ $ git clone https://github.com/CorentinDoue/frontend_portail-etu.emse.fr.git
 $ npm install
 ```
 
-
-### 4. Update `src/environments/*` with your local information :
+### 3. Update `src/environments/*` with your local information :
 - `cas_login_url` : The url of the CAS which be call to login
 - `api_login_url` : The url of the API which check your CAS authentication, check that the user exist on the database and five back a token
 - `api_url` : the endpoint of the API
 - `img_url` : the url where the downloaded images are stored
 - `production` : a boolean to toogle production mode
 
-### 5. Serve in dev mode locally or build the project to put it in production
+### 4. Serve in dev mode locally or build the project to put it in production
 ``` bash    
 $ ng serve
 ```

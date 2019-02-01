@@ -7,6 +7,7 @@ import {CoreModule} from './core/core.module';
 import {AppComponent} from './core/app-component/app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {OverlayContainer} from '@angular/cdk/overlay';
+import {MAT_DATE_LOCALE} from '@angular/material';
 
 @NgModule({
   imports: [
@@ -16,7 +17,7 @@ import {OverlayContainer} from '@angular/cdk/overlay';
     SharedModule,
     CoreModule.forRoot(),
   ],
-  providers: [],
+  providers: [{provide: MAT_DATE_LOCALE, useValue: 'fr'}],
   bootstrap: [AppComponent]
 })
 export class AppModule {

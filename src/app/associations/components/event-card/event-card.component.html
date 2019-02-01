@@ -1,0 +1,18 @@
+<div class="col event-card" [ngClass]="event.status">
+  <div class="row justify-content-center"><h4>{{event.name}}</h4></div>
+  <div class="row">
+    <div class="col-6 text-center">{{event.date | date: 'EEEE d M' | translateDay}}</div>
+    <div class="col-6 text-center">{{event.date | date: 'h\'h\'mm'}}</div>
+  </div>
+  <div class="row justify-content-around">
+    <a [routerLink]="'/events-settings/'+event.id" *ngIf="isRightful">
+      <button mat-flat-button color="accent" >Paramètres</button>
+    </a>
+    <button mat-flat-button color="accent" *ngIf="!isRightful">Détail</button>
+    <button mat-flat-button color="primary">Réserver</button>
+  </div>
+  <div class="row text-center" *ngIf="event.status !== 'validated' && isRightful">
+    <div class="col">Statut : {{event.status | translateStatus}}</div>
+  </div>
+</div>
+

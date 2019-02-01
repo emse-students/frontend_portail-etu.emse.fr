@@ -16,6 +16,10 @@ const routes: Routes = [
     path: 'associations',
     loadChildren: './associations/associations.module#AssociationsModule'
   },
+  {
+    path: 'events-settings',
+    loadChildren: './events-settings/events-settings.module#EventsSettingsModule'
+  },
   { path: '**', component: NotFoundPageComponent }
 ];
 

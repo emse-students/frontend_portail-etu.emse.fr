@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Association, AssociationDTO, AssociationLight} from '../models/association.model';
+import {Association, AssociationDTO, AssociationLight, NewAssociation} from '../models/association.model';
 import {Observable, of, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {JsonLdService} from './json-ld.service';
@@ -22,7 +22,7 @@ export class AssociationService {
     this.allAssos = new Subject<AssociationLight[] | null>();
   }
 
-  public create(asso: AssociationLight): void {
+  public create(asso: NewAssociation): void {
     const url = `${environment.api_url}/associations`;
     this.http.post<AssociationLight>(url, asso).subscribe(
       (newAsso) => {

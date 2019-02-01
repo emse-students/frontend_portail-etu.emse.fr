@@ -6,6 +6,8 @@ import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-fo
 import { TextAreaFormComponent } from './components/text-area-form/text-area-form.component';
 import { AddPositionFormComponent } from './components/add-position-form/add-position-form.component';
 import {PositionsListComponent} from './components/positions-list.component';
+import { EventsListComponent } from './components/events-list/events-list.component';
+import { EventCardComponent } from './components/event-card/event-card.component';
 
 
 @NgModule({
@@ -14,7 +16,9 @@ import {PositionsListComponent} from './components/positions-list.component';
     ImgUploadFormComponent,
     TextAreaFormComponent,
     AddPositionFormComponent,
-    PositionsListComponent
+    PositionsListComponent,
+    EventsListComponent,
+    EventCardComponent
   ],
   imports: [
     SharedModule,

@@ -28,6 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   isLoginPage = false;
   assoLoaded = false;
   navItems: NavItem[] = [];
+  isAdmin = false;
 
   constructor(
     private authService: AuthService,
@@ -35,6 +36,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     private navService: NavService) {}
 
   ngOnInit() {
+    this.isAdmin = this.authService.isAdmin();
     this.navItems.push({
       displayName: 'Pages',
       route: '',

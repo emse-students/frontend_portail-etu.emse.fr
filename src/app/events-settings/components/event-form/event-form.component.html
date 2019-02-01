@@ -1,0 +1,178 @@
+<h3>
+  Événement de l'association : {{asso.name}}
+</h3>
+<h4>Statut : {{status.value | translateStatus}}</h4>
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <p>
+    <mat-form-field class="w-100">
+      <input type="text" matInput placeholder="Nom" formControlName="name">
+      <mat-error *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field class="w-100">
+      <textarea matInput placeholder="Description" formControlName="description" style="min-height: 300px;"></textarea>
+    </mat-form-field>
+  </p>
+
+  <div class="row">
+    <mat-form-field class="col-sm-6">
+      <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="date.invalid">{{getErrorMessage(date)}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-sm-6">
+      <input type="time" matInput placeholder="Heure" formControlName="hourDate">
+      <mat-error *ngIf="hourDate.invalid">{{getErrorMessage(hourDate)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <p *ngIf="date.value">Le {{ date.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourDate.value"> à {{hourDate.value.split(':')[0]}}h{{hourDate.value.split(':')[1]}}</span></p>
+
+  <p>
+    <mat-form-field class="w-100">
+      <input type="text" matInput placeholder="Durée" formControlName="duration">
+      <mat-error *ngIf="duration.invalid">{{getErrorMessage(duration)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <p>
+    <mat-form-field class="w-100">
+      <input type="text" matInput placeholder="Lieu" formControlName="place">
+      <mat-error *ngIf="place.invalid">{{getErrorMessage(place)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <div class="row">
+    <mat-form-field class="col-sm-6">
+      <input matInput [matDatepicker]="picker3" placeholder="Deadline de réservation" formControlName="closingDate">
+      <mat-datepicker-toggle matSuffix [for]="picker3"></mat-datepicker-toggle>
+      <mat-datepicker #picker3></mat-datepicker>
+      <mat-error *ngIf="closingDate.invalid">{{getErrorMessage(closingDate)}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-sm-6">
+      <input type="time" matInput placeholder="Heure" formControlName="hourClosingDate">
+      <mat-error *ngIf="hourClosingDate.invalid">{{getErrorMessage(hourClosingDate)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <p *ngIf="closingDate.value">Deadline le {{ closingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourClosingDate.value"> à {{hourClosingDate.value.split(':')[0]}}h{{hourClosingDate.value.split(':')[1]}}</span></p>
+  <p *ngIf="!closingDate.value">Pas de deadline</p>
+
+  <mat-slide-toggle color="primary" formControlName="payable">Événement payant ?</mat-slide-toggle>
+
+  <br *ngIf="!payable.value">
+
+  <p *ngIf="payable.value">
+    <mat-form-field class="w-100">
+      <input type="number" matInput placeholder="Prix" formControlName="price">
+      <mat-error *ngIf="price.invalid">{{getErrorMessage(price)}}</mat-error>
+      <span matSuffix>€</span>
+    </mat-form-field>
+  </p>
+
+  <ng-container *ngIf="payable.value">
+    <h3 >Moyens de paiements :</h3>
+    <div *ngFor="let paymentMean of boolPaymentMeans">
+      <mat-checkbox  [(ngModel)]="paymentMean.selected" [ngModelOptions]="{standalone: true}">{{paymentMean.paymentMeans.name}}</mat-checkbox>
+    </div>
+  </ng-container>
+
+  <mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>
+
+  <p *ngIf="shotgun.value">
+    <mat-form-field class="w-100">
+      <input type="number" matInput placeholder="Nombre de places au shotgun" formControlName="shotgunListLength">
+      <mat-error *ngIf="shotgunListLength.invalid">{{getErrorMessage(shotgunListLength)}}</mat-error>
+      <span matSuffix>places</span>
+    </mat-form-field>
+  </p>
+
+  <div class="row" *ngIf="shotgun.value">
+    <mat-form-field class="col-sm-6">
+      <input matInput [matDatepicker]="picker2" placeholder="Date de début du shotgun" formControlName="shotgunStartingDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-sm-6">
+      <input type="time" matInput placeholder="Heure" formControlName="hourShotgunStartingDate">
+      <mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
+  <mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>
+  <p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>
+  <p *ngIf="shotgun.value && !shotgunWaitingList.value">Les utilisateurs NE sont PAS autorisés à continuer de s'incrire une fois le nombre de places atteint</p>
+
+  <ng-container formArrayName="formInputs">
+    <ng-container *ngFor="let formInput of formInputs.controls; let i=index"  [formGroupName]="i">
+      <div class="row">
+        <mat-form-field class="col">
+          <input type="text" matInput placeholder="Titre" formControlName="title" *ngIf="formInput.get('type').value === 'title'">
+          <input type="text" matInput placeholder="Question" formControlName="title" *ngIf="formInput.get('type').value !== 'title'">
+          <mat-error *ngIf="formInput.get('title').invalid">{{getErrorMessage(formInput.get('title'))}}</mat-error>
+        </mat-form-field >
+
+        <mat-form-field class="col-3">
+          <mat-select placeholder="Type" formControlName="type">
+            <mat-option value="title">Titre</mat-option>
+            <mat-option value="text">Question</mat-option>
+            <mat-option value="singleOption">Option unique</mat-option>
+            <mat-option value="multipleOptions">Options multiples</mat-option>
+          </mat-select>
+        </mat-form-field>
+        <div class="col-1 d-flex flex-column justify-content-center">
+          <mat-icon fontSet="fas" fontIcon="fa-minus-circle" color="warn" (click)="delFormInput(i)" style="margin-left: 0"></mat-icon>
+        </div>
+      </div>
+      <ng-container formArrayName="options">
+        <ng-container *ngFor="let option of formInput.get('options').controls; let j=index"  [formGroupName]="j">
+          <div class="row">
+            <div class="col-4 col-md-2 d-flex flex-column justify-content-center">- Option {{j}}:</div>
+            <div class="col-8 col-md-6">
+              <mat-form-field class="w-100"><input type="text" matInput placeholder="Valeur" formControlName="value"></mat-form-field>
+            </div>
+            <div class="col-6 col-md-3 d-flex flex-column justify-content-center">
+              <mat-slide-toggle color="primary"
+                                (change)="option.get('price').value === null ?
+                                option.get('price').setValue(0) :
+                                option.get('price').setValue(null)"
+                                *ngIf="payable.value" [checked]="option.get('price').value !== null" >
+                Payante ?
+              </mat-slide-toggle>
+            </div>
+            <div class="col-6 col-md-1 d-flex flex-column justify-content-center">
+              <mat-icon fontSet="fas" fontIcon="fa-minus-circle" color="primary" (click)="delOption(i,j)" style="margin-left: 0"></mat-icon>
+            </div>
+          </div>
+          <div class="row" *ngIf="option.get('price').value !== null">
+            <mat-form-field class="col">
+              <input type="number" matInput placeholder="Prix" formControlName="price">
+              <span matSuffix>€</span>
+            </mat-form-field>
+          </div>
+        </ng-container>
+      </ng-container>
+      <div class="row mt-3" *ngIf="formInput.get('type').value === 'singleOption' || formInput.get('type').value === 'multipleOptions'">
+        <mat-icon fontSet="fas" fontIcon="fa-plus-square" color="primary" (click)="addOption(i)"></mat-icon>
+        <div class="col">Ajoutez une option ?</div>
+      </div>
+    </ng-container>
+  </ng-container>
+
+  <div class="row mt-3" *ngIf="!formInputs.controls.length">
+    <mat-icon fontSet="fas" fontIcon="fa-plus-square" color="accent" (click)="addFormInput()"></mat-icon>
+    <div class="col">Créer un formulaire ?</div>
+  </div>
+
+  <div class="row mt-3" *ngIf="formInputs.controls.length">
+    <mat-icon fontSet="fas" fontIcon="fa-plus-square" color="accent" (click)="addFormInput()"></mat-icon>
+    <div class="col">Ajouter un champs ?</div>
+  </div>
+
+  <p class="loginButtons">
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('draft')">Sauver</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')">Soumettre</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="isAdmin">Soumettre et valider</button>
+  </p>
+</form>

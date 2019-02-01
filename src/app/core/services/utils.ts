@@ -16,3 +16,14 @@ export function arrayFindById(arr: ArrayId[], id: number) {
   }
   return -1;
 }
+
+export function setHourToDate(date: Date, hour: string): string {
+  if (hour) {
+    const numHour = parseInt(hour.split(':')[0], 10);
+    const numMin = parseInt(hour.split(':')[1], 10);
+    date.setHours(numHour);
+    date.setMinutes(numMin);
+  }
+  return date.toISOString();
+}
+

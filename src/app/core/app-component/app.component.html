@@ -25,9 +25,14 @@
       <div class="user-list" *ngIf="($bdeUser | async)">Solde BDE : {{($bdeUser | async).solde}}</div>
       <div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>
       <a mat-list-item (click)="usernav.close()"
-      [routerLink]="'/settings'">
+      [routerLink]="'/settings'" *ngIf="isAdmin">
         <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Paramètres
       </a>
+      <a mat-list-item (click)="usernav.close()"
+         [routerLink]="'/events-settings/new'">
+        <mat-icon fontSet="fas" fontIcon="fa-plus"></mat-icon>Nouvel Événement
+      </a>
+
       <mat-list-item (click)="onLogoutClick()">
         <mat-icon fontSet="fas" fontIcon="fa-power-off"></mat-icon>
         <span>Déconnexion</span>

@@ -101,4 +101,24 @@ export class AuthService {
       return false;
     }
   }
+
+  getAssoIdRightfullyEventEditable(): number[] {
+    if (this._authenticatedUser) {
+      const assoIds = [];
+      for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
+        if (this._authenticatedUser.roles[i] === 'ROLE_R8_A1') {
+          return [0];
+        } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
+          assoIds.push(parseInt(this._authenticatedUser.roles[i].match(/ROLE_R3_A(\d+)/)[1], 10));
+        }
+      }
+      return assoIds;
+    } else {
+      return [];
+    }
+  }
+
+  isAdmin(): boolean {
+    return this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R8_A1');
+  }
 }

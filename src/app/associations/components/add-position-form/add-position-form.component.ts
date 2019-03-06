@@ -17,7 +17,7 @@ export class AddPositionFormComponent implements OnInit {
   @Input() roles: Role[];
   @Input() users: UserLight[];
   @Output() submitted = new EventEmitter<NewPosition>();
-  api_url = environment.api_url;
+  api_url = environment.api_uri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group({
@@ -51,7 +51,7 @@ export class AddPositionFormComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       this.form.removeControl('userText');
-      this.association.setValue(environment.api_url + '/associations/' + this.assoId);
+      this.association.setValue(environment.api_uri + '/associations/' + this.assoId);
       this.user.setValue(this.api_url + '/users/' + this.user.value.id);
       this.submitted.emit(this.form.value);
     }

@@ -67,7 +67,7 @@ export class BdeDebitFormComponent implements OnInit {
 
   get users() {return this._users; }
   @Output() submitted = new EventEmitter<NewOperation>();
-  api_url = environment.api_url;
+  api_url = environment.api_uri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group({

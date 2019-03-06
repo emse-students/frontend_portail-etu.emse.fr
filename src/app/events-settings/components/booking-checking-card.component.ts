@@ -129,11 +129,11 @@ export class BookingCheckingCardComponent implements OnInit {
       const booking = {
         id: this.booking.id,
         paid: true,
-        paymentMeans: environment.api_url + '/payment_means/' + paymentMeansId
+        paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId
       };
       if (paymentMeansId === 1 ) {
         booking['operation'] = {
-          user: environment.api_url + '/users/' + this.booking.user.id,
+          user: environment.api_uri + '/users/' + this.booking.user.id,
           amount: -this.price(),
           reason: this.event.name,
           type: 'event_debit'

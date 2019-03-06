@@ -216,21 +216,21 @@ export class BookingFormComponent implements OnInit {
       console.log('submit');
       let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
       if (this.isNew) {this.form.removeControl('id'); }
-      this.event.setValue(environment.api_url + '/events/' + this.relatedEvent.id);
+      this.event.setValue(environment.api_uri + '/events/' + this.relatedEvent.id);
       if (this.authenticatedUser) {
-        this.user.setValue(environment.api_url + '/users/' + this.authenticatedUser.id);
+        this.user.setValue(environment.api_uri + '/users/' + this.authenticatedUser.id);
       } else {
         this.form.removeControl('user');
       }
       const outputsToRemove = [];
       for (let i = 0; i < this.formOutputs.controls.length; i++) {
         const type = this.formInput(i).value.type;
-        this.formInput(i).setValue(environment.api_url + '/form_inputs/' + this.formInput(i).value.id);
+        this.formInput(i).setValue(environment.api_uri + '/form_inputs/' + this.formInput(i).value.id);
         this.options(i).patchValue(
           this.boolOptions(i).value
             .map((v) => {
               totalPrice += v.selected ? v.option.price : 0;
-              return v.selected ? environment.api_url + '/options/' + v.option.id : null;
+              return v.selected ? environment.api_uri + '/options/' + v.option.id : null;
             })
             .filter(v => v !== null)
         );
@@ -251,17 +251,17 @@ export class BookingFormComponent implements OnInit {
         this.formOutputs.removeAt(outputsToRemove[i]);
       }
       if (this.bdePayment.value) {
-        this.paymentMeans.setValue(environment.api_url + '/payment_means/1');
+        this.paymentMeans.setValue(environment.api_uri + '/payment_means/1');
         if (!this.lastPrice) {
           this.operation.setValue({
-            user: environment.api_url + '/users/' + this.authenticatedUser.id,
+            user: environment.api_uri + '/users/' + this.authenticatedUser.id,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit'
           });
         } else if (this.lastPrice !== totalPrice) {
           this.operation.setValue({
-            user: environment.api_url + '/users/' + this.authenticatedUser.id,
+            user: environment.api_uri + '/users/' + this.authenticatedUser.id,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit'
@@ -269,7 +269,7 @@ export class BookingFormComponent implements OnInit {
         }
         this.paid.setValue(true);
       } else if (this.cerclePayment.value) {
-        this.paymentMeans.setValue(environment.api_url + '/payment_means/2');
+        this.paymentMeans.setValue(environment.api_uri + '/payment_means/2');
         this.paid.setValue(true);
       } else {
         this.form.removeControl('paymentMeans');

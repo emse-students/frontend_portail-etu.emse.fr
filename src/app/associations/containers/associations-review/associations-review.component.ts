@@ -94,7 +94,7 @@ export class AssociationsReviewComponent implements OnInit {
       (imgDTO: FileDTO) => {
         console.log(imgDTO);
         this.associationService.put(
-          {id: this.asso.id, logo: environment.api_url + '/img_objects/' + imgDTO.id}
+          {id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id}
           ).subscribe((asso: Association) => {this.asso = asso; this.logoLoading = false; },
         (error) => {this.logoLoading = false; });
         },

@@ -82,7 +82,7 @@ export class SettingsRoleFormComponent implements OnInit {
       if (this.isNew) {this.form.removeControl('id'); }
       this.rights.patchValue(
         this.boolRights
-        .map((v) => v.selected ? environment.api_url + '/user_rights/' + v.right.id : null)
+        .map((v) => v.selected ? environment.api_uri + '/user_rights/' + v.right.id : null)
         .filter(v => v !== null)
       );
       this.submitted.emit(this.form.value);

@@ -82,7 +82,7 @@ export class BdeRechargeFormComponent implements OnInit {
 
   get paymentMeans() {return this._paymentMeans; }
   @Output() submitted = new EventEmitter<NewOperation>();
-  api_url = environment.api_url;
+  api_url = environment.api_uri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group({

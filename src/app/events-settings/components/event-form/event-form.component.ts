@@ -74,7 +74,7 @@ export class EventFormComponent implements OnInit {
       } else {
         this.paymentMeans.patchValue(
           this.boolPaymentMeans
-            .map((v) => v.selected ? environment.api_url + '/payment_means/' + v.paymentMeans.id : null)
+            .map((v) => v.selected ? environment.api_uri + '/payment_means/' + v.paymentMeans.id : null)
             .filter(v => v !== null)
         );
       }
@@ -89,7 +89,7 @@ export class EventFormComponent implements OnInit {
       if (this.closingDate.value && this.hourClosingDate.value) {
         this.closingDate.setValue(setHourToDate(this.closingDate.value, this.hourClosingDate.value));
       }
-      this.association.setValue(environment.api_url + '/associations/' + this.asso.id);
+      this.association.setValue(environment.api_uri + '/associations/' + this.asso.id);
       if (!this.closingDate.value) {
         this.form.removeControl('closingDate');
       }

@@ -33,7 +33,10 @@ export class SettingsAssociationsComponent implements OnInit {
   assos: AssociationLight[] | null = null;
   newAsso = false;
 
-  constructor(private associationService: AssociationService) {}
+  constructor(
+    private associationService: AssociationService,
+    private infoService: InfoService
+  ) {}
 
   ngOnInit(): void {
     this.associationService.allAssos.subscribe((assos: AssociationLight[] | null) => {
@@ -62,15 +65,24 @@ export class SettingsAssociationsComponent implements OnInit {
 
   delete(idAsso: number) {
     this.loading = true;
-    this.associationService.delete(idAsso);
+    this.associationService.delete(idAsso).subscribe(
+      () => {this.loading = false; this.infoService.pushSuccess('Association supprimée avec succès'); },
+      () => {this.loading = false; }
+    );
   }
 
   onSubmit(asso) {
     this.loading = true;
     if (this.newAsso) {
-      this.associationService.create(asso);
+      this.associationService.create(asso).subscribe(
+        () => {this.loading = false; },
+        () => {this.loading = false; }
+      );
     } else {
-      this.associationService.put(asso);
+      this.associationService.put(asso).subscribe(
+        () => {this.loading = false; },
+        () => {this.loading = false; }
+      );
     }
   }
 }

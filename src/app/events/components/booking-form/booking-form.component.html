@@ -1,0 +1,62 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+
+  <p class="d-flex flex-column align-items-center" *ngIf="!authenticatedUser">
+    Connectez vous si vous êtes un élève de l'école <br>
+    <button class="ml-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
+    sinon indiquez votre nom et prénom
+  </p>
+  <p *ngIf="!authenticatedUser">
+    <mat-form-field class="w-100">
+      <input type="text" matInput placeholder="Prénom et Nom" formControlName="userName">
+      <mat-error *ngIf="userName.invalid">{{getErrorMessage(userName)}}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <mat-card-title *ngIf="formOutputs.length">Questionnaire</mat-card-title>
+
+  <ng-container formArrayName="formOutputs">
+    <ng-container *ngFor="let formOutput of formOutputs.controls; let i=index"  [formGroupName]="i">
+      <br *ngIf="formInput(i).value.type!=='text'">
+      <h4 *ngIf="formInput(i).value.type==='title'">{{formInput(i).value.title}}</h4>
+      <div class="row" *ngIf="formInput(i).value.type==='text'">
+        <mat-form-field class="col">
+          <input type="text" matInput placeholder="{{formInput(i).value.required?formInput(i).value.title + ' *' : formInput(i).value.title}}" formControlName="answer">
+          <mat-error *ngIf="formOutput.get('answer').invalid">{{getErrorMessage(formOutput.get('answer'))}}</mat-error>
+        </mat-form-field >
+      </div>
+      <h6 *ngIf="formInput(i).value.type==='singleOption' || formInput(i).value.type==='multipleOptions'">
+        {{formInput(i).value.title}}
+        <span *ngIf="formInput(i).value.required">*</span>
+      </h6>
+      <ng-container formArrayName="boolOptions">
+        <div class="row" *ngFor="let option of formOutput.get('boolOptions').controls; let j=index"  [formGroupName]="j">
+          <div class="col d-flex align-items-center" *ngIf="formInput(i).value.type==='multipleOptions'">
+            <mat-checkbox formControlName="selected">{{option.get('option').value.value}}</mat-checkbox>
+            <span class="ml-3" *ngIf="option.get('option').value.price">{{option.get('option').value.price | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+          </div>
+          <div class="col" *ngIf="formInput(i).value.type==='singleOption'"><mat-radio-button (click)="selectOption(i,j)" [checked]="option.get('selected').value">{{option.get('option').value.value}}</mat-radio-button></div>
+        </div>
+      </ng-container>
+      <mat-error *ngIf="formOutput.get('boolOptions').touched && formOutput.get('boolOptions').invalid">{{getErrorMessage(formOutput.get('boolOptions'))}}</mat-error>
+    </ng-container>
+  </ng-container>
+
+
+  <p *ngIf="relatedEvent.price">Prix total : {{totalPrice() | currency:'EUR':'symbol':'1.0-2':'fr'}}</p>
+  <mat-slide-toggle color="primary" formControlName="bdePayment" *ngIf="relatedEvent.price && !paid.value && arrayFindById(relatedEvent.paymentMeans, 1) !== -1 && !cerclePayment.value && authenticatedUser">Payer maintenant par compte BDE ?</mat-slide-toggle>
+  <br>
+  <mat-slide-toggle color="primary" formControlName="cerclePayment" *ngIf="relatedEvent.price && !paid.value && arrayFindById(relatedEvent.paymentMeans, 2) !== -1 && !bdePayment.value && authenticatedUser">Payer maintenant par compte Cercle ?</mat-slide-toggle>
+  <br>
+  <p *ngIf="paid.value && lastPrice === totalPrice()">Événement déjà payé</p>
+  <p *ngIf="paid.value && lastPrice !== totalPrice()">
+    Vous avez déjà payé {{lastPrice | currency:'EUR':'symbol':'1.2-2':'fr'}}, le nouveau prix est {{totalPrice() | currency:'EUR':'symbol':'1.2-2':'fr'}}.<br>
+    Le nouveau prix va être appliqué automatiquement.
+  </p>
+  <mat-error *ngIf="form.invalid">{{getErrorMessage(form)}}</mat-error>
+
+  <p class="loginButtons">
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(bdePayment.value && (!paid.value || lastPrice !== totalPrice())) || cerclePayment.value">{{isNew?'Réserver et payer':'Enregistrer les modifications et payer'}}</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(!bdePayment.value || (paid.value && lastPrice === totalPrice()))  && !cerclePayment.value">{{isNew?'Réserver':'Enregistrer les modifications'}}</button>
+
+  </p>
+</form>

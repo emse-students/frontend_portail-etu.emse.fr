@@ -44,7 +44,12 @@ export class MenuListItemComponent implements OnInit {
 
   onItemSelected(item: NavItem) {
     if (!item.children || !item.children.length) {
-      this.router.navigate([item.route]);
+      const m = item.route.match(/^http(.*)/);
+      if (m) {
+        window.location.href = item.route;
+      } else {
+        this.router.navigate([item.route]);
+      }
       this.navService.closeNav();
     }
     if (item.children && item.children.length) {

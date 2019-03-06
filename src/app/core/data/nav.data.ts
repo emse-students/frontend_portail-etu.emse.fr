@@ -8,36 +8,16 @@ export const ALL_NAV_LINKS: NavLink[] = [
   {
     label: 'Paramètres',
     link: '/settings'
-  },
-  {
-    label: 'Page 1',
-    link: '/page1'
-  },
-  {
-    label: 'Page 2',
-    link: '/page2'
-  },
-  {
-    label: 'Page 3',
-    link: '/page3'
-  },
+  }
 ];
 
 export const NAV_LINKS: NavLink[] = [
   {
     label: 'Accueil',
-    link: '/home'
+    link: 'https://portail-etu.emse.fr/'
   },
   {
-    label: 'Page 1',
-    link: '/page1'
-  },
-  {
-    label: 'Page 2',
-    link: '/page2'
-  },
-  {
-    label: 'Page 3',
-    link: '/page3'
-  },
+    label: 'Site Cercle',
+    link: 'https://portail-etu.emse.fr/cercle/'
+  }
 ];

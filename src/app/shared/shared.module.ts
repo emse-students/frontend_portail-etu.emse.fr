@@ -20,7 +20,7 @@ import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AngularSvgIconModule } from 'angular-svg-icon';
 import {HttpClientModule} from '@angular/common/http';
-import {MatDatepickerModule, MatExpansionModule, MatNativeDateModule} from '@angular/material';
+import {MatDatepickerModule, MatExpansionModule, MatNativeDateModule, MatRadioModule} from '@angular/material';
 import {MatPaginatorModule} from '@angular/material/paginator';
 import {MatTableModule} from '@angular/material/table';
 import {MatSortModule} from '@angular/material/sort';
@@ -67,6 +67,7 @@ import {ResolveComponentDirective} from './directives/resolve-component.directiv
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
+    MatRadioModule,
 
     AngularSvgIconModule,
   ],
@@ -113,6 +114,7 @@ import {ResolveComponentDirective} from './directives/resolve-component.directiv
     MatDatepickerModule,
     MatNativeDateModule,
     MatAutocompleteModule,
+    MatRadioModule,
 
     AngularSvgIconModule,
 

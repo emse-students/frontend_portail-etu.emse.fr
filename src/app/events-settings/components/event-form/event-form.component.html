@@ -10,11 +10,16 @@
     </mat-form-field>
   </p>
 
+  <h6 *ngIf="description.value">Preview de la description :</h6>
+
+  <p [innerHTML]="description.value | keepHtml"></p>
+
   <p>
     <mat-form-field class="w-100">
       <textarea matInput placeholder="Description" formControlName="description" style="min-height: 300px;"></textarea>
     </mat-form-field>
   </p>
+  <p>Utilisez l'html pour écrire votre description ! <br>Rappel : aucun retour à la ligne n'est éffectué sans la balise &lt;br&gt;</p>
 
   <div class="row">
     <mat-form-field class="col-sm-6">
@@ -59,6 +64,9 @@
   <p *ngIf="closingDate.value">Deadline le {{ closingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourClosingDate.value"> à {{hourClosingDate.value.split(':')[0]}}h{{hourClosingDate.value.split(':')[1]}}</span></p>
   <p *ngIf="!closingDate.value">Pas de deadline</p>
 
+  <mat-slide-toggle color="primary" formControlName="open">Événement ouvert aux non cotisants BDE ?</mat-slide-toggle>
+  <br>
+
   <mat-slide-toggle color="primary" formControlName="payable">Événement payant ?</mat-slide-toggle>
 
   <br *ngIf="!payable.value">
@@ -74,36 +82,37 @@
   <ng-container *ngIf="payable.value">
     <h3 >Moyens de paiements :</h3>
     <div *ngFor="let paymentMean of boolPaymentMeans">
-      <mat-checkbox  [(ngModel)]="paymentMean.selected" [ngModelOptions]="{standalone: true}">{{paymentMean.paymentMeans.name}}</mat-checkbox>
+      <mat-checkbox  [(ngModel)]="paymentMean.selected" [ngModelOptions]="{standalone: true}" *ngIf="paymentMean.paymentMeans.id !== 2">{{paymentMean.paymentMeans.name}}</mat-checkbox>
     </div>
   </ng-container>
 
-  <mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>
+  <!--<mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>-->
 
-  <p *ngIf="shotgun.value">
-    <mat-form-field class="w-100">
-      <input type="number" matInput placeholder="Nombre de places au shotgun" formControlName="shotgunListLength">
-      <mat-error *ngIf="shotgunListLength.invalid">{{getErrorMessage(shotgunListLength)}}</mat-error>
-      <span matSuffix>places</span>
-    </mat-form-field>
-  </p>
+  <!--<p *ngIf="shotgun.value">-->
+    <!--<mat-form-field class="w-100">-->
+      <!--<input type="number" matInput placeholder="Nombre de places au shotgun" formControlName="shotgunListLength">-->
+      <!--<mat-error *ngIf="shotgunListLength.invalid">{{getErrorMessage(shotgunListLength)}}</mat-error>-->
+      <!--<span matSuffix>places</span>-->
+    <!--</mat-form-field>-->
+  <!--</p>-->
 
-  <div class="row" *ngIf="shotgun.value">
-    <mat-form-field class="col-sm-6">
-      <input matInput [matDatepicker]="picker2" placeholder="Date de début du shotgun" formControlName="shotgunStartingDate">
-      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
-      <mat-datepicker #picker2></mat-datepicker>
-    </mat-form-field>
-    <mat-form-field class="col-sm-6">
-      <input type="time" matInput placeholder="Heure" formControlName="hourShotgunStartingDate">
-      <mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>
-    </mat-form-field>
-  </div>
-  <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
-  <mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>
-  <p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>
-  <p *ngIf="shotgun.value && !shotgunWaitingList.value">Les utilisateurs NE sont PAS autorisés à continuer de s'incrire une fois le nombre de places atteint</p>
+  <!--<div class="row" *ngIf="shotgun.value">-->
+    <!--<mat-form-field class="col-sm-6">-->
+      <!--<input matInput [matDatepicker]="picker2" placeholder="Date de début du shotgun" formControlName="shotgunStartingDate">-->
+      <!--<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>-->
+      <!--<mat-datepicker #picker2></mat-datepicker>-->
+    <!--</mat-form-field>-->
+    <!--<mat-form-field class="col-sm-6">-->
+      <!--<input type="time" matInput placeholder="Heure" formControlName="hourShotgunStartingDate">-->
+      <!--<mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>-->
+    <!--</mat-form-field>-->
+  <!--</div>-->
+  <!--<mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>-->
+  <!--<mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>-->
+  <!--<p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>-->
+  <!--<p *ngIf="shotgun.value && !shotgunWaitingList.value">Les utilisateurs NE sont PAS autorisés à continuer de s'incrire une fois le nombre de places atteint</p>-->
 
+  <h3 >Formulaire :</h3>
   <ng-container formArrayName="formInputs">
     <ng-container *ngFor="let formInput of formInputs.controls; let i=index"  [formGroupName]="i">
       <div class="row">
@@ -123,6 +132,13 @@
         </mat-form-field>
         <div class="col-1 d-flex flex-column justify-content-center">
           <mat-icon fontSet="fas" fontIcon="fa-minus-circle" color="warn" (click)="delFormInput(i)" style="margin-left: 0"></mat-icon>
+        </div>
+      </div>
+      <div class="row" *ngIf="formInput.get('type').value !== 'title'">
+        <div class="col d-flex align-items-center">
+          <mat-slide-toggle formControlName="required">Champs requis ?</mat-slide-toggle>
+          <span class="ml-2" *ngIf="formInput.get('required').value">Les participants devront obligatoirement remplir ce champs</span>
+          <span class="ml-2" *ngIf="!formInput.get('required').value">Les participants NE devront PAS obligatoirement remplir ce champs</span>
         </div>
       </div>
       <ng-container formArrayName="options">
@@ -171,8 +187,11 @@
   </div>
 
   <p class="loginButtons">
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('draft')">Sauver</button>
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')">Soumettre</button>
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="isAdmin">Soumettre et valider</button>
+    <button class="ml-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="!isNew && status.value !== 'draft'">Désactiver l'événement</button>
+    <button class="ml-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="!isNew && status.value === 'validated'">Sauver et garder l'événement validé</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value !== 'validated'">Soumettre</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value === 'validated'">Soumettre à nouveau</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="isAdmin && (isNew || status.value !== 'validated')">Soumettre et valider</button>
   </p>
 </form>

@@ -7,6 +7,9 @@ import {ALL_NAV_LINKS, NAV_LINKS} from '../data/nav.data';
 import {AssociationLight} from '../models/association.model';
 import {NavService} from '../services/nav.service';
 import {AssociationService} from '../services/association.service';
+import {UserService} from '../services/user.service';
+import {User} from '../models/user.model';
+import {ActivatedRoute, Router} from '@angular/router';
 
 
 @Component({
@@ -23,27 +26,42 @@ export class AppComponent implements OnInit, AfterViewInit {
   showSidenav = false;
   showUsernav = false;
   authenticatedUser: AuthenticatedUser | null;
+  authPending = true;
   $cercleUser: Observable<any>;
-  $bdeUser: Observable<any>;
-  isLoginPage = false;
+  bdeUser: User;
   assoLoaded = false;
+  listsLoaded = false;
   navItems: NavItem[] = [];
   isAdmin = false;
+  hasAsso = false;
 
   constructor(
     private authService: AuthService,
     private associationService: AssociationService,
-    private navService: NavService) {}
+    private navService: NavService,
+    private userService: UserService,
+    private router: Router,
+    private route: ActivatedRoute,
+  ) {}
 
   ngOnInit() {
-    this.isAdmin = this.authService.isAdmin();
     this.navItems.push({
-      displayName: 'Pages',
+      displayName: 'Associations',
+      route: '',
+      children: []
+    });
+    this.navItems.push({
+      displayName: 'Listes',
+      route: '',
+      children: []
+    });
+    this.navItems.push({
+      displayName: 'Autres Sites',
       route: '',
       children: []
     });
     for (let i = 0; i < NAV_LINKS.length; i++) {
-      this.navItems[0].children.push({
+      this.navItems[2].children.push({
         displayName: NAV_LINKS[i].label,
         route: NAV_LINKS[i].link
       });
@@ -51,19 +69,20 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.allNav = ALL_NAV_LINKS;
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
       console.log(authenticatedUser);
-      this.authenticatedUser = authenticatedUser;
+     this.authPending = false;
+     this.authenticatedUser = authenticatedUser;
+     this.isAdmin = this.authService.isAdmin();
+     this.hasAsso = this.authService.hasAsso();
+     if (authenticatedUser && (!this.bdeUser || authenticatedUser.id !== this.bdeUser.id)) {
+       this.userService.getInfo();
+     }
     });
     this.associationService.allAssos.subscribe((assos: AssociationLight[] | null) => {
       if (!this.assoLoaded) {
         const newNav = this.allNav.slice(0);
-        this.navItems.push({
-          displayName: 'Associations',
-          route: '',
-          children: []
-        });
         for (let i = 0; i < assos.length; i++) {
           newNav.push({label: assos[i].name, link: '/associations/' + assos[i].tag});
-          this.navItems[1].children.push({
+          this.navItems[0].children.push({
             displayName: assos[i].name,
             route: '/associations/' + assos[i].tag
           });
@@ -72,8 +91,22 @@ export class AppComponent implements OnInit, AfterViewInit {
         this.assoLoaded = true;
       }
     });
+    this.associationService.allLists.subscribe((assos: AssociationLight[] | null) => {
+      if (! this.listsLoaded) {
+        const newNav = this.allNav.slice(0);
+        for (let i = 0; i < assos.length; i++) {
+          newNav.push({label: assos[i].name, link: '/associations/' + assos[i].tag});
+          this.navItems[1].children.push({
+            displayName: assos[i].name,
+            route: '/associations/' + assos[i].tag
+          });
+        }
+        this.allNav = newNav;
+        this.listsLoaded = true;
+      }
+    });
     this.$cercleUser = of({solde: '20€'});
-      this.$bdeUser = of({solde: '10€'});
+    this.userService.user.subscribe((user) => {this.bdeUser = user; console.log(user); });
     this.authService.refresh();
     this.associationService.getLights();
   }
@@ -83,11 +116,13 @@ export class AppComponent implements OnInit, AfterViewInit {
   }
 
   onLogoutClick() {
-    this.authService.logout();
     this.closeSidenav();
+    this.authService.logout();
+    this.router.navigate([]);
   }
 
   onLoginClick() {
+    this.authPending = true;
     this.authService.login();
   }
 

@@ -2,35 +2,45 @@ import { Injectable } from '@angular/core';
 import {AuthenticatedUser, Token} from '../models/auth.model';
 import {environment} from '../../../environments/environment';
 import {HttpBackend, HttpRequest, HttpResponse} from '@angular/common/http';
-import {catchError, finalize, mergeMap} from 'rxjs/operators';
+import {catchError, finalize, map, mergeMap} from 'rxjs/operators';
 import {Subject, throwError} from 'rxjs';
 import {Router} from '@angular/router';
 import {InfoService} from './info.service';
+import {Event} from '../models/event.model';
+import {UserService} from './user.service';
+import {fakeAsync} from '@angular/core/testing';
 
 @Injectable()
 export class AuthService {
   authenticatedUser: Subject<AuthenticatedUser | null>;
   private _authenticatedUser: AuthenticatedUser | null;
+  private _pending = false;
 
 
-  constructor(private http: HttpBackend, private infoService: InfoService) {
+  constructor(
+    private http: HttpBackend,
+    private infoService: InfoService,
+    private userService: UserService
+  ) {
     this.authenticatedUser = new Subject<AuthenticatedUser | null>();
     this._authenticatedUser = null;
     const m = window.location.href.match(/(.*)[&?]ticket=([^&?]*)$/);
     if (m) {
       const [_, ourUrl, ticket] = m;
       console.log('got ticket from url ' + ticket);
+      this._pending = true;
       this.ticket2bearer(ticket, ourUrl).pipe(
         finalize(() => {
           // remove from url:
           history.replaceState({}, null, ourUrl);
           history.pushState({}, null, ourUrl);
         })
-      ).subscribe(authenticatedUser => {
-        this.authenticatedUser.next(authenticatedUser);
+      ).subscribe((authenticatedUser: AuthenticatedUser) => {
         this._authenticatedUser = authenticatedUser;
+        this.userService.setId(authenticatedUser.id);
+        this.authenticatedUser.next(authenticatedUser);
+        this._pending = false;
         console.log('logged in');
-        // console.log(authenticatedUser);
         localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser));
       });
     } else if (localStorage['authenticatedUser']) {
@@ -42,6 +52,7 @@ export class AuthService {
         console.log('logged in from localStorage');
         this.authenticatedUser.next(authenticatedUser);
         this._authenticatedUser = authenticatedUser;
+        this.userService.setId(authenticatedUser.id);
       } else {
         console.log('token has expired');
         this.authenticatedUser.next(null);
@@ -75,10 +86,11 @@ export class AuthService {
 
   logout() {
     this._authenticatedUser = null;
-    this.authenticatedUser.next(null);
     if (localStorage['authenticatedUser']) {
       localStorage.removeItem('authenticatedUser');
     }
+    this.userService.logout();
+    this.authenticatedUser.next(null);
   }
 
   requestAddBearer(req) {
@@ -90,13 +102,30 @@ export class AuthService {
   }
 
   refresh() {
-    this.authenticatedUser.next(this._authenticatedUser);
+    if (!this._pending) {
+      this.authenticatedUser.next(this._authenticatedUser);
+    }
   }
 
-  isAuthenticated(rightId: number, assoId = 1): boolean {
+  hasAssoRight(rightId: number, assoId = 1): boolean {
     if (this._authenticatedUser) {
       const searchedRole = 'ROLE_R' + rightId + '_A' + assoId;
       return this._authenticatedUser.roles.includes(searchedRole);
+    } else {
+      return false;
+    }
+  }
+
+  hasAsso(): boolean {
+    if (this._authenticatedUser) {
+      for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
+        if (this._authenticatedUser.roles[i] === 'ROLE_R8_A1') {
+          return true;
+        } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
+          return true;
+        }
+      }
+      return false;
     } else {
       return false;
     }
@@ -120,5 +149,13 @@ export class AuthService {
 
   isAdmin(): boolean {
     return this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R8_A1');
+  }
+
+  isBDEContributor(): boolean {
+    return this._authenticatedUser && this._authenticatedUser.contributeBDE;
+  }
+
+  isAuthenticated(): boolean {
+    return this._authenticatedUser !== null;
   }
 }

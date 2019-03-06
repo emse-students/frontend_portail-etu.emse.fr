@@ -8,6 +8,10 @@ import {AppComponent} from './core/app-component/app.component';
 import {BrowserAnimationsModule} from '@angular/platform-browser/animations';
 import {OverlayContainer} from '@angular/cdk/overlay';
 import {MAT_DATE_LOCALE} from '@angular/material';
+import {registerLocaleData} from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
+
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   imports: [

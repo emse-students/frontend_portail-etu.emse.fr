@@ -6,6 +6,7 @@ export const environment = {
   cas_login_url: 'https://cas.emse.fr',
   api_login_url: 'http://portail-test-api.emse.fr/index.php/login',
   api_url: 'http://portail-test-api.emse.fr/index.php/api',
+  api_suffix: '/index.php/api',
   img_url: 'http://portail-test-api.emse.fr/img',
   production: false
 };

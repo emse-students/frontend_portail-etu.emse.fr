@@ -21,12 +21,12 @@ import {arrayRemoveById} from '../../core/services/utils';
                 [searching]="loading"
                 (search)="search($event)"
                 placeholder="Rechercher un moyen de paiement"></app-search>
-    <app-settings-name-list *ngIf="paymentMeans" [items]="paymentMeans"
+    <app-settings-payment-means-list *ngIf="paymentMeans" [items]="paymentMeans"
                             (deleted)="delete($event)"
                             (selected)="select($event)"
                             [filter]="searchQuery"
                             itemName="le moyen de paiement">
-    </app-settings-name-list>
+    </app-settings-payment-means-list>
   `,
   styles: []
 })

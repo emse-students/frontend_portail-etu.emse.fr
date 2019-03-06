@@ -10,7 +10,7 @@
     <td mat-cell *matCellDef="let element"> <button mat-flat-button color="accent" (click)="select(element.id)">Modifier</button> </td>
   </ng-container>
 
-  <ng-container matColumnDef="delete">
+  <ng-container matColumnDef="delete" *ngIf="supprEnable">
     <th mat-header-cell *matHeaderCellDef> Supprimer </th>
     <td mat-cell *matCellDef="let element"> <button mat-flat-button color="warn" (click)="delete(element)">Supprimer</button> </td>
   </ng-container>

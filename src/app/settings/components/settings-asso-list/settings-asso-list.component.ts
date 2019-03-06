@@ -29,7 +29,7 @@ export class SettingsAssoListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource();
 
-  displayedColumns: string[] = ['name', 'put', 'delete'];
+  displayedColumns: string[] = ['name', 'put'];
 
 
   delete(asso: AssociationLight) {

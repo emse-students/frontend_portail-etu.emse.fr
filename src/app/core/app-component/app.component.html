@@ -22,19 +22,30 @@
     </mat-toolbar>
 
     <mat-nav-list>
-      <div class="user-list" *ngIf="($bdeUser | async)">Solde BDE : {{($bdeUser | async).solde}}</div>
-      <div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>
+      <a mat-list-item (click)="usernav.close()"
+         [routerLink]="'/bde-settings/account/' + bdeUser.id" *ngIf="bdeUser">
+        <mat-icon>assessment</mat-icon>Solde BDE : {{bdeUser.balance | currency:'EUR':'symbol':'1.2-2':'fr'}}
+      </a>
+      <!--<div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>-->
       <a mat-list-item (click)="usernav.close()"
       [routerLink]="'/settings'" *ngIf="isAdmin">
         <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Paramètres
       </a>
       <a mat-list-item (click)="usernav.close()"
-         [routerLink]="'/events-settings/new'">
-        <mat-icon fontSet="fas" fontIcon="fa-plus"></mat-icon>Nouvel Événement
+         [routerLink]="'/bde-settings'" *ngIf="isAdmin">
+        <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Gestion BDE
+      </a>
+      <a mat-list-item (click)="usernav.close()"
+         [routerLink]="'/events/my-bookings'">
+        <mat-icon>check_circle_outline</mat-icon>Mes réservations
+      </a>
+      <a mat-list-item (click)="usernav.close()"
+         [routerLink]="'/events-settings/new'" *ngIf="hasAsso">
+        <mat-icon>add_circle_outline</mat-icon>Nouvel Événement
       </a>
 
       <mat-list-item (click)="onLogoutClick()">
-        <mat-icon fontSet="fas" fontIcon="fa-power-off"></mat-icon>
+        <mat-icon>power_settings_new</mat-icon>
         <span>Déconnexion</span>
       </mat-list-item>
 
@@ -83,9 +94,19 @@
       </button>
 
       <button mat-button [matMenuTriggerFor]="menuAssos" >Associations</button>
-      <button mat-button [matMenuTriggerFor]="pages" *ngIf="navItems[0]">Pages</button>
+      <button mat-button [matMenuTriggerFor]="menuLists" >Listes</button>
+      <button mat-button [matMenuTriggerFor]="pages">Autres Sites</button>
 
       <mat-menu #menuAssos="matMenu">
+        <ng-container *ngIf="navItems[0]">
+          <button mat-menu-item class="mat-button link" *ngFor="let asso of navItems[0].children"
+                  [routerLink]="[asso.route]" routerLinkActive="active">
+            <a [routerLink]="[asso.route]">{{asso.displayName}}</a>
+          </button>
+        </ng-container>
+      </mat-menu>
+
+      <mat-menu #menuLists="matMenu">
         <ng-container *ngIf="navItems[1]">
           <button mat-menu-item class="mat-button link" *ngFor="let asso of navItems[1].children"
                   [routerLink]="[asso.route]" routerLinkActive="active">
@@ -95,10 +116,9 @@
       </mat-menu>
 
       <mat-menu #pages="matMenu">
-        <ng-container *ngIf="navItems[0]">
-          <button mat-menu-item class="mat-button link" *ngFor="let item of navItems[0].children"
-                    [routerLink]="[item.route]" routerLinkActive="active">
-            <a [routerLink]="[item.route]">{{item.displayName}}</a>
+        <ng-container *ngIf="navItems[2]">
+          <button mat-menu-item class="mat-button link" *ngFor="let item of navItems[2].children">
+            <a href="{{item.route}}">{{item.displayName}}</a>
           </button>
         </ng-container>
       </mat-menu>
@@ -116,12 +136,14 @@
     </span>
 
     <button mat-button class="sign-in-button "
-            *ngIf="!((authenticatedUser) || isLoginPage)"
+            *ngIf="!authenticatedUser && !authPending"
             (click)="onLoginClick()">
       Se connecter
     </button>
 
-    <button *ngIf="authenticatedUser" mat-icon-button (click)="openUsernav()">
+    <mat-spinner *ngIf="authPending" [diameter]="20" [strokeWidth]="5" color="accent"></mat-spinner>
+
+    <button *ngIf="authenticatedUser && !authPending" mat-icon-button (click)="openUsernav()">
       <mat-icon fontSet="fas" fontIcon="fa-user-circle"></mat-icon>
     </button>
 

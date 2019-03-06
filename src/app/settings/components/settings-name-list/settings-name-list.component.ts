@@ -28,13 +28,14 @@ export class SettingsNameListComponent implements OnInit {
     this.dataSource.filter = search;
   }
   @Input() itemName = 'l\'item';
+  @Input() supprEnable = false;
   @Output() deleted = new EventEmitter<number>();
   @Output() selected = new EventEmitter<number>();
   @ViewChild(MatSort) sort: MatSort;
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource();
 
-  displayedColumns: string[] = ['name', 'put', 'delete'];
+  displayedColumns: string[] = this.supprEnable ? ['name', 'put', 'delete'] : ['name', 'put'];
 
 
   delete(item: NamedItem) {

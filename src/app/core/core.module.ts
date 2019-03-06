@@ -15,6 +15,8 @@ import {UrlSafeStringService} from './services/url-safe-string.service';
 import {JsonLdService} from './services/json-ld.service';
 import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MenuListItemComponent} from './components/menu-list-item/menu-list-item.component';
+import {AdminGuard, AuthGuard} from './services/auth-guard.service';
+import {HomeComponent} from './components/home/home.component';
 
 
 
@@ -23,11 +25,14 @@ export const COMPONENTS = [
   AppComponent,
   NotFoundPageComponent,
   InfoComponent,
-  MenuListItemComponent
+  MenuListItemComponent,
+  HomeComponent
 ];
 
 export const SERVICES = [
   AuthService,
+  AuthGuard,
+  AdminGuard,
   InfoService,
   UrlSafeStringService,
   JsonLdService,

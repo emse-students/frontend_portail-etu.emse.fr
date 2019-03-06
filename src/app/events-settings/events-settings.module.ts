@@ -6,9 +6,10 @@ import {NewEventComponent} from './containers/new-event.component';
 import {EventFormComponent} from './components/event-form/event-form.component';
 import { SelectAssoFormComponent } from './components/select-asso-form.component';
 import { EventSettingsComponent } from './containers/event-settings.component';
-import { EventSummaryComponent } from './containers/event-summary.component';
 import { EventCheckingComponent } from './containers/event-checking.component';
 import { EventModifyComponent } from './containers/event-modify.component';
+import { EventSummaryComponent } from './components/event-summary/event-summary.component';
+import { BookingCheckingCardComponent } from './components/booking-checking-card.component';
 
 @NgModule({
   declarations: [
@@ -16,9 +17,10 @@ import { EventModifyComponent } from './containers/event-modify.component';
     EventFormComponent,
     SelectAssoFormComponent,
     EventSettingsComponent,
-    EventSummaryComponent,
     EventCheckingComponent,
-    EventModifyComponent
+    EventModifyComponent,
+    EventSummaryComponent,
+    BookingCheckingCardComponent
   ],
   imports: [
     SharedModule,

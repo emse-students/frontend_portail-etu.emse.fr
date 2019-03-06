@@ -1,5 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {EventLight} from '../../../core/models/event.model';
+import {UserService} from '../../../core/services/user.service';
+import {AuthService} from '../../../core/services/auth.service';
 
 @Component({
   selector: 'app-event-card',
@@ -7,25 +9,27 @@ import {EventLight} from '../../../core/models/event.model';
   styleUrls: ['./event-card.component.scss']
 })
 export class EventCardComponent implements OnInit {
+  today = new Date();
+  allReadyBooked = false;
   _event: EventLight;
   @Input()
   set event(event: EventLight) {
     this._event = event;
-    this._event.date = new Date(this._event.date);
-    if (this._event.closingDate) {
-      this._event.closingDate = new Date(this._event.closingDate);
-    }
-    if (this._event.shotgunStartingDate) {
-      this._event.shotgunStartingDate = new Date(this._event.shotgunStartingDate);
-    }
+    this.allReadyBooked = this.userService.hasBooked(event.id);
   }
   get event() { return this._event; }
 
   @Input() isRightful: boolean;
 
-  constructor() { }
+  constructor(
+    private userService: UserService,
+    private authService: AuthService
+  ) { }
 
   ngOnInit() {
+    this.authService.authenticatedUser.subscribe(
+      () => { this.allReadyBooked = this.userService.hasBooked(this.event.id); }
+    );
   }
 
 }

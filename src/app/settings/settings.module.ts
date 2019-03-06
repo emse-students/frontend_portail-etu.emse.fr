@@ -10,6 +10,8 @@ import { SettingsAssoFormComponent } from './components/settings-asso-form/setti
 import { SettingsRoleFormComponent } from './components/settings-role-form/settings-role-form.component';
 import { SettingsNameListComponent } from './components/settings-name-list/settings-name-list.component';
 import { SettingsPaymentMeansFormComponent } from './components/settings-payment-means-form.component';
+import {SettingsPaymentMeansListComponent} from './components/settings-payment-means-list/settings-payment-means-list.component';
+import { SettingsListsComponent } from './containers/settings-lists.component';
 
 @NgModule({
   imports: [
@@ -25,12 +27,15 @@ import { SettingsPaymentMeansFormComponent } from './components/settings-payment
     SettingsAssoFormComponent,
     SettingsRoleFormComponent,
     SettingsNameListComponent,
-    SettingsPaymentMeansFormComponent
+    SettingsPaymentMeansFormComponent,
+    SettingsPaymentMeansListComponent,
+    SettingsListsComponent
   ],
   entryComponents: [
     SettingsAssociationsComponent,
     SettingsRolesComponent,
-    SettingsMeansPaymentComponent
+    SettingsMeansPaymentComponent,
+    SettingsListsComponent
   ]
 })
 export class SettingsModule {}

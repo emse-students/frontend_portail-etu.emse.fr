@@ -1,7 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AssociationLight} from '../../../core/models/association.model';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {NewEvent} from '../../../core/models/event.model';
 import {PaymentMeans} from '../../../core/models/payment-means.model';
 import {Event} from '../../../core/models/event.model';
 import {environment} from '../../../../environments/environment';
@@ -26,8 +25,6 @@ export class EventFormComponent implements OnInit {
   _event: Event | null;
   @Input()
   set event (event: Event | null) {
-    console.log('in set : ');
-    console.log(event);
     this._event = event;
     this.initForm();
     this.patch();
@@ -59,6 +56,7 @@ export class EventFormComponent implements OnInit {
   get formInputs() { return this.form.get('formInputs') as FormArray; }
   options(i) { return this.formInputs.controls[i].get('options') as FormArray; }
   get status() { return this.form.get('status'); }
+  get open() { return this.form.get('open'); }
 
   constructor(private fb: FormBuilder) {}
 
@@ -68,7 +66,6 @@ export class EventFormComponent implements OnInit {
   }
 
   submit() {
-    this.shotgunStartingDate.markAsTouched();
     if (this.form.valid) {
       if (this.isNew) {this.form.removeControl('id'); }
       if (!this.payable.value) {
@@ -129,7 +126,8 @@ export class EventFormComponent implements OnInit {
       closingDate:	[null],
       hourClosingDate: [''],
       formInputs: this.fb.array([]),
-      status: ['new']
+      status: ['new'],
+      open: [true]
     }, {validators: this.shotgunRequired()});
   }
 
@@ -138,6 +136,7 @@ export class EventFormComponent implements OnInit {
         this.fb.group({
           title: ['', Validators.required],
           type: ['title'],
+          required: [false],
           options: this.fb.array([])
         })
       );
@@ -188,7 +187,6 @@ export class EventFormComponent implements OnInit {
       if (this.shotgunListLength.value) {
         this.shotgun.setValue(true);
       }
-      this.date.setValue(new Date(this.date.value));
       this.hourDate.setValue(
         (((<Date>this.date.value).getHours() > 9) ? '' : '0') +
         (<Date>this.date.value).getHours() +
@@ -196,7 +194,6 @@ export class EventFormComponent implements OnInit {
         (<Date>this.date.value).getMinutes()
       );
       if (this.closingDate.value) {
-        this.closingDate.setValue(new Date(this.closingDate.value));
         this.hourClosingDate.setValue(
           (((<Date>this.closingDate.value).getHours() > 9) ? '' : '0') +
           (<Date>this.closingDate.value).getHours() +
@@ -205,7 +202,6 @@ export class EventFormComponent implements OnInit {
         );
       }
       if (this.shotgunStartingDate.value) {
-        this.shotgunStartingDate.setValue(new Date(this.shotgunStartingDate.value));
         this.hourShotgunStartingDate.setValue(
           (((<Date>this.shotgunStartingDate.value).getHours() > 9) ? '' : '0') +
           (<Date>this.shotgunStartingDate.value).getHours() +
@@ -226,6 +222,7 @@ export class EventFormComponent implements OnInit {
           this.fb.group({
             id: [this._event.formInputs[i].id],
             title: [this._event.formInputs[i].title, Validators.required],
+            required: [this._event.formInputs[i].required],
             type: [this._event.formInputs[i].type],
             options: this.fb.array([])
           })

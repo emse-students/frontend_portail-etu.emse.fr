@@ -1,7 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import {Component, OnDestroy, OnInit} from '@angular/core';
 import {Association} from '../../../core/models/association.model';
 import {AssociationService} from '../../../core/services/association.service';
-import {ActivatedRoute, Router} from '@angular/router';
+import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
 import {environment} from '../../../../environments/environment';
 import {FileDTO, FileToUpload} from '../../../core/models/file.model';
 import {FileUploadService} from '../../../core/services/file-upload.service';

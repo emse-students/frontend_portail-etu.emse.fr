@@ -2,12 +2,15 @@ export interface FormInput {
   id: number;
   title: string;
   type: string;
+  required: boolean;
   options: Option[];
+  formOutputs?: FormOutput[];
 }
 
 export interface NewFormInput {
   title: string;
   type: string;
+  required: boolean;
   options: NewOption[];
 }
 

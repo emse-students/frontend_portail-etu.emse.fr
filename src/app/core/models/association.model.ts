@@ -12,17 +12,20 @@ export interface Association {
   lastActionDate: string;
   positions: Position[];
   events: EventLight[];
+  isList: boolean;
 }
 
 export interface NewAssociation {
   name: string;
   tag: string;
+  isList?: boolean;
 }
 
 export interface AssociationLight {
   id: number;
   name: string;
   tag: string;
+  isList: boolean;
 }
 
 export interface AssociationDTO {

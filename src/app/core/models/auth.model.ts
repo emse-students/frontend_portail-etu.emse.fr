@@ -10,6 +10,7 @@ export interface AuthenticatedUser {
   lastname: string;
   roles: string[];
   type: string;
+  contributeBDE: boolean;
   token: Token;
 }
 
@@ -19,6 +20,8 @@ export interface UserLight {
   lastname: string;
   type: string;
   promo: number;
+  balance;
+  contributeBDE: boolean;
 }
 
 

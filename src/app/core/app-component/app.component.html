@@ -3,7 +3,7 @@
 
     <mat-toolbar color="primary" class="branding">
       <span class="w-100 text-center">
-        <a routerLink="" (click)="navService.closeNav()">
+        <a routerLink="" (click)="navServiceCloseNav()">
           <img [src]="logo"/>
         </a>
       </span>
@@ -53,7 +53,7 @@
   </mat-sidenav>
 
   <mat-toolbar color="primary">
-    <button mat-icon-button class="d-md-none" (click)="navService.openNav()">
+    <button mat-icon-button class="d-md-none" (click)="navServiceOpenNav()">
       <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
     </button>
 

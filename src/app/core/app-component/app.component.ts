@@ -115,6 +115,14 @@ export class AppComponent implements OnInit, AfterViewInit {
     this.navService.appDrawer = this.appDrawer;
   }
 
+  navServiceCloseNav() {
+    this.navService.closeNav();
+  }
+
+  navServiceOpenNav() {
+    this.navService.openNav();
+  }
+
   onLogoutClick() {
     this.closeSidenav();
     this.authService.logout();

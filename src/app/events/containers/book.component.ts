@@ -19,7 +19,8 @@ import {InfoService} from '../../core/services/info.service';
         !pending &&
          !allReadyBooked &&
           !(event.closingDate && event.closingDate < today) &&
-           (event.status === 'validated' || !unauthorized)">
+           (event.status === 'validated' || !unauthorized) &&
+            !(event.date < today)">
         <mat-card-title class="h4">Réservation</mat-card-title>
         <app-event-description [event]="event"></app-event-description>
         <app-booking-form [authenticatedUser]="authenticatedUser"
@@ -34,6 +35,10 @@ import {InfoService} from '../../core/services/info.service';
       <mat-card *ngIf="loaded && (event.closingDate && event.closingDate < today)">
         <mat-card-title class="h4">Vous ne pouvez plus vous inscrire à l'événement {{event.name}}</mat-card-title>
         <p class="text-center">La deadline est passée</p>
+      </mat-card>
+      <mat-card *ngIf="loaded && (event.date < today)">
+        <mat-card-title class="h4">Vous ne pouvez plus vous inscrire à l'événement {{event.name}}</mat-card-title>
+        <p class="text-center">L'événement est passé</p>
       </mat-card>
       <mat-card *ngIf="loaded && event.status !== 'validated' && unauthorized">
         <mat-card-title class="h4">Vous ne pouvez pas vous inscrire à l'événement {{event.name}}</mat-card-title>

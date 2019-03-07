@@ -11,11 +11,12 @@
     <a [routerLink]="'/events/'+event.id+'/review'" *ngIf="!isRightful">
       <button mat-flat-button color="accent" >Détail</button>
     </a>
-    <a [routerLink]="'/events/'+event.id+'/book'" *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today)">
+    <a [routerLink]="'/events/'+event.id+'/book'" *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today">
       <button mat-flat-button color="primary">S'inscrire</button>
     </a>
     <button mat-flat-button color="accent" disabled *ngIf="allReadyBooked">Déjà inscris</button>
     <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && (event.closingDate && event.closingDate < today)">Deadline passée</button>
+    <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && event.date < today">Événement passé</button>
   </div>
   <div class="row text-center" *ngIf="event.status !== 'validated' && isRightful">
     <div class="col">Statut : {{event.status | translateStatus}}</div>

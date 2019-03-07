@@ -2,13 +2,22 @@
 // `ng build --prod` replaces `environment.ts` with `environment.prod.ts`.
 // The list of file replacements can be found in `angular.json`.
 
+// export const environment = {
+//   cas_login_url: 'https://cas.emse.fr',
+//   api_login_url: 'http://portail-test-api.emse.fr/index.php/login',
+//   api_url: 'http://portail-test-api.emse.fr/index.php/api',
+//   api_uri: 'http://portail-test-api.emse.fr/index.php/api',
+//   api_suffix: '/index.php/api',
+//   img_url: 'http://portail-test-api.emse.fr/img',
+//   production: false
+// };
 export const environment = {
   cas_login_url: 'https://cas.emse.fr',
-  api_login_url: 'http://portail-test-api.emse.fr/index.php/login',
-  api_url: 'http://portail-test-api.emse.fr/index.php/api',
-  api_uri: 'http://portail-test-api.emse.fr/index.php/api',
-  api_suffix: '/index.php/api',
-  img_url: 'http://portail-test-api.emse.fr/img',
+  api_login_url: 'http://localhost/api/login',
+  api_url: 'http://localhost/api/api',
+  api_uri: 'api',
+  api_suffix: '/api/api',
+  img_url: 'http://localhost/api/img',
   production: false
 };
 

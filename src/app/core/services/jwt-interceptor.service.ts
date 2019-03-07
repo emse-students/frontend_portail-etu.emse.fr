@@ -9,6 +9,7 @@ export class JwtInterceptorService implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
       req = this.authService.requestAddBearer(req);
+      req = req.clone({ setHeaders: { 'Content-Type': 'application/ld+json' }});
       return next.handle(req);
     }
 }

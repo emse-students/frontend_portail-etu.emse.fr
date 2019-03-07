@@ -26,7 +26,9 @@ export class AssociationsReviewComponent implements OnInit {
   imgPath = environment.img_url;
   addLogo = false;
   addDesc = false;
+  changeName = false;
   changePos = false;
+  nameLoading = false;
   logoLoading = false;
   descLoading = false;
   positionLoading = false;
@@ -49,6 +51,7 @@ export class AssociationsReviewComponent implements OnInit {
     this.route.paramMap.subscribe(params => {
       this.loaded = false;
       this.addLogo = false;
+      this.changeName = false;
       this.addDesc = false;
       this.logoLoading = false;
       this.descLoading = false;
@@ -114,6 +117,20 @@ export class AssociationsReviewComponent implements OnInit {
       },
       (error) => {this.descLoading = false; }
       );
+  }
+
+  uploadName(text: string) {
+    this.changeName = false;
+    this.nameLoading = true;
+    this.associationService.put(
+      {id: this.asso.id, name: text}
+    ).subscribe(
+      (asso: Association) => {
+        this.asso = asso;
+        this.nameLoading = false;
+      },
+      (error) => {this.nameLoading = false; }
+    );
   }
 
   addPosition(position: NewPosition) {

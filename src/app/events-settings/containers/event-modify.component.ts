@@ -3,6 +3,7 @@ import {Event} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {EventService} from '../../core/services/event.service';
 import {InfoService} from '../../core/services/info.service';
+import {Router} from '@angular/router';
 
 @Component({
   selector: 'app-event-modify',
@@ -11,6 +12,7 @@ import {InfoService} from '../../core/services/info.service';
                     [asso]="event.association"
                     [allPaymentMeans]="paymentMeans"
                     (submitted)="updateEvent($event)"
+                    (deleted)="delete($event)"
                     [isAdmin]="isAdmin"
                     [event]="event"
                     [isNew]="false">
@@ -31,6 +33,7 @@ export class EventModifyComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private infoService: InfoService,
+    private router: Router
   ) { }
 
   ngOnInit() {}
@@ -43,6 +46,17 @@ export class EventModifyComponent implements OnInit {
         this.pending = false;
         this.infoService.pushSuccess('Événement mis à jour avec succès');
         this.refreshEvent.emit(newEvent);
+      }
+    );
+  }
+
+  delete(event: Event) {
+    this.pending = true;
+    this.eventService.delete(event.id).subscribe(
+      () => {
+        this.pending = false;
+        this.infoService.pushSuccess('Événement supprimé avec succès');
+        this.router.navigate(['/home']);
       }
     );
   }

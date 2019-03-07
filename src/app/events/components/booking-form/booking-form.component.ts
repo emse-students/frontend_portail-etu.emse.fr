@@ -152,7 +152,7 @@ export class BookingFormComponent implements OnInit {
     if (formInput.required && formInput.type === 'text') {
       this.formOutputs.push(
         this.fb.group({
-          id: [formOutput.id],
+          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
           answer: [formOutput.answer, Validators.required],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -162,7 +162,7 @@ export class BookingFormComponent implements OnInit {
     } else if (formInput.required && ( formInput.type === 'singleOption' || formInput.type === 'multipleOptions' ) ) {
       this.formOutputs.push(
         this.fb.group({
-          id: [formOutput.id],
+          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
           answer: [''],
           boolOptions: this.fb.array([],  this.optionRequired()),
           options: [[]],
@@ -172,7 +172,7 @@ export class BookingFormComponent implements OnInit {
     } else {
       this.formOutputs.push(
         this.fb.group({
-          id: [formOutput.id],
+          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
           answer: [formOutput.answer],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -320,9 +320,9 @@ export class BookingFormComponent implements OnInit {
   }
 
   totalPrice() {
-    if (!this.relatedEvent.price || !this.formOutputs.controls.length) {
+    if (!this.relatedEvent.price) {
       return 0;
-    } else if (!this.boolOptions(0)) {
+    } else if (!this.formOutputs.controls.length || !this.boolOptions(0)) {
       return this.relatedEvent.price;
     } else {
       let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;

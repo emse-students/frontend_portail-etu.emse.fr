@@ -126,7 +126,11 @@ export class EventSettingsComponent implements OnInit {$
   }
 
   refreshEvent(event: Event) {
-    this.event = event;
+    this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
+        this.event = event;
+        this.event.bookings = eventWithBookings.bookings;
+      }
+    );
   }
 
   strIdToTabId(strId: string): number {

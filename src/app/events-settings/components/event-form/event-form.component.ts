@@ -29,9 +29,11 @@ export class EventFormComponent implements OnInit {
     this.initForm();
     this.patch();
   }
+  sureDelete = false;
 
 
   @Output() submitted = new EventEmitter<Event>();
+  @Output() deleted = new EventEmitter<Event>();
 
   form: FormGroup;
 
@@ -220,7 +222,7 @@ export class EventFormComponent implements OnInit {
       for (let i = 0; i < this._event.formInputs.length; i++) {
         this.formInputs.push(
           this.fb.group({
-            id: [this._event.formInputs[i].id],
+            '@id': [ environment.api_uri + '/form_inputs/' + this._event.formInputs[i].id],
             title: [this._event.formInputs[i].title, Validators.required],
             required: [this._event.formInputs[i].required],
             type: [this._event.formInputs[i].type],
@@ -230,7 +232,7 @@ export class EventFormComponent implements OnInit {
         for (let j = 0; j < this._event.formInputs[i].options.length; j++) {
           this.options(i).push(
             this.fb.group({
-              id: [this._event.formInputs[i].options[j].id],
+              '@id': [ environment.api_uri + '/options/' + this._event.formInputs[i].options[j].id],
               value: [this._event.formInputs[i].options[j].value, Validators.required],
               price: [this._event.formInputs[i].options[j].price]
             })
@@ -240,5 +242,9 @@ export class EventFormComponent implements OnInit {
     } else {
       this.boolPaymentMeans = this.allPaymentMeans.map(c => ({selected: false, paymentMeans: c}));
     }
+  }
+
+  delete() {
+    this.deleted.emit(this._event);
   }
 }

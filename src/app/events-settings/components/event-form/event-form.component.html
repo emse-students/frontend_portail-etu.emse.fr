@@ -187,12 +187,19 @@
   </div>
 
   <p class="loginButtons">
-    <button class="ml-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="!isNew && status.value !== 'draft'">Désactiver l'événement</button>
-    <button class="ml-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')">Sauver et valider </button>
+    <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="!isNew && status.value !== 'draft'">Sauver et passer en brouillon</button>
+    <button class="m-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
+    <button class="m-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')">Sauver et valider </button>
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="!isNew && status.value === 'validated'">Sauver et garder l'événement validé</button>-->
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value !== 'validated'">Soumettre</button>-->
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value === 'validated'">Soumettre à nouveau</button>-->
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="isAdmin && (isNew || status.value !== 'validated')">Soumettre et valider</button>-->
+    <button class="m-2" mat-flat-button color="warn" [disabled]="form.invalid" (click)="sureDelete = true" *ngIf="!isNew && !sureDelete">Supprimer l'événement</button>
+  </p>
+  <p *ngIf="sureDelete">
+    Attention ! En supprimant un événement vous supprimez toutes les réservations associées ainsi que les opérations associées : tous les utilisateurs ayant payé en compte BDE seront remboursés. <br>
+    Ne supprimez que les événements qui n'auront pas lieu. <br>
+    Préférez l'option "sauvegarder en brouillon" qui empèche les utilisateurs de voir l'événement et de s'y inscrire.<br>
+    <button class="m-2" mat-flat-button color="warn" [disabled]="form.invalid" (click)="delete()">Supprimer quand même</button>
   </p>
 </form>

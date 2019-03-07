@@ -1,6 +1,16 @@
 <div class="container">
     <mat-card *ngIf="loaded">
-      <mat-card-title>{{asso.name}}</mat-card-title>
+      <mat-card-title *ngIf="!changeName && !nameLoading">{{asso.name}}</mat-card-title>
+
+      <div class="row">
+        <div class="col d-flex flex-column align-content-center align-items-center justify-content-center" >
+          <mat-spinner *ngIf="nameLoading" [diameter]="50"></mat-spinner>
+
+          <app-title-form [text]="asso.name" (canceled)="changeName = false" *ngIf="changeName" (submitted)="uploadName($event)"></app-title-form>
+
+          <button class="mt-2" mat-raised-button color="accent" (click)="changeName = true" *ngIf="!changeName && (authService.hasAssoRight(1, asso.id) || authService.hasAssoRight(8))">Changer le nom</button>
+        </div>
+      </div>
 
       <div class="row">
         <div class="col-md-4 d-flex flex-column align-content-center align-items-center justify-content-center" *ngIf="(asso.description && asso.logo) || authService.hasAssoRight(1, asso.id) || authService.hasAssoRight(8)">

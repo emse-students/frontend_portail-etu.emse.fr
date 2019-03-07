@@ -8,6 +8,7 @@ import { AddPositionFormComponent } from './components/add-position-form/add-pos
 import {PositionsListComponent} from './components/positions-list.component';
 import { EventsListComponent } from './components/events-list/events-list.component';
 import { EventCardComponent } from './components/event-card/event-card.component';
+import { TitleFormComponent } from './components/title-form.component';
 
 
 @NgModule({
@@ -18,7 +19,8 @@ import { EventCardComponent } from './components/event-card/event-card.component
     AddPositionFormComponent,
     PositionsListComponent,
     EventsListComponent,
-    EventCardComponent
+    EventCardComponent,
+    TitleFormComponent
   ],
   imports: [
     SharedModule,

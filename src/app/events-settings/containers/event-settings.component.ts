@@ -48,7 +48,7 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
             <mat-card-title>Modifier</mat-card-title>
 
             <app-event-modify [event]="event"
-                         [isAdmin]="isAdmin"
+                         [isAdmin]="authService.isAdmin()"
                          [paymentMeans]="paymentMeans"
                          (refreshEvent)="refreshEvent($event)">
             </app-event-modify>
@@ -80,20 +80,19 @@ export class EventSettingsComponent implements OnInit {$
   paymentMeansLoaded = false;
   event: Event;
   selectedEventSetting: number;
-  isAdmin = false;
   paymentMeans: PaymentMeans[];
   @ViewChild('summary') summary: EventSummaryComponent;
+  get authService() { return this._authService; }
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventService: EventService,
-    private authService: AuthService,
+    private _authService: AuthService,
     private paymentMeansService: PaymentMeansService
   ) { }
 
   ngOnInit() {
-    this.isAdmin = this.authService.isAdmin();
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
       this.paymentMeansLoaded = true;
       this.paymentMeans = paymentMeans;
@@ -109,7 +108,7 @@ export class EventSettingsComponent implements OnInit {$
           this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
               this.event.bookings = eventWithBookings.bookings;
               console.log(this.event);
-              this.unauthorized = !this.authService.hasAssoRight(2, event.association.id) && !this.authService.hasAssoRight(8);
+              this.unauthorized = !this.authService.hasAssoRight(2, event.association.id) && !this.authService.isAdmin();
               this.loaded = true;
             }
           );

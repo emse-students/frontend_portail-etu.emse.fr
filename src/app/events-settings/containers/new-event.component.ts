@@ -18,7 +18,7 @@ import {InfoService} from '../../core/services/info.service';
         <app-event-form *ngIf="selectedAsso && paymentMeans && !pending"
                         [asso]="selectedAsso"
                         [allPaymentMeans]="paymentMeans"
-                        (submitted)="createEvent($event)" [isAdmin]="isAdmin" [isNew]="true">
+                        (submitted)="createEvent($event)" [isAdmin]="authService.isAdmin()" [isNew]="true">
         </app-event-form>
         <app-select-asso-form [assos]="assoAvailables"
                               (submitted)="selectedAsso = $event;"
@@ -57,25 +57,24 @@ export class NewEventComponent implements OnInit {
   paymentMeans: PaymentMeans[];
   assoAvailables: AssociationLight[];
   selectedAsso: AssociationLight;
-  isAdmin = false;
+  get authService() { return this._authService; }
 
   constructor(
     private paymentMeansService: PaymentMeansService,
-    private authService: AuthService,
+    private _authService: AuthService,
     private associationService: AssociationService,
     private eventService: EventService,
     private infoService: InfoService
   ) { }
 
   ngOnInit() {
-    this.isAdmin = this.authService.isAdmin();
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
       this.paymentMeans = paymentMeans;
     });
     this.associationService.allAssos.subscribe(
       (assos: AssociationLight[]) => {
         if (assos) {
-          const assoIds = this.authService.getAssoIdRightfullyEventEditable();
+          const assoIds = this._authService.getAssoIdRightfullyEventEditable();
           console.log(assoIds);
           if (assoIds.length === 1 && assoIds[0] === 0) {
             this.assoAvailables = assos;

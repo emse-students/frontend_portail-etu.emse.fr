@@ -119,7 +119,7 @@ export class AuthService {
   hasAsso(): boolean {
     if (this._authenticatedUser) {
       for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
-        if (this._authenticatedUser.roles[i] === 'ROLE_R8_A1') {
+        if (this._authenticatedUser.roles[i] === 'ROLE_R0_A1') {
           return true;
         } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
           return true;
@@ -135,7 +135,7 @@ export class AuthService {
     if (this._authenticatedUser) {
       const assoIds = [];
       for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
-        if (this._authenticatedUser.roles[i] === 'ROLE_R8_A1') {
+        if (this._authenticatedUser.roles[i] === 'ROLE_R0_A1') {
           return [0];
         } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
           assoIds.push(parseInt(this._authenticatedUser.roles[i].match(/ROLE_R3_A(\d+)/)[1], 10));
@@ -148,7 +148,7 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R8_A1');
+    return this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R0_A1');
   }
 
   isBDEContributor(): boolean {

@@ -34,6 +34,7 @@ export class AssociationsReviewComponent implements OnInit {
   positionLoading = false;
   roles: Role[] | null;
   users: UserLight[] | null;
+  get authService() {return this._authService; }
 
   constructor(
     private associationService: AssociationService,
@@ -44,7 +45,7 @@ export class AssociationsReviewComponent implements OnInit {
     private roleService: RoleService,
     private userService: UserService,
     private positionService: PositionService,
-    private authService: AuthService
+    private _authService: AuthService
   ) { }
 
   ngOnInit() {

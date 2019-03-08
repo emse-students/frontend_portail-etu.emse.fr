@@ -19,6 +19,7 @@ export class ErrorInterceptorService implements HttpInterceptor {
               // auto logout if 401 response returned from api
               this.authService.logout();
               this.infoService.pushError('Votre sessions n\'est plus valide, veuillez vous reconnecter', err.status) ;
+              this.router.navigate(['/home']);
               return throwError(err);
             } else if (err.status === 403) {
               this.authService.logout();

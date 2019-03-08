@@ -32,11 +32,10 @@ export class AppComponent implements OnInit, AfterViewInit {
   assoLoaded = false;
   listsLoaded = false;
   navItems: NavItem[] = [];
-  isAdmin = false;
-  hasAsso = false;
+  get authService() { return this._authService; }
 
   constructor(
-    private authService: AuthService,
+    private _authService: AuthService,
     private associationService: AssociationService,
     private navService: NavService,
     private userService: UserService,
@@ -67,12 +66,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       });
     }
     this.allNav = ALL_NAV_LINKS;
-    this.authService.authenticatedUser.subscribe(authenticatedUser => {
+    this._authService.authenticatedUser.subscribe(authenticatedUser => {
       console.log(authenticatedUser);
      this.authPending = false;
      this.authenticatedUser = authenticatedUser;
-     this.isAdmin = this.authService.isAdmin();
-     this.hasAsso = this.authService.hasAsso();
      if (authenticatedUser && (!this.bdeUser || authenticatedUser.id !== this.bdeUser.id)) {
        this.userService.getInfo();
      }
@@ -107,7 +104,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     });
     this.$cercleUser = of({solde: '20€'});
     this.userService.user.subscribe((user) => {this.bdeUser = user; console.log(user); });
-    this.authService.refresh();
+    this._authService.refresh();
     this.associationService.getLights();
   }
 
@@ -125,13 +122,13 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onLogoutClick() {
     this.closeSidenav();
-    this.authService.logout();
+    this._authService.logout();
     this.router.navigate([]);
   }
 
   onLoginClick() {
     this.authPending = true;
-    this.authService.login();
+    this._authService.login();
   }
 
   closeSidenav() {

@@ -134,7 +134,7 @@ export class BdeComponent implements OnInit {
         this.loading = false;
         this.infoService.pushSuccess('Operation effectuée');
         const user = operation.user.split('/');
-        console.log(Number(user[user.length - 1]));
+        // console.log(Number(user[user.length - 1]));
         for (let j = 0; j < this.users.length; j++) {
           if (this.users[j].id === Number(user[user.length - 1])) {
             this.users[j].balance += operation.amount;

@@ -26,7 +26,10 @@ export class UserService {
 
   public getAllUsers(): Observable<UserLight[]> {
     const url = `${environment.api_url}/users`;
-    return this.http.get<UserLight[]>(url).pipe(map((users) => this.jsonLdService.parseCollection<UserLight>(users).collection));
+    return this.http.get<UserLight[]>(url).pipe(
+      map((users) => this.jsonLdService.parseCollection<UserLight>(users).collection),
+      map((users) => users.sort((a, b) => (a.promo < b.promo) ? 1 : -1))
+    );
   }
 
   public getBalance() {

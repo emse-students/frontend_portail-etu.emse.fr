@@ -82,7 +82,7 @@ export class EventCheckingComponent implements OnInit {
 
   ngOnInit() {
     this.userService.getAllUsers().subscribe((users: UserLight[]) => {
-      console.log(users);
+      // console.log(users);
       this.users = users;
       for (let i = 0; i < this.event.bookings.length; i++) {
         if (this.event.bookings[i].userName) {
@@ -133,7 +133,7 @@ export class EventCheckingComponent implements OnInit {
           found = true;
         }
       }
-      console.log(this.booking);
+      // console.log(this.booking);
       if (!found) {
         this.booking = null;
         this.unbookedUser = user;

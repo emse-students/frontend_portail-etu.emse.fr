@@ -39,7 +39,7 @@ export class EventModifyComponent implements OnInit {
   ngOnInit() {}
 
   updateEvent(event: Event) {
-    console.log(event);
+    // console.log(event);
     this.pending = true;
     this.eventService.put(event).subscribe(
       (newEvent) => {

@@ -72,7 +72,11 @@ export class SettingsRolesComponent implements OnInit {
         this.infoService.pushSuccess('Role supprimé avec succès');
         this.loading = false;
       },
-      (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; }
+      (error) => {
+        console.log(error);
+        this.infoService.pushError(error.toString());
+        this.loading = false;
+      }
     );
   }
 
@@ -88,7 +92,11 @@ export class SettingsRolesComponent implements OnInit {
           this.newRole = false;
           this.loading = false;
         },
-        (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; },
+        (error) => {
+          console.log(error);
+          this.infoService.pushError(error.toString());
+          this.loading = false;
+          },
       );
     } else {
       this.roleService.put(role).subscribe(
@@ -104,7 +112,11 @@ export class SettingsRolesComponent implements OnInit {
           this.loading = false;
           this.selectedRole = null;
         },
-        (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; },
+        (error) => {
+          console.log(error);
+          this.infoService.pushError(error.toString());
+          this.loading = false;
+          },
       );
     }
   }

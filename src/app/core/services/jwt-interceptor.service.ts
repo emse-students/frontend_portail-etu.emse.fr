@@ -9,7 +9,7 @@ export class JwtInterceptorService implements HttpInterceptor {
 
     intercept(req: HttpRequest<any>, next: HttpHandler): Observable<any> {
       req = this.authService.requestAddBearer(req);
-      console.log(req);
+      // console.log(req);
       if (!(req.body instanceof FormData)) {
         req = req.clone({ setHeaders: { 'Content-Type': 'application/ld+json' }});
       }

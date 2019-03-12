@@ -4,8 +4,8 @@
     <mat-form-field class="w-100" *ngIf="!user.value">
       <input type="text" placeholder="Membre" matInput [formControl]="userText" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
-        <mat-option *ngFor="let option of filteredOptions | async" [value]="option.firstname +' '+ option.lastname" (click)="user.patchValue(option)">
-          {{option.firstname}} {{option.lastname}} promo {{option.promo}}
+        <mat-option *ngFor="let u of filteredUsers | async" [value]="u.firstname +' '+ u.lastname" (click)="user.patchValue(u)">
+          {{u.firstname}} {{u.lastname}} promo {{u.promo}}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="userText.touched && user.invalid">{{getErrorMessage(user)}}</mat-error>
@@ -18,16 +18,60 @@
   </div>
 
   <p>
-    <mat-form-field class="w-100">
-      <mat-select placeholder="Role" formControlName="role">
-        <mat-option [value]="api_url + '/roles/' + selectRole.id" *ngFor="let selectRole of roles">{{selectRole.name}}</mat-option>
-      </mat-select>
-      <mat-error *ngIf="role.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>
+    <mat-form-field class="w-100" *ngIf="!role.value && !newRole.value">
+      <input type="text" placeholder="Role" matInput [formControl]="roleText" [matAutocomplete]="auto2">
+      <mat-autocomplete #auto2="matAutocomplete">
+        <mat-option *ngFor="let r of filteredRoles | async" [value]="r.name" (click)="role.patchValue(r)">
+          {{r.name}}
+        </mat-option>
+      </mat-autocomplete>
+      <mat-error *ngIf="roleText.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>
     </mat-form-field>
   </p>
+  <button class="m-2" mat-flat-button color="primary" (click)="name.setValue(roleText.value); newRole.setValue(true); role.reset();" *ngIf="roleText.value && !role.value && !newRole.value">Créer un nouveau role</button>
+
+  <div *ngIf="role.value && !newRole.value">
+    {{role.value.name}}
+    <button class="ml-2" mat-flat-button color="warn" (click)="role.reset()">Changer</button>
+  </div>
+
+  <!--<p>-->
+    <!--<mat-form-field class="w-100">-->
+      <!--<mat-select placeholder="Role" formControlName="role">-->
+        <!--<mat-option [value]="selectRole" *ngFor="let selectRole of roles">{{selectRole.name}}</mat-option>-->
+      <!--</mat-select>-->
+      <!--<mat-error *ngIf="role.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>-->
+    <!--</mat-form-field>-->
+  <!--</p>-->
+
+  <ul *ngIf="role.value && !newRole.value">
+    <li *ngFor="let right of role.value.rights">{{right.name}}</li>
+  </ul>
+
+  <ng-container *ngIf="newRole.value">
+    <h5>Nouveau role</h5>
+    <p>
+      <mat-form-field>
+        <input type="text" matInput placeholder="Nom" formControlName="name">
+        <mat-error *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
+      </mat-form-field>
+    </p>
+
+    <p>
+      <mat-form-field>
+        <input matInput placeholder="Hierarchie" type="number" formControlName="hierarchy">
+      </mat-form-field>
+    </p>
+
+    <h3>Droits :</h3>
+    <div *ngFor="let boolRight of boolRights">
+      <mat-checkbox  [(ngModel)]="boolRight.selected" [ngModelOptions]="{standalone: true}" *ngIf="boolRight.right.id !== 0">{{boolRight.right.name}} : {{boolRight.right.description}}</mat-checkbox>
+    </div>
+    <button class="m-2" mat-flat-button color="primary" (click)="newRole.setValue(false); role.reset();">Sélectionner un role existant</button>
+  </ng-container>
 
   <p class="loginButtons">
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Créer</button>
+    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Ajouter le membre</button>
   </p>
 
 </form>

@@ -6,7 +6,7 @@ import {environment} from '../../../../environments/environment';
 import {FileDTO, FileToUpload} from '../../../core/models/file.model';
 import {FileUploadService} from '../../../core/services/file-upload.service';
 import {InfoService} from '../../../core/services/info.service';
-import {Role} from '../../../core/models/role.model';
+import {Right, Role} from '../../../core/models/role.model';
 import {UserLight} from '../../../core/models/auth.model';
 import {RoleService} from '../../../core/services/role.service';
 import {UserService} from '../../../core/services/user.service';
@@ -14,6 +14,7 @@ import {NewPosition, Position} from '../../../core/models/position.model';
 import {PositionService} from '../../../core/services/position.service';
 import {arrayFindById, arrayRemoveById} from '../../../core/services/utils';
 import {AuthService} from '../../../core/services/auth.service';
+import {JsonLdService} from '../../../core/services/json-ld.service';
 
 @Component({
   selector: 'app-associations-review',
@@ -32,8 +33,9 @@ export class AssociationsReviewComponent implements OnInit {
   logoLoading = false;
   descLoading = false;
   positionLoading = false;
-  roles: Role[] | null;
-  users: UserLight[] | null;
+  roles: Role[];
+  users: UserLight[];
+  rights: Right[];
   get authService() {return this._authService; }
 
   constructor(
@@ -45,7 +47,8 @@ export class AssociationsReviewComponent implements OnInit {
     private roleService: RoleService,
     private userService: UserService,
     private positionService: PositionService,
-    private _authService: AuthService
+    private _authService: AuthService,
+    private jsonLdService: JsonLdService
   ) { }
 
   ngOnInit() {
@@ -67,12 +70,6 @@ export class AssociationsReviewComponent implements OnInit {
           this.loadAsso(params);
       }
     });
-    this.roleService.gets().subscribe((roles: Role[]) => {
-      this.roles = roles;
-    });
-    this.userService.getAllUsers().subscribe((users: UserLight[]) => {
-      this.users = users;
-    });
   }
 
   private loadAsso(params) {
@@ -82,9 +79,30 @@ export class AssociationsReviewComponent implements OnInit {
           this.router.navigate(['/404']);
         } else {
           this.associationService.get(idAsso).subscribe((asso: Association) => {
-            console.log(asso);
+            // console.log(asso);
             this.asso = asso;
-            this.loaded = true;
+            if (this.authService.hasAssoRight(2, this.asso.id) || this.authService.isAdmin()) {
+              let roleLoaded = false;
+              let usersLoaded = false;
+              let rightsLoaded = false;
+              this.roleService.gets().subscribe((roles: Role[]) => {
+                this.roles = roles;
+                roleLoaded = true;
+                this.loaded = usersLoaded && rightsLoaded;
+              });
+              this.userService.getAllUsers().subscribe((users: UserLight[]) => {
+                this.users = users;
+                usersLoaded = true;
+                this.loaded = roleLoaded && rightsLoaded;
+              });
+              this.roleService.getRights().subscribe((rights: Right[]) => {
+                this.rights = this.jsonLdService.parseCollection<Right>(rights).collection;
+                rightsLoaded = true;
+                this.loaded = roleLoaded && usersLoaded;
+              });
+            } else {
+              this.loaded = true;
+            }
           });
         }
       }
@@ -96,7 +114,7 @@ export class AssociationsReviewComponent implements OnInit {
     this.logoLoading = true;
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
-        console.log(imgDTO);
+        // console.log(imgDTO);
         this.associationService.put(
           {id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id}
           ).subscribe((asso: Association) => {this.asso = asso; this.logoLoading = false; },
@@ -136,12 +154,14 @@ export class AssociationsReviewComponent implements OnInit {
 
   addPosition(position: NewPosition) {
     this.positionLoading = true;
-    console.log(position);
+    // console.log(position);
+    const newRole = !!position.role.name;
     this.positionService.create(position).subscribe(
       (newPosition: Position) => {
-        const temp = this.asso.positions.slice(0);
-        temp.push(newPosition);
-        this.asso.positions = temp;
+        this.asso.positions.push(newPosition);
+        if (newRole) {
+          this.roles.push(newPosition.role);
+        }
         this.positionLoading = false;
         },
       (error) => {this.positionLoading = false; }

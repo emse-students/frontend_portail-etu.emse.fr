@@ -68,7 +68,11 @@ export class SettingsMeansPaymentComponent implements OnInit {
         this.infoService.pushSuccess('Moyen de paiement supprimé avec succès');
         this.loading = false;
       },
-      (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; }
+      (error) => {
+        // console.log(error);
+        this.infoService.pushError(error.toString());
+        this.loading = false;
+      }
     );
   }
 
@@ -84,7 +88,11 @@ export class SettingsMeansPaymentComponent implements OnInit {
           this.newPaymentMeans = false;
           this.loading = false;
         },
-        (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; },
+        (error) => {
+          // console.log(error);
+          this.infoService.pushError(error.toString());
+          this.loading = false;
+          },
       );
     } else {
       this.paymentMeansService.put(paymentMeans).subscribe(
@@ -100,7 +108,11 @@ export class SettingsMeansPaymentComponent implements OnInit {
           this.loading = false;
           this.selectedPaymentMeans = null;
         },
-        (error) => {console.log('error'); console.log(error); this.infoService.pushError(error.toString()); this.loading = false; },
+        (error) => {
+          console.log(error);
+          this.infoService.pushError(error.toString());
+          this.loading = false;
+          },
       );
     }
   }

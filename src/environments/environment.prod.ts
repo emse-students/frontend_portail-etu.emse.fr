@@ -5,5 +5,6 @@ export const environment = {
   api_uri: 'api',
   api_suffix: '/api/api',
   img_url: 'https://portail-etu.emse.fr/api/img',
+  home: 'https://portail-etu.emse.fr/',
   production: true
 };

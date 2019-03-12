@@ -40,7 +40,11 @@ export class BdeAccountComponent implements OnInit {
       if (!this.user || this.user.id !== Number(params.get('id'))) {
         this.loaded = false;
         this.userService.getUserOperations(Number(params.get('id'))).subscribe(
-          (user) => {this.user = user; this.loaded = true; console.log(user); }
+          (user) => {
+            this.user = user;
+            this.loaded = true;
+            // console.log(user);
+          }
         );
       }
     });

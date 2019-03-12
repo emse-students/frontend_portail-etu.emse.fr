@@ -47,7 +47,13 @@
 
       <app-positions-list [positions]="asso.positions" (delete)="deletePosition($event)" [modify]="changePos && (authService.hasAssoRight(2, asso.id) || authService.isAdmin())"></app-positions-list>
 
-      <app-add-position-form [assoId]="asso.id" [roles]="roles" [users]="users" (submitted)="addPosition($event)" *ngIf="roles && users && !positionLoading && changePos && (authService.hasAssoRight(2, asso.id) || authService.isAdmin())"></app-add-position-form>
+      <app-add-position-form [assoId]="asso.id"
+                             [roles]="roles"
+                             [users]="users"
+                             [allRights]="rights"
+                             (submitted)="addPosition($event)"
+                             *ngIf="roles && users && !positionLoading && changePos && (authService.hasAssoRight(2, asso.id) || authService.isAdmin())">
+      </app-add-position-form>
 
       <div class="row justify-content-center" *ngIf="authService.hasAssoRight(2, asso.id) || authService.isAdmin()">
         <mat-spinner [diameter]="150" *ngIf="positionLoading"></mat-spinner>

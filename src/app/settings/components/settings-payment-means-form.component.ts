@@ -56,8 +56,6 @@ export class SettingsPaymentMeansFormComponent implements OnInit {
   _paymentMeans: PaymentMeans | null;
   @Input()
   set paymentMeans (paymentMeans: PaymentMeans | null) {
-    console.log('in set : ');
-    console.log(paymentMeans);
     this._paymentMeans = paymentMeans;
     if (paymentMeans !== null) {
       this.form.patchValue(paymentMeans);
@@ -82,8 +80,6 @@ export class SettingsPaymentMeansFormComponent implements OnInit {
     if (this._paymentMeans !== null) {
       this.form.patchValue(this._paymentMeans);
     }
-    console.log('in init : ');
-    console.log(this._paymentMeans);
   }
 
   submit() {

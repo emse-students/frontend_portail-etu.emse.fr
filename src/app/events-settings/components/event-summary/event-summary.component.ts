@@ -2,6 +2,7 @@ import {Component, Input, OnInit} from '@angular/core';
 import {Event} from '../../../core/models/event.model';
 import {PaymentMeans} from '../../../core/models/payment-means.model';
 import {FormOutput} from '../../../core/models/form.model';
+import {environment} from '../../../../environments/environment';
 
 interface Income {
   paymentMeans: PaymentMeans;
@@ -19,6 +20,7 @@ export class EventSummaryComponent implements OnInit {
   theoricalIncome: number;
   realIncomeTotal: number;
   realIncome: Income[];
+  environmentHome = environment.home;
 
   constructor() { }
 

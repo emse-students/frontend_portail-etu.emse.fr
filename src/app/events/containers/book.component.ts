@@ -99,7 +99,7 @@ export class BookComponent implements OnInit {
       }
       if (!this.loaded) {
         this.eventService.get(Number(params.get('id'))).subscribe((event: Event) => {
-          console.log(event);
+          // console.log(event);
           this.event = event;
           this.loaded = true;
           this.allReadyBooked = this.userService.hasBooked(event.id);
@@ -114,7 +114,7 @@ export class BookComponent implements OnInit {
 
   book(newBooking: NewBooking) {
     this.pending = true;
-    console.log(newBooking);
+    // console.log(newBooking);
     // setTimeout(() => {this.pending = false; }, 2000);
     if (newBooking.operation) {
       this.userService.updateBalance(newBooking.operation.amount);

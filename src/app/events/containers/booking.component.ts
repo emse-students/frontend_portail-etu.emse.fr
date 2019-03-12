@@ -80,7 +80,7 @@ export class BookingComponent implements OnInit {
       }
       if (!this.loaded) {
         this.eventService.getBooking(Number(params.get('id'))).subscribe((booking: Booking) => {
-          console.log(booking);
+          // console.log(booking);
           this.booking = booking;
           if (booking.event.date < this.today || (booking.event.closingDate && booking.event.closingDate < this.today)) {
             this.error = true;
@@ -97,7 +97,7 @@ export class BookingComponent implements OnInit {
 
   book(booking: PutBooking) {
     this.pending = true;
-    console.log(booking);
+    // console.log(booking);
     if (booking.operation) {
       if (this.booking.operation) {
         this.userService.updateBalance(booking.operation.amount - this.booking.operation.amount);

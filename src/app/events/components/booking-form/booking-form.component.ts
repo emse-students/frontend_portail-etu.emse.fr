@@ -213,7 +213,6 @@ export class BookingFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      console.log('submit');
       let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
       if (this.isNew) {this.form.removeControl('id'); }
       this.event.setValue(environment.api_uri + '/events/' + this.relatedEvent.id);
@@ -280,7 +279,6 @@ export class BookingFormComponent implements OnInit {
       this.form.removeControl('bdePayment');
       this.form.removeControl('cerclePayment');
       this.submitted.emit(this.form.value);
-      console.log('submited');
     }
   }
 

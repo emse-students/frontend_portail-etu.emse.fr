@@ -8,6 +8,7 @@ import {arrayFindById} from '../../core/services/utils';
 import {NewEvent} from '../../core/models/event.model';
 import {EventService} from '../../core/services/event.service';
 import {InfoService} from '../../core/services/info.service';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-new-event',
@@ -75,7 +76,7 @@ export class NewEventComponent implements OnInit {
       (assos: AssociationLight[]) => {
         if (assos) {
           const assoIds = this._authService.getAssoIdRightfullyEventEditable();
-          console.log(assoIds);
+          // console.log(assoIds);
           if (assoIds.length === 1 && assoIds[0] === 0) {
             this.assoAvailables = assos;
             this.loaded = true;
@@ -97,13 +98,14 @@ export class NewEventComponent implements OnInit {
   }
 
   createEvent(event: NewEvent) {
-    console.log(event);
+    // console.log(event);
     this.selectedAsso = null;
     this.pending = true;
     this.eventService.create(event).subscribe(
       (newEvent) => {
         this.pending = false;
-        this.infoService.pushSuccess('Événement créer avec succès');
+        this.infoService.pushSuccess('Événement créé avec succès');
+        this.infoService.pushInfo('Url d\'inscription : ' + environment.home + 'events/' + newEvent.id + '/book');
       }
     );
   }

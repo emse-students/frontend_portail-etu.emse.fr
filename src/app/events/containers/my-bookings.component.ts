@@ -43,7 +43,11 @@ export class MyBookingsComponent implements OnInit {
       }
     });
     this.userService.getBookings().subscribe(
-      (bookings) => { this.bookings = bookings; console.log(bookings); this.loaded = true; }
+      (bookings) => {
+        this.bookings = bookings;
+        // console.log(bookings);
+        this.loaded = true;
+      }
     );
   }
 }

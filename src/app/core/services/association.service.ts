@@ -6,10 +6,8 @@ import {environment} from '../../../environments/environment';
 import {JsonLdService} from './json-ld.service';
 import {arrayRemoveById} from './utils';
 import {InfoService} from './info.service';
-import {SETTINGS} from '../../settings/models/settings.models';
 import {map} from 'rxjs/operators';
 import {EventService} from './event.service';
-import {Event} from '../models/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -56,7 +54,7 @@ export class AssociationService {
       const url = `${environment.api_url}/associations`;
       this.http.get<AssociationLight[]>(url).subscribe((assos: AssociationLight[]) => {
         const allAssos = this.jsonLdService.parseCollection<AssociationLight>(assos).collection;
-        console.log(allAssos);
+        // console.log(allAssos);
         this._allAssos = [];
         this._allLists = [];
         for (let i = 0; i < allAssos.length; i++) {

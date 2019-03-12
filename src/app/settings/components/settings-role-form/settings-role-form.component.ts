@@ -27,14 +27,10 @@ export class SettingsRoleFormComponent implements OnInit {
     }
   }
   @Input() allRights: Right[];
-  @Input() errorMessage: string | null;
-  @Input() successMessage: string | null;
   @Input() isNew = true;
   _role: Role | null;
   @Input()
   set role (role: Role | null) {
-    console.log('in set : ');
-    console.log(role);
     this._role = role;
     if (role !== null) {
       this.form.patchValue(role);
@@ -73,8 +69,6 @@ export class SettingsRoleFormComponent implements OnInit {
         right: c
       }));
     }
-    console.log('in init : ');
-    console.log(this._role);
   }
 
   submit() {

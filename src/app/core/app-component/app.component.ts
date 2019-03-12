@@ -67,7 +67,7 @@ export class AppComponent implements OnInit, AfterViewInit {
     }
     this.allNav = ALL_NAV_LINKS;
     this._authService.authenticatedUser.subscribe(authenticatedUser => {
-      console.log(authenticatedUser);
+      // console.log(authenticatedUser);
      this.authPending = false;
      this.authenticatedUser = authenticatedUser;
      if (authenticatedUser && (!this.bdeUser || authenticatedUser.id !== this.bdeUser.id)) {
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
     this.$cercleUser = of({solde: '20€'});
-    this.userService.user.subscribe((user) => {this.bdeUser = user; console.log(user); });
+    this.userService.user.subscribe((user) => {this.bdeUser = user; });
     this._authService.refresh();
     this.associationService.getLights();
   }

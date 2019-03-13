@@ -52,7 +52,8 @@ export class ImgUploadFormComponent implements OnInit {
     if (event.target.files && event.target.files.length) {
       const file = event.target.files.item(0);
       this.file.setValue(file);
-      this.filename.setValue(this.imgName);
+      const now = new Date();
+      this.filename.setValue(this.imgName + '_' + now.getTime());
       this.filetouched = true;
       this.cd.markForCheck();
     }

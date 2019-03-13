@@ -11,6 +11,7 @@ const routes: Routes = [
     pathMatch: 'full'
   },
   { path: 'new', component: NewEventComponent },
+  { path: 'new/:id', component: NewEventComponent },
   {
     path: ':id',
     redirectTo: ':id/summary',

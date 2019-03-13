@@ -7,6 +7,7 @@ import {EventLight} from '../../../core/models/event.model';
   styleUrls: ['./events-list.component.scss']
 })
 export class EventsListComponent implements OnInit {
+  @Input() assoId: number;
   @Input() events: EventLight[];
   @Input() isRightful: boolean;
 

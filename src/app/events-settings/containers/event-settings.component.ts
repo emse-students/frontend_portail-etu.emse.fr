@@ -93,6 +93,11 @@ export class EventSettingsComponent implements OnInit {$
   ) { }
 
   ngOnInit() {
+    this.authService.authenticatedUser.subscribe(authenticatedUser => {
+      if (!authenticatedUser) {
+        setTimeout(() => {this.router.navigate(['/home']); });
+      }
+    });
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
       this.paymentMeansLoaded = true;
       this.paymentMeans = paymentMeans;
@@ -107,7 +112,7 @@ export class EventSettingsComponent implements OnInit {$
           this.event = event;
           this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
               this.event.bookings = eventWithBookings.bookings;
-              // console.log(this.event);
+              console.log(this.event);
               this.unauthorized = !this.authService.hasAssoRight(2, event.association.id) && !this.authService.isAdmin();
               this.loaded = true;
             }

@@ -1,6 +1,6 @@
 <mat-card-title>Événements</mat-card-title>
 <div class="row justify-content-center" *ngIf="isRightful">
-  <a [routerLink]="'/events-settings/new'"><button class="m-2" mat-raised-button color="accent">Créer un événement</button></a>
+  <a [routerLink]="'/events-settings/new/'+assoId"><button class="m-2" mat-raised-button color="accent">Créer un événement</button></a>
 </div>
 <div class="row">
   <ng-container *ngFor="let event of events | orderBy : '-date'">

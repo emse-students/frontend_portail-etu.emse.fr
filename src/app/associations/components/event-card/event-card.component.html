@@ -15,7 +15,7 @@
       <button mat-flat-button color="primary">S'inscrire</button>
     </a>
     <button mat-flat-button color="accent" disabled *ngIf="allReadyBooked">Déjà inscris</button>
-    <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && (event.closingDate && event.closingDate < today)">Deadline passée</button>
+    <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && !(event.date < today) && (event.closingDate && event.closingDate < today)">Deadline passée</button>
     <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && event.date < today">Événement passé</button>
   </div>
   <div class="row text-center" *ngIf="event.status !== 'validated' && isRightful">

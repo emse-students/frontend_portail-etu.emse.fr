@@ -1,3 +1,5 @@
+import {Booking} from './event.model';
+
 export interface FormInput {
   id: number;
   title: string;
@@ -18,7 +20,8 @@ export interface FormOutput {
   id: number;
   answer: string;
   options: Option[];
-  formInput: FormInput;
+  formInput?: FormInput;
+  booking?: Booking;
 }
 
 export interface NewFormOutput {

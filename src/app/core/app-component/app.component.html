@@ -117,9 +117,11 @@
 
       <mat-menu #pages="matMenu">
         <ng-container *ngIf="navItems[2]">
-          <button mat-menu-item class="mat-button link" *ngFor="let item of navItems[2].children">
-            <a href="{{item.route}}">{{item.displayName}}</a>
+          <a mat-menu-item href="{{item.route}}" *ngFor="let item of navItems[2].children">
+          <button class="mat-button link">
+            {{item.displayName}}
           </button>
+          </a>
         </ng-container>
       </mat-menu>
 

@@ -29,7 +29,9 @@
 <div *ngFor="let formInput of event.formInputs">
   <u *ngIf="formInput.type !== 'title'">{{formInput.title}}</u>
   <mat-list *ngIf="formInput.type === 'text'">
-    <mat-list-item *ngFor="let output of formInput.formOutputs ">{{output.answer}}</mat-list-item>
+    <mat-list-item *ngFor="let output of formInput.formOutputs ">
+      {{output.booking.user?output.booking.user.firstname + ' ' + output.booking.user.lastname : output.booking.userName}} : {{output.answer}}
+    </mat-list-item>
   </mat-list>
 
   <mat-list *ngIf="formInput.type === 'singleOption' || formInput.type === 'multipleOptions'">

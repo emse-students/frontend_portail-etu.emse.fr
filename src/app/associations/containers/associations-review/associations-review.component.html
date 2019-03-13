@@ -61,7 +61,7 @@
         <button class="m-2" mat-raised-button color="warn" (click)="changePos = false" *ngIf="changePos && !positionLoading">Annuler</button>
       </div>
 
-      <app-events-list [events]="asso.events" [isRightful]="authService.hasAssoRight(3, asso.id) || authService.isAdmin()"></app-events-list>
+      <app-events-list [events]="asso.events" [isRightful]="authService.hasAssoRight(3, asso.id) || authService.isAdmin()" [assoId]="asso.id"></app-events-list>
     </mat-card>
 </div>
 <div class="centrer" *ngIf="!loaded">

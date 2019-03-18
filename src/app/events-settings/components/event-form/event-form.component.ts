@@ -161,7 +161,7 @@ export class EventFormComponent implements OnInit {
     this.options(inputIndex).removeAt(optionIndex);
   }
 
-  getErrorMessage(formControl: FormControl) {
+  getErrorMessage(formControl: FormControl | FormGroup) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' :
       formControl.hasError('noShotgunDate') ? 'Indiquez une date de début de shotgun' :
         formControl.hasError('noShotgunList') ? 'Le nombre de place au shotgun doit être supérieur à 0' :

@@ -54,9 +54,19 @@
   </p>
   <mat-error *ngIf="form.invalid">{{getErrorMessage(form)}}</mat-error>
 
-  <p class="loginButtons">
+  <p *ngIf="relatedEvent.shotgunListLength && relatedEvent.shotgunStartingDate-now >= 1000">
+    Ouverture du shotgun dans {{relatedEvent.shotgunStartingDate-now | dateDifference}}
+  </p>
+
+  <mat-spinner  [diameter]="40" [strokeWidth]="5" *ngIf="relatedEvent.shotgunListLength && relatedEvent.shotgunStartingDate-now < 1000 && relatedEvent.shotgunStartingDate-now > 0"></mat-spinner>
+
+  <p *ngIf="relatedEvent.shotgunListLength && relatedEvent.shotgunWaitingList && relatedEvent.shotgunListLength <= relatedEvent.countBookings">
+    ! Les {{relatedEvent.shotgunListLength}} places ont déjà été attribuées mais vous pouvez toujours vous inscrire sur la liste d'attente !
+  </p>
+
+  <!--<p class="loginButtons">-->
+  <p class="loginButtons" *ngIf="!relatedEvent.shotgunListLength || relatedEvent.shotgunStartingDate-now <= 0">
     <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(bdePayment.value && (!paid.value || lastPrice !== totalPrice())) || cerclePayment.value">{{isNew?'Réserver et payer':'Enregistrer les modifications et payer'}}</button>
     <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(!bdePayment.value || (paid.value && lastPrice === totalPrice()))  && !cerclePayment.value">{{isNew?'Réserver':'Enregistrer les modifications'}}</button>
-
   </p>
 </form>

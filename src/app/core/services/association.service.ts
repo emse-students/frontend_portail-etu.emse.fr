@@ -15,14 +15,17 @@ import {EventService} from './event.service';
 export class AssociationService {
   allAssos: Subject<AssociationLight[] | null>;
   allLists: Subject<AssociationLight[] | null>;
+  allAssosAndLists: Subject<AssociationLight[] | null>;
   private _allLists: AssociationLight[] | null = null;
   private _allAssos: AssociationLight[] | null = null;
+  private _allAssosAndLists: AssociationLight[] | null = null;
   private gettingLights = false;
   loaded = false;
 
   constructor (private http: HttpClient, private jsonLdService: JsonLdService, private infoService: InfoService) {
     this.allAssos = new Subject<AssociationLight[] | null>();
     this.allLists = new Subject<AssociationLight[] | null>();
+    this.allAssosAndLists = new Subject<AssociationLight[] | null>();
   }
 
   public create(asso: NewAssociation): Observable<AssociationLight> {
@@ -31,11 +34,15 @@ export class AssociationService {
       (newAsso) => {
         if (newAsso.isList) {
           this._allLists.push(newAsso);
+          this._allAssosAndLists.push(newAsso);
           this.allLists.next(this._allLists.slice(0));
+          this.allAssosAndLists.next( this._allAssosAndLists.slice(0));
           this.infoService.pushSuccess('Liste créée avec succès');
         } else {
           this._allAssos.push(newAsso);
           this.allAssos.next(this._allAssos.slice(0));
+          this._allAssosAndLists.push(newAsso);
+          this.allAssosAndLists.next( this._allAssosAndLists.slice(0));
           this.infoService.pushSuccess('Association créée avec succès');
         }
         return newAsso;
@@ -48,7 +55,11 @@ export class AssociationService {
 
   public getLights(): void {
     if (this._allAssos) {
-      setTimeout(() => {this.allAssos.next(this._allAssos); this.allLists.next(this._allLists); });
+      setTimeout(() => {
+        this.allAssos.next(this._allAssos);
+        this.allLists.next(this._allLists);
+        this.allAssosAndLists.next(this._allAssosAndLists);
+      });
     } else if (!this.gettingLights) {
       this.gettingLights = true;
       const url = `${environment.api_url}/associations`;
@@ -57,7 +68,9 @@ export class AssociationService {
         // console.log(allAssos);
         this._allAssos = [];
         this._allLists = [];
+        this._allAssosAndLists = [];
         for (let i = 0; i < allAssos.length; i++) {
+          this._allAssosAndLists.push(allAssos[i]);
           if (allAssos[i].isList) {
             this._allLists.push(allAssos[i]);
           } else {
@@ -66,6 +79,7 @@ export class AssociationService {
         }
         this.allLists.next(this._allLists);
         this.allAssos.next(this._allAssos);
+        this.allAssosAndLists.next(this._allAssosAndLists);
         this.loaded = true;
       });
     }
@@ -84,8 +98,10 @@ export class AssociationService {
       (a) => {
         this._allAssos = arrayRemoveById(this._allAssos, id);
         this._allLists = arrayRemoveById(this._allLists, id);
+        this._allAssosAndLists = arrayRemoveById(this._allAssosAndLists, id);
         this.allAssos.next(this._allAssos.slice(0));
         this.allLists.next(this._allLists.slice(0));
+        this.allAssosAndLists.next(this._allAssosAndLists.slice(0));
         return a;
       },
       (error) => {
@@ -100,6 +116,12 @@ export class AssociationService {
     return this.http.put<Association>(url, asso).pipe(map(
       (updatedAsso) => {
         $asso.next(updatedAsso);
+        for (let i = 0; i < this._allAssosAndLists.length; i++) {
+          if (this._allAssosAndLists[i].id === updatedAsso.id) {
+            this._allAssosAndLists[i] = updatedAsso;
+          }
+        }
+        this.allAssosAndLists.next(this._allAssosAndLists.slice(0));
         if (updatedAsso.isList) {
           for (let i = 0; i < this._allLists.length; i++) {
             if (this._allLists[i].id === updatedAsso.id) {
@@ -150,7 +172,9 @@ export class AssociationService {
         const allAssos = this.jsonLdService.parseCollection<AssociationLight>(assos).collection;
         this._allAssos = [];
         this._allLists = [];
+        this._allAssosAndLists = [];
         for (let i = 0; i < allAssos.length; i++) {
+          this._allAssosAndLists.push(allAssos[i]);
           if (allAssos[i].isList) {
             this._allLists.push(allAssos[i]);
           } else {
@@ -159,6 +183,7 @@ export class AssociationService {
         }
         this.allLists.next(this._allLists);
         this.allAssos.next(this._allAssos);
+        this.allAssosAndLists.next(this._allAssosAndLists);
         for (let _i = 0; _i < this._allAssos.length; _i++) {
           if ( this._allAssos[_i].tag === tag ) {
             return this._allAssos[_i].id;

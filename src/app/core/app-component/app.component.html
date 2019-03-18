@@ -99,19 +99,23 @@
 
       <mat-menu #menuAssos="matMenu">
         <ng-container *ngIf="navItems[0]">
-          <button mat-menu-item class="mat-button link" *ngFor="let asso of navItems[0].children"
-                  [routerLink]="[asso.route]" routerLinkActive="active">
-            <a [routerLink]="[asso.route]">{{asso.displayName}}</a>
-          </button>
+          <a mat-menu-item [routerLink]="[asso.route]" *ngFor="let asso of navItems[0].children">
+            <button class="mat-button link"
+                    [routerLink]="[asso.route]" routerLinkActive="active">
+             {{asso.displayName}}
+            </button>
+          </a>
         </ng-container>
       </mat-menu>
 
       <mat-menu #menuLists="matMenu">
         <ng-container *ngIf="navItems[1]">
-          <button mat-menu-item class="mat-button link" *ngFor="let asso of navItems[1].children"
-                  [routerLink]="[asso.route]" routerLinkActive="active">
-            <a [routerLink]="[asso.route]">{{asso.displayName}}</a>
-          </button>
+          <a mat-menu-item [routerLink]="[asso.route]" *ngFor="let asso of navItems[1].children">
+            <button class="mat-button link"
+                    [routerLink]="[asso.route]" routerLinkActive="active">
+             {{asso.displayName}}
+            </button>
+          </a>
         </ng-container>
       </mat-menu>
 

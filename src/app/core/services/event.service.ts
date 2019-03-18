@@ -23,6 +23,13 @@ export class EventService {
     return event;
   }
 
+  static parseBookingDates (booking: Booking): Booking {
+    if (booking.createdAt) {
+      booking.createdAt = new Date(booking.createdAt);
+    }
+    return booking;
+  }
+
   public create(event: NewEvent): Observable<Event> {
     const url = `${environment.api_url}/events`;
     return this.http.post<Event>(url, event).pipe(map(EventService.parseDates));
@@ -74,6 +81,11 @@ export class EventService {
 
   public getBookings(eventId: number): Observable<Event> {
     const url = `${environment.api_url}/events/${eventId}/bookings`;
-    return this.http.get<Event>(url);
+    return this.http.get<Event>(url).pipe(map(
+      (event) => {
+        event.bookings = event.bookings.map(EventService.parseBookingDates);
+        return event;
+      }
+    ));
   }
 }

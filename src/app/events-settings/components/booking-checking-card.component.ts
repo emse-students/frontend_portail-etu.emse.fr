@@ -139,10 +139,10 @@ export class BookingCheckingCardComponent implements OnInit {
           type: 'event_debit'
         };
       }
-      console.log(booking);
+      // console.log(booking);
       this.eventService.putBook(booking).subscribe(
         (b: Booking) => {
-          console.log(b);
+          // console.log(b);
           this.pending = false;
           this.booking.paid = true;
           this.booking.paymentMeans = b.paymentMeans;

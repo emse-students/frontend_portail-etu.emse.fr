@@ -20,7 +20,8 @@ import {InfoService} from '../../core/services/info.service';
          !allReadyBooked &&
           !(event.closingDate && event.closingDate < today) &&
            (event.status === 'validated' || !unauthorized) &&
-            !(event.date < today)">
+            !(event.date < today) &&
+              !(event.shotgunListLength && !event.shotgunWaitingList && event.shotgunListLength <= event.countBookings)">
         <mat-card-title class="h4">Réservation</mat-card-title>
         <app-event-description [event]="event"></app-event-description>
         <app-booking-form [authenticatedUser]="authenticatedUser"
@@ -42,6 +43,10 @@ import {InfoService} from '../../core/services/info.service';
       </mat-card>
       <mat-card *ngIf="loaded && event.status !== 'validated' && unauthorized">
         <mat-card-title class="h4">Vous ne pouvez pas vous inscrire à l'événement {{event.name}}</mat-card-title>
+      </mat-card>
+      <mat-card *ngIf="loaded && event.shotgunListLength && !event.shotgunWaitingList && event.shotgunListLength <= event.countBookings">
+        <mat-card-title class="h4">Vous ne pouvez plus vous inscrire à l'événement {{event.name}}</mat-card-title>
+        <p class="text-center">Cet événement est au shtogun et les {{event.shotgunListLength}} places on été attribuées</p>
       </mat-card>
     </div>
     <div class="centrer" *ngIf="!loaded || pending">
@@ -121,14 +126,22 @@ export class BookComponent implements OnInit {
     }
     this.eventService.book(newBooking).subscribe(
       () => {
-        this.pending = false;
+        this.userService.book(this.event.id);
         this.infoService.pushSuccess('Réservation effectuée');
-        this.router.navigate(['']);
+        this.pending = false;
+        if (this.event.shotgunListLength) {
+          this.router.navigate(['events', this.event.id, 'list']);
+        } else {
+          this.router.navigate(['']);
+        }
         },
       (error) => {
         this.pending = false;
         if (newBooking.operation) {
           this.userService.updateBalance(-newBooking.operation.amount);
+        }
+        if (this.event.shotgunListLength && error  === 'Le nombre de places maximum a été atteint') {
+          this.router.navigate(['events', this.event.id, 'list']);
         }
       }
     );

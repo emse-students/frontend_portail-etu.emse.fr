@@ -30,7 +30,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
   `,
   styles: [`
     .greenRow {
-      background: #0fb001;
+      background: rgba(15, 176, 1, 0.36);
     }
   `]
 })

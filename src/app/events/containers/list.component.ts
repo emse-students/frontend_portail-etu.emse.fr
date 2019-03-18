@@ -5,22 +5,20 @@ import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../../core/services/event.service';
 import {AuthService} from '../../core/services/auth.service';
 import {PaymentMeansService} from '../../core/services/payment-means.service';
-import {UserService} from '../../core/services/user.service';
 
 @Component({
-  selector: 'app-review',
+  selector: 'app-list',
   template: `
     <div class="container">
       <mat-card *ngIf="loaded">
-        <mat-card-title class="h4">Description de l'événement</mat-card-title>
-        <app-event-description [event]="event"></app-event-description>
-
-        <div class="row justify-content-center"
-             *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today">
-          <a [routerLink]="'/events/'+event.id+'/book'">
-            <button mat-flat-button color="primary">S'inscrire</button>
-          </a>
-        </div>
+        <mat-card-title class="h4">Liste des inscrits à l'événement {{event.name}}</mat-card-title>
+        <p class="text-center" *ngIf="event.shotgunListLength">Événement au shotgun : {{event.shotgunListLength}} places</p>
+        <p class="text-center">Nombre d'inscrits : {{event.countBookings}}</p>
+        <app-search [query]="searchQuery"
+                    [searching]="loading"
+                    (search)="search($event)"
+                    placeholder="Rechercher"></app-search>
+        <app-event-bookings-list [event]="event" [filter]="searchQuery"></app-event-bookings-list>
       </mat-card>
     </div>
     <div class="centrer" *ngIf="!loaded">
@@ -36,17 +34,17 @@ import {UserService} from '../../core/services/user.service';
     }
   `]
 })
-export class ReviewComponent implements OnInit {
+export class ListComponent implements OnInit {
+  searchQuery = '';
+  loading = false;
   today = new Date();
   loaded;
-  allReadyBooked: boolean;
   event: Event;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
-    private eventService: EventService,
-    private userService: UserService
+    private eventService: EventService
   ) { }
 
   ngOnInit() {
@@ -57,10 +55,17 @@ export class ReviewComponent implements OnInit {
       if (!this.loaded) {
         this.eventService.get(Number(params.get('id'))).subscribe((event: Event) => {
           this.event = event;
-          this.allReadyBooked = this.userService.hasBooked(event.id);
-          this.loaded = true;
+          this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
+              this.event.bookings = eventWithBookings.bookings;
+              this.loaded = true;
+            }
+          );
         });
       }
     });
+  }
+
+  search(event: string) {
+    this.searchQuery = event;
   }
 }

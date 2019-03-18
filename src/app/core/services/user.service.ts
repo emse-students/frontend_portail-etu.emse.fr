@@ -8,6 +8,7 @@ import {JsonLdService} from './json-ld.service';
 import {Booking, Event} from '../models/event.model';
 import {User, UserBookings, UserOperation} from '../models/user.model';
 import {EventService} from './event.service';
+import {arrayRemoveByValue} from './utils';
 
 @Injectable({
   providedIn: 'root'
@@ -86,6 +87,13 @@ export class UserService {
     } else {
       return false;
     }
+  }
+
+  public book(eventId: number) {
+    this._user.eventsBooked.push(eventId);
+  }
+  public unbook(eventId: number) {
+    this._user.eventsBooked = arrayRemoveByValue(this._user.eventsBooked, eventId);
   }
 
   public getUserOperations(userId: number) {

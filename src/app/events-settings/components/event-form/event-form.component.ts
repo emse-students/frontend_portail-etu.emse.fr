@@ -81,9 +81,9 @@ export class EventFormComponent implements OnInit {
         );
       }
       if (!this.shotgun.value) {
-        this.form.removeControl('shotgunListLength');
-        this.form.removeControl('shotgunStartingDate');
-        this.form.removeControl('shotgunWaitingList');
+        this.shotgunListLength.setValue(null);
+        this.shotgunStartingDate.setValue(null);
+        this.shotgunWaitingList.setValue(null);
       } else if (this.shotgunStartingDate.value && this.hourShotgunStartingDate.value) {
           this.shotgunStartingDate.setValue(setHourToDate(this.shotgunStartingDate.value, this.hourShotgunStartingDate.value));
       }
@@ -163,17 +163,24 @@ export class EventFormComponent implements OnInit {
 
   getErrorMessage(formControl: FormControl) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' :
-      formControl.hasError('noShotgunDate') ? 'Indiquez une date de début de shotgun' : '';
+      formControl.hasError('noShotgunDate') ? 'Indiquez une date de début de shotgun' :
+        formControl.hasError('noShotgunList') ? 'Le nombre de place au shotgun doit être supérieur à 0' :
+          formControl.hasError('noShotgunListInt') ? 'Le nombre de place au shotgun doit être un entier' : '';
   }
 
   shotgunRequired(): ValidatorFn {
     return (control: AbstractControl): {[key: string]: any} | null => {
       if (this.form && this.shotgun && this.shotgun.value) {
-        if ( this.shotgunStartingDate.value ) {
-          return null;
-        } else {
+        if ( !this.shotgunStartingDate.value ) {
           return {'noShotgunDate': {value: this.shotgunStartingDate.value}};
         }
+        if (!this.shotgunListLength.value || this.shotgunListLength.value <= 0) {
+          return {'noShotgunList': {value: this.shotgunListLength.value}};
+        }
+        if (this.shotgunListLength.value !== Math.floor(this.shotgunListLength.value)) {
+          return {'noShotgunListInt': {value: this.shotgunListLength.value}};
+        }
+        return null;
       } else {
         return null;
       }

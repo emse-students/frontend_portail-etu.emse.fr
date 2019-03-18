@@ -91,7 +91,7 @@ export class NewEventComponent implements OnInit {
         this.selectedId = Number(params.get('id'));
       }
     });
-    this.associationService.allAssos.subscribe(
+    this.associationService.allAssosAndLists.subscribe(
       (assos: AssociationLight[]) => {
         if (assos) {
           const assoIds = this._authService.getAssoIdRightfullyEventEditable();

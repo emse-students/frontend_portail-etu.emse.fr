@@ -22,6 +22,7 @@ export interface Event {
   formInputs: FormInput[];
   status: string;
   bookings?: Booking[];
+  countBookings: number;
 }
 
 export interface EventLight {
@@ -36,6 +37,7 @@ export interface EventLight {
   shotgunStartingDate:	string | Date;
   closingDate:	string | Date;
   status: string;
+  countBookings: number;
 }
 
 export interface NewEvent {
@@ -65,6 +67,7 @@ export interface Booking {
   formOutputs: FormOutput[];
   operation?: OperationLight;
   event?: Event;
+  createdAt?: Date;
 }
 
 export interface NewBooking {

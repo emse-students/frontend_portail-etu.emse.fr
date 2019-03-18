@@ -134,6 +134,7 @@ export class BookingComponent implements OnInit {
           }
           this.pending = false;
           this.infoService.pushSuccess('Réservation annulée');
+          this.userService.unbook(this.booking.event.id);
           this.router.navigate(['events', 'my-bookings']);
         },
         (error) => {

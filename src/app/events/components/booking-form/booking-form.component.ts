@@ -19,6 +19,7 @@ interface BoolOption {
   styleUrls: ['./booking-form.component.scss']
 })
 export class BookingFormComponent implements OnInit {
+  now: Date;
   _authenticatedUser: AuthenticatedUser;
   @Input()
   set authenticatedUser (authenticatedUser: AuthenticatedUser) {
@@ -51,6 +52,10 @@ export class BookingFormComponent implements OnInit {
 
   ngOnInit() {
     this.initForm();
+    this.now = new Date();
+    if (this.relatedEvent.shotgunListLength) {
+      setInterval(() => {this.now = new Date(); }, 1000);
+    }
   }
 
   get id() {return this.form.get('id'); }

@@ -34,6 +34,7 @@ import {MatAutocompleteModule} from '@angular/material/autocomplete';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { TranslateStatusPipe } from './pipes/translate-status.pipe';
 import {ResolveComponentDirective} from './directives/resolve-component.directive';
+import { DateDifferencePipe } from './pipes/date-difference.pipe';
 
 
 @NgModule({
@@ -82,7 +83,9 @@ import {ResolveComponentDirective} from './directives/resolve-component.directiv
     OrderByPipe,
     TranslateStatusPipe,
 
-    ResolveComponentDirective
+    ResolveComponentDirective,
+
+    DateDifferencePipe
   ],
   exports: [
     CommonModule,
@@ -125,6 +128,7 @@ import {ResolveComponentDirective} from './directives/resolve-component.directiv
     OrderByPipe,
     TranslateStatusPipe,
     ResolveComponentDirective,
+    DateDifferencePipe,
 
     SearchComponent,
   ]

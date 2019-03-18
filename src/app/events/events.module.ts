@@ -9,10 +9,23 @@ import { ReviewComponent } from './containers/review.component';
 import { MyBookingsComponent } from './containers/my-bookings.component';
 import { BookingComponent } from './containers/booking.component';
 import { BookingsListComponent } from './components/bookings-list/bookings-list.component';
+import { ListComponent } from './containers/list.component';
+import { EventBookingsListComponent } from './components/event-bookings-list.component';
 
 
 @NgModule({
-  declarations: [BookComponent, CalendarComponent, ReviewComponent, BookingFormComponent, EventDescriptionComponent, MyBookingsComponent, BookingComponent, BookingsListComponent],
+  declarations: [
+    BookComponent,
+    CalendarComponent,
+    ReviewComponent,
+    BookingFormComponent,
+    EventDescriptionComponent,
+    MyBookingsComponent,
+    BookingComponent,
+    BookingsListComponent,
+    ListComponent,
+    EventBookingsListComponent
+  ],
   imports: [
     SharedModule,
     EventsRoutingModule

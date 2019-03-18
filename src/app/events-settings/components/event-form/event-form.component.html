@@ -61,11 +61,14 @@
       <mat-error *ngIf="hourClosingDate.invalid">{{getErrorMessage(hourClosingDate)}}</mat-error>
     </mat-form-field>
   </div>
-  <p *ngIf="closingDate.value">Deadline le {{ closingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourClosingDate.value"> à {{hourClosingDate.value.split(':')[0]}}h{{hourClosingDate.value.split(':')[1]}}</span></p>
+  <p *ngIf="closingDate.value">
+    Deadline le {{ closingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourClosingDate.value"> à {{hourClosingDate.value.split(':')[0]}}h{{hourClosingDate.value.split(':')[1]}}</span>
+    <button class="m-2" mat-flat-button color="primary" (click)="closingDate.reset(); hourClosingDate.reset();">Pas de deadline</button>
+  </p>
   <p *ngIf="!closingDate.value">Pas de deadline</p>
 
-  <mat-slide-toggle color="primary" formControlName="open">Événement ouvert aux non cotisants BDE ?</mat-slide-toggle>
-  <br>
+  <!--<mat-slide-toggle color="primary" formControlName="open">Événement ouvert aux non cotisants BDE ?</mat-slide-toggle>-->
+  <!--<br>-->
 
   <mat-slide-toggle color="primary" formControlName="payable">Événement payant ?</mat-slide-toggle>
 
@@ -86,31 +89,32 @@
     </div>
   </ng-container>
 
-  <!--<mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>-->
+  <mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>
 
-  <!--<p *ngIf="shotgun.value">-->
-    <!--<mat-form-field class="w-100">-->
-      <!--<input type="number" matInput placeholder="Nombre de places au shotgun" formControlName="shotgunListLength">-->
-      <!--<mat-error *ngIf="shotgunListLength.invalid">{{getErrorMessage(shotgunListLength)}}</mat-error>-->
-      <!--<span matSuffix>places</span>-->
-    <!--</mat-form-field>-->
-  <!--</p>-->
+  <p *ngIf="shotgun.value">
+    <mat-form-field class="w-100">
+      <input type="number" matInput placeholder="Nombre de places au shotgun" formControlName="shotgunListLength">
+      <mat-error *ngIf="shotgunListLength.invalid">{{getErrorMessage(shotgunListLength)}}</mat-error>
+      <span matSuffix>places</span>
+    </mat-form-field>
+  </p>
 
-  <!--<div class="row" *ngIf="shotgun.value">-->
-    <!--<mat-form-field class="col-sm-6">-->
-      <!--<input matInput [matDatepicker]="picker2" placeholder="Date de début du shotgun" formControlName="shotgunStartingDate">-->
-      <!--<mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>-->
-      <!--<mat-datepicker #picker2></mat-datepicker>-->
-    <!--</mat-form-field>-->
-    <!--<mat-form-field class="col-sm-6">-->
-      <!--<input type="time" matInput placeholder="Heure" formControlName="hourShotgunStartingDate">-->
-      <!--<mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>-->
-    <!--</mat-form-field>-->
-  <!--</div>-->
-  <!--<mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>-->
-  <!--<mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>-->
-  <!--<p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>-->
-  <!--<p *ngIf="shotgun.value && !shotgunWaitingList.value">Les utilisateurs NE sont PAS autorisés à continuer de s'incrire une fois le nombre de places atteint</p>-->
+  <div class="row" *ngIf="shotgun.value">
+    <mat-form-field class="col-sm-6">
+      <input matInput [matDatepicker]="picker2" placeholder="Date de début du shotgun" formControlName="shotgunStartingDate">
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+    </mat-form-field>
+    <mat-form-field class="col-sm-6">
+      <input type="time" matInput placeholder="Heure" formControlName="hourShotgunStartingDate">
+      <mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>
+    </mat-form-field>
+  </div>
+  <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
+  <p *ngIf="shotgun.value && shotgunStartingDate.value">Le {{ shotgunStartingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourShotgunStartingDate.value"> à {{hourShotgunStartingDate.value.split(':')[0]}}h{{hourShotgunStartingDate.value.split(':')[1]}}</span></p>
+  <mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>
+  <p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>
+  <p *ngIf="shotgun.value && !shotgunWaitingList.value">Les utilisateurs NE sont PAS autorisés à continuer de s'incrire une fois le nombre de places atteint</p>
 
   <h3 >Formulaire :</h3>
   <ng-container formArrayName="formInputs">
@@ -187,8 +191,8 @@
   </div>
 
   <p class="loginButtons">
-    <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="!isNew && status.value !== 'draft'">Sauver et passer en brouillon</button>
-    <button class="m-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
+    <button class="m-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft'); submit();" *ngIf="!isNew && status.value !== 'draft'">Sauver et passer en brouillon</button>
+    <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
     <button class="m-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')">Sauver et valider </button>
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="!isNew && status.value === 'validated'">Sauver et garder l'événement validé</button>-->
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value !== 'validated'">Soumettre</button>-->

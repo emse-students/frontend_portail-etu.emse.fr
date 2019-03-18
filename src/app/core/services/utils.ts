@@ -8,6 +8,12 @@ export function arrayRemoveById(arr: any[], id: number) {
   });
 }
 
+export function arrayRemoveByValue(arr: any[], value: any) {
+  return arr.filter(function(ele) {
+    return ele !== value;
+  });
+}
+
 export function arrayFindById(arr: ArrayId[], id: number) {
   for (let i = 0; i < arr.length; i++) {
     if (arr[i].id === id) {

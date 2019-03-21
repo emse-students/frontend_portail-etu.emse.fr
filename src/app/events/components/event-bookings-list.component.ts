@@ -1,6 +1,6 @@
 import {AfterContentInit, AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {Booking, Event} from '../../core/models/event.model';
+import {Booking, Event, EventBooking} from '../../core/models/event.model';
 import {AuthService} from '../../core/services/auth.service';
 import {AuthenticatedUser} from '../../core/models/auth.model';
 
@@ -18,7 +18,7 @@ interface BookingRanked {
 
       <ng-container matColumnDef="rank">
         <th mat-header-cell *matHeaderCellDef mat-sort-header> Place</th>
-        <td mat-cell *matCellDef="let element"> {{EventListComponent.rank}}.</td>
+        <td mat-cell *matCellDef="let element"> {{element.rank}}.</td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
@@ -85,8 +85,8 @@ export class EventBookingsListComponent implements OnInit {
   authenticatedUser: AuthenticatedUser;
   userRank: number;
 
-  static parseBookings(bookings: Booking[]): BookingRanked[] {
-    bookings = bookings.sort((a: Booking, b: Booking) => a.createdAt > b.createdAt ? 1 : -1);
+  static parseBookings(bookings: EventBooking[]): BookingRanked[] {
+    bookings = bookings.sort((a: EventBooking, b: EventBooking) => a.createdAt > b.createdAt ? 1 : -1);
     const bookingsRanked: BookingRanked[] = [];
     for (let i = 0; i < bookings.length; i++) {
       bookingsRanked.push({
@@ -110,7 +110,7 @@ export class EventBookingsListComponent implements OnInit {
   }
 
   computeUserRank(): number {
-    const bookings = this.event.bookings.sort((a: Booking, b: Booking) => a.createdAt > b.createdAt ? 1 : -1);
+    const bookings = this.event.bookings.sort((a: EventBooking, b: EventBooking) => a.createdAt > b.createdAt ? 1 : -1);
     for (let i = 0; i < bookings.length; i++) {
       if (bookings[i].user && this.authenticatedUser && bookings[i].user.id === this.authenticatedUser.id) {
         return i + 1;

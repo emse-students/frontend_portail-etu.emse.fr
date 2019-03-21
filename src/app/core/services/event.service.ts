@@ -4,7 +4,7 @@ import {JsonLdService} from './json-ld.service';
 import {Observable} from 'rxjs';
 import {environment} from '../../../environments/environment';
 import {map} from 'rxjs/operators';
-import {NewEvent, Event, NewBooking, Booking, PutBooking, PutBookingLight} from '../models/event.model';
+import {NewEvent, Event, NewBooking, Booking, PutBooking, PutBookingLight, EventBooking} from '../models/event.model';
 
 @Injectable({
   providedIn: 'root'
@@ -23,7 +23,7 @@ export class EventService {
     return event;
   }
 
-  static parseBookingDates (booking: Booking): Booking {
+  static parseBookingDates (booking: EventBooking): EventBooking {
     if (booking.createdAt) {
       booking.createdAt = new Date(booking.createdAt);
     }

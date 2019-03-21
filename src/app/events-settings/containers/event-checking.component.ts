@@ -159,11 +159,9 @@ export class EventCheckingComponent implements OnInit {
             }
           }
           this.event.bookings[i] = booking;
-          this.booking = null;
         }
       }
-    } else {
-      this.booking = null;
     }
+    this.clear();
   }
 }

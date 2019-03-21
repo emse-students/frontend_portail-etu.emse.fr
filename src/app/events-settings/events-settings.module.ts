@@ -10,6 +10,7 @@ import { EventCheckingComponent } from './containers/event-checking.component';
 import { EventModifyComponent } from './containers/event-modify.component';
 import { EventSummaryComponent } from './components/event-summary/event-summary.component';
 import { BookingCheckingCardComponent } from './components/booking-checking-card.component';
+import { EventExcelComponent } from './containers/event-excel.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +21,8 @@ import { BookingCheckingCardComponent } from './components/booking-checking-card
     EventCheckingComponent,
     EventModifyComponent,
     EventSummaryComponent,
-    BookingCheckingCardComponent
+    BookingCheckingCardComponent,
+    EventExcelComponent
   ],
   imports: [
     SharedModule,

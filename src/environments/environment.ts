@@ -18,6 +18,7 @@ export const environment = {
   api_uri: 'api',
   api_suffix: '/api/api',
   img_url: 'http://localhost/api/img',
+  excel_url: 'http://localhost/api/excel',
   home: 'http://localhost/',
   production: false
 };

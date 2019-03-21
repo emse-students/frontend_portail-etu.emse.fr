@@ -68,6 +68,7 @@ export interface Booking {
   operation?: OperationLight;
   event?: Event;
   createdAt?: Date;
+  checked?: boolean;
 }
 
 export interface NewBooking {
@@ -93,7 +94,8 @@ export interface PutBooking {
 
 export interface PutBookingLight {
   id: number;
-  paid: boolean;
-  paymentMeans: string;
+  paid?: boolean;
+  paymentMeans?: string;
   operation?: NewOperation;
+  checked?: boolean;
 }

@@ -54,6 +54,19 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
             </app-event-modify>
           </mat-card>
         </mat-tab>
+
+        <mat-tab>
+          <ng-template mat-tab-label>
+            <span class="mat-tab-label" (click)="goTo('excel')">Excel</span>
+          </ng-template>
+
+          <mat-card>
+            <mat-card-title>Excel</mat-card-title>
+
+            <app-event-excel [event]="event">
+            </app-event-excel>
+          </mat-card>
+        </mat-tab>
         </mat-tab-group>
       </mat-card>
       <mat-card *ngIf="loaded && unauthorized">
@@ -74,7 +87,7 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
     }
   `]
 })
-export class EventSettingsComponent implements OnInit {$
+export class EventSettingsComponent implements OnInit {
   unauthorized = false;
   loaded;
   paymentMeansLoaded = false;
@@ -145,6 +158,8 @@ export class EventSettingsComponent implements OnInit {$
         return 1;
       case 'modify':
         return 2;
+      case 'excel':
+        return 3;
     }
   }
 }

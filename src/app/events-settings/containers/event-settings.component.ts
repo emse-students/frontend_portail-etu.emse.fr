@@ -34,8 +34,21 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
             <mat-card>
               <mat-card-title>Checking</mat-card-title>
 
-              <app-event-checking [event]="event">
+              <app-event-checking [event]="event" [selectedUser]="selectedUser">
               </app-event-checking>
+            </mat-card>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('list')">Liste</span>
+            </ng-template>
+
+            <mat-card>
+              <mat-card-title>Liste</mat-card-title>
+
+              <app-event-list [event]="event" (selectUser)="selectUser($event)">
+              </app-event-list>
             </mat-card>
           </mat-tab>
 
@@ -88,6 +101,7 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
   `]
 })
 export class EventSettingsComponent implements OnInit {
+  selectedUser = null;
   unauthorized = false;
   loaded;
   paymentMeansLoaded = false;
@@ -150,16 +164,23 @@ export class EventSettingsComponent implements OnInit {
     );
   }
 
+  selectUser(event) {
+    this.selectedUser = event;
+    this.goTo('checking');
+  }
+
   strIdToTabId(strId: string): number {
     switch (strId) {
       case 'summary':
         return 0;
       case 'checking':
         return 1;
-      case 'modify':
+      case 'list':
         return 2;
-      case 'excel':
+      case 'modify':
         return 3;
+      case 'excel':
+        return 4;
     }
   }
 }

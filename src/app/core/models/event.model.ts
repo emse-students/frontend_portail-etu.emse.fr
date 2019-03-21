@@ -1,6 +1,6 @@
 import {PaymentMeans} from './payment-means.model';
 import {AssociationLight} from './association.model';
-import {FormInput, FormOutput, NewFormInput, NewFormOutput} from './form.model';
+import {BookingFormOutput, FormInput, FormOutput, NewFormInput, NewFormOutput} from './form.model';
 import {UserLight} from './auth.model';
 import {NewOperation, OperationLight} from './operation.model';
 
@@ -21,7 +21,7 @@ export interface Event {
   association:	AssociationLight;
   formInputs: FormInput[];
   status: string;
-  bookings?: Booking[];
+  bookings?: EventBooking[];
   countBookings: number;
 }
 
@@ -69,6 +69,24 @@ export interface Booking {
   event?: Event;
   createdAt?: Date;
   checked?: boolean;
+}
+
+
+export interface EventBooking {
+  id: number;
+  paid: boolean;
+  paymentMeans: PaymentMeans;
+  user: UserLight;
+  userName: string;
+  operation?: OperationLight;
+  event?: Event;
+  createdAt?: Date;
+  checked?: boolean;
+  formOutputs: BookingFormOutput[];
+}
+
+export interface BookingRanked extends EventBooking {
+  rank?: number;
 }
 
 export interface NewBooking {

@@ -11,6 +11,9 @@ import { EventModifyComponent } from './containers/event-modify.component';
 import { EventSummaryComponent } from './components/event-summary/event-summary.component';
 import { BookingCheckingCardComponent } from './components/booking-checking-card.component';
 import { EventExcelComponent } from './containers/event-excel.component';
+import { EventListComponent } from './containers/event-list.component';
+import { RegisteredListComponent } from './components/registered-list.component';
+import { BookingFilterComponent } from './components/booking-filter.component';
 
 @NgModule({
   declarations: [
@@ -22,7 +25,10 @@ import { EventExcelComponent } from './containers/event-excel.component';
     EventModifyComponent,
     EventSummaryComponent,
     BookingCheckingCardComponent,
-    EventExcelComponent
+    EventExcelComponent,
+    EventListComponent,
+    RegisteredListComponent,
+    BookingFilterComponent
   ],
   imports: [
     SharedModule,

@@ -24,6 +24,13 @@ export interface FormOutput {
   booking?: Booking;
 }
 
+export interface BookingFormOutput {
+  id: number;
+  answer: string;
+  options: Option[];
+  formInput?: string;
+}
+
 export interface NewFormOutput {
   answer: string;
   options: string[];

@@ -10,9 +10,9 @@ import {InfoService} from '../../core/services/info.service';
   template: `
     <div class="row">
       <div class="col text-center h4 m-2" *ngIf="booking.user">
-        {{booking.user.firstname}} {{booking.user.lastname}} {{booking.user.promo}}
+        {{booking.user.firstname}} {{booking.user.lastname}} promo {{booking.user.promo}}
       </div>
-      <div class="col text-center h4 m-2" *ngIf="booking.userName">
+      <div class="col text-center h4 m-2" *ngIf="!booking.user">
         {{booking.userName}}
       </div>
     </div>

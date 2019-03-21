@@ -17,8 +17,8 @@ interface BookingRanked {
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
 
       <ng-container matColumnDef="rank">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Place </th>
-        <td mat-cell *matCellDef="let element"> {{element.rank}}. </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Place</th>
+        <td mat-cell *matCellDef="let element"> {{EventListComponent.rank}}.</td>
       </ng-container>
 
       <ng-container matColumnDef="createdAt">
@@ -29,7 +29,7 @@ interface BookingRanked {
       </ng-container>
 
       <ng-container matColumnDef="userName">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom </th>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header> Nom</th>
         <td mat-cell *matCellDef="let element">
           {{element.userName}}
         </td>
@@ -38,7 +38,7 @@ interface BookingRanked {
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row
           *matRowDef="let row; columns: displayedColumns;"
-          [ngClass]="{redRow: event.shotgunListLength && row.rank > event.shotgunListLength }">
+          [ngClass]="{redRow: event.shotgunListLength && EventListComponent.rank > event.shotgunListLength }">
       </tr>
     </table>
 

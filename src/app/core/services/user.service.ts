@@ -90,10 +90,14 @@ export class UserService {
   }
 
   public book(eventId: number) {
-    this._user.eventsBooked.push(eventId);
+    if (this._user && this._user.eventsBooked) {
+      this._user.eventsBooked.push(eventId);
+    }
   }
   public unbook(eventId: number) {
-    this._user.eventsBooked = arrayRemoveByValue(this._user.eventsBooked, eventId);
+    if (this._user && this._user.eventsBooked) {
+      this._user.eventsBooked = arrayRemoveByValue(this._user.eventsBooked, eventId);
+    }
   }
 
   public getUserOperations(userId: number) {

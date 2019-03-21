@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {Booking, Event, PutBooking} from '../../core/models/event.model';
+import {Booking, Event, EventBooking, PutBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {UserLight} from '../../core/models/auth.model';
 import {map, startWith} from 'rxjs/operators';
@@ -8,6 +8,7 @@ import {FormBuilder, FormGroup, Validators} from '@angular/forms';
 import {Observable} from 'rxjs';
 import {EventService} from '../../core/services/event.service';
 import {InfoService} from '../../core/services/info.service';
+import {arrayFindById} from '../../core/services/utils';
 
 interface UnregistredUser {
   username: string;
@@ -61,11 +62,17 @@ interface UnregistredUser {
 })
 export class EventCheckingComponent implements OnInit {
   @Input() event: Event;
+  @Input()
+  set selectedUser(selectedUser) {
+    if (selectedUser) {
+      this.select(selectedUser);
+    }
+  }
   @Input() isAdmin: boolean;
   @Input() paymentMeans: PaymentMeans[];
   filteredOptions: Observable<UserLight | UnregistredUser>;
   users;
-  booking: Booking;
+  booking: EventBooking;
   unbookedUser: UserLight;
   pending = false;
 
@@ -85,11 +92,11 @@ export class EventCheckingComponent implements OnInit {
       // console.log(users);
       this.users = users;
       for (let i = 0; i < this.event.bookings.length; i++) {
-        if (this.event.bookings[i].userName) {
+        if (!this.event.bookings[i].user) {
           this.users.push(
             {
               username: this.event.bookings[i].userName,
-              bookingId: i
+              bookingIndex: i
             }
           );
         }
@@ -120,9 +127,12 @@ export class EventCheckingComponent implements OnInit {
   }
 
   select(user) {
-    if (user.bookingId) {
+    if (user.bookingIndex) {
       this.unbookedUser = null;
-      this.booking = this.event.bookings[user.bookingId];
+      this.booking = this.event.bookings[user.bookingIndex];
+    } else if (user.bookingId) {
+      this.unbookedUser = null;
+      this.booking = this.event.bookings[arrayFindById(this.event.bookings, user.bookingId)];
     } else {
       let found = false;
       for (let i = 0; i < this.event.bookings.length; i++) {
@@ -147,7 +157,7 @@ export class EventCheckingComponent implements OnInit {
     this.unbookedUser = null;
   }
 
-  majBookings(booking: Booking) {
+  majBookings(booking: EventBooking) {
     if (booking) {
       for (let i = 0; i < this.event.bookings.length; i++) {
         if (this.event.bookings[i].id === booking.id) {

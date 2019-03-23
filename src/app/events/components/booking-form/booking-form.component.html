@@ -28,14 +28,18 @@
         {{formInput(i).value.title}}
         <span *ngIf="formInput(i).value.required">*</span>
       </h6>
-      <ng-container formArrayName="boolOptions">
+      <ng-container formArrayName="boolOptions"  *ngIf="formInput(i).value.type==='multipleOptions'">
         <div class="row" *ngFor="let option of formOutput.get('boolOptions').controls; let j=index"  [formGroupName]="j">
-          <div class="col d-flex align-items-center" *ngIf="formInput(i).value.type==='multipleOptions'">
+          <div class="col d-flex align-items-center">
             <mat-checkbox formControlName="selected">{{option.get('option').value.value}}</mat-checkbox>
             <span class="ml-3" *ngIf="option.get('option').value.price">{{option.get('option').value.price | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
           </div>
-          <div class="col" *ngIf="formInput(i).value.type==='singleOption'"><mat-radio-button (click)="selectOption(i,j)" [checked]="option.get('selected').value">{{option.get('option').value.value}}</mat-radio-button></div>
         </div>
+      </ng-container>
+      <ng-container formArrayName="boolOptions"  *ngIf="formInput(i).value.type==='singleOption'">
+        <mat-radio-group class="d-flex flex-column">
+          <mat-radio-button (click)="selectOption(i,j)" [checked]="option.get('selected').value" *ngFor="let option of formOutput.get('boolOptions').controls; let j=index" [value]="option.get('option').value.value">{{option.get('option').value.value}}</mat-radio-button>
+        </mat-radio-group>
       </ng-container>
       <mat-error *ngIf="formOutput.get('boolOptions').touched && formOutput.get('boolOptions').invalid">{{getErrorMessage(formOutput.get('boolOptions'))}}</mat-error>
     </ng-container>

@@ -6,7 +6,7 @@ import {Position} from '../../core/models/position.model';
   template: `
     <mat-card-title>Membres</mat-card-title>
     <div class="row justify-content-center">
-      <div class="member-card" *ngFor="let position of positions | orderBy : ['-role.hierarchy','user.lastname']">
+      <div class="member-card" *ngFor="let position of positions | orderBy : ['-role.hierarchy','role.name']">
         <ng-container *ngIf="!position.loading">
           <div class="icon-row" *ngIf="modify">
             <mat-icon class="delete-icon"

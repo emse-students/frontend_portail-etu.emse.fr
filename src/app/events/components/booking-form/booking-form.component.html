@@ -20,7 +20,8 @@
       <h4 *ngIf="formInput(i).value.type==='title'">{{formInput(i).value.title}}</h4>
       <div class="row" *ngIf="formInput(i).value.type==='text'">
         <mat-form-field class="col">
-          <input type="text" matInput placeholder="{{formInput(i).value.required?formInput(i).value.title + ' *' : formInput(i).value.title}}" formControlName="answer">
+          <mat-placeholder style="white-space: normal;">{{formInput(i).value.required?formInput(i).value.title + ' *' : formInput(i).value.title}}</mat-placeholder>
+          <input type="text" matInput formControlName="answer">
           <mat-error *ngIf="formOutput.get('answer').invalid">{{getErrorMessage(formOutput.get('answer'))}}</mat-error>
         </mat-form-field >
       </div>

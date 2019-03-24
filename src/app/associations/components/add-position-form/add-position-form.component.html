@@ -43,10 +43,11 @@
       <!--<mat-error *ngIf="role.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>-->
     <!--</mat-form-field>-->
   <!--</p>-->
-
+  <p *ngIf="role.value && !newRole.value">Droits :</p>
   <ul *ngIf="role.value && !newRole.value">
     <li *ngFor="let right of role.value.rights">{{right.name}}</li>
   </ul>
+  <p *ngIf="role.value && !newRole.value">Hierarchie : {{role.value.hierarchy}}</p>
 
   <ng-container *ngIf="newRole.value">
     <h5>Nouveau role</h5>

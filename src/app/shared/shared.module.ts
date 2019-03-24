@@ -35,6 +35,7 @@ import { OrderByPipe } from './pipes/order-by.pipe';
 import { TranslateStatusPipe } from './pipes/translate-status.pipe';
 import {ResolveComponentDirective} from './directives/resolve-component.directive';
 import { DateDifferencePipe } from './pipes/date-difference.pipe';
+import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-form.component';
 
 
 @NgModule({
@@ -79,6 +80,7 @@ import { DateDifferencePipe } from './pipes/date-difference.pipe';
     EscapeHtmlPipe,
 
     SearchComponent,
+    ImgUploadFormComponent,
 
     OrderByPipe,
     TranslateStatusPipe,
@@ -131,6 +133,7 @@ import { DateDifferencePipe } from './pipes/date-difference.pipe';
     DateDifferencePipe,
 
     SearchComponent,
+    ImgUploadFormComponent
   ]
 })
 export class SharedModule {}

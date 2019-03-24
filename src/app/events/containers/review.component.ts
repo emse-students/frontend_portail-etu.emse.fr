@@ -16,11 +16,15 @@ import {UserService} from '../../core/services/user.service';
         <app-event-description [event]="event"></app-event-description>
 
         <div class="row justify-content-center"
-             *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today">
+             *ngIf="!allReadyBooked &&
+              (!event.closingDate || event.closingDate > today) &&
+               event.date > today &&
+                event.status != 'inactive'">
           <a [routerLink]="'/events/'+event.id+'/book'">
             <button mat-flat-button color="primary">S'inscrire</button>
           </a>
         </div>
+        <p *ngIf="event.status === 'inactive'">Il n'est pas encore possible de s'inscrire à cet événement</p>
       </mat-card>
     </div>
     <div class="centrer" *ngIf="!loaded">

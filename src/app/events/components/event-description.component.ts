@@ -1,5 +1,6 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {Event} from '../../core/models/event.model';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-event-description',
@@ -10,6 +11,8 @@ import {Event} from '../../core/models/event.model';
 
     <h4 *ngIf="event.closingDate">Attention deadline le {{ event.closingDate | date: 'EEEE d M' | translateDay}}
       à {{event.closingDate | date: 'H\\'h\\'mm'}}</h4>
+
+    <img [src]="imgPath+'/'+ event.img.filename" [alt]="event.img.filename" style="max-width: 100%;" *ngIf="event.img">
 
     <p [innerHTML]="event.description | keepHtml"></p>
 
@@ -62,6 +65,7 @@ import {Event} from '../../core/models/event.model';
 })
 export class EventDescriptionComponent implements OnInit {
   @Input() event: Event;
+  imgPath = environment.img_url;
   constructor() { }
 
   ngOnInit() {

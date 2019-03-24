@@ -3,10 +3,12 @@ import {AssociationLight} from './association.model';
 import {BookingFormOutput, FormInput, FormOutput, NewFormInput, NewFormOutput} from './form.model';
 import {UserLight} from './auth.model';
 import {NewOperation, OperationLight} from './operation.model';
+import {FileDTO} from './file.model';
 
 export interface Event {
   id: number;
   name: string;
+  img: FileDTO;
   description:	string;
   date:	Date;
   duration:	number;
@@ -56,6 +58,7 @@ export interface NewEvent {
   association:	string;
   formInputs: NewFormInput[];
   status: string;
+  img: string;
 }
 
 export interface Booking {

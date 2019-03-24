@@ -5,7 +5,7 @@
 <div class="row">
   <ng-container *ngFor="let event of events | orderBy : '-date'">
     <app-event-card class="col-md-6"
-                    *ngIf="event.status === 'validated' || isRightful"
+                    *ngIf="event.status === 'validated' || event.status === 'inactive' || isRightful"
                     [event]="event"
                     [isRightful]="isRightful">
     </app-event-card>

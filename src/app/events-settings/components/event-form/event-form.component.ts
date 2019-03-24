@@ -1,10 +1,12 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AssociationLight} from '../../../core/models/association.model';
+import {Association, AssociationLight} from '../../../core/models/association.model';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {PaymentMeans} from '../../../core/models/payment-means.model';
 import {Event} from '../../../core/models/event.model';
 import {environment} from '../../../../environments/environment';
 import {setHourToDate} from '../../../core/services/utils';
+import {FileDTO, FileToUpload} from '../../../core/models/file.model';
+import {FileUploadService} from '../../../core/services/file-upload.service';
 
 interface BoolPaymentMeans {
   selected: boolean;
@@ -30,6 +32,10 @@ export class EventFormComponent implements OnInit {
     this.patch();
   }
   sureDelete = false;
+  addImg = false;
+  imgLoading = false;
+  imgFilename = null;
+  imgPath = environment.img_url;
 
 
   @Output() submitted = new EventEmitter<Event>();
@@ -59,8 +65,9 @@ export class EventFormComponent implements OnInit {
   options(i) { return this.formInputs.controls[i].get('options') as FormArray; }
   get status() { return this.form.get('status'); }
   get open() { return this.form.get('open'); }
+  get img() { return this.form.get('img'); }
 
-  constructor(private fb: FormBuilder) {}
+  constructor(private fb: FormBuilder, private fileUploadService: FileUploadService) {}
 
   ngOnInit(): void {
     this.initForm();
@@ -98,6 +105,9 @@ export class EventFormComponent implements OnInit {
       if (!this.duration.value) {
         this.form.removeControl('duration');
       }
+      // if (!this.img.value) {
+      //   this.form.removeControl('img');
+      // }
       this.form.removeControl('payable');
       this.form.removeControl('shotgun');
       this.form.removeControl('hourDate');
@@ -129,7 +139,8 @@ export class EventFormComponent implements OnInit {
       hourClosingDate: [''],
       formInputs: this.fb.array([]),
       status: ['new'],
-      open: [true]
+      open: [true],
+      img: [null]
     }, {validators: this.shotgunRequired()});
   }
 
@@ -190,6 +201,10 @@ export class EventFormComponent implements OnInit {
   patch() {
     if (this._event) {
       this.form.patchValue(this._event);
+      if (this._event.img) {
+        this.img.setValue(environment.api_uri + '/img_objects/' + this._event.img.id);
+        this.imgFilename = this._event.img.filename;
+      }
       if (this.price.value) {
         this.payable.setValue(true);
       }
@@ -253,5 +268,19 @@ export class EventFormComponent implements OnInit {
 
   delete() {
     this.deleted.emit(this._event);
+  }
+
+  uploadImg(img: FileToUpload) {
+    this.addImg = false;
+    this.imgLoading = true;
+    this.fileUploadService.uploadImg(img).subscribe(
+      (imgDTO: FileDTO) => {
+        console.log(imgDTO);
+        this.img.setValue(environment.api_uri + '/img_objects/' + imgDTO.id);
+        this.imgFilename = imgDTO.filename;
+        this.imgLoading = false;
+      },
+      (error) => {this.imgLoading = false; }
+    );
   }
 }

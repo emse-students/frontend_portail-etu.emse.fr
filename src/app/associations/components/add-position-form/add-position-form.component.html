@@ -62,11 +62,26 @@
         <input matInput placeholder="Hierarchie" type="number" formControlName="hierarchy">
       </mat-form-field>
     </p>
+    <p>
+      La hiérarchie désigne la place du membre dans l'asso et sert à les placer dans l'organigrame <br>
+      Sur la première ligne se trouvent les membres avec une hiérarchie supérieur ou égale à 6. C'est la ligne du bureau.<br>
+      Sur la deuxième ligne se trouvent les membres avec une hiérarchie inférieur à 6 et supérieur ou égale à 4. C'est la ligne des respos.<br>
+      Sur la troisième ligne se trouvent les membres avec une hiérarchie inférieur à 4. C'est la ligne des autres membres.
+    </p>
 
     <h3>Droits :</h3>
     <div *ngFor="let boolRight of boolRights">
       <mat-checkbox  [(ngModel)]="boolRight.selected" [ngModelOptions]="{standalone: true}" *ngIf="boolRight.right.id !== 0">{{boolRight.right.name}} : {{boolRight.right.description}}</mat-checkbox>
     </div>
+    <p>
+      Attention au droits que vous donnez. <br>
+      Généralement les membres du bureau ont tous les droits, les respos peuvent créer des événements et les autres membres n'ont pas de droits.
+    </p><p>
+      La hiérarchie désigne la place du membre dans l'asso et sert à les placer dans l'organigrame <br>
+      Sur la première ligne se trouvent les membres avec une hiérarchie supérieur ou égale à 6. C'est la ligne du bureau.<br>
+      Sur la première ligne se trouvent les membres avec une hiérarchie inférieur à 6 et supérieur ou égale à 4. C'est la ligne des repos.<br>
+      Sur la première ligne se trouvent les membres avec une hiérarchie inférieur à 4. C'est la ligne des autres membres.<br>
+    </p>
     <button class="m-2" mat-flat-button color="primary" (click)="newRole.setValue(false); role.reset();">Sélectionner un role existant</button>
   </ng-container>
 

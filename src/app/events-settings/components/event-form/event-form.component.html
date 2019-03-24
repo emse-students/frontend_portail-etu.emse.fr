@@ -21,6 +21,16 @@
   </p>
   <p>Utilisez l'html pour écrire votre description ! <br>Rappel : aucun retour à la ligne n'est éffectué sans la balise &lt;br&gt;</p>
 
+  <button class="m-2" mat-flat-button color="accent"  (click)="addImg = true" *ngIf="!addImg && !imgLoading && !img.value">Ajouter une image</button>
+
+  <app-img-upload-form *ngIf="addImg" [imgName]="'img_event'" (submitted)="uploadImg($event)" (canceled)="addImg= false;"></app-img-upload-form>
+
+  <mat-spinner *ngIf="imgLoading" [diameter]="50" ></mat-spinner>
+
+  <img [src]="imgPath+'/'+imgFilename" [alt]="imgFilename" style="width: 100%;" *ngIf="imgFilename && img.value && !imgLoading">
+
+  <button class="m-2" mat-flat-button color="warn"  (click)="img.setValue(null); imgFilename = null;" *ngIf="img.value">Supprimer l'image</button>
+
   <div class="row">
     <mat-form-field class="col-sm-6">
       <input matInput [matDatepicker]="picker" placeholder="Date" formControlName="date">
@@ -33,6 +43,7 @@
       <mat-error *ngIf="hourDate.invalid">{{getErrorMessage(hourDate)}}</mat-error>
     </mat-form-field>
   </div>
+  <p>Attention, sur Safari le champs heure marche mal ! Mettez l'heure sous forme HH:MM</p>
   <p *ngIf="date.value">Le {{ date.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourDate.value"> à {{hourDate.value.split(':')[0]}}h{{hourDate.value.split(':')[1]}}</span></p>
 
   <p>
@@ -61,6 +72,7 @@
       <mat-error *ngIf="hourClosingDate.invalid">{{getErrorMessage(hourClosingDate)}}</mat-error>
     </mat-form-field>
   </div>
+  <p>Attention, sur Safari le champs heure marche mal ! Mettez l'heure sous forme HH:MM</p>
   <p *ngIf="closingDate.value">
     Deadline le {{ closingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourClosingDate.value"> à {{hourClosingDate.value.split(':')[0]}}h{{hourClosingDate.value.split(':')[1]}}</span>
     <button class="m-2" mat-flat-button color="primary" (click)="closingDate.reset(); hourClosingDate.reset();">Pas de deadline</button>
@@ -110,6 +122,7 @@
       <mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>
     </mat-form-field>
   </div>
+  <p>Attention, sur Safari le champs heure marche mal ! Mettez l'heure sous forme HH:MM</p>
   <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
   <p *ngIf="shotgun.value && shotgunStartingDate.value">Le {{ shotgunStartingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourShotgunStartingDate.value"> à {{hourShotgunStartingDate.value.split(':')[0]}}h{{hourShotgunStartingDate.value.split(':')[1]}}</span></p>
   <mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>
@@ -193,6 +206,8 @@
   <p class="loginButtons">
     <button class="m-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft'); submit();" *ngIf="!isNew && status.value !== 'draft'">Sauver et passer en brouillon</button>
     <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>
+    <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('inactive')" *ngIf="isNew || status.value === 'inactive'">Sauver en inactif</button>
+    <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('inactive'); submit();" *ngIf="!isNew && status.value !== 'inactive'">Sauver et passer en inactif</button>
     <button class="m-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')">Sauver et valider </button>
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="!isNew && status.value === 'validated'">Sauver et garder l'événement validé</button>-->
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('submitted')" *ngIf="isNew || status.value !== 'validated'">Soumettre</button>-->
@@ -200,6 +215,12 @@
     <!--<button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" (click)="status.setValue('validated')" *ngIf="isAdmin && (isNew || status.value !== 'validated')">Soumettre et valider</button>-->
     <button class="m-2" mat-flat-button color="warn" [disabled]="form.invalid" (click)="sureDelete = true" *ngIf="!isNew && !sureDelete">Supprimer l'événement</button>
   </p>
+  <p>Les status d'un événement sont les suivants :</p>
+  <ul>
+    <li>Brouillon : L'événement n'est visible que par les membres de l'asso ayant les droits sur les événements, ils peuvent aussi s'inscrire pour tester que le formulaire marche bien</li>
+    <li>Inactif : L'événement est visible par tout le monde mais ils ne peuvent pas s'inscrire. Vous pouvez ainsi annoncer vos événements même si vous n'avez pas encore toutes les informations comme le menu ou le prix</li>
+    <li>Actif : L'événement est visible par tout le monde et tout le monde peut s'inscrire.</li>
+  </ul>
   <p *ngIf="sureDelete">
     Attention ! En supprimant un événement vous supprimez toutes les réservations associées ainsi que les opérations associées : tous les utilisateurs ayant payé en compte BDE seront remboursés. <br>
     Ne supprimez que les événements qui n'auront pas lieu. <br>

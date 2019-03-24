@@ -5,22 +5,60 @@ import {Position} from '../../core/models/position.model';
   selector: 'app-positions-list',
   template: `
     <mat-card-title>Membres</mat-card-title>
-    <div class="row justify-content-center">
-      <div class="member-card" *ngFor="let position of positions | orderBy : ['-role.hierarchy','role.name']">
-        <ng-container *ngIf="!position.loading">
-          <div class="icon-row" *ngIf="modify">
-            <mat-icon class="delete-icon"
-                      color="warn"
-                      fontSet="fas"
-                      fontIcon="fa-user-minus"
-                      (click)="delete.emit(position.id); position.loading=true;">
-            </mat-icon>
-          </div>
-          <div class="member-title p-1">{{position.role.name}}</div>
-          <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
-          <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
-        </ng-container>
-        <mat-spinner [diameter]="100" color="accent" *ngIf="position.loading"></mat-spinner>
+    <div class="d-flex flex-column">
+      <div class="row justify-content-center">
+        <div class="member-card" *ngFor="let position of filterPosition(positions, 5, 100000) |orderBy : ['-role.hierarchy','role.name']">
+          <ng-container *ngIf="!position.loading">
+            <div class="icon-row" *ngIf="modify">
+              <mat-icon class="delete-icon"
+                        color="warn"
+                        fontSet="fas"
+                        fontIcon="fa-user-minus"
+                        (click)="delete.emit(position.id); position.loading=true;">
+              </mat-icon>
+            </div>
+            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
+            <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
+          </ng-container>
+          <mat-spinner [diameter]="100" color="accent" *ngIf="position.loading"></mat-spinner>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="member-card" *ngFor="let position of filterPosition(positions, 3, 6) | orderBy : ['-role.hierarchy','role.name']">
+          <ng-container *ngIf="!position.loading">
+            <div class="icon-row" *ngIf="modify">
+              <mat-icon class="delete-icon"
+                        color="warn"
+                        fontSet="fas"
+                        fontIcon="fa-user-minus"
+                        (click)="delete.emit(position.id); position.loading=true;">
+              </mat-icon>
+            </div>
+            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
+            <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
+          </ng-container>
+          <mat-spinner [diameter]="100" color="accent" *ngIf="position.loading"></mat-spinner>
+        </div>
+      </div>
+      <div class="row justify-content-center">
+        <div class="member-card" *ngFor="let position of filterPosition(positions, -100000, 4) | orderBy : ['-role.hierarchy','role.name']">
+          <ng-container *ngIf="!position.loading">
+            <div class="icon-row" *ngIf="modify">
+              <mat-icon class="delete-icon"
+                        color="warn"
+                        fontSet="fas"
+                        fontIcon="fa-user-minus"
+                        (click)="delete.emit(position.id); position.loading=true;">
+              </mat-icon>
+            </div>
+            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
+            <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
+          </ng-container>
+          <mat-spinner [diameter]="100" color="accent" *ngIf="position.loading"></mat-spinner>
+        </div>
       </div>
     </div>
   `,
@@ -79,6 +117,10 @@ export class PositionsListComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
+  }
+
+  filterPosition(positions: Position[], min: number, max: number): Position[] {
+    return positions.filter((p: Position) => p.role.hierarchy > min && p.role.hierarchy < max);
   }
 
 }

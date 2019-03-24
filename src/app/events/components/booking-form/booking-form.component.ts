@@ -26,6 +26,8 @@ export class BookingFormComponent implements OnInit {
     this._authenticatedUser = authenticatedUser;
     if (authenticatedUser && this.form && this.userName) {
       this.form.removeControl('userName');
+    } else if (!authenticatedUser && this.form && this.userName) {
+      this.form.addControl('userName', new FormControl('', Validators.required));
     }
   }
   get authenticatedUser() { return this._authenticatedUser; }

@@ -15,6 +15,8 @@ export class TranslateStatusPipe implements PipeTransform {
         return 'Soumis';
       case 'validated':
         return 'Validé';
+      case 'inactive':
+        return 'Inactif';
     }
   }
 

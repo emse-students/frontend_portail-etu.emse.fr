@@ -44,6 +44,7 @@ export class BookingFormComponent implements OnInit {
   }
   get booking() { return this._booking; }
   lastPrice: number = null;
+  displayUserName = false;
   form: FormGroup;
 
   @Output() submitted = new EventEmitter<NewBooking>();

@@ -91,7 +91,7 @@ export class BookComponent implements OnInit {
       this.authenticatedUser = authenticatedUser;
       if (this.loaded) {
         this.allReadyBooked = this.userService.hasBooked(this.event.id);
-        this.unauthorized = !this.authService.hasAssoRight(2, this.event.association.id) && !this.authService.isAdmin();
+        this.unauthorized = !this.authService.hasAssoRight(3, this.event.association.id) && !this.authService.isAdmin();
       }
     });
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
@@ -108,7 +108,7 @@ export class BookComponent implements OnInit {
           this.event = event;
           this.loaded = true;
           this.allReadyBooked = this.userService.hasBooked(event.id);
-          this.unauthorized = !this.authService.hasAssoRight(2, event.association.id) && !this.authService.isAdmin();
+          this.unauthorized = !this.authService.hasAssoRight(3, event.association.id) && !this.authService.isAdmin();
         });
       }
     });

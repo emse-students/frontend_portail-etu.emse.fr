@@ -2,10 +2,12 @@
 
   <p class="d-flex flex-column align-items-center" *ngIf="!authenticatedUser">
     Connectez vous si vous êtes un élève de l'école <br>
-    <button class="ml-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
-    sinon indiquez votre prénom et nom
+    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
+    <span *ngIf="!displayUserName"> sinon cliquez sur </span>
+    <button class="m-2" mat-flat-button color="primary" (click)="displayUserName = true" *ngIf="!displayUserName">Je n'ai pas de compte EMSE</button><br>
+    <span *ngIf="!displayUserName">et indiquez votre prénom et nom</span>
   </p>
-  <p *ngIf="!authenticatedUser">
+  <p *ngIf="!authenticatedUser && displayUserName">
     <mat-form-field class="w-100">
       <input type="text" matInput placeholder="Prénom et Nom" formControlName="userName">
       <mat-error *ngIf="userName.invalid">{{getErrorMessage(userName)}}</mat-error>
@@ -73,5 +75,12 @@
   <p class="loginButtons" *ngIf="!relatedEvent.shotgunListLength || relatedEvent.shotgunStartingDate.getTime()-now.getTime() <= 0">
     <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(bdePayment.value && (!paid.value || lastPrice !== totalPrice())) || cerclePayment.value">{{isNew?'Réserver et payer':'Enregistrer les modifications et payer'}}</button>
     <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="(!bdePayment.value || (paid.value && lastPrice === totalPrice()))  && !cerclePayment.value">{{isNew?'Réserver':'Enregistrer les modifications'}}</button>
+  </p>
+
+  <p class="d-flex flex-column align-items-center" *ngIf="!authenticatedUser && !displayUserName">
+    Connectez vous si vous êtes un élève de l'école <br>
+    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
+    sinon cliquez sur <button class="m-2" mat-flat-button color="primary" (click)="displayUserName = true">Je n'ai pas de compte EMSE</button>
+    et indiquez votre prénom et nom plus haut
   </p>
 </form>

@@ -49,6 +49,18 @@ import {AuthenticatedUser} from '../../core/models/auth.model';
         <td mat-cell *matCellDef="let element"> <button mat-flat-button color="accent" (click)="select(element)">Voir</button> </td>
       </ng-container>
 
+      <ng-container matColumnDef="delete">
+        <th mat-header-cell *matHeaderCellDef></th>
+        <td mat-cell *matCellDef="let element">
+          <button mat-flat-button
+                  color="warn"
+                  [disabled]="element.loading"
+                  (click)="delete(element); element.loading = true;">
+            Supprimer
+          </button>
+        </td>
+      </ng-container>
+
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row
           *matRowDef="let row; columns: displayedColumns;"
@@ -73,6 +85,7 @@ import {AuthenticatedUser} from '../../core/models/auth.model';
 })
 export class RegisteredListComponent implements OnInit {
   @Output() selectUser = new EventEmitter<any>();
+  @Output() deleteBooking = new EventEmitter<BookingRanked>();
   @Input() event: Event;
   @Input()
   set bookings (bookings: BookingRanked[]) {
@@ -105,10 +118,10 @@ export class RegisteredListComponent implements OnInit {
 
   ngOnInit(): void {
     this.displayedColumns = this.event.price && this.event.shotgunListLength ?
-      ['rank', 'createdAt', 'userName', 'paid', 'checked', 'select'] :
-      this.event.price ? ['userName', 'paid', 'checked', 'select'] :
-      this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select'] :
-      ['userName', 'checked', 'select'] ;
+      ['rank', 'createdAt', 'userName', 'paid', 'checked', 'select', 'delete'] :
+      this.event.price ? ['userName', 'paid', 'checked', 'select', 'delete'] :
+      this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select', 'delete'] :
+      ['userName', 'checked', 'select', 'delete'] ;
   }
 
   select(booking: BookingRanked) {
@@ -122,5 +135,9 @@ export class RegisteredListComponent implements OnInit {
         bookingId: booking.id
       });
     }
+  }
+
+  delete(booking: BookingRanked) {
+    this.deleteBooking.emit(booking);
   }
 }

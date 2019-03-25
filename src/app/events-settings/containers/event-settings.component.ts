@@ -1,11 +1,12 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../../core/services/event.service';
-import {Event} from '../../core/models/event.model';
+import {Booking, BookingRanked, Event, EventBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {AuthService} from '../../core/services/auth.service';
 import {PaymentMeansService} from '../../core/services/payment-means.service';
 import {EventSummaryComponent} from '../components/event-summary/event-summary.component';
+import {InfoService} from '../../core/services/info.service';
 
 @Component({
   selector: 'app-event-settings',
@@ -47,7 +48,7 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
             <mat-card>
               <mat-card-title>Liste</mat-card-title>
 
-              <app-event-list [event]="event" (selectUser)="selectUser($event)">
+              <app-event-list [event]="event" (selectUser)="selectUser($event)" (deleteBooking)="delete($event)">
               </app-event-list>
             </mat-card>
           </mat-tab>
@@ -116,7 +117,8 @@ export class EventSettingsComponent implements OnInit {
     private router: Router,
     private eventService: EventService,
     private _authService: AuthService,
-    private paymentMeansService: PaymentMeansService
+    private paymentMeansService: PaymentMeansService,
+    private infoService: InfoService
   ) { }
 
   ngOnInit() {
@@ -162,6 +164,21 @@ export class EventSettingsComponent implements OnInit {
         this.event.bookings = eventWithBookings.bookings;
       }
     );
+  }
+
+  delete(booking) {
+    if (confirm('Voulez-vous vraiment annuler la réservation de ' + booking.userName + ' ?')) {
+      this.eventService.deleteBooking(booking.id).subscribe(
+        () => {
+          this.event.bookings = this.event.bookings.filter((a: EventBooking) => a.id !== booking.id);
+          this.event = Object.assign({}, this.event);
+          this.infoService.pushSuccess('Réservation annulée');
+        },
+        (error) => {
+          this.event = Object.assign({}, this.event);
+        }
+      );
+    }
   }
 
   selectUser(event) {

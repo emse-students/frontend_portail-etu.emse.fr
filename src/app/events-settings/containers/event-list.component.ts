@@ -3,6 +3,8 @@ import {Booking, BookingRanked, Event, EventBooking} from '../../core/models/eve
 import {FormInput} from '../../core/models/form.model';
 import {environment} from '../../../environments/environment';
 import {BookingFilter} from '../components/booking-filter.component';
+import {EventService} from '../../core/services/event.service';
+import {InfoService} from '../../core/services/info.service';
 
 @Component({
   selector: 'app-event-list',
@@ -16,6 +18,7 @@ import {BookingFilter} from '../components/booking-filter.component';
                          [bookings]="filteredBookings"
                          [filter]="searchQuery"
                          (selectUser)="select($event)"
+                         (deleteBooking)="delete($event)"
                          *ngIf="filteredBookings">
     </app-registered-list>
   `,
@@ -23,9 +26,17 @@ import {BookingFilter} from '../components/booking-filter.component';
 })
 export class EventListComponent implements OnInit {
   @Output() selectUser = new EventEmitter<any>();
+  @Output() deleteBooking = new EventEmitter<BookingRanked>();
 
-
-  @Input() event: Event;
+  _event: Event;
+  @Input()
+  set event(event: Event) {
+    this._event = event;
+    const bookings = this.event.bookings.sort((a: EventBooking, b: EventBooking) => a.createdAt > b.createdAt ? 1 : -1);
+    this.rankedBookings = EventListComponent.rank(bookings);
+    this.filteredBookings = this.rankedBookings;
+  }
+  get event() {return this._event; }
   filteredBookings: BookingRanked[];
   rankedBookings: BookingRanked[];
   searchQuery = '';
@@ -83,11 +94,7 @@ export class EventListComponent implements OnInit {
     return false;
   }
 
-  ngOnInit() {
-    const bookings = this.event.bookings.sort((a: EventBooking, b: EventBooking) => a.createdAt > b.createdAt ? 1 : -1);
-    this.rankedBookings = EventListComponent.rank(bookings);
-    this.filteredBookings = this.rankedBookings;
-  }
+  ngOnInit() {}
 
   search(event: string) {
     this.searchQuery = event;
@@ -121,5 +128,9 @@ export class EventListComponent implements OnInit {
 
   select(event) {
     this.selectUser.emit(event);
+  }
+
+  delete(booking: BookingRanked) {
+    this.deleteBooking.emit(booking);
   }
 }

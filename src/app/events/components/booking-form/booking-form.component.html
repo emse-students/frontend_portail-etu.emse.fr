@@ -57,9 +57,11 @@
   <p *ngIf="paid.value && lastPrice === totalPrice()">Événement déjà payé</p>
   <p *ngIf="paid.value && lastPrice !== totalPrice()">
     Vous avez déjà payé {{lastPrice | currency:'EUR':'symbol':'1.2-2':'fr'}}, le nouveau prix est {{totalPrice() | currency:'EUR':'symbol':'1.2-2':'fr'}}.<br>
-    Le nouveau prix va être appliqué automatiquement.
+    <span *ngIf="bdePayment.value">Le nouveau prix va être appliqué automatiquement.</span>
   </p>
   <mat-error *ngIf="form.invalid">{{getErrorMessage(form)}}</mat-error>
+
+  <p *ngIf="relatedEvent.collectLink">Merci de payer en cliquant sur le lien suivant : <a href="{{relatedEvent.collectLink}}">Collecte Lydia</a> </p>
 
   <p *ngIf="relatedEvent.shotgunListLength && (relatedEvent.shotgunStartingDate.getTime()-now.getTime()) >= 1000">
     Ouverture du shotgun dans {{relatedEvent.shotgunStartingDate-now | dateDifference}}

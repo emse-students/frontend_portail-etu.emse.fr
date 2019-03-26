@@ -19,7 +19,6 @@ interface BoolPaymentMeans {
   styleUrls: ['./event-form.component.scss']
 })
 export class EventFormComponent implements OnInit {
-  boolPaymentMeans: BoolPaymentMeans[];
   @Input() isAdmin: boolean;
   @Input() asso: AssociationLight;
   @Input() allPaymentMeans: PaymentMeans[];
@@ -66,6 +65,9 @@ export class EventFormComponent implements OnInit {
   get status() { return this.form.get('status'); }
   get open() { return this.form.get('open'); }
   get img() { return this.form.get('img'); }
+  get collectLink() { return this.form.get('collectLink'); }
+  get boolPaymentMeans() { return this.form.get('boolPaymentMeans') as FormArray; }
+  boolPaymentMean(i) { return this.boolPaymentMeans.controls[i]; }
 
   constructor(private fb: FormBuilder, private fileUploadService: FileUploadService) {}
 
@@ -82,8 +84,8 @@ export class EventFormComponent implements OnInit {
         this.paymentMeans.setValue([]);
       } else {
         this.paymentMeans.patchValue(
-          this.boolPaymentMeans
-            .map((v) => v.selected ? environment.api_uri + '/payment_means/' + v.paymentMeans.id : null)
+          this.boolPaymentMeans.controls
+            .map((v) => v.get('selected').value ? environment.api_uri + '/payment_means/' + v.get('paymentMeans').value.id : null)
             .filter(v => v !== null)
         );
       }
@@ -113,6 +115,7 @@ export class EventFormComponent implements OnInit {
       this.form.removeControl('hourDate');
       this.form.removeControl('hourShotgunStartingDate');
       this.form.removeControl('hourClosingDate');
+      this.form.removeControl('boolPaymentMeans');
       this.submitted.emit(this.form.value);
     }
   }
@@ -140,8 +143,10 @@ export class EventFormComponent implements OnInit {
       formInputs: this.fb.array([]),
       status: ['new'],
       open: [true],
-      img: [null]
-    }, {validators: this.shotgunRequired()});
+      img: [null],
+      collectLink: [''],
+      boolPaymentMeans: this.fb.array([])
+    }, {validators: [this.shotgunRequired(), this.collectLinkRequired()] });
   }
 
   addFormInput() {
@@ -172,11 +177,12 @@ export class EventFormComponent implements OnInit {
     this.options(inputIndex).removeAt(optionIndex);
   }
 
-  getErrorMessage(formControl: FormControl | FormGroup) {
+  getErrorMessage(formControl: FormControl | FormGroup | AbstractControl) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' :
       formControl.hasError('noShotgunDate') ? 'Indiquez une date de début de shotgun' :
         formControl.hasError('noShotgunList') ? 'Le nombre de place au shotgun doit être supérieur à 0' :
-          formControl.hasError('noShotgunListInt') ? 'Le nombre de place au shotgun doit être un entier' : '';
+          formControl.hasError('noShotgunListInt') ? 'Le nombre de place au shotgun doit être un entier' :
+            formControl.hasError('noCollectLink') ? 'Indiquez un lien de collect Lydia' : '';
   }
 
   shotgunRequired(): ValidatorFn {
@@ -190,6 +196,22 @@ export class EventFormComponent implements OnInit {
         }
         if (this.shotgunListLength.value !== Math.floor(this.shotgunListLength.value)) {
           return {'noShotgunListInt': {value: this.shotgunListLength.value}};
+        }
+        return null;
+      } else {
+        return null;
+      }
+    };
+  }
+
+  collectLinkRequired(): ValidatorFn {
+    return (control: AbstractControl): {[key: string]: any} | null => {
+      if (this.form && this.boolPaymentMeans && this.collectLink) {
+        for (let i = 0; i < this.boolPaymentMeans.controls.length; i++) {
+          if (this.boolPaymentMean(i).get('paymentMeans').value.id === 7 &&
+            this.boolPaymentMean(i).get('selected').value && !this.collectLink.value) {
+            return {'noCollectLink': {value: this.collectLink.value}};
+          }
         }
         return null;
       } else {
@@ -234,12 +256,23 @@ export class EventFormComponent implements OnInit {
         );
       }
       if (this._event.paymentMeans) {
-        this.boolPaymentMeans = this.allPaymentMeans.map(c => ({
-          selected: this._event.paymentMeans.map(r => r.id).includes(c.id),
-          paymentMeans: c
-        }));
+        this.allPaymentMeans.map(c => {
+          this.boolPaymentMeans.push(
+            this.fb.group({
+              selected: [this._event.paymentMeans.map(r => r.id).includes(c.id)],
+              paymentMeans: [c]
+            })
+          );
+        });
       } else {
-        this.boolPaymentMeans = this.allPaymentMeans.map(c => ({selected: false, paymentMeans: c}));
+        this.allPaymentMeans.map(c => {
+          this.boolPaymentMeans.push(
+            this.fb.group({
+              selected: [false],
+              paymentMeans: [c]
+            })
+          );
+        });
       }
       for (let i = 0; i < this._event.formInputs.length; i++) {
         this.formInputs.push(
@@ -262,7 +295,14 @@ export class EventFormComponent implements OnInit {
         }
       }
     } else {
-      this.boolPaymentMeans = this.allPaymentMeans.map(c => ({selected: false, paymentMeans: c}));
+      this.allPaymentMeans.map(c => {
+        this.boolPaymentMeans.push(
+          this.fb.group({
+            selected: [false],
+            paymentMeans: [c]
+          })
+        );
+      });
     }
   }
 

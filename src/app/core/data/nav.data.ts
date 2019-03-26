@@ -19,5 +19,9 @@ export const NAV_LINKS: NavLink[] = [
   {
     label: 'Site Cercle',
     link: 'https://portail-etu.emse.fr/cercle/'
+  },
+  {
+    label: 'Réservation des salles de la Me',
+    link: 'http://reservationcome.me-mines-saint-etienne.org/'
   }
 ];

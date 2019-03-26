@@ -2,6 +2,7 @@ import { Component } from '@angular/core';
 import {MatSnackBar} from '@angular/material';
 import {InfoService} from '../services/info.service';
 import {Info} from '../models/info.model';
+import {CustomSnackbarComponent} from './custom-snackbar.component';
 
 
 @Component({
@@ -37,11 +38,17 @@ export class InfoComponent {
   displaySnackBar() {
     const info = this.infos[0];
     const message = info.code ? info.code + ' : ' + info.message : info.message;
-    const snackBar = this.snackBar.open(message, 'Ok', {
+    const snackBar = this.snackBar.openFromComponent(CustomSnackbarComponent, {
+      data: message,
       verticalPosition: 'top',
-      duration: info.type === 'error' ? 20000 : 5000,
+      duration: info.type === 'error' ? 20000 : 'info' ? 10000 : 2000,
       panelClass: [info.type + '-snackbar']
     });
+    // const snackBar = this.snackBar.open(message, 'Ok', {
+    //   verticalPosition: 'top',
+    //   duration: info.type === 'error' ? 20000 : 5000,
+    //   panelClass: [info.type + '-snackbar']
+    // });
     snackBar.afterDismissed().subscribe(() => {
       this.infos.shift();
       if (this.infos.length > 0) {

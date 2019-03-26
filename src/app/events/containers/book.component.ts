@@ -127,8 +127,12 @@ export class BookComponent implements OnInit {
     this.eventService.book(newBooking).subscribe(
       () => {
         this.userService.book(this.event.id);
-        this.infoService.pushSuccess('Réservation effectuée');
         this.pending = false;
+        if (this.event.price && this.event.collectLink) {
+          this.infoService.pushInfo('Avez vous payé ?<br> Payez en cliquant sur ce lien <a href="' +
+            this.event.collectLink + '">Collecte Lydia</a>');
+        }
+        this.infoService.pushSuccess('Réservation effectuée');
         if (this.event.shotgunListLength) {
           this.router.navigate(['events', this.event.id, 'list']);
         } else {

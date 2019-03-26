@@ -89,7 +89,7 @@ export class SettingsPaymentMeansFormComponent implements OnInit {
     }
   }
 
-  getErrorMessage(formControl: FormControl) {
+  getErrorMessage(formControl: FormControl | AbstractControl) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' : '';
   }
 }

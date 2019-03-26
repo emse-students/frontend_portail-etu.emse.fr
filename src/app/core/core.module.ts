@@ -17,6 +17,7 @@ import {HTTP_INTERCEPTORS} from '@angular/common/http';
 import {MenuListItemComponent} from './components/menu-list-item/menu-list-item.component';
 import {AdminGuard, AuthGuard} from './services/auth-guard.service';
 import {HomeComponent} from './components/home/home.component';
+import {CustomSnackbarComponent} from './components/custom-snackbar.component';
 
 
 
@@ -26,7 +27,8 @@ export const COMPONENTS = [
   NotFoundPageComponent,
   InfoComponent,
   MenuListItemComponent,
-  HomeComponent
+  HomeComponent,
+  CustomSnackbarComponent
 ];
 
 export const SERVICES = [
@@ -48,6 +50,9 @@ export const SERVICES = [
   ],
   declarations: COMPONENTS,
   exports: COMPONENTS,
+  entryComponents: [
+    CustomSnackbarComponent
+  ]
 })
 export class CoreModule {
 

@@ -39,7 +39,7 @@ export class ImgUploadFormComponent implements OnInit {
     }
   }
 
-  getErrorMessage(formControl: FormControl) {
+  getErrorMessage(formControl: FormControl | AbstractControl) {
     if ( this.filetouched ) {
       return formControl.hasError('required') ? 'Veuillez charger un fichier' :
         formControl.hasError('fileNotValid') ? 'Le fichier n\'est pas une image valide' : '';

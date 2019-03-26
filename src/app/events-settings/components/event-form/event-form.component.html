@@ -96,9 +96,22 @@
 
   <ng-container *ngIf="payable.value">
     <h3 >Moyens de paiements :</h3>
-    <div *ngFor="let paymentMean of boolPaymentMeans">
-      <mat-checkbox  [(ngModel)]="paymentMean.selected" [ngModelOptions]="{standalone: true}" *ngIf="paymentMean.paymentMeans.id !== 2">{{paymentMean.paymentMeans.name}}</mat-checkbox>
-    </div>
+    <ng-container formArrayName="boolPaymentMeans">
+      <ng-container *ngFor="let paymentMean of boolPaymentMeans.controls; let i=index"  [formGroupName]="i">
+        <div>
+          <mat-checkbox formControlName="selected"
+                        *ngIf="paymentMean.get('paymentMeans').value.id !== 2">
+            {{paymentMean.get('paymentMeans').value.name}}
+          </mat-checkbox>
+        </div>
+      </ng-container>
+    </ng-container>
+    <ng-container *ngFor="let paymentMean of boolPaymentMeans.controls;">
+      <mat-form-field class="w-100" *ngIf="paymentMean.get('paymentMeans').value.id === 7 && paymentMean.get('selected').value">
+        <input type="text" matInput placeholder="Lien de la collecte Lydia" formControlName="collectLink">
+        <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
+      </mat-form-field>
+    </ng-container>
   </ng-container>
 
   <mat-slide-toggle color="primary" formControlName="shotgun">Événement au shotgun ?</mat-slide-toggle>
@@ -122,8 +135,8 @@
       <mat-error *ngIf="hourShotgunStartingDate.invalid">{{getErrorMessage(hourShotgunStartingDate)}}</mat-error>
     </mat-form-field>
   </div>
-  <p>Attention, sur Safari le champs heure marche mal ! Mettez l'heure sous forme HH:MM</p>
-  <mat-error *ngIf="getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
+  <p *ngIf="shotgun.value">Attention, sur Safari le champs heure marche mal ! Mettez l'heure sous forme HH:MM</p>
+  <mat-error *ngIf="shotgun.value && getErrorMessage(form)">{{getErrorMessage(form)}}</mat-error>
   <p *ngIf="shotgun.value && shotgunStartingDate.value">Le {{ shotgunStartingDate.value | date: 'EEEE d M' | translateDay}}<span *ngIf="hourShotgunStartingDate.value"> à {{hourShotgunStartingDate.value.split(':')[0]}}h{{hourShotgunStartingDate.value.split(':')[1]}}</span></p>
   <mat-slide-toggle color="primary" formControlName="shotgunWaitingList" *ngIf="shotgun.value">Liste d'attente ?</mat-slide-toggle>
   <p *ngIf="shotgun.value && shotgunWaitingList.value">Les utilisateurs sont autorisés à continuer de s'incrire une fois le nombre de places atteint et les mettre en liste d'attente</p>

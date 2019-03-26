@@ -290,7 +290,7 @@ export class BookingFormComponent implements OnInit {
     }
   }
 
-  getErrorMessage(formControl: FormControl) {
+  getErrorMessage(formControl: FormControl | AbstractControl) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' :
       formControl.hasError('accountToLow') ? 'Votre compte BDE ne contient pas assez d\'argent' : '';
   }

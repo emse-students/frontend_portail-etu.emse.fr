@@ -25,6 +25,7 @@ export interface Event {
   status: string;
   bookings?: EventBooking[];
   countBookings: number;
+  collectLink: string;
 }
 
 export interface EventLight {
@@ -59,6 +60,7 @@ export interface NewEvent {
   formInputs: NewFormInput[];
   status: string;
   img: string;
+  collectLink: string;
 }
 
 export interface Booking {

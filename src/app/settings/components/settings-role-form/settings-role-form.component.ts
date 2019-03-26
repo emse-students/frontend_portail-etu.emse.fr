@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Right, Role} from '../../../core/models/role.model';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import {UrlSafeStringService} from '../../../core/services/url-safe-string.service';
 import {environment} from '../../../../environments/environment';
 

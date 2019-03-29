@@ -3,6 +3,8 @@ import {Booking, BookingRanked, Event} from '../../core/models/event.model';
 import {AuthService} from '../../core/services/auth.service';
 import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {AuthenticatedUser} from '../../core/models/auth.model';
+import {FormInput} from '../../core/models/form.model';
+import {environment} from '../../../environments/environment';
 
 @Component({
   selector: 'app-registered-list',
@@ -41,6 +43,13 @@ import {AuthenticatedUser} from '../../core/models/auth.model';
         <td mat-cell *matCellDef="let element">
           <mat-icon class="green-icon" *ngIf="element.checked">check_circle</mat-icon>
           <mat-icon color="warn" *ngIf="!element.checked">cancel</mat-icon>
+        </td>
+      </ng-container>
+
+      <ng-container matColumnDef="{{'input_' + i}}" *ngFor="let input of displayedInputs; let i = index;">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>{{input.title}}</th>
+        <td mat-cell *matCellDef="let element">
+          {{resolveAnswer(element, input)}}
         </td>
       </ng-container>
 
@@ -99,6 +108,20 @@ export class RegisteredListComponent implements OnInit {
     //   start: 'asc'
     // });
   }
+  _displayedInputs: FormInput[];
+  @Input()
+  set displayedInputs(inputs: FormInput[]) {
+    this._displayedInputs = inputs;
+    this.displayedColumns = this.event.price && this.event.shotgunListLength ?
+      ['rank', 'createdAt', 'userName', 'paid', 'checked', 'select', 'delete'] :
+      this.event.price ? ['userName', 'paid', 'checked', 'select', 'delete'] :
+        this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select', 'delete'] :
+          ['userName', 'checked', 'select', 'delete'] ;
+    for (let i = 0; i < inputs.length; i++) {
+      this.displayedColumns.push('input_' + i);
+    }
+  }
+  get displayedInputs() { return this._displayedInputs; }
 
   get bookings() {return this._bookings; }
 
@@ -122,6 +145,15 @@ export class RegisteredListComponent implements OnInit {
       this.event.price ? ['userName', 'paid', 'checked', 'select', 'delete'] :
       this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select', 'delete'] :
       ['userName', 'checked', 'select', 'delete'] ;
+    this.dataSource.sortingDataAccessor = (item: BookingRanked, property) => {
+      const re = new RegExp('input_(.*)');
+      const id = re.exec(property)['1'];
+      if (id) {
+        return this.resolveAnswer(item, this.displayedInputs[id]);
+      } else {
+        return item[property];
+      }
+    };
   }
 
   select(booking: BookingRanked) {
@@ -139,5 +171,26 @@ export class RegisteredListComponent implements OnInit {
 
   delete(booking: BookingRanked) {
     this.deleteBooking.emit(booking);
+  }
+
+  resolveAnswer(element: BookingRanked, input: FormInput) {
+    for (let i = 0; i < element.formOutputs.length; i++) {
+      const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
+      const id = re.exec(element.formOutputs[i].formInput)['1'];
+      if (input.id === Number(id)) {
+        if (input.type === 'singleOption') {
+          return element.formOutputs[i].options[0].value;
+        } else if (input.type === 'multipleOptions') {
+          let str = '';
+          for (let j = 0; j < element.formOutputs[i].options.length; j++) {
+            if (str) {
+              str += ', ';
+            }
+            str += element.formOutputs[i].options[j].value;
+          }
+          return str;
+        }
+      }
+    }
   }
 }

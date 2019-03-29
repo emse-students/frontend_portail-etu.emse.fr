@@ -13,7 +13,9 @@ export class EventService {
   constructor (private http: HttpClient, private jsonLdService: JsonLdService) {}
 
   static parseDates (event: Event): Event {
-    event.date = new Date(event.date);
+    if ( event.date) {
+      event.date = new Date(event.date);
+    }
     if (event.closingDate) {
       event.closingDate = new Date(event.closingDate);
     }
@@ -26,6 +28,9 @@ export class EventService {
   static parseBookingDates (booking: EventBooking): EventBooking {
     if (booking.createdAt) {
       booking.createdAt = new Date(booking.createdAt);
+    }
+    if (booking.event) {
+      booking.event = EventService.parseDates(booking.event);
     }
     return booking;
   }
@@ -57,9 +62,11 @@ export class EventService {
     return this.http.put<Event>(url, event).pipe(map(EventService.parseDates));
   }
 
-  public book(booking: NewBooking): Observable<Booking> {
+  public book(booking: NewBooking): Observable<EventBooking> {
     const url = `${environment.api_url}/bookings`;
-    return this.http.post<Booking>(url, booking);
+    return this.http.post<EventBooking>(url, booking).pipe(
+      map(b => EventService.parseBookingDates(b))
+    );
   }
 
   public getBooking(bookingId: number): Observable<Booking> {

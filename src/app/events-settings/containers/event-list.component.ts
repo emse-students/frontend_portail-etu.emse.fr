@@ -19,6 +19,7 @@ import {InfoService} from '../../core/services/info.service';
                          [filter]="searchQuery"
                          (selectUser)="select($event)"
                          (deleteBooking)="delete($event)"
+                         [displayedInputs] = "displayedInputs"
                          *ngIf="filteredBookings">
     </app-registered-list>
   `,
@@ -40,6 +41,7 @@ export class EventListComponent implements OnInit {
   filteredBookings: BookingRanked[];
   rankedBookings: BookingRanked[];
   searchQuery = '';
+  displayedInputs: FormInput[] = [];
 
 
   constructor() { }
@@ -101,6 +103,13 @@ export class EventListComponent implements OnInit {
   }
 
   filter(filter: BookingFilter) {
+    console.log(filter);
+    this.displayedInputs = [];
+    for (let i = 0; i < filter.inputs.length; i++) {
+      if ( filter.inputs[i].displayColumn ) {
+        this.displayedInputs.push(filter.inputs[i].formInput);
+      }
+    }
     this.filteredBookings = this.rankedBookings.filter((a: BookingRanked) => {
         let pass = true;
         if (filter.checked === 1 && !a.checked) {

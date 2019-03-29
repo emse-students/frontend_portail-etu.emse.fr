@@ -15,8 +15,14 @@ interface Income {
   styleUrls: ['./event-summary.component.scss']
 })
 export class EventSummaryComponent implements OnInit {
-
-  @Input() event: Event;
+  _event: Event;
+  @Input()
+  set event(event: Event) {
+    console.log('set Event');
+    this._event = event;
+    this.compute();
+  }
+  get event() { return this._event; }
   theoricalIncome: number;
   realIncomeTotal: number;
   realIncome: Income[];

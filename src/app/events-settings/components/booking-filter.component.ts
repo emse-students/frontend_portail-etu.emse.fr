@@ -6,6 +6,7 @@ export interface BookingFilterInput {
   formInput: FormInput;
   selectedOption?: Option;
   selectedOptions?: Option[];
+  displayColumn: boolean;
   opened?: boolean;
 }
 
@@ -57,6 +58,11 @@ export interface BookingFilter {
         </mat-form-field>
       </ng-container>
     </div>
+    <div class="row justify-content-center">
+      <div *ngFor="let input of filter.inputs; let i = index;">
+        <mat-slide-toggle [(ngModel)]="input.displayColumn" (change)="onChange()">{{input.formInput.title}}</mat-slide-toggle>
+      </div>
+    </div>
   `,
   styles: []
 })
@@ -72,13 +78,15 @@ export class BookingFilterComponent implements OnInit {
       if (this.event.formInputs[i].type === 'singleOption') {
         inputs.push({
           formInput: this.event.formInputs[i],
-          selectedOption: null
+          selectedOption: null,
+          displayColumn: false
         });
       } else if (this.event.formInputs[i].type === 'multipleOptions') {
         inputs.push({
           formInput: this.event.formInputs[i],
           selectedOptions: [],
-          opened: false
+          opened: false,
+          displayColumn: false
 
         });
       }

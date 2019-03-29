@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AuthenticatedUser} from '../../../core/models/auth.model';
+import {AuthenticatedUser, UserLight} from '../../../core/models/auth.model';
 import {FormInput, FormOutput, NewFormOutput, Option} from '../../../core/models/form.model';
 import {PaymentMeans} from '../../../core/models/payment-means.model';
 import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
@@ -20,13 +20,13 @@ interface BoolOption {
 })
 export class BookingFormComponent implements OnInit {
   now: Date;
-  _authenticatedUser: AuthenticatedUser;
+  _authenticatedUser: AuthenticatedUser | UserLight;
   @Input()
-  set authenticatedUser (authenticatedUser: AuthenticatedUser) {
+  set authenticatedUser (authenticatedUser: AuthenticatedUser | UserLight) {
     this._authenticatedUser = authenticatedUser;
     if (authenticatedUser && this.form && this.userName) {
       this.form.removeControl('userName');
-    } else if (!authenticatedUser && this.form && this.userName) {
+    } else if (!authenticatedUser && this.form && !this.userName) {
       this.form.addControl('userName', new FormControl('', Validators.required));
     }
   }
@@ -34,6 +34,7 @@ export class BookingFormComponent implements OnInit {
   @Input() relatedEvent: Event;
   @Input() BDEBalance = 0;
   @Input() isNew;
+  @Input() isFromSetting = false;
   _booking: Booking;
   @Input()
   set booking(booking: Booking) {

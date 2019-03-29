@@ -1,4 +1,4 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Booking, Event, EventBooking, PutBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {UserLight} from '../../core/models/auth.model';
@@ -47,6 +47,7 @@ interface UnregistredUser {
       <div class="col">
         <div>{{unbookedUser.firstname}} {{unbookedUser.lastname}} promo {{unbookedUser.promo}}</div>
         <div>Pas de réservation pour cet utilisateur</div>
+        <button mat-flat-button color="primary" (click)="createBooking(unbookedUser)">Créer une réservation</button>
       </div>
     </div>
     <div class="centrer" *ngIf="pending">
@@ -70,6 +71,7 @@ export class EventCheckingComponent implements OnInit {
   }
   @Input() isAdmin: boolean;
   @Input() paymentMeans: PaymentMeans[];
+  @Output() newBooking = new EventEmitter<UserLight>();
   filteredOptions: Observable<UserLight | UnregistredUser>;
   users;
   booking: EventBooking;
@@ -149,6 +151,10 @@ export class EventCheckingComponent implements OnInit {
         this.unbookedUser = user;
       }
     }
+  }
+
+  createBooking(user) {
+    this.newBooking.emit(user);
   }
 
   clear() {

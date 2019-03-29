@@ -14,6 +14,9 @@ import { EventExcelComponent } from './containers/event-excel.component';
 import { EventListComponent } from './containers/event-list.component';
 import { RegisteredListComponent } from './components/registered-list.component';
 import { BookingFilterComponent } from './components/booking-filter.component';
+import { EventAddBookingComponent } from './containers/event-add-booking.component';
+import {EventsModule} from '../events/events.module';
+import {MatSliderModule} from '@angular/material';
 
 @NgModule({
   declarations: [
@@ -28,11 +31,14 @@ import { BookingFilterComponent } from './components/booking-filter.component';
     EventExcelComponent,
     EventListComponent,
     RegisteredListComponent,
-    BookingFilterComponent
+    BookingFilterComponent,
+    EventAddBookingComponent
   ],
   imports: [
     SharedModule,
-    EventsSettingsRoutingModule
+    EventsSettingsRoutingModule,
+    EventsModule,
+    MatSliderModule
   ],
   entryComponents: [
     EventSummaryComponent,

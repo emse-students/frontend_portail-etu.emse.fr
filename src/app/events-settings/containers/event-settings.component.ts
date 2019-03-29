@@ -35,7 +35,7 @@ import {InfoService} from '../../core/services/info.service';
             <mat-card>
               <mat-card-title>Checking</mat-card-title>
 
-              <app-event-checking [event]="event" [selectedUser]="selectedUser">
+              <app-event-checking [event]="event" [selectedUser]="selectedUser" (newBooking)="selectUserToAddBooking($event)">
               </app-event-checking>
             </mat-card>
           </mat-tab>
@@ -54,33 +54,47 @@ import {InfoService} from '../../core/services/info.service';
           </mat-tab>
 
           <mat-tab>
-          <ng-template mat-tab-label>
-            <span class="mat-tab-label" (click)="goTo('modify')">Modifier</span>
-          </ng-template>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('modify')">Modifier</span>
+            </ng-template>
 
-          <mat-card>
-            <mat-card-title>Modifier</mat-card-title>
+            <mat-card>
+              <mat-card-title>Modifier</mat-card-title>
 
-            <app-event-modify [event]="event"
-                         [isAdmin]="authService.isAdmin()"
-                         [paymentMeans]="paymentMeans"
-                         (refreshEvent)="refreshEvent($event)">
-            </app-event-modify>
-          </mat-card>
-        </mat-tab>
+              <app-event-modify [event]="event"
+                           [isAdmin]="authService.isAdmin()"
+                           [paymentMeans]="paymentMeans"
+                           (refreshEvent)="refreshEvent($event)">
+              </app-event-modify>
+            </mat-card>
+          </mat-tab>
 
-        <mat-tab>
-          <ng-template mat-tab-label>
-            <span class="mat-tab-label" (click)="goTo('excel')">Excel</span>
-          </ng-template>
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('add-booking')">Nouvelle réservation</span>
+            </ng-template>
 
-          <mat-card>
-            <mat-card-title>Excel</mat-card-title>
+            <mat-card>
+              <mat-card-title>Nouvelle réservation</mat-card-title>
 
-            <app-event-excel [event]="event">
-            </app-event-excel>
-          </mat-card>
-        </mat-tab>
+              <app-event-add-booking [event]="event"
+                                (addBooking)="addBooking($event)" [selectedUser]="selectedUserToAddBooking">
+              </app-event-add-booking>
+            </mat-card>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('excel')">Excel</span>
+            </ng-template>
+
+            <mat-card>
+              <mat-card-title>Excel</mat-card-title>
+
+              <app-event-excel [event]="event">
+              </app-event-excel>
+            </mat-card>
+          </mat-tab>
         </mat-tab-group>
       </mat-card>
       <mat-card *ngIf="loaded && unauthorized">
@@ -103,6 +117,7 @@ import {InfoService} from '../../core/services/info.service';
 })
 export class EventSettingsComponent implements OnInit {
   selectedUser = null;
+  selectedUserToAddBooking = null;
   unauthorized = false;
   loaded;
   paymentMeansLoaded = false;
@@ -141,7 +156,7 @@ export class EventSettingsComponent implements OnInit {
           this.event = event;
           this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
               this.event.bookings = eventWithBookings.bookings;
-              // console.log(this.event);
+              console.log(this.event.bookings);
               this.unauthorized = !this.authService.hasAssoRight(3, event.association.id) && !this.authService.isAdmin();
               this.loaded = true;
             }
@@ -170,8 +185,11 @@ export class EventSettingsComponent implements OnInit {
     if (confirm('Voulez-vous vraiment annuler la réservation de ' + booking.userName + ' ?')) {
       this.eventService.deleteBooking(booking.id).subscribe(
         () => {
-          this.event.bookings = this.event.bookings.filter((a: EventBooking) => a.id !== booking.id);
-          this.event = Object.assign({}, this.event);
+          const bookings = this.event.bookings.filter((a: EventBooking) => a.id !== booking.id);
+          this.eventService.get(this.event.id).subscribe((event: Event) => {
+            this.event = event;
+            this.event.bookings = bookings;
+          });
           this.infoService.pushSuccess('Réservation annulée');
         },
         (error) => {
@@ -181,9 +199,23 @@ export class EventSettingsComponent implements OnInit {
     }
   }
 
-  selectUser(event) {
-    this.selectedUser = event;
+  addBooking(booking) {
+    this.event.bookings.push(booking);
+    const bookings = this.event.bookings;
+    this.eventService.get(this.event.id).subscribe((event: Event) => {
+      this.event = event;
+      this.event.bookings = bookings;
+    });
+  }
+
+  selectUser(user) {
+    this.selectedUser = user;
     this.goTo('checking');
+  }
+
+  selectUserToAddBooking(user) {
+    this.selectedUserToAddBooking = user;
+    this.goTo('add-booking');
   }
 
   strIdToTabId(strId: string): number {
@@ -196,8 +228,10 @@ export class EventSettingsComponent implements OnInit {
         return 2;
       case 'modify':
         return 3;
-      case 'excel':
+      case 'add-booking':
         return 4;
+      case 'excel':
+        return 5;
     }
   }
 }

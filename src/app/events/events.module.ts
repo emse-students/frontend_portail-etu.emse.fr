@@ -29,6 +29,9 @@ import { EventBookingsListComponent } from './components/event-bookings-list.com
   imports: [
     SharedModule,
     EventsRoutingModule
+  ],
+  exports: [
+    BookingFormComponent
   ]
 })
 export class EventsModule { }

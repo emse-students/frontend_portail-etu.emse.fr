@@ -177,7 +177,7 @@ export class RegisteredListComponent implements OnInit {
     for (let i = 0; i < element.formOutputs.length; i++) {
       const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
       const id = re.exec(element.formOutputs[i].formInput)['1'];
-      if (input.id === Number(id)) {
+      if (input && input.id === Number(id)) {
         if (input.type === 'singleOption') {
           return element.formOutputs[i].options[0].value;
         } else if (input.type === 'multipleOptions') {

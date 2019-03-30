@@ -156,7 +156,7 @@ export class EventSettingsComponent implements OnInit {
           this.event = event;
           this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
               this.event.bookings = eventWithBookings.bookings;
-              console.log(this.event.bookings);
+              // console.log(this.event.bookings);
               this.unauthorized = !this.authService.hasAssoRight(3, event.association.id) && !this.authService.isAdmin();
               this.loaded = true;
             }

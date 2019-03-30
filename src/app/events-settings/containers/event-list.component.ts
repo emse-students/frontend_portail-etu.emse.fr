@@ -103,7 +103,7 @@ export class EventListComponent implements OnInit {
   }
 
   filter(filter: BookingFilter) {
-    console.log(filter);
+    // console.log(filter);
     this.displayedInputs = [];
     for (let i = 0; i < filter.inputs.length; i++) {
       if ( filter.inputs[i].displayColumn ) {

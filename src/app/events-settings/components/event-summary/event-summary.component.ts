@@ -18,7 +18,6 @@ export class EventSummaryComponent implements OnInit {
   _event: Event;
   @Input()
   set event(event: Event) {
-    console.log('set Event');
     this._event = event;
     this.compute();
   }

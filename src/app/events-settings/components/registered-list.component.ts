@@ -5,6 +5,7 @@ import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
 import {AuthenticatedUser} from '../../core/models/auth.model';
 import {FormInput} from '../../core/models/form.model';
 import {environment} from '../../../environments/environment';
+import {DisplayedColumns} from '../containers/event-list.component';
 
 @Component({
   selector: 'app-registered-list',
@@ -38,6 +39,13 @@ import {environment} from '../../../environments/environment';
         </td>
       </ng-container>
 
+      <ng-container matColumnDef="paymentMeans">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Moyens de paiement</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.paymentMeans ? element.paymentMeans.name : ''}}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="checked">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Checké ?</th>
         <td mat-cell *matCellDef="let element">
@@ -46,7 +54,7 @@ import {environment} from '../../../environments/environment';
         </td>
       </ng-container>
 
-      <ng-container matColumnDef="{{'input_' + i}}" *ngFor="let input of displayedInputs; let i = index;">
+      <ng-container matColumnDef="{{'input_' + i}}" *ngFor="let input of displayedCol.inputs; let i = index;">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>{{input.title}}</th>
         <td mat-cell *matCellDef="let element">
           {{resolveAnswer(element, input)}}
@@ -108,20 +116,38 @@ export class RegisteredListComponent implements OnInit {
     //   start: 'asc'
     // });
   }
-  _displayedInputs: FormInput[];
+  _displayedCol: DisplayedColumns;
   @Input()
-  set displayedInputs(inputs: FormInput[]) {
-    this._displayedInputs = inputs;
-    this.displayedColumns = this.event.price && this.event.shotgunListLength ?
-      ['rank', 'createdAt', 'userName', 'paid', 'checked', 'select', 'delete'] :
-      this.event.price ? ['userName', 'paid', 'checked', 'select', 'delete'] :
-        this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select', 'delete'] :
-          ['userName', 'checked', 'select', 'delete'] ;
-    for (let i = 0; i < inputs.length; i++) {
+  set displayedCol(dCol: DisplayedColumns) {
+    this._displayedCol = dCol;
+    this.displayedColumns = [];
+    if (this.event.shotgunListLength && dCol.rank) {
+      this.displayedColumns.push('rank');
+    }
+    if (dCol.createdAt) {
+      this.displayedColumns.push('createdAt');
+    }
+    this.displayedColumns.push('userName');
+    if (this.event.price && dCol.paid) {
+      this.displayedColumns.push('paid');
+    }
+    if (this.event.price && dCol.paymentMeans) {
+      this.displayedColumns.push('paymentMeans');
+    }
+    if (dCol.checked) {
+      this.displayedColumns.push('checked');
+    }
+    for (let i = 0; i < dCol.inputs.length; i++) {
       this.displayedColumns.push('input_' + i);
     }
+    if (dCol.see) {
+      this.displayedColumns.push('select');
+    }
+    if (dCol.cancel) {
+      this.displayedColumns.push('delete');
+    }
   }
-  get displayedInputs() { return this._displayedInputs; }
+  get displayedCol() { return this._displayedCol; }
 
   get bookings() {return this._bookings; }
 
@@ -147,9 +173,11 @@ export class RegisteredListComponent implements OnInit {
       ['userName', 'checked', 'select', 'delete'] ;
     this.dataSource.sortingDataAccessor = (item: BookingRanked, property) => {
       const re = new RegExp('input_(.*)');
-      const id = re.exec(property)['1'];
-      if (id) {
-        return this.resolveAnswer(item, this.displayedInputs[id]);
+      if (re.exec(property)) {
+        const id = re.exec(property)['1'];
+        return this.resolveAnswer(item, this.displayedCol.inputs[id]);
+      } else if (property === 'paymentMeans' && item.paymentMeans) {
+        return item.paymentMeans.name;
       } else {
         return item[property];
       }

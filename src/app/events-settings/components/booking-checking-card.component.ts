@@ -25,6 +25,13 @@ import {InfoService} from '../../core/services/info.service';
         <div class="text-center" *ngIf="booking.paid">
           {{price() | currency:'EUR':'symbol':'1.0-2':'fr'}} par {{booking.paymentMeans.name}}
         </div>
+        <div class="row justify-content-center">
+          <button  class="m-1" mat-flat-button color="warn"
+                   *ngIf="booking.paid"
+                   (click)="unpay()">
+            Annuler le paiement
+          </button>
+        </div>
         <div class="d-flex justify-content-around align-items-center m-3" *ngIf="!booking.paid">
           <mat-icon color="warn">cancel</mat-icon>
           <div>Non payé</div>
@@ -200,6 +207,36 @@ export class BookingCheckingCardComponent implements OnInit {
           }
           this.paid.emit(this.booking);
           this.infoService.pushSuccess('Paiement effectué');
+        },
+        (error) => {
+          this.pending = false;
+        }
+      );
+    }
+  }
+
+  unpay() {
+    if (confirm('Voulez-vous annuler le payement ?')) {
+      this.pending = true;
+      const booking = {
+        id: this.booking.id,
+        paid: false,
+        paymentMeans: null,
+        operation: null,
+        checked: false
+      };
+      // console.log(booking);
+      this.eventService.putBook(booking).subscribe(
+        (b: Booking) => {
+          // console.log(b);
+          this.pending = false;
+          this.booking.paid = false;
+          this.booking.paymentMeans = null;
+          this.booking.operation = null;
+          this.booking.checked = false;
+
+          this.paid.emit(this.booking);
+          this.infoService.pushSuccess('Paiement annulé');
         },
         (error) => {
           this.pending = false;

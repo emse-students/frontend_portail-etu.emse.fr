@@ -154,6 +154,7 @@ export class EventCheckingComponent implements OnInit {
   }
 
   createBooking(user) {
+    this.clear();
     this.newBooking.emit(user);
   }
 

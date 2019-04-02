@@ -14,7 +14,7 @@
     <a [routerLink]="'/events/'+event.id+'/book'" *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today && (event.status != 'inactive' || isRightful)">
       <button mat-flat-button color="primary">S'inscrire</button>
     </a>
-    <button mat-flat-button color="accent" disabled *ngIf="allReadyBooked">Déjà inscris</button>
+    <button mat-flat-button color="accent" disabled *ngIf="allReadyBooked">Déjà inscrit</button>
     <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && !(event.date < today) && (event.closingDate && event.closingDate < today)">Deadline passée</button>
     <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && event.date < today">Événement passé</button>
   </div>

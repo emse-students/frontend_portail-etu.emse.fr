@@ -48,7 +48,8 @@ import {InfoService} from '../../core/services/info.service';
             <mat-card>
               <mat-card-title>Liste</mat-card-title>
 
-              <app-event-list [event]="event" (selectUser)="selectUser($event)" (deleteBooking)="delete($event)">
+              <app-event-list [event]="event" [paymentMeans]="paymentMeans"
+                              (selectUser)="selectUser($event)" (deleteBooking)="delete($event)">
               </app-event-list>
             </mat-card>
           </mat-tab>

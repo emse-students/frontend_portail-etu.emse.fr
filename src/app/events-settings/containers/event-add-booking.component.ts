@@ -140,10 +140,11 @@ export class EventAddBookingComponent implements OnInit {
     // setTimeout(() => {this.pending = false; }, 2000);
     this.eventService.book(newBooking).subscribe(
       (booking) => {
-        console.log(booking);
+        // console.log(booking);
         this.addBooking.emit(booking);
         this.pending = false;
         this.infoService.pushSuccess('Réservation effectuée');
+        this.clear();
       },
       (error) => {
         this.pending = false;

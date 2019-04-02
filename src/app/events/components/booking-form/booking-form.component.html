@@ -61,7 +61,7 @@
   </p>
   <mat-error *ngIf="form.invalid">{{getErrorMessage(form)}}</mat-error>
 
-  <p *ngIf="relatedEvent.collectLink">Merci de payer en cliquant sur le lien suivant : <a href="{{relatedEvent.collectLink}}">Collecte Lydia</a> </p>
+  <p *ngIf="relatedEvent.collectLink && form.valid">Merci de payer en cliquant sur le lien suivant : <a href="{{relatedEvent.collectLink}}" target="_blank" (click)="submit()">Collecte Lydia</a> </p>
 
   <p *ngIf="relatedEvent.shotgunListLength && (relatedEvent.shotgunStartingDate.getTime()-now.getTime()) >= 1000">
     Ouverture du shotgun dans {{relatedEvent.shotgunStartingDate-now | dateDifference}}

@@ -1,6 +1,8 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Booking, Event} from '../../core/models/event.model';
 import {FormInput, Option} from '../../core/models/form.model';
+import {PaymentMeans} from '../../core/models/payment-means.model';
+import {arrayRemoveById} from '../../core/services/utils';
 
 export interface BookingFilterInput {
   formInput: FormInput;
@@ -10,19 +12,32 @@ export interface BookingFilterInput {
   opened?: boolean;
 }
 
+export interface PayementFilter {
+  displayColumn: boolean;
+  selectedOptions: PaymentMeans[];
+  opened: boolean;
+}
+
 export interface BookingFilter {
   checked: number;
+  dChecked: boolean;
   paid?: number;
+  dPaid?: boolean;
+  dSee: boolean;
+  dRank: boolean;
+  dCreatedAt;
+  dCancel: boolean;
   inputs?: BookingFilterInput[];
+  paymentMeans: PayementFilter;
 }
 
 @Component({
   selector: 'app-booking-filter',
   template: `
     <div class="row justify-content-center">
-      <mat-form-field>
-        <mat-label>Checké ?</mat-label>
-        <mat-select [(value)]="filter.checked" (valueChange)="onChange()">
+      <mat-form-field *ngIf="event.price">
+        <mat-label>Payé ?</mat-label>
+        <mat-select [(value)]="filter.paid" (valueChange)="onChange()">
           <mat-option [value]="0">-</mat-option>
           <mat-option [value]="1">Oui</mat-option>
           <mat-option [value]="-1">Non</mat-option>
@@ -30,8 +45,18 @@ export interface BookingFilter {
       </mat-form-field>
 
       <mat-form-field *ngIf="event.price">
-        <mat-label>Payé ?</mat-label>
-        <mat-select [(value)]="filter.paid" (valueChange)="onChange()">
+        <mat-label (click)="filter.paymentMeans.opened = !filter.paymentMeans.opened">Moyens de paiement</mat-label>
+        <mat-select multiple="true">
+          <mat-option *ngFor="let paymentMean of paymentMeans"
+                      (click)="togglePayment(paymentMean)">
+            {{paymentMean.name}}
+          </mat-option>
+        </mat-select>
+      </mat-form-field>
+
+      <mat-form-field>
+        <mat-label>Checké ?</mat-label>
+        <mat-select [(value)]="filter.checked" (valueChange)="onChange()">
           <mat-option [value]="0">-</mat-option>
           <mat-option [value]="1">Oui</mat-option>
           <mat-option [value]="-1">Non</mat-option>
@@ -59,6 +84,15 @@ export interface BookingFilter {
       </ng-container>
     </div>
     <div class="row justify-content-center">
+      <mat-slide-toggle [(ngModel)]="filter.dRank" (change)="onChange()" *ngIf="event.shotgunListLength">Rang</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.dCreatedAt" (change)="onChange()">Date</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.dPaid" (change)="onChange()" *ngIf="event.price">Payé</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.paymentMeans.displayColumn" (change)="onChange()" *ngIf="event.price">
+        Moyens de paiement
+      </mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.dChecked" (change)="onChange()">Checké</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.dSee" (change)="onChange()">Voir</mat-slide-toggle>
+      <mat-slide-toggle [(ngModel)]="filter.dCancel" (change)="onChange()">Annuler</mat-slide-toggle>
       <div *ngFor="let input of filter.inputs; let i = index;">
         <mat-slide-toggle [(ngModel)]="input.displayColumn" (change)="onChange()">{{input.formInput.title}}</mat-slide-toggle>
       </div>
@@ -68,6 +102,7 @@ export interface BookingFilter {
 })
 export class BookingFilterComponent implements OnInit {
   @Input() event: Event;
+  @Input() paymentMeans: PaymentMeans[];
   filter: BookingFilter;
   @Output() change = new EventEmitter<BookingFilter>();
   constructor() { }
@@ -93,8 +128,19 @@ export class BookingFilterComponent implements OnInit {
     }
     this.filter = {
       paid: null,
+      dPaid: true,
+      dRank: true,
+      dCreatedAt: !!this.event.shotgunListLength,
       checked: null,
-      inputs: inputs
+      dChecked: true,
+      dCancel: false,
+      dSee: true,
+      inputs: inputs,
+      paymentMeans: {
+        displayColumn: false,
+        selectedOptions: [],
+        opened: false
+      }
     };
   }
 
@@ -117,12 +163,12 @@ export class BookingFilterComponent implements OnInit {
     this.onChange();
   }
 
-  isOptionToggle(index: number, option: Option) {
-    for (let i = 0; i < this.filter.inputs[index].selectedOptions.length; i++) {
-      if (this.filter.inputs[index].selectedOptions[i].id === option.id) {
-        return true;
-      }
+  togglePayment(paymentMean: PaymentMeans) {
+    if (this.filter.paymentMeans.selectedOptions.includes(paymentMean)) {
+      this.filter.paymentMeans.selectedOptions = arrayRemoveById(this.filter.paymentMeans.selectedOptions, paymentMean.id);
+    } else {
+      this.filter.paymentMeans.selectedOptions.push(paymentMean);
     }
-    return false;
+    this.onChange();
   }
 }

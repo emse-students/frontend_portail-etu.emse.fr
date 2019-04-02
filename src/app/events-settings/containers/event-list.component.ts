@@ -3,8 +3,17 @@ import {Booking, BookingRanked, Event, EventBooking} from '../../core/models/eve
 import {FormInput} from '../../core/models/form.model';
 import {environment} from '../../../environments/environment';
 import {BookingFilter} from '../components/booking-filter.component';
-import {EventService} from '../../core/services/event.service';
-import {InfoService} from '../../core/services/info.service';
+import {PaymentMeans} from '../../core/models/payment-means.model';
+export interface DisplayedColumns {
+  inputs: FormInput[];
+  checked: boolean;
+  paid: boolean;
+  paymentMeans: boolean;
+  see: boolean;
+  cancel: boolean;
+  rank: boolean;
+  createdAt: boolean;
+}
 
 @Component({
   selector: 'app-event-list',
@@ -13,13 +22,13 @@ import {InfoService} from '../../core/services/info.service';
                 (search)="search($event)"
                 placeholder="Rechercher"></app-search>
     <h6 class="text-center">Filtrer</h6>
-    <app-booking-filter [event]="event" (change)="filter($event)"></app-booking-filter>
+    <app-booking-filter [event]="event" (change)="filter($event)" [paymentMeans]="paymentMeans"></app-booking-filter>
     <app-registered-list [event]="event"
                          [bookings]="filteredBookings"
                          [filter]="searchQuery"
                          (selectUser)="select($event)"
                          (deleteBooking)="delete($event)"
-                         [displayedInputs] = "displayedInputs"
+                         [displayedCol]="displayedColumns"
                          *ngIf="filteredBookings">
     </app-registered-list>
   `,
@@ -28,7 +37,7 @@ import {InfoService} from '../../core/services/info.service';
 export class EventListComponent implements OnInit {
   @Output() selectUser = new EventEmitter<any>();
   @Output() deleteBooking = new EventEmitter<BookingRanked>();
-
+  @Input() paymentMeans: PaymentMeans[];
   _event: Event;
   @Input()
   set event(event: Event) {
@@ -41,7 +50,7 @@ export class EventListComponent implements OnInit {
   filteredBookings: BookingRanked[];
   rankedBookings: BookingRanked[];
   searchQuery = '';
-  displayedInputs: FormInput[] = [];
+  displayedColumns: DisplayedColumns;
 
 
   constructor() { }
@@ -96,7 +105,18 @@ export class EventListComponent implements OnInit {
     return false;
   }
 
-  ngOnInit() {}
+  ngOnInit() {
+    this.displayedColumns = {
+      inputs: [],
+      paid: true,
+      checked: true,
+      paymentMeans: false,
+      see: true,
+      cancel: false,
+      rank: true,
+      createdAt: !!this.event.shotgunListLength,
+    };
+  }
 
   search(event: string) {
     this.searchQuery = event;
@@ -104,12 +124,22 @@ export class EventListComponent implements OnInit {
 
   filter(filter: BookingFilter) {
     // console.log(filter);
-    this.displayedInputs = [];
+    const displayedInputs = [];
     for (let i = 0; i < filter.inputs.length; i++) {
       if ( filter.inputs[i].displayColumn ) {
-        this.displayedInputs.push(filter.inputs[i].formInput);
+        displayedInputs.push(filter.inputs[i].formInput);
       }
     }
+    this.displayedColumns = {
+      inputs: displayedInputs,
+      paid: filter.dPaid,
+      checked: filter.dChecked,
+      paymentMeans: filter.paymentMeans.displayColumn,
+      see: filter.dSee,
+      cancel: filter.dCancel,
+      rank: filter.dRank,
+      createdAt: filter.dCreatedAt
+    };
     this.filteredBookings = this.rankedBookings.filter((a: BookingRanked) => {
         let pass = true;
         if (filter.checked === 1 && !a.checked) {
@@ -129,6 +159,19 @@ export class EventListComponent implements OnInit {
             pass = pass && EventListComponent.optionFoundInBooking(a, filter, i);
           } else if (filter.inputs[i].formInput.type === 'multipleOptions' && filter.inputs[i].selectedOptions.length) {
             pass = pass && EventListComponent.optionsAllFoundInBooking(a, filter, i);
+          }
+        }
+        if (filter.paymentMeans.selectedOptions.length) {
+          if (this.event.price && a.paid) {
+            let found = false;
+            for (let i = 0; i < filter.paymentMeans.selectedOptions.length; i++) {
+              if (filter.paymentMeans.selectedOptions[i].id === a.paymentMeans.id) {
+                found = true;
+              }
+            }
+            pass = pass && found;
+          } else {
+            pass = false;
           }
         }
         return pass;

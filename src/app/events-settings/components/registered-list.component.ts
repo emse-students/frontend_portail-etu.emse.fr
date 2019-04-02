@@ -166,11 +166,6 @@ export class RegisteredListComponent implements OnInit {
   displayedColumns: string[];
 
   ngOnInit(): void {
-    this.displayedColumns = this.event.price && this.event.shotgunListLength ?
-      ['rank', 'createdAt', 'userName', 'paid', 'checked', 'select', 'delete'] :
-      this.event.price ? ['userName', 'paid', 'checked', 'select', 'delete'] :
-      this.event.shotgunListLength ? ['rank', 'createdAt', 'userName', 'checked', 'select', 'delete'] :
-      ['userName', 'checked', 'select', 'delete'] ;
     this.dataSource.sortingDataAccessor = (item: BookingRanked, property) => {
       const re = new RegExp('input_(.*)');
       if (re.exec(property)) {

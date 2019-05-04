@@ -23,10 +23,13 @@
 
     <mat-nav-list>
       <a mat-list-item (click)="usernav.close()"
-         [routerLink]="'/bde-settings/account/' + bdeUser.id" *ngIf="authService.isBDEContributor() && bdeUser">
-        <mat-icon>assessment</mat-icon>Solde BDE : {{bdeUser.balance | currency:'EUR':'symbol':'1.2-2':'fr'}}
+         [routerLink]="'/bde-settings/account/' + user.id" *ngIf="authService.isBDEContributor() && user">
+        <mat-icon>assessment</mat-icon>Solde BDE : {{user.balance | currency:'EUR':'symbol':'1.2-2':'fr'}}
       </a>
-      <!--<div class="user-list"  *ngIf="($cercleUser | async)">Solde Cercle : {{($cercleUser | async).solde}}</div>-->
+      <a mat-list-item (click)="usernav.close()"
+         href="https://portail-etu.emse.fr/cercle/compte.php" target="_blank" *ngIf="authService.isCercleContributor() && user">
+        <mat-icon>assessment</mat-icon>Solde Cercle : {{user.cercleBalance | currency:'EUR':'symbol':'1.2-2':'fr'}}
+      </a>
       <a mat-list-item (click)="usernav.close()"
       [routerLink]="'/settings'" *ngIf="authService.isAdmin()">
         <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Paramètres

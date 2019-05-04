@@ -74,6 +74,7 @@ export interface Booking {
   event?: Event;
   createdAt?: Date;
   checked?: boolean;
+  cercleOperationAmount: number;
 }
 
 
@@ -88,6 +89,7 @@ export interface EventBooking {
   createdAt?: Date;
   checked?: boolean;
   formOutputs: BookingFormOutput[];
+  cercleOperationAmount: number;
 }
 
 export interface BookingRanked extends EventBooking {
@@ -102,6 +104,7 @@ export interface NewBooking {
   userName: string;
   operation: NewOperation;
   formOutputs: NewFormOutput[];
+  cercleOperationAmount: number;
 }
 
 export interface PutBooking {
@@ -113,6 +116,7 @@ export interface PutBooking {
   userName: string;
   operation: NewOperation;
   formOutputs: NewFormOutput[];
+  cercleOperationAmount: number;
 }
 
 export interface PutBookingLight {

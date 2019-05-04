@@ -28,7 +28,7 @@ export class AppComponent implements OnInit, AfterViewInit {
   authenticatedUser: AuthenticatedUser | null;
   authPending = true;
   $cercleUser: Observable<any>;
-  bdeUser: User;
+  user: User;
   assoLoaded = false;
   listsLoaded = false;
   navItems: NavItem[] = [];
@@ -70,7 +70,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       // console.log(authenticatedUser);
      this.authPending = false;
      this.authenticatedUser = authenticatedUser;
-     if (authenticatedUser && (!this.bdeUser || authenticatedUser.id !== this.bdeUser.id)) {
+     if (authenticatedUser && (!this.user || authenticatedUser.id !== this.user.id)) {
        this.userService.getInfo();
      }
     });
@@ -103,7 +103,7 @@ export class AppComponent implements OnInit, AfterViewInit {
       }
     });
     this.$cercleUser = of({solde: '20€'});
-    this.userService.user.subscribe((user) => {this.bdeUser = user; });
+    this.userService.user.subscribe((user) => {this.user = user; });
     this._authService.refresh();
     this.associationService.getLights();
   }

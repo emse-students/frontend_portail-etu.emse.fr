@@ -1,7 +1,7 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Booking, Event, EventBooking, PutBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
-import {UserLight} from '../../core/models/auth.model';
+import {EventUser, UserLight} from '../../core/models/auth.model';
 import {map, startWith} from 'rxjs/operators';
 import {UserService} from '../../core/services/user.service';
 import {FormBuilder, FormGroup, Validators} from '@angular/forms';
@@ -10,10 +10,7 @@ import {EventService} from '../../core/services/event.service';
 import {InfoService} from '../../core/services/info.service';
 import {arrayFindById} from '../../core/services/utils';
 
-interface UnregistredUser {
-  username: string;
-  idBooking: number;
-}
+
 @Component({
   selector: 'app-event-checking',
   template: `
@@ -28,7 +25,7 @@ interface UnregistredUser {
             <mat-option *ngFor="let option of filteredOptions | async"
                         [value]="option.id ? option.firstname + ' ' + option.lastname : option.username"
                         (click)="select(option)">
-              <span *ngIf="option.id">{{option.firstname}} {{option.lastname}} promo {{option.promo}}</span>
+              <span *ngIf="option.id">{{option.firstname}} {{option.lastname}} {{option.type}} {{option.promo}}</span>
               <span *ngIf="!option.id">{{option.username}}</span>
             </mat-option>
           </mat-autocomplete>
@@ -45,7 +42,7 @@ interface UnregistredUser {
     </app-booking-checking-card>
     <div class="row" *ngIf="unbookedUser && !pending">
       <div class="col">
-        <div>{{unbookedUser.firstname}} {{unbookedUser.lastname}} promo {{unbookedUser.promo}}</div>
+        <div>{{unbookedUser.firstname}} {{unbookedUser.lastname}} {{unbookedUser.type}} {{unbookedUser.promo}}</div>
         <div>Pas de réservation pour cet utilisateur</div>
         <button mat-flat-button color="primary" (click)="createBooking(unbookedUser)">Créer une réservation</button>
       </div>
@@ -72,8 +69,8 @@ export class EventCheckingComponent implements OnInit {
   @Input() isAdmin: boolean;
   @Input() paymentMeans: PaymentMeans[];
   @Output() newBooking = new EventEmitter<UserLight>();
-  filteredOptions: Observable<UserLight | UnregistredUser>;
-  users;
+  filteredOptions: Observable<EventUser[]>;
+  @Input() users: EventUser[];
   booking: EventBooking;
   unbookedUser: UserLight;
   pending = false;
@@ -90,20 +87,6 @@ export class EventCheckingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getAllUsers().subscribe((users: UserLight[]) => {
-      // console.log(users);
-      this.users = users;
-      for (let i = 0; i < this.event.bookings.length; i++) {
-        if (!this.event.bookings[i].user) {
-          this.users.push(
-            {
-              username: this.event.bookings[i].userName,
-              bookingIndex: i
-            }
-          );
-        }
-      }
-    });
     this.filteredOptions = this.userText.valueChanges
       .pipe(
         startWith(''),
@@ -142,6 +125,9 @@ export class EventCheckingComponent implements OnInit {
           this.unbookedUser = null;
           this.booking = this.event.bookings[i];
           this.booking.user.balance = user.balance;
+          this.booking.user.contributeBDE = user.contributeBDE;
+          this.booking.user.cercleBalance = user.cercleBalance;
+          this.booking.user.contributeCercle = user.contributeCercle;
           found = true;
         }
       }

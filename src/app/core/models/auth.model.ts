@@ -5,6 +5,7 @@ export interface Token {
 
 export interface AuthenticatedUser {
   id: number;
+  login: string;
   email: string;
   firstname: string;
   lastname: string;
@@ -18,10 +19,31 @@ export interface UserLight {
   id: number;
   firstname: string;
   lastname: string;
+  login: string;
   type: string;
   promo: number;
-  balance;
+  balance: number;
+  cercleBalance: number;
   contributeBDE: boolean;
+  contributeCercle: boolean;
+  username?: string;
+  bookingIndex?: number;
+}
+
+export interface EventUser {
+  username?: string;
+  idBooking?: number;
+  id?: number;
+  firstname?: string;
+  lastname?: string;
+  login?: string;
+  type?: string;
+  promo?: number;
+  balance?: number;
+  cercleBalance?: number;
+  contributeBDE?: boolean;
+  contributeCercle?: boolean;
+  bookingIndex?: number;
 }
 
 

@@ -5,7 +5,7 @@
       <input type="text" placeholder="Membre" matInput [formControl]="userText" [matAutocomplete]="auto">
       <mat-autocomplete #auto="matAutocomplete">
         <mat-option *ngFor="let u of filteredUsers | async" [value]="u.firstname +' '+ u.lastname" (click)="user.patchValue(u)">
-          {{u.firstname}} {{u.lastname}} promo {{u.promo}}
+          {{u.firstname}} {{u.lastname}} {{u.type}} {{u.promo}}
         </mat-option>
       </mat-autocomplete>
       <mat-error *ngIf="userText.touched && user.invalid">{{getErrorMessage(user)}}</mat-error>
@@ -13,7 +13,7 @@
   </p>
 
   <div *ngIf="user.value">
-    {{user.value.firstname}} {{user.value.lastname}} promo {{user.value.promo}}
+    {{user.value.firstname}} {{user.value.lastname}} {{user.value.type}} {{user.value.promo}}
     <button class="ml-2" mat-flat-button color="warn" (click)="user.reset()">Changer</button>
   </div>
 

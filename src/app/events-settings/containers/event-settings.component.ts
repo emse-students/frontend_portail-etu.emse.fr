@@ -7,6 +7,8 @@ import {AuthService} from '../../core/services/auth.service';
 import {PaymentMeansService} from '../../core/services/payment-means.service';
 import {EventSummaryComponent} from '../components/event-summary/event-summary.component';
 import {InfoService} from '../../core/services/info.service';
+import {EventUser, UserLight} from '../../core/models/auth.model';
+import {UserService} from '../../core/services/user.service';
 
 @Component({
   selector: 'app-event-settings',
@@ -35,7 +37,8 @@ import {InfoService} from '../../core/services/info.service';
             <mat-card>
               <mat-card-title>Checking</mat-card-title>
 
-              <app-event-checking [event]="event" [selectedUser]="selectedUser" (newBooking)="selectUserToAddBooking($event)">
+              <app-event-checking [event]="event" [selectedUser]="selectedUser"
+                                  [users]="users" (newBooking)="selectUserToAddBooking($event)">
               </app-event-checking>
             </mat-card>
           </mat-tab>
@@ -48,7 +51,7 @@ import {InfoService} from '../../core/services/info.service';
             <mat-card>
               <mat-card-title>Liste</mat-card-title>
 
-              <app-event-list [event]="event" [paymentMeans]="paymentMeans"
+              <app-event-list [event]="event" [paymentMeans]="event.paymentMeans"
                               (selectUser)="selectUser($event)" (deleteBooking)="delete($event)">
               </app-event-list>
             </mat-card>
@@ -78,7 +81,7 @@ import {InfoService} from '../../core/services/info.service';
             <mat-card>
               <mat-card-title>Nouvelle réservation</mat-card-title>
 
-              <app-event-add-booking [event]="event"
+              <app-event-add-booking [event]="event" [users]="users"
                                 (addBooking)="addBooking($event)" [selectedUser]="selectedUserToAddBooking">
               </app-event-add-booking>
             </mat-card>
@@ -123,6 +126,7 @@ export class EventSettingsComponent implements OnInit {
   loaded;
   paymentMeansLoaded = false;
   event: Event;
+  users: EventUser[];
   selectedEventSetting: number;
   paymentMeans: PaymentMeans[];
   @ViewChild('summary') summary: EventSummaryComponent;
@@ -134,7 +138,8 @@ export class EventSettingsComponent implements OnInit {
     private eventService: EventService,
     private _authService: AuthService,
     private paymentMeansService: PaymentMeansService,
-    private infoService: InfoService
+    private infoService: InfoService,
+    private userService: UserService,
   ) { }
 
   ngOnInit() {
@@ -159,7 +164,29 @@ export class EventSettingsComponent implements OnInit {
               this.event.bookings = eventWithBookings.bookings;
               // console.log(this.event.bookings);
               this.unauthorized = !this.authService.hasAssoRight(3, event.association.id) && !this.authService.isAdmin();
-              this.loaded = true;
+
+              this.userService.getAllUsers().subscribe((users: UserLight[]) => {
+                this.userService.getMultipleCercleInfos(users.map(user => user.login)).subscribe(cercleUsers => {
+                  this.users = users.map(user => {
+                    if (cercleUsers[user.login]) {
+                      user.cercleBalance = cercleUsers[user.login].balance;
+                      user.contributeCercle = cercleUsers[user.login].contribute;
+                    }
+                    return user;
+                  });
+                  for (let i = 0; i < this.event.bookings.length; i++) {
+                    if (!this.event.bookings[i].user) {
+                      this.users.push(
+                        {
+                          username: this.event.bookings[i].userName,
+                          bookingIndex: i
+                        }
+                      );
+                    }
+                  }
+                  this.loaded = true;
+                });
+              });
             }
           );
         });

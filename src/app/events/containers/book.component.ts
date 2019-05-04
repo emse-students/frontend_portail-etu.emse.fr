@@ -26,7 +26,7 @@ import {InfoService} from '../../core/services/info.service';
         <app-event-description [event]="event"></app-event-description>
         <app-booking-form [authenticatedUser]="authenticatedUser"
                           [relatedEvent]="event"
-                          [BDEBalance]="BDEBalance"
+                          [currentUser]="user"
                           (submitted)="book($event)" [isNew]="true"></app-booking-form>
       </mat-card>
       <mat-card *ngIf="allReadyBooked">
@@ -70,7 +70,7 @@ export class BookComponent implements OnInit {
   event: Event;
   paymentMeans: PaymentMeans[];
   authenticatedUser: AuthenticatedUser;
-  BDEBalance: number;
+  user: User;
   pending = false;
   allReadyBooked = false;
   unauthorized = false;
@@ -112,7 +112,7 @@ export class BookComponent implements OnInit {
         });
       }
     });
-    this.userService.user.subscribe((user: User) => {this.BDEBalance = user.balance; });
+    this.userService.user.subscribe((user: User) => {this.user = user; });
     this.userService.getBalance();
     this.authService.refresh();
   }
@@ -123,6 +123,9 @@ export class BookComponent implements OnInit {
     // setTimeout(() => {this.pending = false; }, 2000);
     if (newBooking.operation) {
       this.userService.updateBalance(newBooking.operation.amount);
+    }
+    if (newBooking.cercleOperationAmount) {
+      this.userService.updateCercleBalance(-newBooking.cercleOperationAmount);
     }
     this.eventService.book(newBooking).subscribe(
       () => {
@@ -143,6 +146,9 @@ export class BookComponent implements OnInit {
         this.pending = false;
         if (newBooking.operation) {
           this.userService.updateBalance(-newBooking.operation.amount);
+        }
+        if (newBooking.cercleOperationAmount) {
+          this.userService.updateCercleBalance(newBooking.cercleOperationAmount);
         }
         if (this.event.shotgunListLength && error  === 'Le nombre de places maximum a été atteint') {
           this.router.navigate(['events', this.event.id, 'list']);

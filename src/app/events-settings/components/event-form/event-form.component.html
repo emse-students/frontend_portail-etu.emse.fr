@@ -99,8 +99,7 @@
     <ng-container formArrayName="boolPaymentMeans">
       <ng-container *ngFor="let paymentMean of boolPaymentMeans.controls; let i=index"  [formGroupName]="i">
         <div>
-          <mat-checkbox formControlName="selected"
-                        *ngIf="paymentMean.get('paymentMeans').value.id !== 2">
+          <mat-checkbox formControlName="selected">
             {{paymentMean.get('paymentMeans').value.name}}
           </mat-checkbox>
         </div>
@@ -215,7 +214,7 @@
     <mat-icon fontSet="fas" fontIcon="fa-plus-square" color="accent" (click)="addFormInput()"></mat-icon>
     <div class="col">Ajouter un champs ?</div>
   </div>
-
+  <h4>Statut : {{status.value | translateStatus}}</h4>
   <p class="loginButtons">
     <button class="m-2" type="submit" mat-flat-button color="warn" [disabled]="form.invalid" (click)="status.setValue('draft'); submit();" *ngIf="!isNew && status.value !== 'draft'">Sauver et passer en brouillon</button>
     <button class="m-2" type="submit" mat-flat-button color="primary" [disabled]="form.invalid" (click)="status.setValue('draft')" *ngIf="isNew || status.value === 'draft'">Sauver en brouillon</button>

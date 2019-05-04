@@ -19,7 +19,7 @@ import {User} from '../../core/models/user.model';
         <app-event-description [event]="booking.event"></app-event-description>
         <app-booking-form [authenticatedUser]="authenticatedUser"
                           [relatedEvent]="booking.event"
-                          [BDEBalance]="BDEBalance"
+                          [currentUser]="user"
                           [booking]="booking"
                           (submitted)="book($event)" [isNew]="false" *ngIf="!error"></app-booking-form>
         <mat-card-title *ngIf="error">Cette réservation n'est plus modifiable !</mat-card-title>
@@ -48,7 +48,7 @@ export class BookingComponent implements OnInit {
   booking: Booking;
   paymentMeans: PaymentMeans[];
   authenticatedUser: AuthenticatedUser;
-  BDEBalance: number;
+  user: User;
   pending = false;
   error = false;
 
@@ -82,14 +82,18 @@ export class BookingComponent implements OnInit {
         this.eventService.getBooking(Number(params.get('id'))).subscribe((booking: Booking) => {
           // console.log(booking);
           this.booking = booking;
-          if (booking.event.date < this.today || (booking.event.closingDate && booking.event.closingDate < this.today)) {
-            this.error = true;
-          }
-          this.loaded = true;
+          this.eventService.get(booking.event.id).subscribe((event: Event) => {
+            // console.log(booking);
+            this.booking.event = event;
+            if (booking.event.date < this.today || (booking.event.closingDate && booking.event.closingDate < this.today)) {
+              this.error = true;
+            }
+            this.loaded = true;
+          });
         });
       }
     });
-    this.userService.user.subscribe((user: User) => {this.BDEBalance = user.balance; });
+    this.userService.user.subscribe((user: User) => {this.user = user; });
     this.userService.getBalance();
     this.authService.refresh();
 
@@ -105,6 +109,13 @@ export class BookingComponent implements OnInit {
         this.userService.updateBalance(booking.operation.amount);
       }
     }
+    if (booking.cercleOperationAmount) {
+      if (this.booking.cercleOperationAmount) {
+        this.userService.updateCercleBalance(this.booking.cercleOperationAmount - booking.cercleOperationAmount);
+      } else {
+        this.userService.updateCercleBalance(- booking.cercleOperationAmount);
+      }
+    }
     this.eventService.putBook(booking).subscribe(
       () => {
         this.pending = false;
@@ -118,6 +129,13 @@ export class BookingComponent implements OnInit {
             this.userService.updateBalance(- booking.operation.amount + this.booking.operation.amount);
           } else {
             this.userService.updateBalance(-booking.operation.amount);
+          }
+        }
+        if (booking.cercleOperationAmount) {
+          if (this.booking.cercleOperationAmount) {
+            this.userService.updateCercleBalance( booking.cercleOperationAmount - this.booking.cercleOperationAmount);
+          } else {
+            this.userService.updateCercleBalance(booking.cercleOperationAmount);
           }
         }
       }

@@ -18,14 +18,14 @@ import {PaymentMeans} from '../../core/models/payment-means.model';
             <mat-option *ngFor="let option of filteredOptions | async"
                         [value]="option.firstname +' '+ option.lastname"
                         (click)="user.patchValue(option)">
-              {{option.firstname}} {{option.lastname}} promo {{option.promo}}
+              {{option.firstname}} {{option.lastname}} {{option.type}} {{option.promo}}
             </mat-option>
           </mat-autocomplete>
           <mat-error *ngIf="userText.touched && user.invalid">{{getErrorMessage(user)}}</mat-error>
         </mat-form-field>
       </p>
       <div *ngIf="user.value">
-        {{user.value.firstname}} {{user.value.lastname}} promo {{user.value.promo}}
+        {{user.value.firstname}} {{user.value.lastname}} {{user.value.type}} {{user.value.promo}}
         , solde : {{user.value.balance |  currency:'EUR':'symbol':'1.2-2':'fr'}}
         <button class="ml-2" mat-flat-button color="warn" (click)="user.reset()">Changer</button>
       </div>

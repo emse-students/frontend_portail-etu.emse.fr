@@ -2,7 +2,7 @@ import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Event, EventBooking, NewBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {Observable} from 'rxjs';
-import {UserLight} from '../../core/models/auth.model';
+import {EventUser, UserLight} from '../../core/models/auth.model';
 import {FormBuilder, FormGroup} from '@angular/forms';
 import {UserService} from '../../core/services/user.service';
 import {map, startWith} from 'rxjs/operators';
@@ -25,8 +25,7 @@ import {InfoService} from '../../core/services/info.service';
             <mat-option *ngFor="let option of filteredOptions | async"
                         [value]="option.id ? option.firstname + ' ' + option.lastname : option.username"
                         (click)="select(option)">
-              <span *ngIf="option.id">{{option.firstname}} {{option.lastname}} promo {{option.promo}}</span>
-              <span *ngIf="!option.id">{{option.username}}</span>
+              <span *ngIf="option.id">{{option.firstname}} {{option.lastname}} {{option.type}} {{option.promo}}</span>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -41,7 +40,7 @@ import {InfoService} from '../../core/services/info.service';
     </p>
     <app-booking-form [authenticatedUser]="newBookingUser"
                       [relatedEvent]="event"
-                      [BDEBalance]="newBookingUser ? newBookingUser.balance : null"
+                      [currentUser]="newBookingUser"
                       [isFromSetting]="true"
                       [isNew]="true" (submitted)="book($event)" *ngIf="!alreadyBooked && !pending">
     </app-booking-form>
@@ -69,8 +68,13 @@ export class EventAddBookingComponent implements OnInit {
   @Input() isAdmin: boolean;
   @Input() paymentMeans: PaymentMeans[];
   @Output() addBooking = new EventEmitter<EventBooking>();
-  filteredOptions: Observable<UserLight>;
-  users;
+  filteredOptions: Observable<EventUser[]>;
+  _users: EventUser[];
+  @Input()
+  set users(users: EventUser[]) {
+    this._users = users.filter(user => !!user.id);
+  }
+  get users() {return this._users; }
   alreadyBooked = false;
   newBookingUser: UserLight = null;
 
@@ -90,9 +94,6 @@ export class EventAddBookingComponent implements OnInit {
   ) { }
 
   ngOnInit() {
-    this.userService.getAllUsers().subscribe((users: UserLight[]) => {
-      this.users = users;
-    });
     this.filteredOptions = this.userText.valueChanges
       .pipe(
         startWith(''),
@@ -104,13 +105,7 @@ export class EventAddBookingComponent implements OnInit {
     const filterValue = value.toLowerCase();
     if (this.users) {
       return this.users.filter(
-        (user) => {
-          if (user.id) {
-            return (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue);
-          } else {
-            return user.username.toLowerCase().includes(filterValue);
-          }
-        }
+        (user) => (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue)
       );
     } else {
       return [];
@@ -118,11 +113,9 @@ export class EventAddBookingComponent implements OnInit {
   }
 
   select(user) {
-    let found = false;
     for (let i = 0; i < this.event.bookings.length; i++) {
       if (this.event.bookings[i].user && this.event.bookings[i].user.id === user.id) {
         this.alreadyBooked = true;
-        found = true;
       }
     }
     this.newBookingUser = user;

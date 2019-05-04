@@ -37,7 +37,7 @@ export class AuthService {
         })
       ).subscribe((authenticatedUser: AuthenticatedUser) => {
         this._authenticatedUser = authenticatedUser;
-        this.userService.setId(authenticatedUser.id);
+        this.userService.setUser(authenticatedUser.id, authenticatedUser.login);
         this.authenticatedUser.next(authenticatedUser);
         this._pending = false;
         console.log('logged in');
@@ -52,7 +52,7 @@ export class AuthService {
         console.log('logged in from localStorage');
         this.authenticatedUser.next(authenticatedUser);
         this._authenticatedUser = authenticatedUser;
-        this.userService.setId(authenticatedUser.id);
+        this.userService.setUser(authenticatedUser.id, authenticatedUser.login);
       } else {
         console.log('token has expired');
         this.authenticatedUser.next(null);
@@ -153,6 +153,10 @@ export class AuthService {
 
   isBDEContributor(): boolean {
     return this._authenticatedUser && this._authenticatedUser.contributeBDE;
+  }
+
+  isCercleContributor(): boolean {
+    return this.userService.isCercleContributor();
   }
 
   isAuthenticated(): boolean {

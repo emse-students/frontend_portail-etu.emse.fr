@@ -8,7 +8,7 @@ import {UserService} from '../../core/services/user.service';
   template: `
     <div class="container">
       <mat-card *ngIf="loaded">
-        <mat-card-title>Historique de {{user.firstname}} {{user.lastname}} promo {{user.promo}}</mat-card-title>
+        <mat-card-title>Historique de {{user.firstname}} {{user.lastname}} {{user.type}} {{user.promo}}</mat-card-title>
         <app-search [query]="searchQuery"
                     (search)="search($event)"
                     placeholder="Rechercher une opération"></app-search>

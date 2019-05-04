@@ -6,7 +6,7 @@ import {AuthenticatedUser, UserLight} from '../models/auth.model';
 import {map} from 'rxjs/operators';
 import {JsonLdService} from './json-ld.service';
 import {Booking, Event} from '../models/event.model';
-import {User, UserBookings, UserOperation} from '../models/user.model';
+import {CercleUserDTO, User, UserBookings, UserDTO, UserOperation} from '../models/user.model';
 import {EventService} from './event.service';
 import {arrayRemoveByValue} from './utils';
 
@@ -19,7 +19,7 @@ export class UserService {
 
   constructor(
     private http: HttpClient,
-    private jsonLdService: JsonLdService
+    private jsonLdService: JsonLdService,
   ) {
     this.user = new Subject<User>();
     this._user = null;
@@ -36,20 +36,45 @@ export class UserService {
   public getBalance() {
     if (this._user) {
       const url = `${environment.api_url}/users/${this._user.id}?properties[]=balance`;
-      return this.http.get<User>(url).subscribe((user: User) => {
+      return this.http.get<UserDTO>(url).subscribe((user: UserDTO) => {
         this._user.balance = user.balance;
-        this.refresh();
+        this.getCercleInfo();
       });
     }
   }
 
   public getInfo() {
     if (this._user) {
-      const url = `${environment.api_url}/users/${this._user.id}/info?properties[]=balance&properties[]=eventsBooked`;
-      return this.http.get<User>(url).subscribe(
-        (user: User) => {this._user.balance = user.balance; this._user.eventsBooked = user.eventsBooked; this.refresh(); }
+      const url =
+        `${environment.api_url}/users/${this._user.id}/info?properties[]=balance&properties[]=eventsBooked`;
+      return this.http.get<UserDTO>(url).subscribe(
+        (user: UserDTO) => {
+          this._user.balance = user.balance;
+          this._user.eventsBooked = user.eventsBooked;
+          this.getCercleInfo();
+        }
       );
     }
+  }
+
+  public getCercleInfo() {
+    if (this._user) {
+      const url =
+        `${environment.api_url}/get-cercle-info`;
+      return this.http.post<CercleUserDTO>(url, {login: this._user.login}).subscribe(
+        (user: CercleUserDTO) => {
+          this._user.cercleBalance = user.balance;
+          this._user.contributeCercle = user.contribute;
+          this.refresh();
+        }
+      );
+    }
+  }
+
+  public getMultipleCercleInfos(logins: string[]): Observable<CercleUserDTO[]> {
+    const url =
+      `${environment.api_url}/get-cercle-infos`;
+    return this.http.post<CercleUserDTO[]>(url, {logins});
   }
 
   public getBookings(): Observable<Booking[]> {
@@ -62,10 +87,14 @@ export class UserService {
     }
   }
 
-  public setId(userId: number) {
+  public setUser(userId: number, login: string) {
     if (!this._user || this._user.id !== userId) {
-      this._user = {id: userId, balance: null, eventsBooked: null };
+      this._user = {id: userId, login: login, balance: null, cercleBalance: null, eventsBooked: null, contributeCercle: false };
     }
+  }
+
+  public isCercleContributor(): boolean {
+    return this._user && this._user.contributeCercle;
   }
 
   public logout() {
@@ -78,6 +107,11 @@ export class UserService {
 
   public updateBalance(amount: number) {
     this._user.balance += amount;
+    this.refresh();
+  }
+
+  public updateCercleBalance(amount: number) {
+    this._user.cercleBalance += amount;
     this.refresh();
   }
 
@@ -102,7 +136,7 @@ export class UserService {
 
   public getUserOperations(userId: number) {
     const url = `${environment.api_url}/users/${userId}/info?properties[]=balance&
-    properties[]=operations&properties[]=lastname&properties[]=firstname&properties[]=promo`;
+    properties[]=operations&properties[]=lastname&properties[]=firstname&properties[]=promo&properties[]=type`;
     return this.http.get<UserOperation>(url).pipe(
       map( (user: UserOperation) => {
         for (let i = 0; i < user.operations.length; i++) {

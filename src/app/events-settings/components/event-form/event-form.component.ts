@@ -315,7 +315,7 @@ export class EventFormComponent implements OnInit {
     this.imgLoading = true;
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
-        console.log(imgDTO);
+        // console.log(imgDTO);
         this.img.setValue(environment.api_uri + '/img_objects/' + imgDTO.id);
         this.imgFilename = imgDTO.filename;
         this.imgLoading = false;

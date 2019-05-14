@@ -10,7 +10,14 @@ import { BdeAccountComponent } from './containers/bde-account.component';
 import { BdeOperationListComponent } from './components/bde-operation-list.component';
 
 @NgModule({
-  declarations: [BdeComponent, BdeAccountsListComponent, BdeDebitFormComponent, BdeRechargeFormComponent, BdeAccountComponent, BdeOperationListComponent],
+  declarations: [
+    BdeComponent,
+    BdeAccountsListComponent,
+    BdeDebitFormComponent,
+    BdeRechargeFormComponent,
+    BdeAccountComponent,
+    BdeOperationListComponent
+  ],
   imports: [
     SharedModule,
     BdeRoutingModule

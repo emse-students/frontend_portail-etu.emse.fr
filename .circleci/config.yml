@@ -1,0 +1,103 @@
+version: 2
+defaults: &defaults
+  working_directory: ~/project
+  docker:
+    - image: circleci/node:11.15
+jobs:
+  dependencies:
+    <<: *defaults
+
+    steps:
+      - checkout
+      - restore_cache:
+          keys:
+            - v1-dependencies-{{ checksum "package.json" }}
+            - v1-dependencies-
+
+      - run:
+          name: Install
+          command: npm install
+
+      - save_cache:
+          paths:
+            - node_modules
+          key: v1-dependencies-{{ checksum "package.json" }}
+
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+  test:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - run:
+          name: Lint
+          command: npm run lint
+
+  build:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - run:
+          name: Build
+          command: npm run buildProd
+
+      - persist_to_workspace:
+          root: ~/
+          paths:
+            - project
+
+  deploy:
+    <<: *defaults
+
+    steps:
+      - attach_workspace:
+          at: ~/
+
+      - add_ssh_keys:
+          fingerprints:
+            - "27:0b:32:7a:d0:1d:80:ca:2a:cd:50:6d:be:30:b8:10"
+
+      - run:
+          name: Deploy utils
+          command: |
+            scp -o StrictHostKeyChecking=no ~/project/devops/* $SSH_USER@$SSH_HOST:frontend/
+
+      - run:
+          name: Deploy new build
+          command: |
+            scp -r -o StrictHostKeyChecking=no ~/project/build $SSH_USER@$SSH_HOST:frontend/new-build
+      - run:
+          name: Chmod installer
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST 'chmod 755 frontend/apply_new_build.sh'
+      - run:
+          name: Apply new build
+          command: |
+            ssh -o StrictHostKeyChecking=no $SSH_USER@$SSH_HOST 'cd frontend; ./apply_new_build.sh'
+
+workflows:
+  version: 2
+  dependencies_and_build:
+    jobs:
+      - dependencies
+      - test:
+          requires:
+            - dependencies
+      - build:
+          requires:
+            - dependencies
+      - deploy:
+          requires:
+            - build
+            - test
+          filters:
+            branches:
+              only: master

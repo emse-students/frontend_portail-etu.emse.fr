@@ -2,7 +2,7 @@ Client of portail-etu.emse.fr
 ===============
 
 The application in ./build is the frontend of [portail-etu.emse.fr](https://portail-etu.emse.fr).
-It work on top of [backend_portail-etu.emse.fr](https://github.com/CorentinDoue/backend_portail-etu.emse.fr.git) which is in ../back
+It work on top of [backend_portail-etu.emse.fr](https://github.com/CorentinDoue/backend_portail-etu.emse.fr.git) which is in ../backend
 
 
 Do not touch build folder 

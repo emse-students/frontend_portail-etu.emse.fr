@@ -1,6 +1,6 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
   <p>
-    <button mat-flat-button type="button" color="primary" onclick="document.getElementById('fileToUpload').click()">
+    <button mat-flat-button type="button" color="primary" [ngStyle]="asso | assoStyle : 'accent'" onclick="document.getElementById('fileToUpload').click()">
       Sélectionner un fichier
     </button>
     <input id="fileToUpload" type="file" (change)="onFileChange($event)" style="display:none;">
@@ -10,6 +10,6 @@
 
   <p class="loginButtons">
     <button class="ml-2"  mat-flat-button color="warn" (click)="canceled.emit(true)">Annuler</button>
-    <button class="ml-2" type="submit" mat-raised-button color="accent" [disabled]="form.invalid">Envoyer</button>
+    <button class="ml-2" type="submit" mat-raised-button color="accent" [ngStyle]=" form.valid ? (asso | assoStyle : 'accent') : {}" [disabled]="form.invalid">Envoyer</button>
   </p>
 </form>

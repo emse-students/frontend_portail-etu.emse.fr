@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {Position} from '../../core/models/position.model';
+import { Association } from '../../core/models/association.model';
 
 @Component({
   selector: 'app-positions-list',
@@ -7,7 +8,8 @@ import {Position} from '../../core/models/position.model';
     <mat-card-title>Membres</mat-card-title>
     <div class="d-flex flex-column">
       <div class="row justify-content-center">
-        <div class="member-card" *ngFor="let position of filterPosition(positions, 5, 100000) |orderBy : ['-role.hierarchy','role.name']">
+        <div class="member-card" [ngStyle]="asso | assoStyle : 'accent'"
+             *ngFor="let position of filterPosition(asso.positions, 5, 100000) | orderBy : ['-role.hierarchy','role.name']">
           <ng-container *ngIf="!position.loading">
             <div class="icon-row" *ngIf="modify">
               <mat-icon class="delete-icon"
@@ -17,7 +19,7 @@ import {Position} from '../../core/models/position.model';
                         (click)="delete.emit(position.id); position.loading=true;">
               </mat-icon>
             </div>
-            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-title p-1" [ngStyle]="asso | assoStyle">{{position.role.name}}</div>
             <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
             <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
           </ng-container>
@@ -25,7 +27,8 @@ import {Position} from '../../core/models/position.model';
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="member-card" *ngFor="let position of filterPosition(positions, 3, 6) | orderBy : ['-role.hierarchy','role.name']">
+        <div class="member-card" [ngStyle]="asso | assoStyle : 'accent'"
+             *ngFor="let position of filterPosition(asso.positions, 3, 6) | orderBy : ['-role.hierarchy','role.name']">
           <ng-container *ngIf="!position.loading">
             <div class="icon-row" *ngIf="modify">
               <mat-icon class="delete-icon"
@@ -35,7 +38,7 @@ import {Position} from '../../core/models/position.model';
                         (click)="delete.emit(position.id); position.loading=true;">
               </mat-icon>
             </div>
-            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-title p-1" [ngStyle]="asso | assoStyle">{{position.role.name}}</div>
             <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
             <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
           </ng-container>
@@ -43,7 +46,8 @@ import {Position} from '../../core/models/position.model';
         </div>
       </div>
       <div class="row justify-content-center">
-        <div class="member-card" *ngFor="let position of filterPosition(positions, -100000, 4) | orderBy : ['-role.hierarchy','role.name']">
+        <div class="member-card" [ngStyle]="asso | assoStyle : 'accent'"
+             *ngFor="let position of filterPosition(asso.positions, -100000, 4) | orderBy : ['-role.hierarchy','role.name']">
           <ng-container *ngIf="!position.loading">
             <div class="icon-row" *ngIf="modify">
               <mat-icon class="delete-icon"
@@ -53,7 +57,7 @@ import {Position} from '../../core/models/position.model';
                         (click)="delete.emit(position.id); position.loading=true;">
               </mat-icon>
             </div>
-            <div class="member-title p-1">{{position.role.name}}</div>
+            <div class="member-title p-1" [ngStyle]="asso | assoStyle">{{position.role.name}}</div>
             <div class="member-name pt-1 pr-1 pl-1">{{position.user.firstname+' '+position.user.lastname}}</div>
             <div class="member-name pb-1 pr-1 pl-1">{{position.user.type+' '+position.user.promo}}</div>
           </ng-container>
@@ -111,7 +115,7 @@ import {Position} from '../../core/models/position.model';
   `]
 })
 export class PositionsListComponent implements OnInit {
-  @Input() positions: Position[];
+  @Input() asso: Association;
   @Input() modify: boolean;
   @Output() delete = new EventEmitter<number>();
   constructor() { }

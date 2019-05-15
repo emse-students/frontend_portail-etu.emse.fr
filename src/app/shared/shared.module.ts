@@ -36,6 +36,8 @@ import { TranslateStatusPipe } from './pipes/translate-status.pipe';
 import {ResolveComponentDirective} from './directives/resolve-component.directive';
 import { DateDifferencePipe } from './pipes/date-difference.pipe';
 import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-form.component';
+import {ColorPickerModule} from 'ngx-color-picker';
+import { AssoStylePipe } from './pipes/asso-style.pipe';
 
 
 @NgModule({
@@ -70,6 +72,7 @@ import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-fo
     MatNativeDateModule,
     MatAutocompleteModule,
     MatRadioModule,
+    ColorPickerModule,
 
     AngularSvgIconModule,
   ],
@@ -87,7 +90,8 @@ import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-fo
 
     ResolveComponentDirective,
 
-    DateDifferencePipe
+    DateDifferencePipe,
+    AssoStylePipe,
   ],
   exports: [
     CommonModule,
@@ -120,6 +124,7 @@ import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-fo
     MatNativeDateModule,
     MatAutocompleteModule,
     MatRadioModule,
+    ColorPickerModule,
 
     AngularSvgIconModule,
 
@@ -131,6 +136,7 @@ import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-fo
     TranslateStatusPipe,
     ResolveComponentDirective,
     DateDifferencePipe,
+    AssoStylePipe,
 
     SearchComponent,
     ImgUploadFormComponent

@@ -6,6 +6,7 @@ import {Right, Role} from '../../../core/models/role.model';
 import {UserLight} from '../../../core/models/auth.model';
 import {map, startWith} from 'rxjs/operators';
 import {Observable} from 'rxjs';
+import { Association } from '../../../core/models/association.model';
 
 interface BoolRight {
   selected: boolean;
@@ -18,7 +19,7 @@ interface BoolRight {
   styleUrls: ['./add-position-form.component.scss']
 })
 export class AddPositionFormComponent implements OnInit {
-  @Input() assoId: number;
+  @Input() asso: Association;
   @Input() roles: Role[];
   @Input() users: UserLight[];
   @Input() allRights: Right[];
@@ -81,7 +82,7 @@ export class AddPositionFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.association.setValue(environment.api_uri + '/associations/' + this.assoId);
+      this.association.setValue(environment.api_uri + '/associations/' + this.asso.id);
       this.user.setValue(this.api_url + '/users/' + this.user.value.id);
       if (this.newRole.value) {
         this.rights.patchValue(

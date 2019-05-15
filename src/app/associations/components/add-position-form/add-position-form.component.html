@@ -28,21 +28,13 @@
       <mat-error *ngIf="roleText.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>
     </mat-form-field>
   </p>
-  <button class="m-2" mat-flat-button color="primary" (click)="name.setValue(roleText.value); newRole.setValue(true); role.reset();" *ngIf="roleText.value && !role.value && !newRole.value">Créer un nouveau role</button>
+  <button class="m-2" mat-flat-button [ngStyle]="asso | assoStyle" (click)="name.setValue(roleText.value); newRole.setValue(true); role.reset();" *ngIf="roleText.value && !role.value && !newRole.value">Créer un nouveau role</button>
 
   <div *ngIf="role.value && !newRole.value">
     {{role.value.name}}
     <button class="ml-2" mat-flat-button color="warn" (click)="role.reset()">Changer</button>
   </div>
 
-  <!--<p>-->
-    <!--<mat-form-field class="w-100">-->
-      <!--<mat-select placeholder="Role" formControlName="role">-->
-        <!--<mat-option [value]="selectRole" *ngFor="let selectRole of roles">{{selectRole.name}}</mat-option>-->
-      <!--</mat-select>-->
-      <!--<mat-error *ngIf="role.touched && role.invalid">{{getErrorMessage(role)}}</mat-error>-->
-    <!--</mat-form-field>-->
-  <!--</p>-->
   <p *ngIf="role.value && !newRole.value">Droits :</p>
   <ul *ngIf="role.value && !newRole.value">
     <li *ngFor="let right of role.value.rights">{{right.name}}</li>
@@ -83,11 +75,11 @@
       Sur la première ligne se trouvent les membres avec une hiérarchie inférieur à 6 et supérieur ou égale à 4. C'est la ligne des repos.<br>
       Sur la première ligne se trouvent les membres avec une hiérarchie inférieur à 4. C'est la ligne des autres membres.<br>
     </p>
-    <button class="m-2" mat-flat-button color="primary" (click)="newRole.setValue(false); role.reset();">Sélectionner un role existant</button>
+    <button class="m-2" mat-flat-button [ngStyle]="asso | assoStyle" (click)="newRole.setValue(false); role.reset();">Sélectionner un role existant</button>
   </ng-container>
 
   <p class="loginButtons">
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Ajouter le membre</button>
+    <button class="ml-2" type="submit" mat-flat-button [ngStyle]="asso | assoStyle : 'accent'" [disabled]="form.invalid">Ajouter le membre</button>
   </p>
 
 </form>

@@ -8,3 +8,19 @@ svg-icon {
   padding: 20px;
   cursor: pointer;
 }
+.color-picker-button {
+  margin: 20px;
+  padding: 40px;
+  cursor: pointer;
+  box-shadow: 0px 3px 1px -2px rgba(0, 0, 0, 0.2), 0px 2px 2px 0px rgba(0, 0, 0, 0.14), 0px 1px 5px 0px rgba(0, 0, 0, 0.12);
+  border-radius: 5px;
+  text-align: center;
+  width: 100%;
+}
+
+.swap-icon{
+  font-size: 50px !important;
+  width: unset;
+  height: unset;
+  cursor: pointer;
+}

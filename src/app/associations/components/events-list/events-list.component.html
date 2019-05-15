@@ -1,12 +1,13 @@
 <mat-card-title>Événements</mat-card-title>
 <div class="row justify-content-center" *ngIf="isRightful">
-  <a [routerLink]="'/events-settings/new/'+assoId"><button class="m-2" mat-raised-button color="accent">Créer un événement</button></a>
+  <a [routerLink]="'/events-settings/new/'+asso.id"><button class="m-2" mat-raised-button [ngStyle]="asso | assoStyle : 'accent'">Créer un événement</button></a>
 </div>
 <div class="row">
-  <ng-container *ngFor="let event of events | orderBy : '-date'">
+  <ng-container *ngFor="let event of asso.events | orderBy : '-date'">
     <app-event-card class="col-md-6"
                     *ngIf="event.status === 'validated' || event.status === 'inactive' || isRightful"
                     [event]="event"
+                    [asso]="asso"
                     [isRightful]="isRightful">
     </app-event-card>
   </ng-container>

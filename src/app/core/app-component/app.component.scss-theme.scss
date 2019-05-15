@@ -4,6 +4,10 @@
   $primary: map-get($theme, primary);
   $accent: map-get($theme, accent);
 
+  .mat-drawer-container {
+    background-color: #65459e1a;
+  }
+
   mat-sidenav-container {
     mat-toolbar {
       button {

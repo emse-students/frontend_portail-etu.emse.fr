@@ -29,6 +29,7 @@ export class AssociationsReviewComponent implements OnInit {
   addDesc = false;
   changeName = false;
   changePos = false;
+  changeColor = false;
   nameLoading = false;
   logoLoading = false;
   descLoading = false;
@@ -36,7 +37,39 @@ export class AssociationsReviewComponent implements OnInit {
   roles: Role[];
   users: UserLight[];
   rights: Right[];
-  get authService() {return this._authService; }
+  contrasts = [
+      {
+        value: 'white',
+        viewValue: 'Blanc'
+      },
+      {
+        value: 'null',
+        viewValue: 'Couleur 2'
+      },
+      {
+        value: 'black',
+        viewValue: 'Noir'
+      }
+    ];
+  contrasts2 = [
+    {
+      value: 'white',
+      viewValue: 'Blanc'
+    },
+    {
+      value: 'null',
+      viewValue: 'Couleur 1'
+    },
+    {
+      value: 'black',
+      viewValue: 'Noir'
+    }
+  ];
+
+  get authService() {
+    return this._authService;
+  }
+
 
   constructor(
     private associationService: AssociationService,
@@ -67,7 +100,7 @@ export class AssociationsReviewComponent implements OnInit {
         });
         this.associationService.getLights();
       } else {
-          this.loadAsso(params);
+        this.loadAsso(params);
       }
     });
   }
@@ -81,6 +114,8 @@ export class AssociationsReviewComponent implements OnInit {
           this.associationService.get(idAsso).subscribe((asso: Association) => {
             // console.log(asso);
             this.asso = asso;
+            this.asso.color = this.asso.color ? this.asso.color : '#61259e';
+            this.asso.color2 = this.asso.color2 ? this.asso.color2 : '#ffca28';
             if (this.authService.hasAssoRight(2, this.asso.id) || this.authService.isAdmin()) {
               let roleLoaded = false;
               let usersLoaded = false;
@@ -116,11 +151,18 @@ export class AssociationsReviewComponent implements OnInit {
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
         this.associationService.put(
-          {id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id}
-          ).subscribe((asso: Association) => {this.asso = asso; this.logoLoading = false; },
-        (error) => {this.logoLoading = false; });
-        },
-      (error) => {this.logoLoading = false; }
+          { id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id }
+        ).subscribe((asso: Association) => {
+            this.asso = asso;
+            this.logoLoading = false;
+          },
+          (error) => {
+            this.logoLoading = false;
+          });
+      },
+      (error) => {
+        this.logoLoading = false;
+      }
     );
   }
 
@@ -128,27 +170,48 @@ export class AssociationsReviewComponent implements OnInit {
     this.addDesc = false;
     this.descLoading = true;
     this.associationService.put(
-      {id: this.asso.id, description: text}
+      { id: this.asso.id, description: text }
     ).subscribe(
       (asso: Association) => {
         this.asso = asso;
         this.descLoading = false;
       },
-      (error) => {this.descLoading = false; }
-      );
+      (error) => {
+        this.descLoading = false;
+      }
+    );
   }
 
   uploadName(text: string) {
     this.changeName = false;
     this.nameLoading = true;
     this.associationService.put(
-      {id: this.asso.id, name: text}
+      { id: this.asso.id, name: text }
     ).subscribe(
       (asso: Association) => {
         this.asso = asso;
         this.nameLoading = false;
       },
-      (error) => {this.nameLoading = false; }
+      (error) => {
+        this.nameLoading = false;
+      }
+    );
+  }
+
+  uploadColors() {
+    this.changeColor = false;
+    this.associationService.put(
+      {
+        id: this.asso.id,
+        color: this.asso.color,
+        color2: this.asso.color2,
+        contrastColor: this.asso.contrastColor,
+        contrastColor2: this.asso.contrastColor2
+      }
+    ).subscribe(
+      (asso: Association) => {
+        this.asso = asso;
+      }
     );
   }
 
@@ -163,21 +226,32 @@ export class AssociationsReviewComponent implements OnInit {
           this.roles.push(newPosition.role);
         }
         this.positionLoading = false;
-        },
-      (error) => {this.positionLoading = false; }
-      );
+      },
+      (error) => {
+        this.positionLoading = false;
+      }
+    );
   }
 
   deletePosition(positionId: number) {
     this.positionService.delete(positionId).subscribe(
       () => {
         this.asso.positions = arrayRemoveById(this.asso.positions, positionId);
-        },
+      },
       (error) => {
         this.asso.positions[arrayFindById(this.asso.positions, positionId)].loading = false;
         this.asso.positions = this.asso.positions.slice(0);
       }
     );
+  }
+
+  switchColor() {
+    let temp = this.asso.color;
+    this.asso.color = this.asso.color2;
+    this.asso.color2 = temp;
+    temp = this.asso.contrastColor;
+    this.asso.contrastColor = this.asso.contrastColor2;
+    this.asso.contrastColor2 = temp;
   }
 }
 

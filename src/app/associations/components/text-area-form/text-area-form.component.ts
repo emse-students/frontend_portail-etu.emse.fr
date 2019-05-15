@@ -1,6 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UrlSafeStringService} from '../../../core/services/url-safe-string.service';
+import {FormBuilder, FormGroup} from '@angular/forms';
+import { Association } from '../../../core/models/association.model';
 
 @Component({
   selector: 'app-text-area-form',
@@ -8,7 +8,7 @@ import {UrlSafeStringService} from '../../../core/services/url-safe-string.servi
   styleUrls: ['./text-area-form.component.scss']
 })
 export class TextAreaFormComponent implements OnInit {
-
+  @Input() asso: Association;
   @Input()
   set text (text: string | null) {
     if (text !== null) {

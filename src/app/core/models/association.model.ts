@@ -8,6 +8,9 @@ export interface Association {
   tag: string;
   description: string;
   color: string;
+  contrastColor: string;
+  color2: string;
+  contrastColor2: string;
   logo: FileDTO;
   lastActionDate: string;
   positions: Position[];
@@ -34,6 +37,9 @@ export interface AssociationDTO {
   tag?: string;
   description?: string;
   color?: string;
+  contrastColor?: string;
+  color2?: string;
+  contrastColor2?: string;
   logo?: string;
   lastActionDate?: string;
   positions?: Position[];

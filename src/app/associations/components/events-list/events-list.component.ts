@@ -1,5 +1,5 @@
 import {Component, Input, OnInit} from '@angular/core';
-import {EventLight} from '../../../core/models/event.model';
+import { Association } from '../../../core/models/association.model';
 
 @Component({
   selector: 'app-events-list',
@@ -7,8 +7,7 @@ import {EventLight} from '../../../core/models/event.model';
   styleUrls: ['./events-list.component.scss']
 })
 export class EventsListComponent implements OnInit {
-  @Input() assoId: number;
-  @Input() events: EventLight[];
+  @Input() asso: Association;
   @Input() isRightful: boolean;
 
   constructor() { }

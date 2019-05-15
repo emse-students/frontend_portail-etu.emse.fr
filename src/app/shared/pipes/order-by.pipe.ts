@@ -32,7 +32,7 @@ export class OrderByPipe implements PipeTransform {
     return 0; // equal each other
   }
 
-  transform(input: any, config: string = '+'): any {
+  transform(input: any, config: string[] | string = '+'): any {
 
     // invalid input given
     if (!input) { return input; }

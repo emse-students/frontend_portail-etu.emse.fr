@@ -6,17 +6,17 @@
   </div>
   <div class="row justify-content-around">
     <a [routerLink]="'/events-settings/'+event.id" *ngIf="isRightful">
-      <button mat-flat-button color="accent" >Paramètres</button>
+      <button mat-flat-button [ngStyle]="asso | assoStyle : 'accent'" >Paramètres</button>
     </a>
     <a [routerLink]="'/events/'+event.id+'/review'" *ngIf="!isRightful">
-      <button mat-flat-button color="accent" >Détail</button>
+      <button mat-flat-button [ngStyle]="asso | assoStyle : 'accent'" >Détail</button>
     </a>
     <a [routerLink]="'/events/'+event.id+'/book'" *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today && (event.status != 'inactive' || isRightful)">
-      <button mat-flat-button color="primary">S'inscrire</button>
+      <button mat-flat-button [ngStyle]="asso | assoStyle">S'inscrire</button>
     </a>
-    <button mat-flat-button color="accent" disabled *ngIf="allReadyBooked">Déjà inscrit</button>
-    <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && !(event.date < today) && (event.closingDate && event.closingDate < today)">Deadline passée</button>
-    <button mat-flat-button color="accent" disabled *ngIf="!allReadyBooked && event.date < today">Événement passé</button>
+    <button mat-flat-button disabled *ngIf="allReadyBooked">Déjà inscrit</button>
+    <button mat-flat-button disabled *ngIf="!allReadyBooked && !(event.date < today) && (event.closingDate && event.closingDate < today)">Deadline passée</button>
+    <button mat-flat-button disabled *ngIf="!allReadyBooked && event.date < today">Événement passé</button>
   </div>
   <div class="row text-center" *ngIf="event.status !== 'validated' && isRightful">
     <div class="col">Statut : {{event.status | translateStatus}}</div>

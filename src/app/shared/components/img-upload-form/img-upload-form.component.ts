@@ -2,6 +2,7 @@ import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from 
 import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
 import {UrlSafeStringService} from '../../../core/services/url-safe-string.service';
 import {FileToUpload} from '../../../core/models/file.model';
+import { Association } from '../../../core/models/association.model';
 
 
 
@@ -12,7 +13,8 @@ import {FileToUpload} from '../../../core/models/file.model';
 })
 export class ImgUploadFormComponent implements OnInit {
 
-  @Input() imgName;
+  @Input() imgName: string;
+  @Input() asso: Association;
   @Output() submitted = new EventEmitter<FileToUpload>();
   @Output() canceled = new EventEmitter<boolean>();
   filetouched = false;

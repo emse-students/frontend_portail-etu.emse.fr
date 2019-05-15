@@ -1,5 +1,6 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
 import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
+import { Association } from '../../core/models/association.model';
 
 @Component({
   selector: 'app-title-form',
@@ -14,7 +15,9 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '
 
       <p class="loginButtons">
         <button class="ml-2"  mat-flat-button color="warn" (click)="canceled.emit(true)">Annuler</button>
-        <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid">Sauvegarder</button>
+        <button class="ml-2" type="submit" mat-flat-button
+                [ngStyle]=" form.valid ? (asso | assoStyle : 'accent') : {}"
+                [disabled]="form.invalid">Sauvegarder</button>
       </p>
 
     </form>
@@ -22,7 +25,7 @@ import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '
   styles: []
 })
 export class TitleFormComponent implements OnInit {
-
+  @Input() asso: Association;
   @Input()
   set text (text: string | null) {
     if (text !== null) {

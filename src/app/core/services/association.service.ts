@@ -115,6 +115,7 @@ export class AssociationService {
     const $asso = new Subject<Association>();
     return this.http.put<Association>(url, asso).pipe(map(
       (updatedAsso) => {
+        updatedAsso.events.map(EventService.parseDates);
         $asso.next(updatedAsso);
         for (let i = 0; i < this._allAssosAndLists.length; i++) {
           if (this._allAssosAndLists[i].id === updatedAsso.id) {

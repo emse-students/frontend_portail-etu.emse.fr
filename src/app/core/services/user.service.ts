@@ -29,7 +29,7 @@ export class UserService {
     const url = `${environment.api_url}/users`;
     return this.http.get<UserLight[]>(url).pipe(
       map((users) => this.jsonLdService.parseCollection<UserLight>(users).collection),
-      map((users) => users.sort((a, b) => (a.promo < b.promo) ? 1 : (a.promo > b.promo) ? -1 : (a.type === 'ICM') ? 1 : -1))
+      map((users) => users.sort((a, b) => (a.promo < b.promo) ? 1 : (a.promo > b.promo) ? -1 : (a.type === 'ICM') ? -1 : 1))
     );
   }
 

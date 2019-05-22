@@ -1,5 +1,5 @@
 import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Booking, Event, EventBooking, NewBooking} from '../../core/models/event.model';
+import {Booking, Event, EventBooking} from '../../core/models/event.model';
 import {FormInput} from '../../core/models/form.model';
 import {environment} from '../../../environments/environment';
 import {EventService} from '../../core/services/event.service';
@@ -54,11 +54,12 @@ import {InfoService} from '../../core/services/info.service';
               Solde Cercle : {{booking.user.cercleBalance | currency:'EUR':'symbol':'1.0-2':'fr'}}
             </div>
             <div class="row justify-content-around">
-              <button class="m-1" mat-flat-button color="primary" *ngIf="paymentMeans.id === 1 && booking.user.contributeBDE"
+              <button class="m-1" mat-flat-button color="primary"
+                      *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
                       [disabled]="!booking.user || booking.user.balance < price()" (click)="book(paymentMeans.id)">
                 Payer par {{paymentMeans.name}}
               </button>
-              <button class="m-1" mat-flat-button color="accent" *ngIf="paymentMeans.id === 1 && booking.user.contributeBDE"
+              <button class="m-1" mat-flat-button color="accent" *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
                       [disabled]="!booking.user || booking.user.balance < price()" (click)="book(paymentMeans.id, true)">
                 Payer par {{paymentMeans.name}} et checker
               </button>
@@ -229,7 +230,7 @@ export class BookingCheckingCardComponent implements OnInit {
             this.infoService.pushSuccess('Checké');
           }
         },
-        (error) => {
+        () => {
           this.pending = false;
         }
       );
@@ -249,8 +250,7 @@ export class BookingCheckingCardComponent implements OnInit {
       };
       // console.log(booking);
       this.eventService.putBook(booking).subscribe(
-        (b: Booking) => {
-          // console.log(b);
+        () => {
           this.pending = false;
           this.booking.paid = false;
           this.booking.paymentMeans = null;
@@ -261,7 +261,7 @@ export class BookingCheckingCardComponent implements OnInit {
           this.paid.emit(this.booking);
           this.infoService.pushSuccess('Paiement annulé');
         },
-        (error) => {
+        () => {
           this.pending = false;
         }
       );

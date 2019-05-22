@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 import {HttpClient} from '@angular/common/http';
-import {Observable, of, Subject} from 'rxjs';
+import {Observable, Subject} from 'rxjs';
 import {environment} from '../../../environments/environment';
-import {AuthenticatedUser, UserLight} from '../models/auth.model';
+import {UserLight} from '../models/auth.model';
 import {map} from 'rxjs/operators';
 import {JsonLdService} from './json-ld.service';
-import {Booking, Event} from '../models/event.model';
+import {Booking} from '../models/event.model';
 import {CercleUserDTO, User, UserBookings, UserDTO, UserOperation} from '../models/user.model';
 import {EventService} from './event.service';
 import {arrayRemoveByValue} from './utils';
@@ -29,7 +29,7 @@ export class UserService {
     const url = `${environment.api_url}/users`;
     return this.http.get<UserLight[]>(url).pipe(
       map((users) => this.jsonLdService.parseCollection<UserLight>(users).collection),
-      map((users) => users.sort((a, b) => (a.promo < b.promo) ? 1 : -1))
+      map((users) => users.sort((a, b) => (a.promo < b.promo) ? 1 : (a.promo > b.promo) ? -1 : (a.type === 'ICM') ? 1 : -1))
     );
   }
 

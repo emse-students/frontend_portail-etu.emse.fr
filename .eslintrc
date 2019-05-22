@@ -1,0 +1,43 @@
+{
+  "parser": "babel-eslint",
+  "extends": ["prettier"],
+  "plugins": [
+    "import",
+    "mysticatea",
+    "prefer-object-spread",
+    "prettier"
+  ],
+  "env": {
+    "browser": true,
+    "es6": true,
+    "jest": true,
+    "jest/globals": true,
+    "mocha": true,
+    "node": true
+  },
+  "globals": {
+    "alert": true,
+    "document": true,
+    "localStorage": true,
+    "navigator": true,
+    "window": true,
+    "HTMLElement": true
+  },
+  "rules": {
+    "prettier/prettier": [
+      "error",
+      {
+        "singleQuote": true,
+        "trailingComma": "all",
+        "bracketSpacing": true
+      }
+    ],
+    "import/extensions": 0,
+    "import/no-extraneous-dependencies": 0,
+    "import/no-unresolved": 0,
+    "import/prefer-default-export": 0,
+    "import/no-relative-parent-imports": 0,
+    "mysticatea/no-useless-rest-spread": "error",
+    "prefer-object-spread/prefer-object-spread": 2
+  }
+}

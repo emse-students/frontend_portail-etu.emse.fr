@@ -1,7 +1,7 @@
 import {Component, OnInit, ViewChild} from '@angular/core';
 import {ActivatedRoute, Router} from '@angular/router';
 import {EventService} from '../../core/services/event.service';
-import {Booking, BookingRanked, Event, EventBooking} from '../../core/models/event.model';
+import {Event, EventBooking} from '../../core/models/event.model';
 import {PaymentMeans} from '../../core/models/payment-means.model';
 import {AuthService} from '../../core/services/auth.service';
 import {PaymentMeansService} from '../../core/services/payment-means.service';
@@ -9,6 +9,7 @@ import {EventSummaryComponent} from '../components/event-summary/event-summary.c
 import {InfoService} from '../../core/services/info.service';
 import {EventUser, UserLight} from '../../core/models/auth.model';
 import {UserService} from '../../core/services/user.service';
+import { arrayFindById } from '../../core/services/utils';
 
 @Component({
   selector: 'app-event-settings',
@@ -120,16 +121,6 @@ import {UserService} from '../../core/services/user.service';
   `]
 })
 export class EventSettingsComponent implements OnInit {
-  selectedUser = null;
-  selectedUserToAddBooking = null;
-  unauthorized = false;
-  loaded;
-  paymentMeansLoaded = false;
-  event: Event;
-  users: EventUser[];
-  selectedEventSetting: number;
-  paymentMeans: PaymentMeans[];
-  @ViewChild('summary') summary: EventSummaryComponent;
   get authService() { return this._authService; }
 
   constructor(
@@ -141,6 +132,33 @@ export class EventSettingsComponent implements OnInit {
     private infoService: InfoService,
     private userService: UserService,
   ) { }
+  selectedUser = null;
+  selectedUserToAddBooking = null;
+  unauthorized = false;
+  loaded;
+  paymentMeansLoaded = false;
+  event: Event;
+  users: EventUser[];
+  selectedEventSetting: number;
+  paymentMeans: PaymentMeans[];
+  @ViewChild('summary') summary: EventSummaryComponent;
+
+  static strIdToTabId(strId: string): number {
+    switch (strId) {
+      case 'summary':
+        return 0;
+      case 'checking':
+        return 1;
+      case 'list':
+        return 2;
+      case 'modify':
+        return 3;
+      case 'add-booking':
+        return 4;
+      case 'excel':
+        return 5;
+    }
+  }
 
   ngOnInit() {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
@@ -156,7 +174,7 @@ export class EventSettingsComponent implements OnInit {
       if (!this.event || this.event.id !== Number(params.get('id'))) {
         this.loaded = false;
       }
-      this.selectedEventSetting = this.strIdToTabId(params.get('setting'));
+      this.selectedEventSetting = EventSettingsComponent.strIdToTabId(params.get('setting'));
       if (!this.loaded) {
         this.eventService.get(Number(params.get('id'))).subscribe((event: Event) => {
           this.event = event;
@@ -176,7 +194,7 @@ export class EventSettingsComponent implements OnInit {
                   });
                   for (let i = 0; i < this.event.bookings.length; i++) {
                     if (!this.event.bookings[i].user) {
-                      this.users.push(
+                      this.users.unshift(
                         {
                           username: this.event.bookings[i].userName,
                           bookingIndex: i
@@ -220,7 +238,7 @@ export class EventSettingsComponent implements OnInit {
           });
           this.infoService.pushSuccess('Réservation annulée');
         },
-        (error) => {
+        () => {
           this.event = Object.assign({}, this.event);
         }
       );
@@ -228,12 +246,18 @@ export class EventSettingsComponent implements OnInit {
   }
 
   addBooking(booking) {
-    this.event.bookings.push(booking);
-    const bookings = this.event.bookings;
-    this.eventService.get(this.event.id).subscribe((event: Event) => {
-      this.event = event;
-      this.event.bookings = bookings;
-    });
+    this.event = {
+      ...this.event,
+      bookings: [...this.event.bookings, booking],
+    };
+    if (!booking.user) {
+      this.users.unshift(
+        {
+          username: booking.userName,
+          bookingIndex: arrayFindById(this.event.bookings, booking.id),
+        }
+      );
+    }
   }
 
   selectUser(user) {
@@ -244,22 +268,5 @@ export class EventSettingsComponent implements OnInit {
   selectUserToAddBooking(user) {
     this.selectedUserToAddBooking = user;
     this.goTo('add-booking');
-  }
-
-  strIdToTabId(strId: string): number {
-    switch (strId) {
-      case 'summary':
-        return 0;
-      case 'checking':
-        return 1;
-      case 'list':
-        return 2;
-      case 'modify':
-        return 3;
-      case 'add-booking':
-        return 4;
-      case 'excel':
-        return 5;
-    }
   }
 }

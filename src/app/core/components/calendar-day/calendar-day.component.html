@@ -1,0 +1,17 @@
+<div class="date">
+  <span class="day-number">{{ day.date | date: 'd' }}</span> <span class="month">{{ day.date | date: 'M' | translateMonth }}</span>
+</div>
+<div class="event" *ngFor="let event of day.events | orderBy: 'date'"
+     [ngStyle]="event.association | assoStyle: 'accent'"
+     (click)="selectEvent(event)">
+  <div class="logo-background" *ngIf="event.association.logo">
+    <img [src]="imgPath+'/'+event.association.logo.filename"
+         [alt]="event.association.logo.filename"
+         style="width: 100%;">
+  </div>
+  <div class="event-background" [ngStyle]="event.association | assoStyle: 'accent'"></div>
+  <div class="event-name">
+    {{(event.shotgunStartingDate > day.date && event.shotgunStartingDate < nextDay(event.date)) ? 'Shotgun ' : ''}}
+    {{event.name}}
+  </div>
+</div>

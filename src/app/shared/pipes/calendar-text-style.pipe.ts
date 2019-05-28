@@ -4,8 +4,8 @@ import { Association } from '../../core/models/association.model';
 interface AssoStyle {
   [p: string]: string;
 }
-@Pipe({ name: 'assoStyle', pure: false })
-export class AssoStylePipe implements PipeTransform {
+@Pipe({ name: 'calendarTextStyle', pure: false })
+export class CalendarTextStylePipe implements PipeTransform {
   transform(input: Association, color: 'primary' | 'accent' = 'primary'): AssoStyle {
     if (!input) {
       return {};
@@ -14,12 +14,20 @@ export class AssoStylePipe implements PipeTransform {
 
     if (color === 'accent') {
       style = {
-        background: input.color2,
+        textShadow:
+          `-1px -1px 0 ${input.color2},` +
+          `1px -1px 0 ${input.color2},` +
+          `-1px  1px 0 ${input.color2},` +
+          `1px  1px 0 ${input.color2}`,
         color: input.contrastColor2 ? input.contrastColor2 : input.color,
       };
     } else {
       style = {
-        background: input.color,
+        textShadow:
+          `-1px -1px 0 ${input.color},` +
+          `1px -1px 0 ${input.color},` +
+          `-1px  1px 0 ${input.color},` +
+          `1px  1px 0 ${input.color}`,
         color: input.contrastColor ? input.contrastColor : input.color2,
       };
     }

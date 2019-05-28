@@ -1,0 +1,13 @@
+:host {
+  width: 100%;
+  display: flex;
+  justify-content: space-around;
+}
+
+.arrow {
+  transform: scale(2);
+}
+
+.arrow-button:hover {
+  background-color: rgba(0, 0, 0, 0.09);
+}

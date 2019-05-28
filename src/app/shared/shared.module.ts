@@ -1,6 +1,6 @@
 import { NgModule } from '@angular/core';
 import { CommonModule } from '@angular/common';
-import {FormsModule, ReactiveFormsModule} from '@angular/forms';
+import { FormsModule, ReactiveFormsModule } from '@angular/forms';
 
 import { MatButtonModule } from '@angular/material/button';
 import { MatToolbarModule } from '@angular/material/toolbar';
@@ -19,26 +19,31 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { MatSnackBarModule } from '@angular/material/snack-bar';
 import { MatSlideToggleModule } from '@angular/material/slide-toggle';
 import { AngularSvgIconModule } from 'angular-svg-icon';
-import {HttpClientModule} from '@angular/common/http';
-import {MatDatepickerModule, MatExpansionModule, MatNativeDateModule, MatRadioModule} from '@angular/material';
-import {MatPaginatorModule} from '@angular/material/paginator';
-import {MatTableModule} from '@angular/material/table';
-import {MatSortModule} from '@angular/material/sort';
-import {RouterModule} from '@angular/router';
-import {HourPipe} from './pipes/hour.pipe';
-import {TranslateDayPipe} from './pipes/translate-day.pipe';
-import {TranslateMonthPipe} from './pipes/translate-month.pipe';
-import {SearchComponent} from './components/search.component';
-import {EscapeHtmlPipe} from './pipes/escape-html.pipe';
-import {MatAutocompleteModule} from '@angular/material/autocomplete';
+import { HttpClientModule } from '@angular/common/http';
+import {
+  MatDatepickerModule,
+  MatExpansionModule,
+  MatNativeDateModule,
+  MatRadioModule,
+} from '@angular/material';
+import { MatPaginatorModule } from '@angular/material/paginator';
+import { MatTableModule } from '@angular/material/table';
+import { MatSortModule } from '@angular/material/sort';
+import { RouterModule } from '@angular/router';
+import { HourPipe } from './pipes/hour.pipe';
+import { TranslateDayPipe } from './pipes/translate-day.pipe';
+import { TranslateMonthPipe } from './pipes/translate-month.pipe';
+import { SearchComponent } from './components/search.component';
+import { EscapeHtmlPipe } from './pipes/escape-html.pipe';
+import { MatAutocompleteModule } from '@angular/material/autocomplete';
 import { OrderByPipe } from './pipes/order-by.pipe';
 import { TranslateStatusPipe } from './pipes/translate-status.pipe';
-import {ResolveComponentDirective} from './directives/resolve-component.directive';
+import { ResolveComponentDirective } from './directives/resolve-component.directive';
 import { DateDifferencePipe } from './pipes/date-difference.pipe';
-import {ImgUploadFormComponent} from './components/img-upload-form/img-upload-form.component';
-import {ColorPickerModule} from 'ngx-color-picker';
+import { ImgUploadFormComponent } from './components/img-upload-form/img-upload-form.component';
+import { ColorPickerModule } from 'ngx-color-picker';
 import { AssoStylePipe } from './pipes/asso-style.pipe';
-
+import { CalendarTextStylePipe } from './pipes/calendar-text-style.pipe';
 
 @NgModule({
   imports: [
@@ -92,6 +97,7 @@ import { AssoStylePipe } from './pipes/asso-style.pipe';
 
     DateDifferencePipe,
     AssoStylePipe,
+    CalendarTextStylePipe,
   ],
   exports: [
     CommonModule,
@@ -137,9 +143,10 @@ import { AssoStylePipe } from './pipes/asso-style.pipe';
     ResolveComponentDirective,
     DateDifferencePipe,
     AssoStylePipe,
+    CalendarTextStylePipe,
 
     SearchComponent,
-    ImgUploadFormComponent
-  ]
+    ImgUploadFormComponent,
+  ],
 })
 export class SharedModule {}

@@ -1,19 +1,27 @@
-import {Injectable} from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {JsonLdService} from './json-ld.service';
-import {Observable} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {map} from 'rxjs/operators';
-import {NewEvent, Event, NewBooking, Booking, PutBooking, PutBookingLight, EventBooking} from '../models/event.model';
+import { Injectable } from '@angular/core';
+import { HttpClient } from '@angular/common/http';
+import { JsonLdService } from './json-ld.service';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { map } from 'rxjs/operators';
+import {
+  NewEvent,
+  Event,
+  NewBooking,
+  Booking,
+  PutBooking,
+  PutBookingLight,
+  EventBooking,
+} from '../models/event.model';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class EventService {
-  constructor (private http: HttpClient, private jsonLdService: JsonLdService) {}
+  constructor(private http: HttpClient, private jsonLdService: JsonLdService) {}
 
-  static parseDates (event: Event): Event {
-    if ( event.date) {
+  static parseDates(event: Event): Event {
+    if (event.date) {
       event.date = new Date(event.date);
     }
     if (event.closingDate) {
@@ -25,7 +33,7 @@ export class EventService {
     return event;
   }
 
-  static parseBookingDates (booking: EventBooking): EventBooking {
+  static parseBookingDates(booking: EventBooking): EventBooking {
     if (booking.createdAt) {
       booking.createdAt = new Date(booking.createdAt);
     }
@@ -40,11 +48,17 @@ export class EventService {
     return this.http.post<Event>(url, event).pipe(map(EventService.parseDates));
   }
 
-  public gets(): Observable<Event[]> {
-    const url = `${environment.api_url}/events`;
-    return this.http.get<Event[]>(url).pipe(
-      map((events) => this.jsonLdService.parseCollection<Event>(events).collection.map(EventService.parseDates))
-    );
+  public getCalendarEvents(date: Date = null): Observable<Event[]> {
+    const url = `${environment.api_url}/events?time=${
+      date ? date.getTime() / 1000 : 'now'
+    }&status=validated|inactive`;
+    return this.http
+      .get<Event[]>(url)
+      .pipe(
+        map(events =>
+          this.jsonLdService.parseCollection<Event>(events).collection.map(EventService.parseDates),
+        ),
+      );
   }
 
   public get(eventId: number): Observable<Event> {
@@ -57,22 +71,25 @@ export class EventService {
     return this.http.delete(url);
   }
 
-  public put (event: Event): Observable<Event> {
+  public put(event: Event): Observable<Event> {
     const url = `${environment.api_url}/events/${event.id}`;
     return this.http.put<Event>(url, event).pipe(map(EventService.parseDates));
   }
 
   public book(booking: NewBooking): Observable<EventBooking> {
     const url = `${environment.api_url}/bookings`;
-    return this.http.post<EventBooking>(url, booking).pipe(
-      map(b => EventService.parseBookingDates(b))
-    );
+    return this.http
+      .post<EventBooking>(url, booking)
+      .pipe(map(b => EventService.parseBookingDates(b)));
   }
 
   public getBooking(bookingId: number): Observable<Booking> {
     const url = `${environment.api_url}/bookings/${bookingId}`;
     return this.http.get<Booking>(url).pipe(
-      map((booking: Booking) => {booking.event = EventService.parseDates(booking.event); return booking; })
+      map((booking: Booking) => {
+        booking.event = EventService.parseDates(booking.event);
+        return booking;
+      }),
     );
   }
 
@@ -88,11 +105,11 @@ export class EventService {
 
   public getBookings(eventId: number): Observable<Event> {
     const url = `${environment.api_url}/events/${eventId}/bookings`;
-    return this.http.get<Event>(url).pipe(map(
-      (event) => {
+    return this.http.get<Event>(url).pipe(
+      map(event => {
         event.bookings = event.bookings.map(EventService.parseBookingDates);
         return event;
-      }
-    ));
+      }),
+    );
   }
 }

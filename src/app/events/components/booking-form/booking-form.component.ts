@@ -1,13 +1,19 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AuthenticatedUser, EventUser, UserLight} from '../../../core/models/auth.model';
-import {FormInput, FormOutput, NewFormOutput, Option} from '../../../core/models/form.model';
-import {PaymentMeans} from '../../../core/models/payment-means.model';
-import {AbstractControl, FormArray, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {environment} from '../../../../environments/environment';
-import {NewBooking, Event, Booking, PutBooking} from '../../../core/models/event.model';
-import {arrayFindById} from '../../../core/services/utils';
-import {AuthService} from '../../../core/services/auth.service';
-import {User} from '../../../core/models/user.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AuthenticatedUser, EventUser } from '../../../core/models/auth.model';
+import { FormInput, FormOutput, Option } from '../../../core/models/form.model';
+import {
+  AbstractControl,
+  FormArray,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { environment } from '../../../../environments/environment';
+import { NewBooking, Event, Booking, PutBooking } from '../../../core/models/event.model';
+import { arrayFindById } from '../../../core/services/utils';
+import { AuthService } from '../../../core/services/auth.service';
 
 interface BoolOption {
   selected: boolean;
@@ -17,13 +23,13 @@ interface BoolOption {
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
-  styleUrls: ['./booking-form.component.scss']
+  styleUrls: ['./booking-form.component.scss'],
 })
 export class BookingFormComponent implements OnInit {
   now: Date;
   _authenticatedUser: AuthenticatedUser | EventUser;
   @Input()
-  set authenticatedUser (authenticatedUser: AuthenticatedUser | EventUser) {
+  set authenticatedUser(authenticatedUser: AuthenticatedUser | EventUser) {
     this._authenticatedUser = authenticatedUser;
     if (authenticatedUser && this.form && this.userName) {
       this.form.removeControl('userName');
@@ -31,7 +37,9 @@ export class BookingFormComponent implements OnInit {
       this.form.addControl('userName', new FormControl('', Validators.required));
     }
   }
-  get authenticatedUser() { return this._authenticatedUser; }
+  get authenticatedUser() {
+    return this._authenticatedUser;
+  }
   @Input() relatedEvent: Event;
   @Input() currentUser: EventUser = null;
   @Input() isNew;
@@ -44,55 +52,86 @@ export class BookingFormComponent implements OnInit {
       this.patch();
     }
   }
-  get booking() { return this._booking; }
+  get booking() {
+    return this._booking;
+  }
   lastPrice: number = null;
   displayUserName = false;
   form: FormGroup;
 
   @Output() submitted = new EventEmitter<NewBooking | PutBooking>();
-  constructor(
-    private fb: FormBuilder,
-    private authService: AuthService
-  ) { }
+  constructor(private fb: FormBuilder, private authService: AuthService) {}
 
   ngOnInit() {
     this.initForm();
     this.now = new Date();
     if (this.relatedEvent.shotgunListLength) {
-      setInterval(() => {this.now = new Date(); }, 1000);
+      setInterval(() => {
+        this.now = new Date();
+      }, 1000);
     }
   }
 
-  get id() {return this.form.get('id'); }
-  get paid() {return this.form.get('paid'); }
-  get paymentMeans() {return this.form.get('paymentMeans'); }
-  get user() {return this.form.get('user'); }
-  get event() {return this.form.get('event'); }
-  get userName() {return this.form.get('userName'); }
-  get operation() {return this.form.get('operation'); }
-  get bdePayment() {return this.form.get('bdePayment'); }
-  get cerclePayment() {return this.form.get('cerclePayment'); }
-  get cercleOperationAmount() {return this.form.get('cercleOperationAmount'); }
-  get formOutputs() {return this.form.get('formOutputs') as FormArray; }
-  options(i) { return this.formOutputs.controls[i].get('options'); }
-  boolOptions(i) { return this.formOutputs.controls[i].get('boolOptions') as FormArray; }
-  formInput(i) { return this.formOutputs.controls[i].get('formInput'); }
-
+  get id() {
+    return this.form.get('id');
+  }
+  get paid() {
+    return this.form.get('paid');
+  }
+  get paymentMeans() {
+    return this.form.get('paymentMeans');
+  }
+  get user() {
+    return this.form.get('user');
+  }
+  get event() {
+    return this.form.get('event');
+  }
+  get userName() {
+    return this.form.get('userName');
+  }
+  get operation() {
+    return this.form.get('operation');
+  }
+  get bdePayment() {
+    return this.form.get('bdePayment');
+  }
+  get cerclePayment() {
+    return this.form.get('cerclePayment');
+  }
+  get cercleOperationAmount() {
+    return this.form.get('cercleOperationAmount');
+  }
+  get formOutputs() {
+    return this.form.get('formOutputs') as FormArray;
+  }
+  options(i) {
+    return this.formOutputs.controls[i].get('options');
+  }
+  boolOptions(i) {
+    return this.formOutputs.controls[i].get('boolOptions') as FormArray;
+  }
+  formInput(i) {
+    return this.formOutputs.controls[i].get('formInput');
+  }
 
   initForm() {
-    this.form = this.fb.group({
-      id: [''],
-      paid: [false],
-      paymentMeans: [null],
-      user: [null],
-      userName: ['', Validators.required],
-      event: [''],
-      operation: [null],
-      bdePayment: [false],
-      cerclePayment: [false],
-      cercleOperationAmount: [null],
-      formOutputs: this.fb.array([])
-    }, {validators: this.positiveAccount()});
+    this.form = this.fb.group(
+      {
+        id: [''],
+        paid: [false],
+        paymentMeans: [null],
+        user: [null],
+        userName: ['', Validators.required],
+        event: [''],
+        operation: [null],
+        bdePayment: [false],
+        cerclePayment: [false],
+        cercleOperationAmount: [null],
+        formOutputs: this.fb.array([]),
+      },
+      { validators: this.positiveAccount() },
+    );
     if (this.authenticatedUser) {
       this.form.removeControl('userName');
     }
@@ -102,7 +141,6 @@ export class BookingFormComponent implements OnInit {
   patch() {
     if (this._booking) {
       this.form.patchValue(this._booking);
-      const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
       for (let i = 0; i < this.relatedEvent.formInputs.length; i++) {
         let patched = false;
         for (let j = 0; j < this._booking.formOutputs.length; j++) {
@@ -121,10 +159,10 @@ export class BookingFormComponent implements OnInit {
       if (this._booking.cercleOperationAmount) {
         this.lastPrice = this._booking.cercleOperationAmount;
       }
-      if (this.paymentMeans.value && this.paymentMeans.value.id === 1 ) {
+      if (this.paymentMeans.value && this.paymentMeans.value.id === 1) {
         this.bdePayment.setValue(true);
       }
-      if (this.paymentMeans.value && this.paymentMeans.value.id === 2 ) {
+      if (this.paymentMeans.value && this.paymentMeans.value.id === 2) {
         this.cerclePayment.setValue(true);
       }
     } else if (this.relatedEvent && this.relatedEvent.formInputs) {
@@ -141,17 +179,20 @@ export class BookingFormComponent implements OnInit {
           answer: ['', Validators.required],
           boolOptions: this.fb.array([]),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
-    } else if (formInput.required && ( formInput.type === 'singleOption' || formInput.type === 'multipleOptions' ) ) {
+    } else if (
+      formInput.required &&
+      (formInput.type === 'singleOption' || formInput.type === 'multipleOptions')
+    ) {
       this.formOutputs.push(
         this.fb.group({
           answer: [''],
-          boolOptions: this.fb.array([],  this.optionRequired()),
+          boolOptions: this.fb.array([], this.optionRequired()),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
     } else {
       this.formOutputs.push(
@@ -159,8 +200,8 @@ export class BookingFormComponent implements OnInit {
           answer: [''],
           boolOptions: this.fb.array([]),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
     }
     if (formInput.options) {
@@ -168,8 +209,8 @@ export class BookingFormComponent implements OnInit {
         this.boolOptions(this.formOutputs.length - 1).push(
           this.fb.group({
             selected: [false],
-            option: [formInput.options[i]]
-          })
+            option: [formInput.options[i]],
+          }),
         );
       }
     }
@@ -183,18 +224,21 @@ export class BookingFormComponent implements OnInit {
           answer: [formOutput.answer, Validators.required],
           boolOptions: this.fb.array([]),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
-    } else if (formInput.required && ( formInput.type === 'singleOption' || formInput.type === 'multipleOptions' ) ) {
+    } else if (
+      formInput.required &&
+      (formInput.type === 'singleOption' || formInput.type === 'multipleOptions')
+    ) {
       this.formOutputs.push(
         this.fb.group({
           '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
           answer: [''],
-          boolOptions: this.fb.array([],  this.optionRequired()),
+          boolOptions: this.fb.array([], this.optionRequired()),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
     } else {
       this.formOutputs.push(
@@ -203,8 +247,8 @@ export class BookingFormComponent implements OnInit {
           answer: [formOutput.answer],
           boolOptions: this.fb.array([]),
           options: [[]],
-          formInput: [formInput]
-        })
+          formInput: [formInput],
+        }),
       );
     }
     if (formInput.options) {
@@ -213,15 +257,15 @@ export class BookingFormComponent implements OnInit {
           this.boolOptions(this.formOutputs.length - 1).push(
             this.fb.group({
               selected: [true],
-              option: [formInput.options[i]]
-            })
+              option: [formInput.options[i]],
+            }),
           );
         } else {
           this.boolOptions(this.formOutputs.length - 1).push(
             this.fb.group({
               selected: [false],
-              option: [formInput.options[i]]
-            })
+              option: [formInput.options[i]],
+            }),
           );
         }
       }
@@ -231,9 +275,13 @@ export class BookingFormComponent implements OnInit {
   selectOption(formOutputIndex: number, optionIndex: number) {
     for (let i = 0; i < this.boolOptions(formOutputIndex).controls.length; i++) {
       if (i === optionIndex) {
-        this.boolOptions(formOutputIndex).controls[i].get('selected').setValue(true);
+        this.boolOptions(formOutputIndex)
+          .controls[i].get('selected')
+          .setValue(true);
       } else {
-        this.boolOptions(formOutputIndex).controls[i].get('selected').setValue(false);
+        this.boolOptions(formOutputIndex)
+          .controls[i].get('selected')
+          .setValue(false);
       }
     }
   }
@@ -241,7 +289,9 @@ export class BookingFormComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
-      if (this.isNew) {this.form.removeControl('id'); }
+      if (this.isNew) {
+        this.form.removeControl('id');
+      }
       this.event.setValue(environment.api_uri + '/events/' + this.relatedEvent.id);
       if (this.authenticatedUser) {
         this.user.setValue(environment.api_uri + '/users/' + this.authenticatedUser.id);
@@ -251,14 +301,16 @@ export class BookingFormComponent implements OnInit {
       const outputsToRemove = [];
       for (let i = 0; i < this.formOutputs.controls.length; i++) {
         const type = this.formInput(i).value.type;
-        this.formInput(i).setValue(environment.api_uri + '/form_inputs/' + this.formInput(i).value.id);
+        this.formInput(i).setValue(
+          environment.api_uri + '/form_inputs/' + this.formInput(i).value.id,
+        );
         this.options(i).patchValue(
-          this.boolOptions(i).value
-            .map((v) => {
+          this.boolOptions(i)
+            .value.map(v => {
               totalPrice += v.selected ? v.option.price : 0;
               return v.selected ? environment.api_uri + '/options/' + v.option.id : null;
             })
-            .filter(v => v !== null)
+            .filter(v => v !== null),
         );
         if (!this.formOutputs.controls[i].get('answer').value) {
           (<FormGroup>this.formOutputs.controls[i]).removeControl('answer');
@@ -267,12 +319,13 @@ export class BookingFormComponent implements OnInit {
         if (
           type === 'title' ||
           (type === 'text' && !this.formOutputs.controls[i].value.answer) ||
-          ((type === 'multipleOptions' || type === 'singleOption' ) && !this.formOutputs.controls[i].value.options.length)
+          ((type === 'multipleOptions' || type === 'singleOption') &&
+            !this.formOutputs.controls[i].value.options.length)
         ) {
           outputsToRemove.push(i);
         }
       }
-      outputsToRemove.sort((a: number, b: number) => a > b ? -1 : a < b ? 1 : 0);
+      outputsToRemove.sort((a: number, b: number) => (a > b ? -1 : a < b ? 1 : 0));
       for (let i = 0; i < outputsToRemove.length; i++) {
         this.formOutputs.removeAt(outputsToRemove[i]);
       }
@@ -283,7 +336,7 @@ export class BookingFormComponent implements OnInit {
             user: environment.api_uri + '/users/' + this.authenticatedUser.id,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
-            type: 'event_debit'
+            type: 'event_debit',
           });
         }
         this.paid.setValue(true);
@@ -304,9 +357,13 @@ export class BookingFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
-    return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' :
-      formControl.hasError('bdeAccountToLow') ? 'Votre compte BDE ne contient pas assez d\'argent' :
-        formControl.hasError('cercleAccountToLow') ? 'Votre compte Cercle ne contient pas assez d\'argent' : '';
+    return formControl.hasError('required')
+      ? 'Ce champs ne doit pas être vide'
+      : formControl.hasError('bdeAccountToLow')
+      ? "Votre compte BDE ne contient pas assez d'argent"
+      : formControl.hasError('cercleAccountToLow')
+      ? "Votre compte Cercle ne contient pas assez d'argent"
+      : '';
   }
 
   arrayFindById(arr, id) {
@@ -314,7 +371,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   optionRequired(): ValidatorFn {
-    return (control: FormArray): {[key: string]: any} | null => {
+    return (control: FormArray): { [key: string]: any } | null => {
       if (control.controls) {
         for (let i = 0; i < control.controls.length; i++) {
           if (control.controls[i].get('selected').value) {
@@ -322,24 +379,32 @@ export class BookingFormComponent implements OnInit {
           }
         }
       }
-      return {'required': {value: control.value}};
+      return { required: { value: control.value } };
     };
   }
 
   positiveAccount(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       if (
-        this.form && this.relatedEvent.price && this.bdePayment && this.bdePayment.value && this.currentUser &&
+        this.form &&
+        this.relatedEvent.price &&
+        this.bdePayment &&
+        this.bdePayment.value &&
+        this.currentUser &&
         (this.totalPrice() > this.currentUser.balance &&
-        (!this.lastPrice || (this.totalPrice() - this.lastPrice) > this.currentUser.balance))
+          (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.balance))
       ) {
-          return {'bdeAccountToLow': {value: this.totalPrice()}};
+        return { bdeAccountToLow: { value: this.totalPrice() } };
       } else if (
-        this.form && this.relatedEvent.price && this.cerclePayment && this.cerclePayment.value && this.currentUser &&
+        this.form &&
+        this.relatedEvent.price &&
+        this.cerclePayment &&
+        this.cerclePayment.value &&
+        this.currentUser &&
         (this.totalPrice() > this.currentUser.cercleBalance &&
-          (!this.lastPrice || (this.totalPrice() - this.lastPrice) > this.currentUser.cercleBalance))
+          (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.cercleBalance))
       ) {
-        return {'cercleAccountToLow': {value: this.totalPrice()}};
+        return { cercleAccountToLow: { value: this.totalPrice() } };
       } else {
         return null;
       }
@@ -355,7 +420,10 @@ export class BookingFormComponent implements OnInit {
       let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
       for (let i = 0; i < this.formOutputs.controls.length; i++) {
         for (let j = 0; j < this.boolOptions(i).length; j++) {
-          if (this.boolOptions(i).controls[j].get('selected').value && this.boolOptions(i).controls[j].get('option').value.price) {
+          if (
+            this.boolOptions(i).controls[j].get('selected').value &&
+            this.boolOptions(i).controls[j].get('option').value.price
+          ) {
             totalPrice += this.boolOptions(i).controls[j].get('option').value.price;
           }
         }

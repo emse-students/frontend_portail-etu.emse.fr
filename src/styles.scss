@@ -18,7 +18,7 @@
 @import 'themes/app-theme.scss';
 @import 'themes/purple-theme.scss';
 
-@import 'app/core/app-component/app.component.scss-theme';
+@import 'app/core/app/app.component.scss-theme';
 @import 'app/core/components/menu-list-item/menu-list-item.component.scss';
 
 
@@ -69,7 +69,7 @@ label.mat-radio-label {
 }
 
 textarea.mat-input-element {
-  padding: 0px 0;
+  padding: 0;
   margin: 5px 0;
 }
 

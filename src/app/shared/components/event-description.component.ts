@@ -5,7 +5,12 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-event-description',
   template: `
-    <p>Organisé par {{ event.association.name }}</p>
+    <p>
+      Organisé par
+      <a [routerLink]="'/associations/' + event.association.tag">
+        {{ event.association.name }}
+      </a>
+    </p>
 
     <p>
       Le {{ event.date | date: 'EEEE d M' | translateDay }} à {{event.date | date: 'H\\'h\\'mm'}}

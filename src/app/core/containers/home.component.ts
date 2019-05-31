@@ -20,14 +20,9 @@ import { Component, OnInit } from '@angular/core';
               L'inscription en ligne aux évènements (permet après de savoir si on est déjà inscrit)
             </li>
             <li>
-              Paiement en ligne des événements avec le compte BDE en même temps que l'inscription
+              Paiement en ligne des événements avec le compte BDE ou Cercle en même temps que
+              l'inscription
             </li>
-            <li>
-              Paiement en ligne des événements avec le compte Cercle en même temps que l'inscription
-            </li>
-          </ul>
-          <p>A venir :</p>
-          <ul>
             <li>
               Calendrier interactif (le même que celui envoyé par le BDE mais mis à jour au fur et à
               mesure que les évènements sont créés)

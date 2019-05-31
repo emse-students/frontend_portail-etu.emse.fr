@@ -11,7 +11,12 @@
     <a [routerLink]="'/events/'+event.id+'/review'" *ngIf="!isRightful">
       <button mat-flat-button [ngStyle]="asso | assoStyle : 'accent'" >Détail</button>
     </a>
-    <a [routerLink]="'/events/'+event.id+'/book'" *ngIf="!allReadyBooked && (!event.closingDate || event.closingDate > today) && event.date > today && (event.status != 'inactive' || isRightful)">
+    <a [routerLink]="'/events/'+event.id+'/book'"
+       *ngIf="!allReadyBooked &&
+        (!event.closingDate || event.closingDate > today) &&
+        event.date > today &&
+        (event.status != 'inactive' || isRightful) &&
+        event.isBookable">
       <button mat-flat-button [ngStyle]="asso | assoStyle">S'inscrire</button>
     </a>
     <button mat-flat-button disabled *ngIf="allReadyBooked">Déjà inscrit</button>

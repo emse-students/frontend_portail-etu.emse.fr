@@ -32,6 +32,7 @@ export interface Event {
   bookings?: EventBooking[];
   countBookings: number;
   collectLink: string;
+  isBookable: boolean;
 }
 
 export interface EventLight {
@@ -47,6 +48,7 @@ export interface EventLight {
   closingDate: string | Date;
   status: string;
   countBookings: number;
+  isBookable: boolean;
 }
 
 export interface NewEvent {
@@ -67,6 +69,7 @@ export interface NewEvent {
   status: string;
   img: string;
   collectLink: string;
+  isBookable: boolean;
 }
 
 export interface Booking {

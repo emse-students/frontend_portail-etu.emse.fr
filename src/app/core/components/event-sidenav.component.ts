@@ -18,58 +18,7 @@ import { UserService } from '../services/user.service';
         <button mat-button color="primary" (click)="closeNav()">Fermer</button>
       </div>
       <mat-card>
-        <p>Organisé par {{ event.association.name }}</p>
-
-        <h4 *ngIf="event.closingDate">
-          Attention deadline le {{ event.closingDate | date: 'EEEE d M' | translateDay }} à
-          {{event.closingDate | date: 'H\\'h\\'mm'}}
-        </h4>
-
-        <img
-          [src]="imgPath + '/' + event.img.filename"
-          [alt]="event.img.filename"
-          style="max-width: 100%;"
-          *ngIf="event.img"
-        />
-
-        <p [innerHTML]="event.description | keepHtml"></p>
-
-        <p>
-          Le {{ event.date | date: 'EEEE d M' | translateDay }} à
-          {{event.date | date: 'H\\'h\\'mm'}}
-        </p>
-
-        <p *ngIf="event.duration">Durée : {{ event.duration }}</p>
-
-        <p *ngIf="event.place">Lieu : {{ event.place }}</p>
-
-        <p *ngIf="event.price">Prix : {{ event.price }} €</p>
-
-        <ng-container *ngIf="event.price">
-          <h5>Moyens de paiements possibles :</h5>
-          <ul>
-            <li *ngFor="let paymentMean of event.paymentMeans">{{ paymentMean.name }}</li>
-          </ul>
-        </ng-container>
-
-        <h4 *ngIf="event.shotgunListLength">Attention ! Événement au shotgun</h4>
-
-        <p *ngIf="event.shotgunListLength">
-          Début du shotgun le {{ event.shotgunStartingDate | date: 'EEEE d M' | translateDay }} à
-          {{event.shotgunStartingDate | date: 'H\\'h\\'mm'}}
-        </p>
-
-        <p *ngIf="event.shotgunListLength">Nombre de places : {{ event.shotgunListLength }}</p>
-
-        <p *ngIf="event.shotgunListLength && event.shotgunWaitingList">
-          Il y aura une file d'attente : les utilisateurs sont autorisés à continuer de s'incrire
-          une fois le nombre maximal de places atteint
-        </p>
-        <p *ngIf="event.shotgunListLength && !event.shotgunWaitingList">
-          Il y aura pas de file d'attente : Les utilisateurs NE sont PAS autorisés à continuer de
-          s'incrire une fois le nombre maximal de places atteint
-        </p>
-        <p *ngIf="!event.closingDate">Pas de deadline</p>
+        <app-event-description [event]="event"></app-event-description>
         <div class="row justify-content-around">
           <a [routerLink]="'/events-settings/' + event.id" *ngIf="isRightful">
             <button
@@ -86,7 +35,8 @@ import { UserService } from '../services/user.service';
               !allReadyBooked &&
               (!event.closingDate || event.closingDate > today) &&
               event.date > today &&
-              (event.status != 'inactive' || isRightful)
+              (event.status != 'inactive' || isRightful) &&
+              event.isBookable
             "
           >
             <button mat-flat-button [ngStyle]="event.association | assoStyle" (click)="closeNav()">

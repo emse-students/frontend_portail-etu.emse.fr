@@ -5,9 +5,11 @@ import { environment } from '../../../environments/environment';
 @Component({
   selector: 'app-event-description',
   template: `
-    <mat-card-title>{{ event.name }}</mat-card-title>
-
     <p>Organisé par {{ event.association.name }}</p>
+
+    <p>
+      Le {{ event.date | date: 'EEEE d M' | translateDay }} à {{event.date | date: 'H\\'h\\'mm'}}
+    </p>
 
     <h4 *ngIf="event.closingDate">
       Attention deadline le {{ event.closingDate | date: 'EEEE d M' | translateDay }} à
@@ -22,10 +24,6 @@ import { environment } from '../../../environments/environment';
     />
 
     <p [innerHTML]="event.description | keepHtml"></p>
-
-    <p>
-      Le {{ event.date | date: 'EEEE d M' | translateDay }} à {{event.date | date: 'H\\'h\\'mm'}}
-    </p>
 
     <p *ngIf="event.duration">Durée : {{ event.duration }}</p>
 
@@ -57,7 +55,7 @@ import { environment } from '../../../environments/environment';
       Il y aura pas de file d'attente : Les utilisateurs NE sont PAS autorisés à continuer de
       s'incrire une fois le nombre maximal de places atteint
     </p>
-    <p *ngIf="!event.closingDate">Pas de deadline</p>
+    <p *ngIf="!event.closingDate && event.isBookable">Pas de deadline</p>
   `,
   styles: [
     `

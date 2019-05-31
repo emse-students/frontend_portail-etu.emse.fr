@@ -44,6 +44,7 @@ import { ImgUploadFormComponent } from './components/img-upload-form/img-upload-
 import { ColorPickerModule } from 'ngx-color-picker';
 import { AssoStylePipe } from './pipes/asso-style.pipe';
 import { CalendarTextStylePipe } from './pipes/calendar-text-style.pipe';
+import { EventDescriptionComponent } from './components/event-description.component';
 
 @NgModule({
   imports: [
@@ -89,6 +90,7 @@ import { CalendarTextStylePipe } from './pipes/calendar-text-style.pipe';
 
     SearchComponent,
     ImgUploadFormComponent,
+    EventDescriptionComponent,
 
     OrderByPipe,
     TranslateStatusPipe,
@@ -147,6 +149,7 @@ import { CalendarTextStylePipe } from './pipes/calendar-text-style.pipe';
 
     SearchComponent,
     ImgUploadFormComponent,
+    EventDescriptionComponent,
   ],
 })
 export class SharedModule {}

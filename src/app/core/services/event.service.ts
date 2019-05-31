@@ -5,7 +5,6 @@ import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import {
-  NewEvent,
   Event,
   NewBooking,
   Booking,
@@ -43,7 +42,7 @@ export class EventService {
     return booking;
   }
 
-  public create(event: NewEvent): Observable<Event> {
+  public create(event: Event): Observable<Event> {
     const url = `${environment.api_url}/events`;
     return this.http.post<Event>(url, event).pipe(map(EventService.parseDates));
   }

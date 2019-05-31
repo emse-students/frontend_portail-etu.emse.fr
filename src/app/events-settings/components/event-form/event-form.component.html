@@ -1,5 +1,10 @@
 <h3>Événement de l'association : {{ asso.name }}</h3>
 <h4>Statut : {{ status.value | translateStatus }}</h4>
+
+<button mat-flat-button color="accent" (click)="perm()" *ngIf="asso.id === 5">
+  Préremplir pour une perm
+</button>
+
 <form [formGroup]="form" (ngSubmit)="submit()">
   <p>
     <mat-form-field class="w-100">

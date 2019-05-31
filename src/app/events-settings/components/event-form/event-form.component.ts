@@ -228,6 +228,14 @@ export class EventFormComponent implements OnInit {
     );
   }
 
+  perm() {
+    this.name.setValue('Perm ');
+    this.date.setValue(new Date());
+    this.hourDate.setValue('22:00');
+    this.place.setValue('Le Cercle');
+    this.duration.setValue("Jusqu'au bout de la nuit");
+  }
+
   addFormInput() {
     this.formInputs.push(
       this.fb.group({
@@ -413,40 +421,4 @@ export class EventFormComponent implements OnInit {
       },
     );
   }
-
-  // toogleBookable() {
-  //   if (this.isBookable.value) {
-  //     this.isBookable.setValue(false);
-  //     this.boolPaymentMeans.this.form.reset({
-  //       id: 'id',
-  //       association: 'association',
-  //       name: 'name',
-  //       description: 'description',
-  //       date: 'date',
-  //       hourDate: 'hourDate',
-  //       duration: 'duration',
-  //       boolPaymentMeans: this.fb.array([]),
-  //       payable: [false],
-  //       price: [null],
-  //       place: [''],
-  //       paymentMeans: [[]],
-  //       shotgun: [false],
-  //       shotgunListLength: [0],
-  //       shotgunWaitingList: [false],
-  //       shotgunStartingDate: [''],
-  //       hourShotgunStartingDate: [''],
-  //       closingDate: [null],
-  //       hourClosingDate: [''],
-  //       formInputs: this.fb.array([]),
-  //       status: 'status',
-  //       open: 'open',
-  //       img: 'img',
-  //       collectLink: [''],
-  //       isBookable: [false],
-  //     });
-  //     console.log(this.form);
-  //   } else {
-  //     this.isBookable.setValue(true);
-  //   }
-  // }
 }

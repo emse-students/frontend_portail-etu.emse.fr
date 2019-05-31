@@ -1,12 +1,12 @@
 <div class="container">
-  <mat-tab-group [dynamicHeight]="true" [selectedIndex]='selectedSetting' >
+  <mat-tab-group [dynamicHeight]="true" [selectedIndex]="selectedSetting">
     <mat-tab *ngFor="let setting of settings">
       <ng-template mat-tab-label>
-        <span class="mat-tab-label" (click)="goTo(setting.str_id)">{{setting.name}}</span>
+        <span class="mat-tab-label" (click)="goTo(setting.str_id)">{{ setting.name }}</span>
       </ng-template>
 
       <mat-card>
-        <mat-card-title>{{setting.name}}</mat-card-title>
+        <mat-card-title>{{ setting.name }}</mat-card-title>
 
         <ng-template appResolveComponent [component]="setting.component"></ng-template>
       </mat-card>

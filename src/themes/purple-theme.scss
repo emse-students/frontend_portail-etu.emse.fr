@@ -1,4 +1,4 @@
-@import "palette";
+@import 'palette';
 
 $purple-primary: mat-palette($app-purple, 500, 900, 200);
 $purple-accent: mat-palette($app-yellow, 500);
@@ -6,25 +6,25 @@ $purple-warn: mat-palette($mat-pink, 600);
 
 // Foreground palette for light themes.
 $purple-foreground: (
-  base:              black,
-  divider:           $dark-dividers,
-  dividers:          $dark-dividers,
-  disabled:          $dark-disabled-text,
-  disabled-button:   rgba(black, 0.26),
-  disabled-text:     $dark-disabled-text,
-  hint-text:         $dark-disabled-text,
-  secondary-text:    $dark-secondary-text,
-  icon:              rgba(black, 0.54),
-  icons:             rgba(black, 0.54),
-  text:              rgba(#060c25, 0.87),
-  text2:             rgba(#3a3a60, 0.87),
-  slider-min:        rgba(black, 0.87),
-  slider-off:        rgba(black, 0.26),
+  base: black,
+  divider: $dark-dividers,
+  dividers: $dark-dividers,
+  disabled: $dark-disabled-text,
+  disabled-button: rgba(black, 0.26),
+  disabled-text: $dark-disabled-text,
+  hint-text: $dark-disabled-text,
+  secondary-text: $dark-secondary-text,
+  icon: rgba(black, 0.54),
+  icons: rgba(black, 0.54),
+  text: rgba(#060c25, 0.87),
+  text2: rgba(#3a3a60, 0.87),
+  slider-min: rgba(black, 0.87),
+  slider-off: rgba(black, 0.26),
   slider-off-active: rgba(black, 0.38),
   h1: #6e24ff,
   h2: #61259e,
   h3: #4f1b8c,
-  p:  #330d70
+  p: #330d70,
 );
 
 $purple-theme: (
@@ -35,4 +35,3 @@ $purple-theme: (
   foreground: $purple-foreground,
   background: $mat-light-theme-background,
 );
-

@@ -20,7 +20,7 @@ export const environment = {
   img_url: 'http://localhost/api/img',
   excel_url: 'http://localhost/api/excel',
   home: 'http://localhost/',
-  production: false
+  production: false,
 };
 
 /*

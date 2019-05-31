@@ -1,27 +1,28 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Event} from '../../core/models/event.model';
-import {PaymentMeans} from '../../core/models/payment-means.model';
-import {EventService} from '../../core/services/event.service';
-import {InfoService} from '../../core/services/info.service';
-import {Router} from '@angular/router';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Event } from '../../core/models/event.model';
+import { PaymentMeans } from '../../core/models/payment-means.model';
+import { EventService } from '../../core/services/event.service';
+import { InfoService } from '../../core/services/info.service';
+import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-modify',
   template: `
-    <app-event-form *ngIf="event.association && paymentMeans && !pending"
-                    [asso]="event.association"
-                    [allPaymentMeans]="paymentMeans"
-                    (submitted)="updateEvent($event)"
-                    (deleted)="delete($event)"
-                    [isAdmin]="isAdmin"
-                    [event]="event"
-                    [isNew]="false">
-    </app-event-form>
+    <app-event-form
+      *ngIf="event.association && paymentMeans && !pending"
+      [asso]="event.association"
+      [allPaymentMeans]="paymentMeans"
+      (submitted)="updateEvent($event)"
+      (deleted)="delete($event)"
+      [isAdmin]="isAdmin"
+      [event]="event"
+      [isNew]="false"
+    ></app-event-form>
     <div class="row justify-content-center" *ngIf="pending">
-        <mat-spinner  [diameter]="200" [strokeWidth]="5"></mat-spinner>
+      <mat-spinner [diameter]="200" [strokeWidth]="5"></mat-spinner>
     </div>
   `,
-  styles: []
+  styles: [],
 })
 export class EventModifyComponent implements OnInit {
   @Input() event: Event;
@@ -33,31 +34,27 @@ export class EventModifyComponent implements OnInit {
   constructor(
     private eventService: EventService,
     private infoService: InfoService,
-    private router: Router
-  ) { }
+    private router: Router,
+  ) {}
 
   ngOnInit() {}
 
   updateEvent(event: Event) {
     // console.log(event);
     this.pending = true;
-    this.eventService.put(event).subscribe(
-      (newEvent) => {
-        this.pending = false;
-        this.infoService.pushSuccess('Événement mis à jour avec succès');
-        this.refreshEvent.emit(newEvent);
-      }
-    );
+    this.eventService.put(event).subscribe(newEvent => {
+      this.pending = false;
+      this.infoService.pushSuccess('Événement mis à jour avec succès');
+      this.refreshEvent.emit(newEvent);
+    });
   }
 
   delete(event: Event) {
     this.pending = true;
-    this.eventService.delete(event.id).subscribe(
-      () => {
-        this.pending = false;
-        this.infoService.pushSuccess('Événement supprimé avec succès');
-        this.router.navigate(['/home']);
-      }
-    );
+    this.eventService.delete(event.id).subscribe(() => {
+      this.pending = false;
+      this.infoService.pushSuccess('Événement supprimé avec succès');
+      this.router.navigate(['/home']);
+    });
   }
 }

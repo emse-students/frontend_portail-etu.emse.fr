@@ -6,35 +6,40 @@
   Statut de l'événement : Soumis, en attente de validation
 </p>
 
-<p>
-  Url d'inscription :  {{environmentHome}}events/{{event.id}}/book
-</p>
+<p>Url d'inscription : {{ environmentHome }}events/{{ event.id }}/book</p>
 
-<p>
-  Nombres d'inscrits : {{event.bookings.length}}
-</p>
+<p>Nombres d'inscrits : {{ event.bookings.length }}</p>
 
 <p *ngIf="event.price">
-  Recettes théoriques : {{theoricalIncome | currency:'EUR':'symbol':'1.2-2':'fr'}}
+  Recettes théoriques : {{ theoricalIncome | currency: 'EUR':'symbol':'1.2-2':'fr' }}
 </p>
 <p *ngIf="event.price">
-  Dont déjà payé : {{realIncomeTotal | currency:'EUR':'symbol':'1.2-2':'fr'}}
+  Dont déjà payé : {{ realIncomeTotal | currency: 'EUR':'symbol':'1.2-2':'fr' }}
 </p>
 <ul *ngIf="event.price">
-  <li *ngFor="let income of realIncome">{{income.paymentMeans.name}} : {{income.total | currency:'EUR':'symbol':'1.2-2':'fr'}}</li>
+  <li *ngFor="let income of realIncome">
+    {{ income.paymentMeans.name }} : {{ income.total | currency: 'EUR':'symbol':'1.2-2':'fr' }}
+  </li>
 </ul>
 
 <!--<div *ngIf="event.formInputs.length"></div>-->
 <h5 *ngIf="event.formInputs.length">Résultats du formulaire :</h5>
 <div *ngFor="let formInput of event.formInputs">
-  <u *ngIf="formInput.type !== 'title'">{{formInput.title}}</u>
+  <u *ngIf="formInput.type !== 'title'">{{ formInput.title }}</u>
   <mat-list *ngIf="formInput.type === 'text'">
-    <mat-list-item *ngFor="let output of formInput.formOutputs ">
-      {{output.booking.user?output.booking.user.firstname + ' ' + output.booking.user.lastname : output.booking.userName}} : {{output.answer}}
+    <mat-list-item *ngFor="let output of formInput.formOutputs">
+      {{
+        output.booking.user
+          ? output.booking.user.firstname + ' ' + output.booking.user.lastname
+          : output.booking.userName
+      }}
+      : {{ output.answer }}
     </mat-list-item>
   </mat-list>
 
   <mat-list *ngIf="formInput.type === 'singleOption' || formInput.type === 'multipleOptions'">
-    <mat-list-item *ngFor="let option of formInput.options ">{{option.value}} : {{count(formInput.formOutputs, option.id)}}</mat-list-item>
+    <mat-list-item *ngFor="let option of formInput.options">
+      {{ option.value }} : {{ count(formInput.formOutputs, option.id) }}
+    </mat-list-item>
   </mat-list>
 </div>

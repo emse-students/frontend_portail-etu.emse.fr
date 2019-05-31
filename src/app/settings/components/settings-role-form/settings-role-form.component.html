@@ -2,32 +2,49 @@
   <form [formGroup]="form" (ngSubmit)="submit()">
     <p>
       <mat-form-field>
-        <input type="text" matInput placeholder="Nom" formControlName="name">
-        <mat-error *ngIf="name.invalid">{{getErrorMessage(name)}}</mat-error>
+        <input type="text" matInput placeholder="Nom" formControlName="name" />
+        <mat-error *ngIf="name.invalid">{{ getErrorMessage(name) }}</mat-error>
       </mat-form-field>
     </p>
 
     <p>
       <mat-form-field>
-        <input matInput placeholder="Hierarchie" type="number" formControlName="hierarchy">
+        <input matInput placeholder="Hierarchie" type="number" formControlName="hierarchy" />
       </mat-form-field>
     </p>
 
     <h3>Droits :</h3>
     <div *ngFor="let boolRight of boolRights">
-      <mat-checkbox  [(ngModel)]="boolRight.selected" [ngModelOptions]="{standalone: true}">{{boolRight.right.name}} : {{boolRight.right.description}}</mat-checkbox>
+      <mat-checkbox [(ngModel)]="boolRight.selected" [ngModelOptions]="{ standalone: true }">
+        {{ boolRight.right.name }} : {{ boolRight.right.description }}
+      </mat-checkbox>
     </div>
 
     <p>
-      BDE only signifie que ces droits ne sont appliqués qu'aux membres du BDE, ils n'ont pas de valeurs pour les autres assos.<br>
-      Exemple:<br>
-      Si le role président à le droit "Encaisseur" alors tout les présidents pourront débiter sur le compte BDE.<br>
-      Mais si le role président n'a pas le droit "Encaisseur" mais a le droit "Encaisseur BDE only" alors seulement le président BDE aura le droits de débiter sur le compte BDE.
+      BDE only signifie que ces droits ne sont appliqués qu'aux membres du BDE, ils n'ont pas de
+      valeurs pour les autres assos.
+      <br />
+      Exemple:
+      <br />
+      Si le role président à le droit "Encaisseur" alors tout les présidents pourront débiter sur le
+      compte BDE.
+      <br />
+      Mais si le role président n'a pas le droit "Encaisseur" mais a le droit "Encaisseur BDE only"
+      alors seulement le président BDE aura le droits de débiter sur le compte BDE.
     </p>
 
     <p class="loginButtons">
-      <mat-spinner *ngIf="ispending" [diameter]="35" ></mat-spinner><button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="!ispending">{{isNew?'Créer':'Mettre à jour'}}</button>
+      <mat-spinner *ngIf="ispending" [diameter]="35"></mat-spinner>
+      <button
+        class="ml-2"
+        type="submit"
+        mat-flat-button
+        color="accent"
+        [disabled]="form.invalid"
+        *ngIf="!ispending"
+      >
+        {{ isNew ? 'Créer' : 'Mettre à jour' }}
+      </button>
     </p>
-
   </form>
 </mat-card-content>

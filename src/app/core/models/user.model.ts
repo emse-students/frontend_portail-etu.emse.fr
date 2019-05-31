@@ -1,5 +1,5 @@
-import {Booking} from './event.model';
-import {Operation} from './operation.model';
+import { Booking } from './event.model';
+import { Operation } from './operation.model';
 
 export interface User {
   id: number;
@@ -27,7 +27,7 @@ export interface UserBookings {
 export interface UserOperation {
   id: number;
   balance: number;
-  lastname:  string;
+  lastname: string;
   firstname: string;
   promo: number;
   type: string;

@@ -1,25 +1,25 @@
-import {Component, OnDestroy, OnInit} from '@angular/core';
-import {Association} from '../../../core/models/association.model';
-import {AssociationService} from '../../../core/services/association.service';
-import {ActivatedRoute, NavigationEnd, Router} from '@angular/router';
-import {environment} from '../../../../environments/environment';
-import {FileDTO, FileToUpload} from '../../../core/models/file.model';
-import {FileUploadService} from '../../../core/services/file-upload.service';
-import {InfoService} from '../../../core/services/info.service';
-import {Right, Role} from '../../../core/models/role.model';
-import {UserLight} from '../../../core/models/auth.model';
-import {RoleService} from '../../../core/services/role.service';
-import {UserService} from '../../../core/services/user.service';
-import {NewPosition, Position} from '../../../core/models/position.model';
-import {PositionService} from '../../../core/services/position.service';
-import {arrayFindById, arrayRemoveById} from '../../../core/services/utils';
-import {AuthService} from '../../../core/services/auth.service';
-import {JsonLdService} from '../../../core/services/json-ld.service';
+import { Component, OnInit } from '@angular/core';
+import { Association } from '../../../core/models/association.model';
+import { AssociationService } from '../../../core/services/association.service';
+import { ActivatedRoute, Router } from '@angular/router';
+import { environment } from '../../../../environments/environment';
+import { FileDTO, FileToUpload } from '../../../core/models/file.model';
+import { FileUploadService } from '../../../core/services/file-upload.service';
+import { InfoService } from '../../../core/services/info.service';
+import { Right, Role } from '../../../core/models/role.model';
+import { UserLight } from '../../../core/models/auth.model';
+import { RoleService } from '../../../core/services/role.service';
+import { UserService } from '../../../core/services/user.service';
+import { NewPosition, Position } from '../../../core/models/position.model';
+import { PositionService } from '../../../core/services/position.service';
+import { arrayFindById, arrayRemoveById } from '../../../core/services/utils';
+import { AuthService } from '../../../core/services/auth.service';
+import { JsonLdService } from '../../../core/services/json-ld.service';
 
 @Component({
   selector: 'app-associations-review',
   templateUrl: './associations-review.component.html',
-  styleUrls: ['./associations-review.component.scss']
+  styleUrls: ['./associations-review.component.scss'],
 })
 export class AssociationsReviewComponent implements OnInit {
   asso: Association | null = null;
@@ -38,38 +38,37 @@ export class AssociationsReviewComponent implements OnInit {
   users: UserLight[];
   rights: Right[];
   contrasts = [
-      {
-        value: 'white',
-        viewValue: 'Blanc'
-      },
-      {
-        value: 'null',
-        viewValue: 'Couleur 2'
-      },
-      {
-        value: 'black',
-        viewValue: 'Noir'
-      }
-    ];
-  contrasts2 = [
     {
       value: 'white',
-      viewValue: 'Blanc'
+      viewValue: 'Blanc',
     },
     {
       value: 'null',
-      viewValue: 'Couleur 1'
+      viewValue: 'Couleur 2',
     },
     {
       value: 'black',
-      viewValue: 'Noir'
-    }
+      viewValue: 'Noir',
+    },
+  ];
+  contrasts2 = [
+    {
+      value: 'white',
+      viewValue: 'Blanc',
+    },
+    {
+      value: 'null',
+      viewValue: 'Couleur 1',
+    },
+    {
+      value: 'black',
+      viewValue: 'Noir',
+    },
   ];
 
   get authService() {
     return this._authService;
   }
-
 
   constructor(
     private associationService: AssociationService,
@@ -81,8 +80,8 @@ export class AssociationsReviewComponent implements OnInit {
     private userService: UserService,
     private positionService: PositionService,
     private _authService: AuthService,
-    private jsonLdService: JsonLdService
-  ) { }
+    private jsonLdService: JsonLdService,
+  ) {}
 
   ngOnInit() {
     this.route.paramMap.subscribe(params => {
@@ -106,42 +105,40 @@ export class AssociationsReviewComponent implements OnInit {
   }
 
   private loadAsso(params) {
-    this.associationService.tagToId(params.get('id')).subscribe(
-      (idAsso: number) => {
-        if (idAsso === -1) {
-          this.router.navigate(['/404']);
-        } else {
-          this.associationService.get(idAsso).subscribe((asso: Association) => {
-            // console.log(asso);
-            this.asso = asso;
-            this.asso.color = this.asso.color ? this.asso.color : '#61259e';
-            this.asso.color2 = this.asso.color2 ? this.asso.color2 : '#ffca28';
-            if (this.authService.hasAssoRight(2, this.asso.id) || this.authService.isAdmin()) {
-              let roleLoaded = false;
-              let usersLoaded = false;
-              let rightsLoaded = false;
-              this.roleService.gets().subscribe((roles: Role[]) => {
-                this.roles = roles;
-                roleLoaded = true;
-                this.loaded = usersLoaded && rightsLoaded;
-              });
-              this.userService.getAllUsers().subscribe((users: UserLight[]) => {
-                this.users = users;
-                usersLoaded = true;
-                this.loaded = roleLoaded && rightsLoaded;
-              });
-              this.roleService.getRights().subscribe((rights: Right[]) => {
-                this.rights = this.jsonLdService.parseCollection<Right>(rights).collection;
-                rightsLoaded = true;
-                this.loaded = roleLoaded && usersLoaded;
-              });
-            } else {
-              this.loaded = true;
-            }
-          });
-        }
+    this.associationService.tagToId(params.get('id')).subscribe((idAsso: number) => {
+      if (idAsso === -1) {
+        this.router.navigate(['/404']);
+      } else {
+        this.associationService.get(idAsso).subscribe((asso: Association) => {
+          // console.log(asso);
+          this.asso = asso;
+          this.asso.color = this.asso.color ? this.asso.color : '#61259e';
+          this.asso.color2 = this.asso.color2 ? this.asso.color2 : '#ffca28';
+          if (this.authService.hasAssoRight(2, this.asso.id) || this.authService.isAdmin()) {
+            let roleLoaded = false;
+            let usersLoaded = false;
+            let rightsLoaded = false;
+            this.roleService.gets().subscribe((roles: Role[]) => {
+              this.roles = roles;
+              roleLoaded = true;
+              this.loaded = usersLoaded && rightsLoaded;
+            });
+            this.userService.getAllUsers().subscribe((users: UserLight[]) => {
+              this.users = users;
+              usersLoaded = true;
+              this.loaded = roleLoaded && rightsLoaded;
+            });
+            this.roleService.getRights().subscribe((rights: Right[]) => {
+              this.rights = JsonLdService.parseCollection<Right>(rights).collection;
+              rightsLoaded = true;
+              this.loaded = roleLoaded && usersLoaded;
+            });
+          } else {
+            this.loaded = true;
+          }
+        });
       }
-    );
+    });
   }
 
   uploadImg(img: FileToUpload) {
@@ -150,69 +147,65 @@ export class AssociationsReviewComponent implements OnInit {
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
-        this.associationService.put(
-          { id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id }
-        ).subscribe((asso: Association) => {
-            this.asso = asso;
-            this.logoLoading = false;
-          },
-          (error) => {
-            this.logoLoading = false;
-          });
+        this.associationService
+          .put({ id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id })
+          .subscribe(
+            (asso: Association) => {
+              this.asso = asso;
+              this.logoLoading = false;
+            },
+            error => {
+              this.logoLoading = false;
+            },
+          );
       },
-      (error) => {
+      error => {
         this.logoLoading = false;
-      }
+      },
     );
   }
 
   uploadDesc(text: string) {
     this.addDesc = false;
     this.descLoading = true;
-    this.associationService.put(
-      { id: this.asso.id, description: text }
-    ).subscribe(
+    this.associationService.put({ id: this.asso.id, description: text }).subscribe(
       (asso: Association) => {
         this.asso = asso;
         this.descLoading = false;
       },
-      (error) => {
+      error => {
         this.descLoading = false;
-      }
+      },
     );
   }
 
   uploadName(text: string) {
     this.changeName = false;
     this.nameLoading = true;
-    this.associationService.put(
-      { id: this.asso.id, name: text }
-    ).subscribe(
+    this.associationService.put({ id: this.asso.id, name: text }).subscribe(
       (asso: Association) => {
         this.asso = asso;
         this.nameLoading = false;
       },
-      (error) => {
+      error => {
         this.nameLoading = false;
-      }
+      },
     );
   }
 
   uploadColors() {
     this.changeColor = false;
-    this.associationService.put(
-      {
+    this.associationService
+      .put({
         id: this.asso.id,
         color: this.asso.color,
         color2: this.asso.color2,
         contrastColor: this.asso.contrastColor,
-        contrastColor2: this.asso.contrastColor2
-      }
-    ).subscribe(
-      (asso: Association) => {
+        contrastColor2: this.asso.contrastColor2,
+      })
+      .subscribe((asso: Association) => {
         this.asso = asso;
-      }
-    );
+      });
   }
 
   addPosition(position: NewPosition) {
@@ -227,9 +220,9 @@ export class AssociationsReviewComponent implements OnInit {
         }
         this.positionLoading = false;
       },
-      (error) => {
+      error => {
         this.positionLoading = false;
-      }
+      },
     );
   }
 
@@ -238,10 +231,10 @@ export class AssociationsReviewComponent implements OnInit {
       () => {
         this.asso.positions = arrayRemoveById(this.asso.positions, positionId);
       },
-      (error) => {
+      error => {
         this.asso.positions[arrayFindById(this.asso.positions, positionId)].loading = false;
         this.asso.positions = this.asso.positions.slice(0);
-      }
+      },
     );
   }
 
@@ -254,4 +247,3 @@ export class AssociationsReviewComponent implements OnInit {
     this.asso.contrastColor2 = temp;
   }
 }
-

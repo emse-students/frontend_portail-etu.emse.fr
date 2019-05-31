@@ -1,43 +1,51 @@
-import {Component, Input, OnInit, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
+import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-bde-operation-list',
   template: `
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
-
       <ng-container matColumnDef="createdAt">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Date </th>
-        <td mat-cell *matCellDef="let element"> {{element.createdAt | date: ' dd/MM/yyyy H\\'h\\'mm'}}</td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
+        <td mat-cell *matCellDef="let element">
+          {{element.createdAt | date: ' dd/MM/yyyy H\\'h\\'mm'}}
+        </td>
       </ng-container>
 
       <ng-container matColumnDef="reason">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Raison </th>
-        <td mat-cell *matCellDef="let element"> {{element.reason}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Raison</th>
+        <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
       </ng-container>
 
       <ng-container matColumnDef="amount">
-        <th mat-header-cell *matHeaderCellDef mat-sort-header> Montant </th>
-        <td mat-cell *matCellDef="let element"> {{element.amount | currency:'EUR':'symbol':'1.2-2':'fr'}} </td>
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Montant</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.amount | currency: 'EUR':'symbol':'1.2-2':'fr' }}
+        </td>
       </ng-container>
 
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
-      <tr mat-row *matRowDef="let row; columns: displayedColumns;" [ngClass]="{greenRow: row.amount > 0 }"></tr>
+      <tr
+        mat-row
+        *matRowDef="let row; columns: displayedColumns"
+        [ngClass]="{ greenRow: row.amount > 0 }"
+      ></tr>
     </table>
 
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize>
-    </mat-paginator>
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
-  styles: [`
-    .greenRow {
-      background: rgba(15, 176, 1, 0.36);
-    }
-  `]
+  styles: [
+    `
+      .greenRow {
+        background: rgba(15, 176, 1, 0.36);
+      }
+    `,
+  ],
 })
 export class BdeOperationListComponent implements OnInit {
   _operations;
   @Input()
-  set operations (operations) {
+  set operations(operations) {
     this._operations = operations;
     this.dataSource.data = operations;
     this.dataSource.sort = this.sort;
@@ -45,11 +53,13 @@ export class BdeOperationListComponent implements OnInit {
     this.sort.sort({
       disableClear: false,
       id: 'createdAt',
-      start: 'desc'
+      start: 'desc',
     });
   }
 
-  get operations() {return this._operations; }
+  get operations() {
+    return this._operations;
+  }
 
   @Input()
   set filter(search: string) {
@@ -61,8 +71,5 @@ export class BdeOperationListComponent implements OnInit {
 
   displayedColumns: string[] = ['createdAt', 'reason', 'amount'];
 
-  ngOnInit(): void {
-
-  }
-
+  ngOnInit(): void {}
 }

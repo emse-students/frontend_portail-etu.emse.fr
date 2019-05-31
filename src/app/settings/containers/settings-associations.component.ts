@@ -1,30 +1,42 @@
-import {Component, OnInit} from '@angular/core';
-import {AssociationDTO, AssociationLight} from '../../core/models/association.model';
-import {arrayRemoveById} from '../../core/services/utils';
-import {AssociationService} from '../../core/services/association.service';
-import {InfoService} from '../../core/services/info.service';
-import {JsonLdService} from '../../core/services/json-ld.service';
+import { Component, OnInit } from '@angular/core';
+import { AssociationLight } from '../../core/models/association.model';
+import { AssociationService } from '../../core/services/association.service';
+import { InfoService } from '../../core/services/info.service';
 
 @Component({
   selector: 'app-settings-asso',
   template: `
-    <app-settings-asso-form *ngIf="selectedAsso || newAsso"
-                    (submitted)="onSubmit($event)"
-                    [pending]="loading"
-                    [asso]="selectedAsso"
-                    [isNew]="newAsso">
-    </app-settings-asso-form>
-    <button mat-flat-button color="primary" *ngIf="!newAsso && !selectedAsso" (click)="createAsso()">Créer une Asso</button>
-    <app-search [query]="searchQuery"
-                [searching]="loading"
-                (search)="search($event)"
-                placeholder="Rechercher une asso"></app-search>
-    <app-settings-name-list *ngIf="assos" [items]="assos"
-                     (deleted)="delete($event)"
-                     (selected)="select($event)" [filter]="searchQuery" itemName="l'association">
-    </app-settings-name-list>
+    <app-settings-asso-form
+      *ngIf="selectedAsso || newAsso"
+      (submitted)="onSubmit($event)"
+      [pending]="loading"
+      [asso]="selectedAsso"
+      [isNew]="newAsso"
+    ></app-settings-asso-form>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="!newAsso && !selectedAsso"
+      (click)="createAsso()"
+    >
+      Créer une Asso
+    </button>
+    <app-search
+      [query]="searchQuery"
+      [searching]="loading"
+      (search)="search($event)"
+      placeholder="Rechercher une asso"
+    ></app-search>
+    <app-settings-name-list
+      *ngIf="assos"
+      [items]="assos"
+      (deleted)="delete($event)"
+      (selected)="select($event)"
+      [filter]="searchQuery"
+      itemName="l'association"
+    ></app-settings-name-list>
   `,
-  styles: []
+  styles: [],
 })
 export class SettingsAssociationsComponent implements OnInit {
   searchQuery = '';
@@ -33,10 +45,7 @@ export class SettingsAssociationsComponent implements OnInit {
   assos: AssociationLight[] | null = null;
   newAsso = false;
 
-  constructor(
-    private associationService: AssociationService,
-    private infoService: InfoService
-  ) {}
+  constructor(private associationService: AssociationService, private infoService: InfoService) {}
 
   ngOnInit(): void {
     this.associationService.allAssos.subscribe((assos: AssociationLight[] | null) => {
@@ -66,8 +75,13 @@ export class SettingsAssociationsComponent implements OnInit {
   delete(idAsso: number) {
     this.loading = true;
     this.associationService.delete(idAsso).subscribe(
-      () => {this.loading = false; this.infoService.pushSuccess('Association supprimée avec succès'); },
-      () => {this.loading = false; }
+      () => {
+        this.loading = false;
+        this.infoService.pushSuccess('Association supprimée avec succès');
+      },
+      () => {
+        this.loading = false;
+      },
     );
   }
 
@@ -75,13 +89,21 @@ export class SettingsAssociationsComponent implements OnInit {
     this.loading = true;
     if (this.newAsso) {
       this.associationService.create(asso).subscribe(
-        () => {this.loading = false; },
-        () => {this.loading = false; }
+        () => {
+          this.loading = false;
+        },
+        () => {
+          this.loading = false;
+        },
       );
     } else {
       this.associationService.put(asso).subscribe(
-        () => {this.loading = false; },
-        () => {this.loading = false; }
+        () => {
+          this.loading = false;
+        },
+        () => {
+          this.loading = false;
+        },
       );
     }
   }

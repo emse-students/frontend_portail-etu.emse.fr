@@ -18,7 +18,7 @@
     background-color: mat-color($accent, lighter);
   }
 
-  .mat-menu-content{
+  .mat-menu-content {
     background-color: mat-color($primary);
     a .mat-button {
       color: mat-contrast($primary, 500);
@@ -29,12 +29,11 @@
       }
 
       &.active {
-        a{
+        a {
           color: mat-contrast($accent, 500);
         }
         background-color: mat-color($accent);
       }
     }
   }
-
 }

@@ -1,10 +1,9 @@
 import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({
-  name: 'translateStatus'
+  name: 'translateStatus',
 })
 export class TranslateStatusPipe implements PipeTransform {
-
   transform(value: any, args?: any): any {
     switch (value) {
       case 'new':
@@ -19,5 +18,4 @@ export class TranslateStatusPipe implements PipeTransform {
         return 'Inactif';
     }
   }
-
 }

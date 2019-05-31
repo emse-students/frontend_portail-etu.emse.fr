@@ -1,27 +1,27 @@
-import {NavLink} from '../models/nav.model';
+import { NavLink } from '../models/nav.model';
 
 export const ALL_NAV_LINKS: NavLink[] = [
   {
     label: 'Accueil',
-    link: '/home'
+    link: '/home',
   },
   {
     label: 'Paramètres',
-    link: '/settings'
-  }
+    link: '/settings',
+  },
 ];
 
 export const NAV_LINKS: NavLink[] = [
   {
     label: 'Accueil',
-    link: 'https://portail-etu.emse.fr/'
+    link: 'https://portail-etu.emse.fr/',
   },
   {
     label: 'Site Cercle',
-    link: 'https://portail-etu.emse.fr/cercle/'
+    link: 'https://portail-etu.emse.fr/cercle/',
   },
   {
     label: 'Réservation des salles de la Me',
-    link: 'http://reservationcome.me-mines-saint-etienne.org/'
-  }
+    link: 'http://reservationcome.me-mines-saint-etienne.org/',
+  },
 ];

@@ -21,7 +21,8 @@ import { UserService } from '../services/user.service';
           [routerLink]="'/bde-settings/account/' + user.id"
           *ngIf="authService.isBDEContributor() && user"
         >
-          <mat-icon>assessment</mat-icon>Solde BDE :
+          <mat-icon>assessment</mat-icon>
+          Solde BDE :
           {{ user.balance | currency: 'EUR':'symbol':'1.2-2':'fr' }}
         </a>
         <a
@@ -31,11 +32,13 @@ import { UserService } from '../services/user.service';
           target="_blank"
           *ngIf="authService.isCercleContributor() && user"
         >
-          <mat-icon>assessment</mat-icon>Solde Cercle :
+          <mat-icon>assessment</mat-icon>
+          Solde Cercle :
           {{ user.cercleBalance | currency: 'EUR':'symbol':'1.2-2':'fr' }}
         </a>
         <a mat-list-item (click)="closeNav()" [routerLink]="'/events/my-bookings'">
-          <mat-icon>check_circle_outline</mat-icon>Mes réservations
+          <mat-icon>check_circle_outline</mat-icon>
+          Mes réservations
         </a>
         <a
           mat-list-item
@@ -43,7 +46,8 @@ import { UserService } from '../services/user.service';
           [routerLink]="'/settings'"
           *ngIf="authService.isAdmin()"
         >
-          <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Paramètres
+          <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>
+          Paramètres
         </a>
         <a
           mat-list-item
@@ -51,7 +55,8 @@ import { UserService } from '../services/user.service';
           [routerLink]="'/bde-settings'"
           *ngIf="authService.isAdmin()"
         >
-          <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>Gestion BDE
+          <mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>
+          Gestion BDE
         </a>
         <a
           mat-list-item
@@ -59,7 +64,8 @@ import { UserService } from '../services/user.service';
           [routerLink]="'/events-settings/new'"
           *ngIf="authService.hasAsso()"
         >
-          <mat-icon>add_circle_outline</mat-icon>Nouvel Événement
+          <mat-icon>add_circle_outline</mat-icon>
+          Nouvel Événement
         </a>
 
         <mat-list-item (click)="logoutUser()">

@@ -1,6 +1,6 @@
-import {FileDTO} from './file.model';
-import {Position} from './position.model';
-import {EventLight} from './event.model';
+import { FileDTO } from './file.model';
+import { Position } from './position.model';
+import { EventLight } from './event.model';
 
 export interface Association {
   id: number;

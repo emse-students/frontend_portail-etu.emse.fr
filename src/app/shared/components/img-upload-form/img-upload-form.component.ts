@@ -1,18 +1,21 @@
-import {ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, ValidatorFn, Validators} from '@angular/forms';
-import {UrlSafeStringService} from '../../../core/services/url-safe-string.service';
-import {FileToUpload} from '../../../core/models/file.model';
+import { ChangeDetectorRef, Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import {
+  AbstractControl,
+  FormBuilder,
+  FormControl,
+  FormGroup,
+  ValidatorFn,
+  Validators,
+} from '@angular/forms';
+import { FileToUpload } from '../../../core/models/file.model';
 import { Association } from '../../../core/models/association.model';
-
-
 
 @Component({
   selector: 'app-img-upload-form',
   templateUrl: './img-upload-form.component.html',
-  styleUrls: ['./img-upload-form.component.scss']
+  styleUrls: ['./img-upload-form.component.scss'],
 })
 export class ImgUploadFormComponent implements OnInit {
-
   @Input() imgName: string;
   @Input() asso: Association;
   @Output() submitted = new EventEmitter<FileToUpload>();
@@ -21,19 +24,19 @@ export class ImgUploadFormComponent implements OnInit {
 
   form: FormGroup = this.fb.group({
     file: [null, [this.fileValidator(), Validators.required]],
-    filename: ['']
+    filename: [''],
   });
 
-
-  get file() { return this.form.get('file'); }
-  get filename() { return this.form.get('filename'); }
-
-
-  constructor(private fb: FormBuilder,
-              private cd: ChangeDetectorRef, private urlSafeString: UrlSafeStringService) {}
-
-  ngOnInit() {
+  get file() {
+    return this.form.get('file');
   }
+  get filename() {
+    return this.form.get('filename');
+  }
+
+  constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
+
+  ngOnInit() {}
 
   submit() {
     if (this.form.valid) {
@@ -42,9 +45,12 @@ export class ImgUploadFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
-    if ( this.filetouched ) {
-      return formControl.hasError('required') ? 'Veuillez charger un fichier' :
-        formControl.hasError('fileNotValid') ? 'Le fichier n\'est pas une image valide' : '';
+    if (this.filetouched) {
+      return formControl.hasError('required')
+        ? 'Veuillez charger un fichier'
+        : formControl.hasError('fileNotValid')
+        ? "Le fichier n'est pas une image valide"
+        : '';
     } else {
       return '';
     }
@@ -62,16 +68,19 @@ export class ImgUploadFormComponent implements OnInit {
   }
 
   fileValidator(): ValidatorFn {
-    return (control: AbstractControl): {[key: string]: any} | null => {
+    return (control: AbstractControl): { [key: string]: any } | null => {
       const fileTypes = ['png', 'jpeg', 'jpg'];
       let forbidden;
-      if ( control.value !== null ) {
-        const extension = control.value.name.split('.').pop().toLowerCase();
+      if (control.value !== null) {
+        const extension = control.value.name
+          .split('.')
+          .pop()
+          .toLowerCase();
         forbidden = fileTypes.indexOf(extension) === -1;
       } else {
         forbidden = true;
       }
-      return forbidden ? {'fileNotValid': {value: control.value}} : null;
+      return forbidden ? { fileNotValid: { value: control.value } } : null;
     };
   }
 }

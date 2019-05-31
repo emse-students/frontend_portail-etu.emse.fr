@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'translateDay'})
+@Pipe({ name: 'translateDay' })
 export class TranslateDayPipe implements PipeTransform {
   transform(value: string): string {
     const parsed = value.split(' ');

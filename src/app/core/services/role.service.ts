@@ -1,16 +1,16 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
-import {environment} from '../../../environments/environment';
-import {NewRole, Right, Role} from '../models/role.model';
-import {map} from 'rxjs/operators';
-import {JsonLdService} from './json-ld.service';
+import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { NewRole, Right, Role } from '../models/role.model';
+import { map } from 'rxjs/operators';
+import { JsonLdService } from './json-ld.service';
 
 @Injectable({
-  providedIn: 'root'
+  providedIn: 'root',
 })
 export class RoleService {
-  constructor (private http: HttpClient, private jsonLdService: JsonLdService) {}
+  constructor(private http: HttpClient, private jsonLdService: JsonLdService) {}
 
   public create(role: NewRole): Observable<Role> {
     const url = `${environment.api_url}/roles`;
@@ -19,7 +19,9 @@ export class RoleService {
 
   public gets(): Observable<Role[]> {
     const url = `${environment.api_url}/roles`;
-    return this.http.get<Role[]>(url).pipe(map((roles) => this.jsonLdService.parseCollection<Role>(roles).collection));
+    return this.http
+      .get<Role[]>(url)
+      .pipe(map(roles => JsonLdService.parseCollection<Role>(roles).collection));
   }
 
   public getRights(): Observable<Right[]> {
@@ -37,7 +39,7 @@ export class RoleService {
     return this.http.delete(url);
   }
 
-  public put (role: Role): Observable<Role> {
+  public put(role: Role): Observable<Role> {
     const url = `${environment.api_url}/roles/${role.id}`;
     return this.http.put<Role>(url, role);
   }

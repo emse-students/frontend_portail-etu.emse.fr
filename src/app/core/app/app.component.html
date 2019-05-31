@@ -1,21 +1,32 @@
 <mat-sidenav-container [hasBackdrop]="!showEventnav" autosize>
   <mat-sidenav #sidenav mode="push" opened="false" (closedStart)="closeSidenav()">
-
     <mat-toolbar color="primary" class="branding">
       <span class="w-100 text-center">
         <a routerLink="" (click)="navServiceCloseNav()">
-          <img [src]="logo"/>
+          <img [src]="logo" alt="logo" />
         </a>
       </span>
     </mat-toolbar>
 
     <mat-nav-list>
-        <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
+      <app-menu-list-item *ngFor="let item of navItems" [item]="item"></app-menu-list-item>
     </mat-nav-list>
   </mat-sidenav>
 
-  <mat-sidenav #rightnav mode="side" position="end" [opened]="showUsernav || showEventnav" (closedStart)="closeSidenav()" class="right-nav">
-    <app-user-sidenav [show]="showUsernav" [authenticatedUser]="authenticatedUser" (close)="rightnav.close()" (logout)="onLogoutClick()"></app-user-sidenav>
+  <mat-sidenav
+    #rightnav
+    mode="side"
+    position="end"
+    [opened]="showUsernav || showEventnav"
+    (closedStart)="closeSidenav()"
+    class="right-nav"
+  >
+    <app-user-sidenav
+      [show]="showUsernav"
+      [authenticatedUser]="authenticatedUser"
+      (close)="rightnav.close()"
+      (logout)="onLogoutClick()"
+    ></app-user-sidenav>
     <app-event-sidenav [show]="showEventnav" (close)="rightnav.close()"></app-event-sidenav>
   </mat-sidenav>
 
@@ -24,52 +35,57 @@
       <mat-icon fontSet="fas" fontIcon="fa-bars"></mat-icon>
     </button>
 
-    <span class="branding spacer center d-inline d-sm-none link position-absolute w-100" style="margin-left: -16px; z-index: -1">
+    <span
+      class="branding spacer center d-inline d-sm-none link position-absolute w-100"
+      style="margin-left: -16px; z-index: -1"
+    >
       <a routerLink="">
-        <img [src]="logo"/>
+        <img [src]="logo" alt="logo" />
       </a>
     </span>
 
     <span routerLink="" class="branding spacer center d-inline d-sm-none link">
       <a routerLink="">
-        <img [src]="logo"/>
+        <img [src]="logo" alt="logo" />
       </a>
     </span>
 
     <span routerLink="" class="branding spacer center d-none d-sm-inline d-md-none link">
       <a routerLink="">
-        <img [src]="logo"/>
+        <img [src]="logo" alt="logo" />
         <span class="app-title">Portail Etu</span>
       </a>
     </span>
 
     <span routerLink="" class="branding spacer d-none d-md-inline link">
       <a routerLink="">
-        <img [src]="logo"/>
+        <img [src]="logo" alt="logo" />
         <span class="app-title">Portail des Étudiants</span>
       </a>
     </span>
 
-    <span class="spacer center d-none d-md-inline">
-
-    </span>
+    <span class="spacer center d-none d-md-inline"></span>
 
     <span class="d-none d-md-inline">
-      <button mat-button class="mat-button link d-none active" *ngFor="let item of allNav"
-              [routerLink]="[item.link]" routerLinkActive="d-inline">
-          <a class="h5 font-weight-bold" [routerLink]="[item.link]">{{item.label}}</a>
+      <button
+        mat-button
+        class="mat-button link d-none active"
+        *ngFor="let item of allNav"
+        [routerLink]="[item.link]"
+        routerLinkActive="d-inline"
+      >
+        <a class="h5 font-weight-bold" [routerLink]="[item.link]">{{ item.label }}</a>
       </button>
 
-      <button mat-button [matMenuTriggerFor]="menuAssos" >Associations</button>
-      <button mat-button [matMenuTriggerFor]="menuLists" >Listes</button>
+      <button mat-button [matMenuTriggerFor]="menuAssos">Associations</button>
+      <button mat-button [matMenuTriggerFor]="menuLists">Listes</button>
       <button mat-button [matMenuTriggerFor]="pages">Autres Sites</button>
 
       <mat-menu #menuAssos="matMenu">
         <ng-container *ngIf="navItems[0]">
           <a mat-menu-item [routerLink]="[asso.route]" *ngFor="let asso of navItems[0].children">
-            <button class="mat-button link"
-                    [routerLink]="[asso.route]" routerLinkActive="active">
-             {{asso.displayName}}
+            <button class="mat-button link" [routerLink]="[asso.route]" routerLinkActive="active">
+              {{ asso.displayName }}
             </button>
           </a>
         </ng-container>
@@ -78,9 +94,8 @@
       <mat-menu #menuLists="matMenu">
         <ng-container *ngIf="navItems[1]">
           <a mat-menu-item [routerLink]="[asso.route]" *ngFor="let asso of navItems[1].children">
-            <button class="mat-button link"
-                    [routerLink]="[asso.route]" routerLinkActive="active">
-             {{asso.displayName}}
+            <button class="mat-button link" [routerLink]="[asso.route]" routerLinkActive="active">
+              {{ asso.displayName }}
             </button>
           </a>
         </ng-container>
@@ -88,29 +103,28 @@
 
       <mat-menu #pages="matMenu">
         <ng-container *ngIf="navItems[2]">
-          <a mat-menu-item href="{{item.route}}" *ngFor="let item of navItems[2].children">
-          <button class="mat-button link">
-            {{item.displayName}}
-          </button>
+          <a mat-menu-item href="{{ item.route }}" *ngFor="let item of navItems[2].children">
+            <button class="mat-button link">
+              {{ item.displayName }}
+            </button>
           </a>
         </ng-container>
       </mat-menu>
 
-
-
       <!--<ng-container>-->
-        <!--<button mat-button class="nav-button link"-->
-                <!--[routerLink]="'/'" routerLinkActive="active">-->
-          <!--<a [routerLink]="'settings/admin'">Paramètres</a>-->
-        <!--</button>-->
+      <!--<button mat-button class="nav-button link"-->
+      <!--[routerLink]="'/'" routerLinkActive="active">-->
+      <!--<a [routerLink]="'settings/admin'">Paramètres</a>-->
+      <!--</button>-->
       <!--</ng-container>-->
-
-
     </span>
 
-    <button mat-button class="sign-in-button "
-            *ngIf="!authenticatedUser && !authPending"
-            (click)="onLoginClick()">
+    <button
+      mat-button
+      class="sign-in-button "
+      *ngIf="!authenticatedUser && !authPending"
+      (click)="onLoginClick()"
+    >
       Se connecter
     </button>
 
@@ -121,7 +135,7 @@
     </button>
 
     <!--<button mat-icon-button routerLink="settings" class="d-none d-sm-inline">-->
-      <!--<mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>-->
+    <!--<mat-icon fontSet="fas" fontIcon="fa-cog"></mat-icon>-->
     <!--</button>-->
   </mat-toolbar>
 
@@ -134,7 +148,9 @@
     <footer>
       <div class="row">
         <div class="col-12 signature">
-          &#169; <span class="year">{{year}}</span> - BDE de l'EMSE
+          &#169;
+          <span class="year">{{ year }}</span>
+          - BDE de l'EMSE
         </div>
       </div>
       <div class="row">
@@ -145,4 +161,3 @@
     </footer>
   </div>
 </mat-sidenav-container>
-

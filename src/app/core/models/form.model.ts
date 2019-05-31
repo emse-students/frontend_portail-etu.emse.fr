@@ -1,4 +1,4 @@
-import {Booking} from './event.model';
+import { Booking } from './event.model';
 
 export interface FormInput {
   id: number;

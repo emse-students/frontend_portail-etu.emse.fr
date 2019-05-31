@@ -1,19 +1,20 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Booking, Event, EventBooking} from '../../core/models/event.model';
-import {FormInput} from '../../core/models/form.model';
-import {environment} from '../../../environments/environment';
-import {EventService} from '../../core/services/event.service';
-import {InfoService} from '../../core/services/info.service';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Booking, Event, EventBooking } from '../../core/models/event.model';
+import { FormInput } from '../../core/models/form.model';
+import { environment } from '../../../environments/environment';
+import { EventService } from '../../core/services/event.service';
+import { InfoService } from '../../core/services/info.service';
 
 @Component({
   selector: 'app-booking-checking-card',
   template: `
     <div class="row">
       <div class="col text-center h4 m-2" *ngIf="booking.user">
-        {{booking.user.firstname}} {{booking.user.lastname}} {{booking.user.type}} {{booking.user.promo}}
+        {{ booking.user.firstname }} {{ booking.user.lastname }} {{ booking.user.type }}
+        {{ booking.user.promo }}
       </div>
       <div class="col text-center h4 m-2" *ngIf="!booking.user">
-        {{booking.userName}}
+        {{ booking.userName }}
       </div>
     </div>
     <div class="row">
@@ -23,12 +24,10 @@ import {InfoService} from '../../core/services/info.service';
           <div>Payé</div>
         </div>
         <div class="text-center" *ngIf="booking.paid">
-          {{price() | currency:'EUR':'symbol':'1.0-2':'fr'}} par {{booking.paymentMeans.name}}
+          {{ price() | currency: 'EUR':'symbol':'1.0-2':'fr' }} par {{ booking.paymentMeans.name }}
         </div>
         <div class="row justify-content-center">
-          <button  class="m-1" mat-flat-button color="warn"
-                   *ngIf="booking.paid"
-                   (click)="unpay()">
+          <button class="m-1" mat-flat-button color="warn" *ngIf="booking.paid" (click)="unpay()">
             Annuler le paiement
           </button>
         </div>
@@ -36,7 +35,9 @@ import {InfoService} from '../../core/services/info.service';
           <mat-icon color="warn">cancel</mat-icon>
           <div>Non payé</div>
         </div>
-        <div class="text-center" *ngIf="!booking.paid">{{price() | currency:'EUR':'symbol':'1.0-2':'fr'}} à payer</div>
+        <div class="text-center" *ngIf="!booking.paid">
+          {{ price() | currency: 'EUR':'symbol':'1.0-2':'fr' }} à payer
+        </div>
         <div class="d-flex justify-content-around align-items-center m-3" *ngIf="booking.checked">
           <mat-icon class="green-icon">check_circle</mat-icon>
           <div>Checké</div>
@@ -46,40 +47,81 @@ import {InfoService} from '../../core/services/info.service';
           <div>Non checké</div>
         </div>
         <ng-container *ngIf="!booking.paid">
-          <div class="d-flex flex-column justify-content-center m-2" *ngFor="let paymentMeans of event.paymentMeans">
-            <div class="text-center" *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE">
-              Solde BDE : {{booking.user.balance | currency:'EUR':'symbol':'1.0-2':'fr'}}
+          <div
+            class="d-flex flex-column justify-content-center m-2"
+            *ngFor="let paymentMeans of event.paymentMeans"
+          >
+            <div
+              class="text-center"
+              *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
+            >
+              Solde BDE : {{ booking.user.balance | currency: 'EUR':'symbol':'1.0-2':'fr' }}
             </div>
-            <div class="text-center" *ngIf="paymentMeans.id === 2 && booking.user && booking.user.cercleBalance">
-              Solde Cercle : {{booking.user.cercleBalance | currency:'EUR':'symbol':'1.0-2':'fr'}}
+            <div
+              class="text-center"
+              *ngIf="paymentMeans.id === 2 && booking.user && booking.user.cercleBalance"
+            >
+              Solde Cercle :
+              {{ booking.user.cercleBalance | currency: 'EUR':'symbol':'1.0-2':'fr' }}
             </div>
             <div class="row justify-content-around">
-              <button class="m-1" mat-flat-button color="primary"
-                      *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
-                      [disabled]="!booking.user || booking.user.balance < price()" (click)="book(paymentMeans.id)">
-                Payer par {{paymentMeans.name}}
+              <button
+                class="m-1"
+                mat-flat-button
+                color="primary"
+                *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
+                [disabled]="!booking.user || booking.user.balance < price()"
+                (click)="book(paymentMeans.id)"
+              >
+                Payer par {{ paymentMeans.name }}
               </button>
-              <button class="m-1" mat-flat-button color="accent" *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
-                      [disabled]="!booking.user || booking.user.balance < price()" (click)="book(paymentMeans.id, true)">
-                Payer par {{paymentMeans.name}} et checker
+              <button
+                class="m-1"
+                mat-flat-button
+                color="accent"
+                *ngIf="paymentMeans.id === 1 && booking.user && booking.user.contributeBDE"
+                [disabled]="!booking.user || booking.user.balance < price()"
+                (click)="book(paymentMeans.id, true)"
+              >
+                Payer par {{ paymentMeans.name }} et checker
               </button>
-              <button class="m-1" mat-flat-button color="primary" *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
-                      [disabled]="!booking.user || booking.user.cercleBalance < price()" (click)="book(paymentMeans.id)">
-                Payer par {{paymentMeans.name}}
+              <button
+                class="m-1"
+                mat-flat-button
+                color="primary"
+                *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
+                [disabled]="!booking.user || booking.user.cercleBalance < price()"
+                (click)="book(paymentMeans.id)"
+              >
+                Payer par {{ paymentMeans.name }}
               </button>
-              <button class="m-1" mat-flat-button color="accent" *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
-                      [disabled]="!booking.user || booking.user.cercleBalance < price()" (click)="book(paymentMeans.id, true)">
-                Payer par {{paymentMeans.name}} et checker
+              <button
+                class="m-1"
+                mat-flat-button
+                color="accent"
+                *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
+                [disabled]="!booking.user || booking.user.cercleBalance < price()"
+                (click)="book(paymentMeans.id, true)"
+              >
+                Payer par {{ paymentMeans.name }} et checker
               </button>
-              <button class="m-1" mat-flat-button color="primary"
-                      *ngIf="paymentMeans.id !== 1 && paymentMeans.id !== 2"
-                      (click)="book(paymentMeans.id)">
-                Payé par {{paymentMeans.name}}
+              <button
+                class="m-1"
+                mat-flat-button
+                color="primary"
+                *ngIf="paymentMeans.id !== 1 && paymentMeans.id !== 2"
+                (click)="book(paymentMeans.id)"
+              >
+                Payé par {{ paymentMeans.name }}
               </button>
-              <button  class="m-1" mat-flat-button color="accent"
-                      *ngIf="paymentMeans.id !== 1 && paymentMeans.id !== 2"
-                      (click)="book(paymentMeans.id, true)">
-                Payé par {{paymentMeans.name}} et checker
+              <button
+                class="m-1"
+                mat-flat-button
+                color="accent"
+                *ngIf="paymentMeans.id !== 1 && paymentMeans.id !== 2"
+                (click)="book(paymentMeans.id, true)"
+              >
+                Payé par {{ paymentMeans.name }} et checker
               </button>
             </div>
           </div>
@@ -88,7 +130,13 @@ import {InfoService} from '../../core/services/info.service';
           <button class="m-1" mat-flat-button color="primary" (click)="book(0)">
             Retour
           </button>
-          <button class="m-1" mat-flat-button color="accent" *ngIf="!booking.checked" (click)="book(0, true)">
+          <button
+            class="m-1"
+            mat-flat-button
+            color="accent"
+            *ngIf="!booking.checked"
+            (click)="book(0, true)"
+          >
             Checker
           </button>
         </div>
@@ -106,23 +154,36 @@ import {InfoService} from '../../core/services/info.service';
           <button class="m-1" mat-flat-button color="primary" (click)="book(0)">
             Retour
           </button>
-          <button class="m-1" mat-flat-button color="accent" *ngIf="!booking.checked" (click)="book(0, true)">
+          <button
+            class="m-1"
+            mat-flat-button
+            color="accent"
+            *ngIf="!booking.checked"
+            (click)="book(0, true)"
+          >
             Checker
           </button>
         </div>
       </div>
       <div class="col-md-6 order-md-1">
         <div class="row" *ngFor="let formOutput of booking.formOutputs">
-          <div class="col" *ngIf="resolveFormInput(formOutput.formInput); let formInput;">
-            <div *ngIf="(formInput.type === 'text' && formOutput.answer) ||
-         ((formInput.type === 'singleOption' || formInput.type === 'multipleOptions') && formOutput.options.length)">
-              <u>{{formInput.title}}</u>
+          <div class="col" *ngIf="resolveFormInput(formOutput.formInput); let formInput">
+            <div
+              *ngIf="
+                (formInput.type === 'text' && formOutput.answer) ||
+                ((formInput.type === 'singleOption' || formInput.type === 'multipleOptions') &&
+                  formOutput.options.length)
+              "
+            >
+              <u>{{ formInput.title }}</u>
             </div>
-            <div *ngIf="formInput.type === 'text'">{{formOutput.answer}}</div>
+            <div *ngIf="formInput.type === 'text'">{{ formOutput.answer }}</div>
             <ul *ngIf="formInput.type === 'singleOption' || formInput.type === 'multipleOptions'">
               <li *ngFor="let option of formOutput.options">
-                {{option.value}}
-                <span *ngIf="option.price">{{option.price | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+                {{ option.value }}
+                <span *ngIf="option.price">
+                  {{ option.price | currency: 'EUR':'symbol':'1.0-2':'fr' }}
+                </span>
               </li>
             </ul>
           </div>
@@ -130,14 +191,16 @@ import {InfoService} from '../../core/services/info.service';
       </div>
     </div>
   `,
-  styles: [`
-    .green-icon{
-      color: #0fb001;
-    }
-    mat-icon {
-      transform: scale(2);
-    }
-  `]
+  styles: [
+    `
+      .green-icon {
+        color: #0fb001;
+      }
+      mat-icon {
+        transform: scale(2);
+      }
+    `,
+  ],
 })
 export class BookingCheckingCardComponent implements OnInit {
   @Input() booking: EventBooking;
@@ -145,13 +208,9 @@ export class BookingCheckingCardComponent implements OnInit {
   @Output() paid = new EventEmitter<EventBooking>();
   pending = false;
 
-  constructor(
-    private eventService: EventService,
-    private infoService: InfoService
-  ) { }
+  constructor(private eventService: EventService, private infoService: InfoService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   resolveFormInput(formInputId: string): FormInput {
     const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
@@ -179,7 +238,7 @@ export class BookingCheckingCardComponent implements OnInit {
     }
   }
 
-  book(paymentMeansId: number, checked = false ) {
+  book(paymentMeansId: number, checked = false) {
     this.pending = true;
     if (paymentMeansId === 0 && !checked) {
       this.paid.emit(null);
@@ -191,15 +250,15 @@ export class BookingCheckingCardComponent implements OnInit {
         booking['paid'] = true;
         booking['paymentMeans'] = environment.api_uri + '/payment_means/' + paymentMeansId;
       }
-      if (paymentMeansId === 1 ) {
+      if (paymentMeansId === 1) {
         booking['operation'] = {
           user: environment.api_uri + '/users/' + this.booking.user.id,
           amount: -this.price(),
           reason: this.event.name,
-          type: 'event_debit'
+          type: 'event_debit',
         };
       }
-      if (paymentMeansId === 2 ) {
+      if (paymentMeansId === 2) {
         booking['cercleOperationAmount'] = this.price();
       }
       if (checked) {
@@ -220,7 +279,7 @@ export class BookingCheckingCardComponent implements OnInit {
           if (paymentMeansId === 1) {
             this.booking.operation = b.operation;
           }
-          if (paymentMeansId === 2 ) {
+          if (paymentMeansId === 2) {
             this.booking.cercleOperationAmount = b.cercleOperationAmount;
           }
           this.paid.emit(this.booking);
@@ -232,7 +291,7 @@ export class BookingCheckingCardComponent implements OnInit {
         },
         () => {
           this.pending = false;
-        }
+        },
       );
     }
   }
@@ -263,7 +322,7 @@ export class BookingCheckingCardComponent implements OnInit {
         },
         () => {
           this.pending = false;
-        }
+        },
       );
     }
   }

@@ -1,94 +1,234 @@
 <form [formGroup]="form" (ngSubmit)="submit()">
-
   <p class="d-flex flex-column align-items-center" *ngIf="!authenticatedUser && !isFromSetting">
-    Connectez vous si vous êtes un élève de l'école <br>
-    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
-    <span *ngIf="!displayUserName"> sinon cliquez sur </span>
-    <button class="m-2" mat-flat-button color="primary" (click)="displayUserName = true" *ngIf="!displayUserName">Je n'ai pas de compte EMSE</button><br>
+    Connectez vous si vous êtes un élève de l'école
+    <br />
+    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">
+      Se connecter
+    </button>
+    <span *ngIf="!displayUserName">sinon cliquez sur</span>
+    <button
+      class="m-2"
+      mat-flat-button
+      color="primary"
+      (click)="displayUserName = true"
+      *ngIf="!displayUserName"
+    >
+      Je n'ai pas de compte EMSE
+    </button>
+    <br />
     <span *ngIf="!displayUserName">et indiquez votre prénom et nom</span>
   </p>
   <p *ngIf="!authenticatedUser && (displayUserName || isFromSetting)">
     <mat-form-field class="w-100">
-      <input type="text" matInput placeholder="Prénom et Nom" formControlName="userName">
-      <mat-error *ngIf="userName.invalid">{{getErrorMessage(userName)}}</mat-error>
+      <input type="text" matInput placeholder="Prénom et Nom" formControlName="userName" />
+      <mat-error *ngIf="userName.invalid">{{ getErrorMessage(userName) }}</mat-error>
     </mat-form-field>
   </p>
 
   <mat-card-title *ngIf="formOutputs.length">Questionnaire</mat-card-title>
 
   <ng-container formArrayName="formOutputs">
-    <ng-container *ngFor="let formOutput of formOutputs.controls; let i=index"  [formGroupName]="i">
-      <br *ngIf="formInput(i).value.type!=='text'">
-      <h4 *ngIf="formInput(i).value.type==='title'">{{formInput(i).value.title}}</h4>
-      <div class="row" *ngIf="formInput(i).value.type==='text'">
+    <ng-container
+      *ngFor="let formOutput of formOutputs.controls; let i = index"
+      [formGroupName]="i.toString()"
+    >
+      <br *ngIf="formInput(i).value.type !== 'text'" />
+      <h4 *ngIf="formInput(i).value.type === 'title'">{{ formInput(i).value.title }}</h4>
+      <div class="row" *ngIf="formInput(i).value.type === 'text'">
         <mat-form-field class="col">
-          <mat-placeholder style="white-space: normal;">{{formInput(i).value.required?formInput(i).value.title + ' *' : formInput(i).value.title}}</mat-placeholder>
-          <input type="text" matInput formControlName="answer">
-          <mat-error *ngIf="formOutput.get('answer').invalid">{{getErrorMessage(formOutput.get('answer'))}}</mat-error>
-        </mat-form-field >
+          <mat-placeholder style="white-space: normal;">
+            {{
+              formInput(i).value.required
+                ? formInput(i).value.title + ' *'
+                : formInput(i).value.title
+            }}
+          </mat-placeholder>
+          <input type="text" matInput formControlName="answer" />
+          <mat-error *ngIf="formOutput.get('answer').invalid">
+            {{ getErrorMessage(formOutput.get('answer')) }}
+          </mat-error>
+        </mat-form-field>
       </div>
-      <h6 *ngIf="formInput(i).value.type==='singleOption' || formInput(i).value.type==='multipleOptions'">
-        {{formInput(i).value.title}}
+      <h6
+        *ngIf="
+          formInput(i).value.type === 'singleOption' ||
+          formInput(i).value.type === 'multipleOptions'
+        "
+      >
+        {{ formInput(i).value.title }}
         <span *ngIf="formInput(i).value.required">*</span>
       </h6>
-      <ng-container formArrayName="boolOptions"  *ngIf="formInput(i).value.type==='multipleOptions'">
-        <div class="row" *ngFor="let option of formOutput.get('boolOptions').controls; let j=index"  [formGroupName]="j">
+      <ng-container
+        formArrayName="boolOptions"
+        *ngIf="formInput(i).value.type === 'multipleOptions'"
+      >
+        <div
+          class="row"
+          *ngFor="let option of asFormArray(formOutput.get('boolOptions')).controls; let j = index"
+          [formGroupName]="j.toString()"
+        >
           <div class="col d-flex align-items-center">
-            <mat-checkbox formControlName="selected">{{option.get('option').value.value}}</mat-checkbox>
-            <span class="ml-3" *ngIf="option.get('option').value.price">{{option.get('option').value.price | currency:'EUR':'symbol':'1.0-2':'fr'}}</span>
+            <mat-checkbox formControlName="selected">
+              {{ option.get('option').value.value }}
+            </mat-checkbox>
+            <span class="ml-3" *ngIf="option.get('option').value.price">
+              {{ option.get('option').value.price | currency: 'EUR':'symbol':'1.0-2':'fr' }}
+            </span>
           </div>
         </div>
       </ng-container>
-      <ng-container formArrayName="boolOptions"  *ngIf="formInput(i).value.type==='singleOption'">
+      <ng-container formArrayName="boolOptions" *ngIf="formInput(i).value.type === 'singleOption'">
         <mat-radio-group class="d-flex flex-column">
-          <mat-radio-button (click)="selectOption(i,j)" [checked]="option.get('selected').value" *ngFor="let option of formOutput.get('boolOptions').controls; let j=index" [value]="option.get('option').value.value">{{option.get('option').value.value}}</mat-radio-button>
+          <mat-radio-button
+            (click)="selectOption(i, j)"
+            [checked]="option.get('selected').value"
+            *ngFor="
+              let option of asFormArray(formOutput.get('boolOptions')).controls;
+              let j = index
+            "
+            [value]="option.get('option').value.value"
+          >
+            {{ option.get('option').value.value }}
+          </mat-radio-button>
         </mat-radio-group>
       </ng-container>
-      <mat-error *ngIf="formOutput.get('boolOptions').touched && formOutput.get('boolOptions').invalid">{{getErrorMessage(formOutput.get('boolOptions'))}}</mat-error>
+      <mat-error
+        *ngIf="formOutput.get('boolOptions').touched && formOutput.get('boolOptions').invalid"
+      >
+        {{ getErrorMessage(formOutput.get('boolOptions')) }}
+      </mat-error>
     </ng-container>
   </ng-container>
 
-
-  <p *ngIf="relatedEvent.price">Prix total : {{totalPrice() | currency:'EUR':'symbol':'1.0-2':'fr'}}</p>
-  <ng-container *ngIf="relatedEvent.price && !paid.value && arrayFindById(relatedEvent.paymentMeans, 1) !== -1 && !cerclePayment.value &&  _authenticatedUser && _authenticatedUser.contributeBDE">
-    <p>Solde BDE : {{currentUser.balance | currency:'EUR':'symbol':'1.0-2':'fr'}}</p>
-    <mat-slide-toggle color="primary" formControlName="bdePayment" >Payer maintenant par compte BDE ?</mat-slide-toggle>
+  <p *ngIf="relatedEvent.price">
+    Prix total : {{ totalPrice() | currency: 'EUR':'symbol':'1.0-2':'fr' }}
+  </p>
+  <ng-container
+    *ngIf="
+      relatedEvent.price &&
+      !paid.value &&
+      arrayFindById(relatedEvent.paymentMeans, 1) !== -1 &&
+      !cerclePayment.value &&
+      _authenticatedUser &&
+      _authenticatedUser.contributeBDE
+    "
+  >
+    <p>Solde BDE : {{ currentUser.balance | currency: 'EUR':'symbol':'1.0-2':'fr' }}</p>
+    <mat-slide-toggle color="primary" formControlName="bdePayment">
+      Payer maintenant par compte BDE ?
+    </mat-slide-toggle>
   </ng-container>
-  <br>
-  <ng-container *ngIf="relatedEvent.price && !paid.value && arrayFindById(relatedEvent.paymentMeans, 2) !== -1 && !bdePayment.value && currentUser && currentUser.contributeCercle">
-    <p>Solde Cercle : {{currentUser.cercleBalance | currency:'EUR':'symbol':'1.0-2':'fr'}}</p>
-    <mat-slide-toggle color="primary" formControlName="cerclePayment">Payer maintenant par compte Cercle ?</mat-slide-toggle>
+  <br />
+  <ng-container
+    *ngIf="
+      relatedEvent.price &&
+      !paid.value &&
+      arrayFindById(relatedEvent.paymentMeans, 2) !== -1 &&
+      !bdePayment.value &&
+      currentUser &&
+      currentUser.contributeCercle
+    "
+  >
+    <p>Solde Cercle : {{ currentUser.cercleBalance | currency: 'EUR':'symbol':'1.0-2':'fr' }}</p>
+    <mat-slide-toggle color="primary" formControlName="cerclePayment">
+      Payer maintenant par compte Cercle ?
+    </mat-slide-toggle>
   </ng-container>
-  <br>
-  <p *ngIf="paid.value && (!lastPrice || lastPrice === totalPrice())">Événement déjà payé par {{paymentMeans.value.name}}</p>
+  <br />
+  <p *ngIf="paid.value && (!lastPrice || lastPrice === totalPrice())">
+    Événement déjà payé par {{ paymentMeans.value.name }}
+  </p>
   <p *ngIf="paid.value && lastPrice !== totalPrice()">
-    Vous avez déjà payé {{lastPrice | currency:'EUR':'symbol':'1.2-2':'fr'}} par {{paymentMeans.value.name}}, le nouveau prix est {{totalPrice() | currency:'EUR':'symbol':'1.2-2':'fr'}}.<br>
+    Vous avez déjà payé {{ lastPrice | currency: 'EUR':'symbol':'1.2-2':'fr' }} par
+    {{ paymentMeans.value.name }}, le nouveau prix est
+    {{ totalPrice() | currency: 'EUR':'symbol':'1.2-2':'fr' }}.
+    <br />
     Le nouveau prix va être appliqué automatiquement.
   </p>
-  <mat-error *ngIf="form.invalid">{{getErrorMessage(form)}}</mat-error>
+  <mat-error *ngIf="form.invalid">{{ getErrorMessage(form) }}</mat-error>
 
-  <p *ngIf="relatedEvent.collectLink && form.valid">Merci de payer en cliquant sur le lien suivant : <a href="{{relatedEvent.collectLink}}" target="_blank" (click)="submit()">Collecte Lydia</a> </p>
-
-  <p *ngIf="relatedEvent.shotgunListLength && (relatedEvent.shotgunStartingDate.getTime()-now.getTime()) >= 1000">
-    Ouverture du shotgun dans {{relatedEvent.shotgunStartingDate-now | dateDifference}}
+  <p *ngIf="relatedEvent.collectLink && form.valid">
+    Merci de payer en cliquant sur le lien suivant :
+    <a href="{{ relatedEvent.collectLink }}" target="_blank" (click)="submit()">Collecte Lydia</a>
   </p>
 
-  <mat-spinner  [diameter]="40" [strokeWidth]="5" *ngIf="relatedEvent.shotgunListLength && relatedEvent.shotgunStartingDate.getTime()-now.getTime() < 1000 && relatedEvent.shotgunStartingDate.getTime()-now.getTime() > 0"></mat-spinner>
+  <p
+    *ngIf="
+      relatedEvent.shotgunListLength &&
+      relatedEvent.shotgunStartingDate.getTime() - now.getTime() >= 1000
+    "
+  >
+    Ouverture du shotgun dans {{ relatedEvent.shotgunStartingDate - now | dateDifference }}
+  </p>
 
-  <p *ngIf="relatedEvent.shotgunListLength && relatedEvent.shotgunWaitingList && relatedEvent.shotgunListLength <= relatedEvent.countBookings">
-    ! Les {{relatedEvent.shotgunListLength}} places ont déjà été attribuées mais vous pouvez toujours vous inscrire sur la liste d'attente !
+  <mat-spinner
+    [diameter]="40"
+    [strokeWidth]="5"
+    *ngIf="
+      relatedEvent.shotgunListLength &&
+      relatedEvent.shotgunStartingDate.getTime() - now.getTime() < 1000 &&
+      relatedEvent.shotgunStartingDate.getTime() - now.getTime() > 0
+    "
+  ></mat-spinner>
+
+  <p
+    *ngIf="
+      relatedEvent.shotgunListLength &&
+      relatedEvent.shotgunWaitingList &&
+      relatedEvent.shotgunListLength <= relatedEvent.countBookings
+    "
+  >
+    ! Les {{ relatedEvent.shotgunListLength }} places ont déjà été attribuées mais vous pouvez
+    toujours vous inscrire sur la liste d'attente !
   </p>
 
   <!--<p class="loginButtons">-->
-  <p class="loginButtons" *ngIf="!relatedEvent.shotgunListLength || relatedEvent.shotgunStartingDate.getTime()-now.getTime() <= 0">
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="((bdePayment.value || cerclePayment.value) && (!paid.value || lastPrice !== totalPrice()))">{{isNew?'Réserver et payer':'Enregistrer les modifications et payer'}}</button>
-    <button class="ml-2" type="submit" mat-flat-button color="accent" [disabled]="form.invalid" *ngIf="((!bdePayment.value && !cerclePayment.value) || (paid.value && lastPrice === totalPrice()))">{{isNew?'Réserver':'Enregistrer les modifications'}}</button>
+  <p
+    class="loginButtons"
+    *ngIf="
+      !relatedEvent.shotgunListLength ||
+      relatedEvent.shotgunStartingDate.getTime() - now.getTime() <= 0
+    "
+  >
+    <button
+      class="ml-2"
+      type="submit"
+      mat-flat-button
+      color="accent"
+      [disabled]="form.invalid"
+      *ngIf="
+        (bdePayment.value || cerclePayment.value) && (!paid.value || lastPrice !== totalPrice())
+      "
+    >
+      {{ isNew ? 'Réserver et payer' : 'Enregistrer les modifications et payer' }}
+    </button>
+    <button
+      class="ml-2"
+      type="submit"
+      mat-flat-button
+      color="accent"
+      [disabled]="form.invalid"
+      *ngIf="
+        (!bdePayment.value && !cerclePayment.value) || (paid.value && lastPrice === totalPrice())
+      "
+    >
+      {{ isNew ? 'Réserver' : 'Enregistrer les modifications' }}
+    </button>
   </p>
 
-  <p class="d-flex flex-column align-items-center" *ngIf="!authenticatedUser && !displayUserName && !isFromSetting">
-    Connectez vous si vous êtes un élève de l'école <br>
-    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">Se connecter</button>
-    sinon cliquez sur <button class="m-2" mat-flat-button color="primary" (click)="displayUserName = true">Je n'ai pas de compte EMSE</button>
+  <p
+    class="d-flex flex-column align-items-center"
+    *ngIf="!authenticatedUser && !displayUserName && !isFromSetting"
+  >
+    Connectez vous si vous êtes un élève de l'école
+    <br />
+    <button class="m-2" mat-flat-button color="accent" (click)="onLoginClick()">
+      Se connecter
+    </button>
+    sinon cliquez sur
+    <button class="m-2" mat-flat-button color="primary" (click)="displayUserName = true">
+      Je n'ai pas de compte EMSE
+    </button>
     et indiquez votre prénom et nom plus haut
   </p>
 </form>

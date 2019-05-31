@@ -1,23 +1,25 @@
-import {Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {AssociationLight} from '../../../core/models/association.model';
+import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { AssociationLight } from '../../../core/models/association.model';
 
 @Component({
   selector: 'app-settings-asso-list',
   templateUrl: './settings-asso-list.component.html',
-  styleUrls: ['./settings-asso-list.component.scss']
+  styleUrls: ['./settings-asso-list.component.scss'],
 })
 export class SettingsAssoListComponent implements OnInit {
   _assos;
   @Input()
-  set assos (assos) {
+  set assos(assos) {
     this._assos = assos;
     this.dataSource.data = assos;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
   }
 
-  get assos() {return this._assos; }
+  get assos() {
+    return this._assos;
+  }
 
   @Input()
   set filter(search: string) {
@@ -31,10 +33,8 @@ export class SettingsAssoListComponent implements OnInit {
 
   displayedColumns: string[] = ['name', 'put'];
 
-
   delete(asso: AssociationLight) {
-    if ( confirm('Vous vous apprêtez à supprimer l\'asso ' + asso.name + '.\n' +
-      'Continuer ?') ) {
+    if (confirm("Vous vous apprêtez à supprimer l'asso " + asso.name + '.\n' + 'Continuer ?')) {
       this.deleted.emit(asso.id);
     }
   }
@@ -43,7 +43,5 @@ export class SettingsAssoListComponent implements OnInit {
     this.selected.emit(id);
   }
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 }

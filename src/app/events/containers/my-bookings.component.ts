@@ -1,9 +1,8 @@
 import { Component, OnInit } from '@angular/core';
-import {UserService} from '../../core/services/user.service';
-import {User} from '../../core/models/user.model';
-import {Booking} from '../../core/models/event.model';
-import {Router} from '@angular/router';
-import {AuthService} from '../../core/services/auth.service';
+import { UserService } from '../../core/services/user.service';
+import { Booking } from '../../core/models/event.model';
+import { Router } from '@angular/router';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-my-bookings',
@@ -15,17 +14,19 @@ import {AuthService} from '../../core/services/auth.service';
       </mat-card>
     </div>
     <div class="centrer" *ngIf="!loaded">
-      <mat-spinner  [diameter]="200" [strokeWidth]="5"></mat-spinner>
+      <mat-spinner [diameter]="200" [strokeWidth]="5"></mat-spinner>
     </div>
   `,
-  styles: [`
-    mat-card-title,
-    mat-card-content,
-    mat-card-footer {
-      display: flex;
-      justify-content: center;
-    }
-  `]
+  styles: [
+    `
+      mat-card-title,
+      mat-card-content,
+      mat-card-footer {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
 })
 export class MyBookingsComponent implements OnInit {
   loaded = false;
@@ -33,21 +34,21 @@ export class MyBookingsComponent implements OnInit {
   constructor(
     private userService: UserService,
     private router: Router,
-    private authService: AuthService
-  ) { }
+    private authService: AuthService,
+  ) {}
 
   ngOnInit() {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
       if (!authenticatedUser) {
-        setTimeout(() => {this.router.navigate(['/home']); });
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        });
       }
     });
-    this.userService.getBookings().subscribe(
-      (bookings) => {
-        this.bookings = bookings;
-        // console.log(bookings);
-        this.loaded = true;
-      }
-    );
+    this.userService.getBookings().subscribe(bookings => {
+      this.bookings = bookings;
+      // console.log(bookings);
+      this.loaded = true;
+    });
   }
 }

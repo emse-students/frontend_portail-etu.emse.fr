@@ -8,14 +8,10 @@
   position: absolute;
   margin: 2px;
   z-index: 5;
-  text-shadow:
-    -1px -1px 0 #ffffff,
-    1px -1px 0 #ffffff,
-    -1px  1px 0 #ffffff,
-    1px  1px 0 #ffffff;
+  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
   color: black;
 
-  .day-number{
+  .day-number {
     font-size: 1.2em;
     line-height: 1;
   }
@@ -56,11 +52,7 @@
     z-index: 4;
     font-size: 1.2em;
     text-align: center;
-    text-shadow:
-      -1px -1px 0 #ffffff,
-      1px -1px 0 #ffffff,
-      -1px  1px 0 #ffffff,
-      1px  1px 0 #ffffff;
+    text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
     color: black;
   }
 }

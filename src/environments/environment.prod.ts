@@ -7,5 +7,5 @@ export const environment = {
   img_url: 'https://portail-etu.emse.fr/api/img',
   excel_url: 'https://portail-etu.emse.fr/api/excel',
   home: 'https://portail-etu.emse.fr/',
-  production: true
+  production: true,
 };

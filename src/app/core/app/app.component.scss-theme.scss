@@ -12,7 +12,7 @@
     mat-toolbar {
       button {
         &.active {
-          a{
+          a {
             color: mat-contrast($accent, 500);
           }
           background-color: mat-color($accent);
@@ -28,16 +28,14 @@
         color: mat-contrast($primary, 500);
       }
 
-      .mat-menu-content{
+      .mat-menu-content {
         background-color: mat-color($primary);
         .mat-button {
           a {
-            color: mat-contrast($primary, 500);;
+            color: mat-contrast($primary, 500);
           }
         }
       }
-
-
     }
 
     mat-sidenav {
@@ -52,7 +50,7 @@
         }
       }
     }
-    
+
     footer {
       color: mat-color($primary, lighter);
       background-color: mat-color($primary, darker);

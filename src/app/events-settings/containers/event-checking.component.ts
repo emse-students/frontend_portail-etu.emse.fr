@@ -1,15 +1,11 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {Booking, Event, EventBooking, PutBooking} from '../../core/models/event.model';
-import {PaymentMeans} from '../../core/models/payment-means.model';
-import {EventUser, UserLight} from '../../core/models/auth.model';
-import {map, startWith} from 'rxjs/operators';
-import {UserService} from '../../core/services/user.service';
-import {FormBuilder, FormGroup, Validators} from '@angular/forms';
-import {Observable} from 'rxjs';
-import {EventService} from '../../core/services/event.service';
-import {InfoService} from '../../core/services/info.service';
-import {arrayFindById} from '../../core/services/utils';
-
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Event, EventBooking } from '../../core/models/event.model';
+import { PaymentMeans } from '../../core/models/payment-means.model';
+import { EventUser, UserLight } from '../../core/models/auth.model';
+import { map, startWith } from 'rxjs/operators';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { Observable } from 'rxjs';
+import { arrayFindById } from '../../core/services/utils';
 
 @Component({
   selector: 'app-event-checking',
@@ -17,16 +13,23 @@ import {arrayFindById} from '../../core/services/utils';
     <form [formGroup]="form">
       <div class="row">
         <mat-form-field class="col-10">
-          <input type="text"
-                 placeholder="Prénom et Nom"
-                 matInput [matAutocomplete]="auto"
-                 [formControl]="userText">
+          <input
+            type="text"
+            placeholder="Prénom et Nom"
+            matInput
+            [matAutocomplete]="auto"
+            formControlName="userText"
+          />
           <mat-autocomplete #auto="matAutocomplete">
-            <mat-option *ngFor="let option of filteredOptions | async"
-                        [value]="option.id ? option.firstname + ' ' + option.lastname : option.username"
-                        (click)="select(option)">
-              <span *ngIf="option.id">{{option.firstname}} {{option.lastname}} {{option.type}} {{option.promo}}</span>
-              <span *ngIf="!option.id">{{option.username}}</span>
+            <mat-option
+              *ngFor="let option of filteredOptions | async"
+              [value]="option.id ? option.firstname + ' ' + option.lastname : option.username"
+              (click)="select(option)"
+            >
+              <span *ngIf="option.id">
+                {{ option.firstname }} {{ option.lastname }} {{ option.type }} {{ option.promo }}
+              </span>
+              <span *ngIf="!option.id">{{ option.username }}</span>
             </mat-option>
           </mat-autocomplete>
         </mat-form-field>
@@ -35,28 +38,36 @@ import {arrayFindById} from '../../core/services/utils';
         </div>
       </div>
     </form>
-    <app-booking-checking-card [booking]="booking"
-                               [event]="event"
-                               (paid)="majBookings($event)"
-                               *ngIf="booking && !pending">
-    </app-booking-checking-card>
+    <app-booking-checking-card
+      [booking]="booking"
+      [event]="event"
+      (paid)="majBookings($event)"
+      *ngIf="booking && !pending"
+    ></app-booking-checking-card>
     <div class="row" *ngIf="unbookedUser && !pending">
       <div class="col">
-        <div>{{unbookedUser.firstname}} {{unbookedUser.lastname}} {{unbookedUser.type}} {{unbookedUser.promo}}</div>
+        <div>
+          {{ unbookedUser.firstname }} {{ unbookedUser.lastname }} {{ unbookedUser.type }}
+          {{ unbookedUser.promo }}
+        </div>
         <div>Pas de réservation pour cet utilisateur</div>
-        <button mat-flat-button color="primary" (click)="createBooking(unbookedUser)">Créer une réservation</button>
+        <button mat-flat-button color="primary" (click)="createBooking(unbookedUser)">
+          Créer une réservation
+        </button>
       </div>
     </div>
     <div class="centrer" *ngIf="pending">
-      <mat-spinner  [diameter]="150" [strokeWidth]="5"></mat-spinner>
+      <mat-spinner [diameter]="150" [strokeWidth]="5"></mat-spinner>
     </div>
   `,
-  styles: [`
-    mat-icon {
-      transform: scale(2);
-      cursor: pointer;
-    }
-  `]
+  styles: [
+    `
+      mat-icon {
+        transform: scale(2);
+        cursor: pointer;
+      }
+    `,
+  ],
 })
 export class EventCheckingComponent implements OnInit {
   @Input() event: Event;
@@ -79,33 +90,29 @@ export class EventCheckingComponent implements OnInit {
     userText: [''],
   });
 
-  get userText() { return this.form.get('userText'); }
+  get userText() {
+    return this.form.get('userText');
+  }
 
-  constructor(
-    private fb: FormBuilder,
-    private userService: UserService,
-  ) { }
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
-    this.filteredOptions = this.userText.valueChanges
-      .pipe(
-        startWith(''),
-        map(value => this._filter(value))
-      );
+    this.filteredOptions = this.userText.valueChanges.pipe(
+      startWith(''),
+      map(value => this._filter(value)),
+    );
   }
 
   _filter(value: string) {
     const filterValue = value.toLowerCase();
     if (this.users) {
-      return this.users.filter(
-        (user) => {
-          if (user.id) {
-            return (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue);
-          } else {
-            return user.username.toLowerCase().includes(filterValue);
-          }
+      return this.users.filter(user => {
+        if (user.id) {
+          return (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue);
+        } else {
+          return user.username.toLowerCase().includes(filterValue);
         }
-      );
+      });
     } else {
       return [];
     }

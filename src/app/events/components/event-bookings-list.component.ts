@@ -47,7 +47,7 @@ interface BookingRanked {
       ></tr>
     </table>
 
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize> </mat-paginator>
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
   styles: [
     `

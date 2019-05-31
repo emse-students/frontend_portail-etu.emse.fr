@@ -1,7 +1,7 @@
 import { NgModule } from '@angular/core';
 
 import { BdeRoutingModule } from './bde-routing.module';
-import {SharedModule} from '../shared/shared.module';
+import { SharedModule } from '../shared/shared.module';
 import { BdeComponent } from './containers/bde.component';
 import { BdeAccountsListComponent } from './components/bde-accounts-list.component';
 import { BdeDebitFormComponent } from './components/bde-debit-form.component';
@@ -16,11 +16,8 @@ import { BdeOperationListComponent } from './components/bde-operation-list.compo
     BdeDebitFormComponent,
     BdeRechargeFormComponent,
     BdeAccountComponent,
-    BdeOperationListComponent
+    BdeOperationListComponent,
   ],
-  imports: [
-    SharedModule,
-    BdeRoutingModule
-  ]
+  imports: [SharedModule, BdeRoutingModule],
 })
-export class BdeModule { }
+export class BdeModule {}

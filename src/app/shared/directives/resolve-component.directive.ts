@@ -1,6 +1,12 @@
-import {ComponentFactoryResolver, Directive, Input, OnInit, ViewContainerRef} from '@angular/core';
-import {Event} from '../../core/models/event.model';
-import {PaymentMeans} from '../../core/models/payment-means.model';
+import {
+  ComponentFactoryResolver,
+  Directive,
+  Input,
+  OnInit,
+  ViewContainerRef,
+} from '@angular/core';
+import { Event } from '../../core/models/event.model';
+import { PaymentMeans } from '../../core/models/payment-means.model';
 
 interface EventComponent {
   event: Event;
@@ -9,7 +15,7 @@ interface EventComponent {
 }
 
 @Directive({
-  selector: '[appResolveComponent]'
+  selector: '[appResolveComponent]',
 })
 export class ResolveComponentDirective implements OnInit {
   @Input() component: any;
@@ -17,7 +23,10 @@ export class ResolveComponentDirective implements OnInit {
   @Input() isAdmin: boolean;
   @Input() paymentMeans: PaymentMeans[];
 
-  constructor(public viewContainerRef: ViewContainerRef, private componentFactoryResolver: ComponentFactoryResolver) { }
+  constructor(
+    public viewContainerRef: ViewContainerRef,
+    private componentFactoryResolver: ComponentFactoryResolver,
+  ) {}
 
   ngOnInit() {
     const componentFactory = this.componentFactoryResolver.resolveComponentFactory(this.component);

@@ -45,5 +45,3 @@ export interface EventUser {
   contributeCercle?: boolean;
   bookingIndex?: number;
 }
-
-

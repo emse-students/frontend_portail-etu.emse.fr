@@ -3,5 +3,3 @@ export interface Info {
   message: string;
   code?: number;
 }
-
-

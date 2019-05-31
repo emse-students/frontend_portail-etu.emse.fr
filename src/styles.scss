@@ -1,4 +1,4 @@
-@import "styles-variables";
+@import 'styles-variables';
 
 @import '~bootstrap/scss/bootstrap-reboot';
 @import '~bootstrap/scss/bootstrap-grid';
@@ -21,7 +21,6 @@
 @import 'app/core/app/app.component.scss-theme';
 @import 'app/core/components/menu-list-item/menu-list-item.component.scss';
 
-
 @mixin custom-components-theme($theme) {
   @include app-styles-reset-theme($theme);
   @include app-app-component-theme($theme);
@@ -33,8 +32,8 @@
   @include custom-components-theme($purple-theme);
   //Error
   .error-snackbar {
-    background: #F8D7DA;
-    color: #721C24;
+    background: #f8d7da;
+    color: #721c24;
     font-size: 1em;
     .mat-simple-snackbar-action {
       color: #000000;
@@ -42,7 +41,7 @@
   }
 
   .success-snackbar {
-    background: #D4EDDA;
+    background: #d4edda;
     color: #155724;
     font-size: 1em;
     .mat-simple-snackbar-action {
@@ -51,8 +50,8 @@
   }
 
   .info-snackbar {
-    background: #D1ECF1;
-    color: #0C5460;
+    background: #d1ecf1;
+    color: #0c5460;
     font-size: 1em;
     .mat-simple-snackbar-action {
       color: #000000;
@@ -72,4 +71,3 @@ textarea.mat-input-element {
   padding: 0;
   margin: 5px 0;
 }
-

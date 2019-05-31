@@ -1,26 +1,26 @@
 import { NgModule } from '@angular/core';
 import { Routes, RouterModule } from '@angular/router';
-import {BdeComponent} from './containers/bde.component';
-import {BdeAccountComponent} from './containers/bde-account.component';
+import { BdeComponent } from './containers/bde.component';
+import { BdeAccountComponent } from './containers/bde-account.component';
 
 const routes: Routes = [
   {
     path: '',
     redirectTo: 'list',
-    pathMatch: 'full'
+    pathMatch: 'full',
   },
   {
     path: 'account/:id',
-    component: BdeAccountComponent
+    component: BdeAccountComponent,
   },
   {
     path: ':id',
-    component: BdeComponent
-  }
+    component: BdeComponent,
+  },
 ];
 
 @NgModule({
   imports: [RouterModule.forChild(routes)],
-  exports: [RouterModule]
+  exports: [RouterModule],
 })
-export class BdeRoutingModule { }
+export class BdeRoutingModule {}

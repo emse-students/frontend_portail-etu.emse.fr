@@ -1,14 +1,14 @@
 import { Component, OnInit } from '@angular/core';
-import {Booking, Event, NewBooking, PutBooking} from '../../core/models/event.model';
-import {PaymentMeans} from '../../core/models/payment-means.model';
-import {AuthenticatedUser} from '../../core/models/auth.model';
-import {ActivatedRoute, Router} from '@angular/router';
-import {EventService} from '../../core/services/event.service';
-import {AuthService} from '../../core/services/auth.service';
-import {PaymentMeansService} from '../../core/services/payment-means.service';
-import {UserService} from '../../core/services/user.service';
-import {InfoService} from '../../core/services/info.service';
-import {User} from '../../core/models/user.model';
+import { Booking, Event, PutBooking } from '../../core/models/event.model';
+import { PaymentMeans } from '../../core/models/payment-means.model';
+import { AuthenticatedUser } from '../../core/models/auth.model';
+import { ActivatedRoute, Router } from '@angular/router';
+import { EventService } from '../../core/services/event.service';
+import { AuthService } from '../../core/services/auth.service';
+import { PaymentMeansService } from '../../core/services/payment-means.service';
+import { UserService } from '../../core/services/user.service';
+import { InfoService } from '../../core/services/info.service';
+import { User } from '../../core/models/user.model';
 
 @Component({
   selector: 'app-booking',
@@ -17,29 +17,37 @@ import {User} from '../../core/models/user.model';
       <mat-card *ngIf="loaded && paymentMeansLoaded && !pending">
         <mat-card-title class="h4">Modifier sa réservation</mat-card-title>
         <app-event-description [event]="booking.event"></app-event-description>
-        <app-booking-form [authenticatedUser]="authenticatedUser"
-                          [relatedEvent]="booking.event"
-                          [currentUser]="user"
-                          [booking]="booking"
-                          (submitted)="book($event)" [isNew]="false" *ngIf="!error"></app-booking-form>
+        <app-booking-form
+          [authenticatedUser]="authenticatedUser"
+          [relatedEvent]="booking.event"
+          [currentUser]="user"
+          [booking]="booking"
+          (submitted)="book($event)"
+          [isNew]="false"
+          *ngIf="!error"
+        ></app-booking-form>
         <mat-card-title *ngIf="error">Cette réservation n'est plus modifiable !</mat-card-title>
         <p class="loginButtons">
-          <button class="ml-2" mat-flat-button color="warn" (click)="delete()">Annuler votre réservation</button>
+          <button class="ml-2" mat-flat-button color="warn" (click)="delete()">
+            Annuler votre réservation
+          </button>
         </p>
       </mat-card>
     </div>
     <div class="centrer" *ngIf="!loaded || pending">
-      <mat-spinner  [diameter]="200" [strokeWidth]="5"></mat-spinner>
+      <mat-spinner [diameter]="200" [strokeWidth]="5"></mat-spinner>
     </div>
   `,
-  styles: [`
-    mat-card-title,
-    mat-card-content,
-    mat-card-footer {
-      display: flex;
-      justify-content: center;
-    }
-  `]
+  styles: [
+    `
+      mat-card-title,
+      mat-card-content,
+      mat-card-footer {
+        display: flex;
+        justify-content: center;
+      }
+    `,
+  ],
 })
 export class BookingComponent implements OnInit {
   today = new Date();
@@ -59,15 +67,17 @@ export class BookingComponent implements OnInit {
     private authService: AuthService,
     private paymentMeansService: PaymentMeansService,
     private userService: UserService,
-    private infoService: InfoService
-  ) { }
+    private infoService: InfoService,
+  ) {}
 
   ngOnInit() {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
       if (authenticatedUser) {
         this.authenticatedUser = authenticatedUser;
       } else {
-        setTimeout(() => {this.router.navigate(['/home']); });
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        });
       }
     });
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
@@ -85,7 +95,10 @@ export class BookingComponent implements OnInit {
           this.eventService.get(booking.event.id).subscribe((event: Event) => {
             // console.log(booking);
             this.booking.event = event;
-            if (booking.event.date < this.today || (booking.event.closingDate && booking.event.closingDate < this.today)) {
+            if (
+              booking.event.date < this.today ||
+              (booking.event.closingDate && booking.event.closingDate < this.today)
+            ) {
               this.error = true;
             }
             this.loaded = true;
@@ -93,10 +106,11 @@ export class BookingComponent implements OnInit {
         });
       }
     });
-    this.userService.user.subscribe((user: User) => {this.user = user; });
+    this.userService.user.subscribe((user: User) => {
+      this.user = user;
+    });
     this.userService.getBalance();
     this.authService.refresh();
-
   }
 
   book(booking: PutBooking) {
@@ -111,9 +125,11 @@ export class BookingComponent implements OnInit {
     }
     if (booking.cercleOperationAmount) {
       if (this.booking.cercleOperationAmount) {
-        this.userService.updateCercleBalance(this.booking.cercleOperationAmount - booking.cercleOperationAmount);
+        this.userService.updateCercleBalance(
+          this.booking.cercleOperationAmount - booking.cercleOperationAmount,
+        );
       } else {
-        this.userService.updateCercleBalance(- booking.cercleOperationAmount);
+        this.userService.updateCercleBalance(-booking.cercleOperationAmount);
       }
     }
     this.eventService.putBook(booking).subscribe(
@@ -121,24 +137,28 @@ export class BookingComponent implements OnInit {
         this.pending = false;
         this.infoService.pushSuccess('Modification effectuée');
         this.router.navigate(['events', 'my-bookings']);
-        },
-      (error) => {
+      },
+      error => {
         this.pending = false;
         if (booking.operation) {
           if (this.booking.operation) {
-            this.userService.updateBalance(- booking.operation.amount + this.booking.operation.amount);
+            this.userService.updateBalance(
+              -booking.operation.amount + this.booking.operation.amount,
+            );
           } else {
             this.userService.updateBalance(-booking.operation.amount);
           }
         }
         if (booking.cercleOperationAmount) {
           if (this.booking.cercleOperationAmount) {
-            this.userService.updateCercleBalance( booking.cercleOperationAmount - this.booking.cercleOperationAmount);
+            this.userService.updateCercleBalance(
+              booking.cercleOperationAmount - this.booking.cercleOperationAmount,
+            );
           } else {
             this.userService.updateCercleBalance(booking.cercleOperationAmount);
           }
         }
-      }
+      },
     );
   }
 
@@ -148,18 +168,17 @@ export class BookingComponent implements OnInit {
       this.eventService.deleteBooking(this.booking.id).subscribe(
         () => {
           if (this.booking.operation) {
-            this.userService.updateBalance( - this.booking.operation.amount);
+            this.userService.updateBalance(-this.booking.operation.amount);
           }
           this.pending = false;
           this.infoService.pushSuccess('Réservation annulée');
           this.userService.unbook(this.booking.event.id);
           this.router.navigate(['events', 'my-bookings']);
         },
-        (error) => {
+        error => {
           this.pending = false;
-        }
+        },
       );
     }
   }
-
 }

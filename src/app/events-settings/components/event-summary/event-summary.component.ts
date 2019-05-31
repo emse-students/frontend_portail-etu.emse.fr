@@ -1,8 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {Event} from '../../../core/models/event.model';
-import {PaymentMeans} from '../../../core/models/payment-means.model';
-import {FormOutput} from '../../../core/models/form.model';
-import {environment} from '../../../../environments/environment';
+import { Component, Input, OnInit } from '@angular/core';
+import { Event } from '../../../core/models/event.model';
+import { PaymentMeans } from '../../../core/models/payment-means.model';
+import { FormOutput } from '../../../core/models/form.model';
+import { environment } from '../../../../environments/environment';
 
 interface Income {
   paymentMeans: PaymentMeans;
@@ -12,7 +12,7 @@ interface Income {
 @Component({
   selector: 'app-event-summary',
   templateUrl: './event-summary.component.html',
-  styleUrls: ['./event-summary.component.scss']
+  styleUrls: ['./event-summary.component.scss'],
 })
 export class EventSummaryComponent implements OnInit {
   _event: Event;
@@ -21,13 +21,15 @@ export class EventSummaryComponent implements OnInit {
     this._event = event;
     this.compute();
   }
-  get event() { return this._event; }
+  get event() {
+    return this._event;
+  }
   theoricalIncome: number;
   realIncomeTotal: number;
   realIncome: Income[];
   environmentHome = environment.home;
 
-  constructor() { }
+  constructor() {}
 
   ngOnInit() {
     this.compute();
@@ -38,12 +40,10 @@ export class EventSummaryComponent implements OnInit {
     this.realIncome = [];
     this.realIncomeTotal = 0;
     for (let i = 0; i < this.event.paymentMeans.length; i++) {
-      this.realIncome.push(
-        {
-          paymentMeans: this.event.paymentMeans[i],
-          total: 0
-        }
-      );
+      this.realIncome.push({
+        paymentMeans: this.event.paymentMeans[i],
+        total: 0,
+      });
     }
     if (this.event.price) {
       for (let i = 0; i < this.event.bookings.length; i++) {
@@ -59,7 +59,7 @@ export class EventSummaryComponent implements OnInit {
         }
         if (this.event.bookings[i].paid) {
           for (let j = 0; j < this.realIncome.length; j++) {
-            if ( this.realIncome[j].paymentMeans.id === this.event.bookings[i].paymentMeans.id) {
+            if (this.realIncome[j].paymentMeans.id === this.event.bookings[i].paymentMeans.id) {
               this.realIncome[j].total += this.event.price + optionPrice;
               this.realIncomeTotal += this.event.price + optionPrice;
             }

@@ -32,4 +32,3 @@ export function setHourToDate(date: Date, hour: string): string {
   }
   return date.toISOString();
 }
-

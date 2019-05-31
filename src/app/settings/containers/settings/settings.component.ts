@@ -1,17 +1,17 @@
 import { Component, OnInit } from '@angular/core';
-import {Setting, SETTINGS, strIdToTabId} from '../../models/settings.models';
-import {ActivatedRoute, Router} from '@angular/router';
+import { Setting, SETTINGS, strIdToTabId } from '../../models/settings.models';
+import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-settings',
   templateUrl: './settings.component.html',
-  styleUrls: ['./settings.component.scss']
+  styleUrls: ['./settings.component.scss'],
 })
 export class SettingsComponent implements OnInit {
   settings: Setting[];
   selectedSetting: number;
 
-  constructor(private router: Router, private route: ActivatedRoute) { }
+  constructor(private router: Router, private route: ActivatedRoute) {}
 
   ngOnInit() {
     this.settings = SETTINGS;
@@ -23,5 +23,4 @@ export class SettingsComponent implements OnInit {
   goTo(str_id: string) {
     this.router.navigate(['/settings', str_id]);
   }
-
 }

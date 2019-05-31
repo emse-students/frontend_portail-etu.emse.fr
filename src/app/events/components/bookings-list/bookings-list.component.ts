@@ -1,18 +1,25 @@
-import {AfterViewInit, Component, EventEmitter, Input, OnInit, Output, ViewChild} from '@angular/core';
-import {MatPaginator, MatSort, MatTableDataSource} from '@angular/material';
-import {AssociationLight} from '../../../core/models/association.model';
-import {Booking} from '../../../core/models/event.model';
+import {
+  AfterViewInit,
+  Component,
+  EventEmitter,
+  Input,
+  OnInit,
+  Output,
+  ViewChild,
+} from '@angular/core';
+import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Booking } from '../../../core/models/event.model';
 
 @Component({
   selector: 'app-bookings-list',
   templateUrl: './bookings-list.component.html',
-  styleUrls: ['./bookings-list.component.scss']
+  styleUrls: ['./bookings-list.component.scss'],
 })
 export class BookingsListComponent implements OnInit, AfterViewInit {
   today = new Date();
   _bookings;
   @Input()
-  set bookings (bookings) {
+  set bookings(bookings) {
     this._bookings = bookings;
 
     this.dataSource.sort = this.sort;
@@ -20,11 +27,13 @@ export class BookingsListComponent implements OnInit, AfterViewInit {
     this.sort.sort({
       disableClear: false,
       id: 'event.date',
-      start: 'desc'
+      start: 'desc',
     });
   }
 
-  get bookings() {return this._bookings; }
+  get bookings() {
+    return this._bookings;
+  }
 
   @Input()
   set filter(search: string) {
@@ -35,18 +44,25 @@ export class BookingsListComponent implements OnInit, AfterViewInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource();
 
-  displayedColumns: string[] = ['event.date', 'event.name', 'event.association.name', 'paid', 'modify'];
+  displayedColumns: string[] = [
+    'event.date',
+    'event.name',
+    'event.association.name',
+    'paid',
+    'modify',
+  ];
 
-  ngOnInit(): void {
-
-  }
+  ngOnInit(): void {}
 
   ngAfterViewInit() {
     this.dataSource.sortingDataAccessor = (item: Booking, property) => {
       switch (property) {
-        case 'event.date': return item.event.date;
-        case 'event.name': return item.event.name;
-        default: return item[property];
+        case 'event.date':
+          return item.event.date;
+        case 'event.name':
+          return item.event.name;
+        default:
+          return item[property];
       }
     };
 

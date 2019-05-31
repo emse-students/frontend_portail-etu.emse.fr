@@ -8,7 +8,8 @@ import { Component, OnInit } from '@angular/core';
       <mat-card-content>
         <div>
           <p>
-            Ce site a pour vocation de remplacer l'ancien site du BDE. <br />
+            Ce site a pour vocation de remplacer l'ancien site du BDE.
+            <br />
             Vous y retrouverez l'historique de votre compte BDE. Mais de nouvelles fonctionnalités
             sont disponibles :
           </p>
@@ -34,8 +35,8 @@ import { Component, OnInit } from '@angular/core';
           </ul>
           <p>
             Le site est en cours de développement, merci de signaler à
-            <a href="corentin.doue@etu.emse.fr">corentin.doue@etu.emse.fr</a> si vous rencontrez des
-            bugs afin qu'ils soient corrigés
+            <a href="corentin.doue@etu.emse.fr">corentin.doue@etu.emse.fr</a>
+            si vous rencontrez des bugs afin qu'ils soient corrigés
           </p>
         </div>
       </mat-card-content>

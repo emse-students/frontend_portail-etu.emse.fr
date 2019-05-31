@@ -15,11 +15,6 @@ import { NewBooking, Event, Booking, PutBooking } from '../../../core/models/eve
 import { arrayFindById } from '../../../core/services/utils';
 import { AuthService } from '../../../core/services/auth.service';
 
-interface BoolOption {
-  selected: boolean;
-  option: Option;
-}
-
 @Component({
   selector: 'app-booking-form',
   templateUrl: './booking-form.component.html',
@@ -60,7 +55,7 @@ export class BookingFormComponent implements OnInit {
   form: FormGroup;
 
   @Output() submitted = new EventEmitter<NewBooking | PutBooking>();
-  constructor(private fb: FormBuilder, private authService: AuthService) {}
+  constructor(private fb: FormBuilder) {}
 
   ngOnInit() {
     this.initForm();
@@ -113,6 +108,9 @@ export class BookingFormComponent implements OnInit {
   }
   formInput(i) {
     return this.formOutputs.controls[i].get('formInput');
+  }
+  asFormArray(value): FormArray {
+    return value;
   }
 
   initForm() {
@@ -433,6 +431,6 @@ export class BookingFormComponent implements OnInit {
   }
 
   onLoginClick() {
-    this.authService.login();
+    AuthService.login();
   }
 }

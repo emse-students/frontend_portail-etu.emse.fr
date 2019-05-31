@@ -1,12 +1,12 @@
-import {Component, EventEmitter, Input, OnInit, Output} from '@angular/core';
-import {AbstractControl, FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
-import {UrlSafeStringService} from '../../../core/services/url-safe-string.service';
-import {AssociationLight} from '../../../core/models/association.model';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { UrlSafeStringService } from '../../../core/services/url-safe-string.service';
+import { AssociationLight } from '../../../core/models/association.model';
 
 @Component({
   selector: 'app-settings-asso-form',
   templateUrl: './settings-asso-form.component.html',
-  styleUrls: ['./settings-asso-form.component.scss']
+  styleUrls: ['./settings-asso-form.component.scss'],
 })
 export class SettingsAssoFormComponent implements OnInit {
   ispending;
@@ -26,7 +26,7 @@ export class SettingsAssoFormComponent implements OnInit {
   @Input() isNew = true;
 
   @Input()
-  set asso (asso: AssociationLight | null) {
+  set asso(asso: AssociationLight | null) {
     if (asso !== null) {
       this.form.patchValue(asso);
     }
@@ -37,22 +37,25 @@ export class SettingsAssoFormComponent implements OnInit {
   form: FormGroup = this.fb.group({
     id: [null],
     tag: [''],
-    name: ['', Validators.required]
+    name: ['', Validators.required],
   });
 
-
-  get name() { return this.form.get('name'); }
-  get tag() { return this.form.get('tag'); }
-
+  get name() {
+    return this.form.get('name');
+  }
+  get tag() {
+    return this.form.get('tag');
+  }
 
   constructor(private fb: FormBuilder, private urlSafeStringService: UrlSafeStringService) {}
 
-  ngOnInit() {
-  }
+  ngOnInit() {}
 
   submit() {
     if (this.form.valid) {
-      if (this.isNew) {this.form.removeControl('id'); }
+      if (this.isNew) {
+        this.form.removeControl('id');
+      }
       this.tag.setValue(this.urlSafeStringService.generate(this.name.value));
       this.submitted.emit(this.form.value);
     }
@@ -61,5 +64,4 @@ export class SettingsAssoFormComponent implements OnInit {
   getErrorMessage(formControl: FormControl | AbstractControl) {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' : '';
   }
-
 }

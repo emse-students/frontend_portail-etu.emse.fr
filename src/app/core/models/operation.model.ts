@@ -1,5 +1,5 @@
-import {Booking} from './event.model';
-import {User} from './user.model';
+import { Booking } from './event.model';
+import { User } from './user.model';
 
 export interface Operation {
   id: number;

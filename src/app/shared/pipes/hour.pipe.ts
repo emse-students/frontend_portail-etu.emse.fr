@@ -1,6 +1,6 @@
-import {Pipe, PipeTransform} from '@angular/core';
+import { Pipe, PipeTransform } from '@angular/core';
 
-@Pipe({name: 'hour'})
+@Pipe({ name: 'hour' })
 export class HourPipe implements PipeTransform {
   transform(value: string): string {
     const regex = /(.+h)0$/;

@@ -55,7 +55,7 @@ export class EventService {
       .get<Event[]>(url)
       .pipe(
         map(events =>
-          this.jsonLdService.parseCollection<Event>(events).collection.map(EventService.parseDates),
+          JsonLdService.parseCollection<Event>(events).collection.map(EventService.parseDates),
         ),
       );
   }

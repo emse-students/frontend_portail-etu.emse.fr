@@ -145,7 +145,7 @@ export class AppComponent implements OnInit, AfterViewInit {
 
   onLoginClick() {
     this.authPending = true;
-    this._authService.login();
+    AuthService.login();
   }
 
   closeSidenav() {

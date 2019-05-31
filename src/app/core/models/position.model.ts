@@ -1,6 +1,6 @@
-import {Association} from './association.model';
-import {UserLight} from './auth.model';
-import {NewRole, Role} from './role.model';
+import { Association } from './association.model';
+import { UserLight } from './auth.model';
+import { NewRole, Role } from './role.model';
 
 export interface Position {
   id: number;
@@ -9,7 +9,6 @@ export interface Position {
   role: Role;
   loading?: boolean;
 }
-
 
 export interface NewPosition {
   association: string;

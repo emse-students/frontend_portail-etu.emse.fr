@@ -1,34 +1,43 @@
-import {Component, OnInit} from '@angular/core';
-import {PaymentMeans} from '../../core/models/payment-means.model';
-import {PaymentMeansService} from '../../core/services/payment-means.service';
-import {InfoService} from '../../core/services/info.service';
-import {JsonLdService} from '../../core/services/json-ld.service';
-import {arrayRemoveById} from '../../core/services/utils';
+import { Component, OnInit } from '@angular/core';
+import { PaymentMeans } from '../../core/models/payment-means.model';
+import { PaymentMeansService } from '../../core/services/payment-means.service';
+import { InfoService } from '../../core/services/info.service';
+import { arrayRemoveById } from '../../core/services/utils';
 
 @Component({
   selector: 'app-means-payement',
   template: `
-    <app-settings-payment-means-form *ngIf="selectedPaymentMeans || newPaymentMeans"
-                            (submitted)="onSubmit($event)"
-                            [pending]="loading"
-                            [paymentMeans]="selectedPaymentMeans"
-                            [isNew]="newPaymentMeans">
-    </app-settings-payment-means-form>
-    <button mat-flat-button color="primary"
-            *ngIf="!newPaymentMeans && !selectedPaymentMeans"
-            (click)="createPaymentMeans()">Créer un moyen de paiement</button>
-    <app-search [query]="searchQuery"
-                [searching]="loading"
-                (search)="search($event)"
-                placeholder="Rechercher un moyen de paiement"></app-search>
-    <app-settings-payment-means-list *ngIf="paymentMeans" [items]="paymentMeans"
-                            (deleted)="delete($event)"
-                            (selected)="select($event)"
-                            [filter]="searchQuery"
-                            itemName="le moyen de paiement">
-    </app-settings-payment-means-list>
+    <app-settings-payment-means-form
+      *ngIf="selectedPaymentMeans || newPaymentMeans"
+      (submitted)="onSubmit($event)"
+      [pending]="loading"
+      [paymentMeans]="selectedPaymentMeans"
+      [isNew]="newPaymentMeans"
+    ></app-settings-payment-means-form>
+    <button
+      mat-flat-button
+      color="primary"
+      *ngIf="!newPaymentMeans && !selectedPaymentMeans"
+      (click)="createPaymentMeans()"
+    >
+      Créer un moyen de paiement
+    </button>
+    <app-search
+      [query]="searchQuery"
+      [searching]="loading"
+      (search)="search($event)"
+      placeholder="Rechercher un moyen de paiement"
+    ></app-search>
+    <app-settings-payment-means-list
+      *ngIf="paymentMeans"
+      [items]="paymentMeans"
+      (deleted)="delete($event)"
+      (selected)="select($event)"
+      [filter]="searchQuery"
+      itemName="le moyen de paiement"
+    ></app-settings-payment-means-list>
   `,
-  styles: []
+  styles: [],
 })
 export class SettingsMeansPaymentComponent implements OnInit {
   searchQuery = '';
@@ -37,7 +46,7 @@ export class SettingsMeansPaymentComponent implements OnInit {
   paymentMeans: PaymentMeans[] | null = null;
   newPaymentMeans = false;
 
-  constructor(private paymentMeansService: PaymentMeansService, private infoService: InfoService, private jsonLdService: JsonLdService) {}
+  constructor(private paymentMeansService: PaymentMeansService, private infoService: InfoService) {}
 
   ngOnInit(): void {
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
@@ -68,11 +77,11 @@ export class SettingsMeansPaymentComponent implements OnInit {
         this.infoService.pushSuccess('Moyen de paiement supprimé avec succès');
         this.loading = false;
       },
-      (error) => {
+      error => {
         console.log(error);
         this.infoService.pushError(error.toString());
         this.loading = false;
-      }
+      },
     );
   }
 
@@ -80,7 +89,7 @@ export class SettingsMeansPaymentComponent implements OnInit {
     this.loading = true;
     if (this.newPaymentMeans) {
       this.paymentMeansService.create(paymentMeans).subscribe(
-        (newPaymentMeans) => {
+        newPaymentMeans => {
           const newPaymentMeanss = this.paymentMeans.slice(0);
           newPaymentMeanss.push(newPaymentMeans);
           this.infoService.pushSuccess('Moyen de paiement créé avec succès');
@@ -88,15 +97,15 @@ export class SettingsMeansPaymentComponent implements OnInit {
           this.newPaymentMeans = false;
           this.loading = false;
         },
-        (error) => {
+        error => {
           console.log(error);
           this.infoService.pushError(error.toString());
           this.loading = false;
-          },
+        },
       );
     } else {
       this.paymentMeansService.put(paymentMeans).subscribe(
-        (updatedPaymentMeans) => {
+        updatedPaymentMeans => {
           const newPaymentMeanss = this.paymentMeans.slice(0);
           for (let i = 0; i < newPaymentMeanss.length; i++) {
             if (newPaymentMeanss[i].id === updatedPaymentMeans.id) {
@@ -108,14 +117,12 @@ export class SettingsMeansPaymentComponent implements OnInit {
           this.loading = false;
           this.selectedPaymentMeans = null;
         },
-        (error) => {
+        error => {
           console.log(error);
           this.infoService.pushError(error.toString());
           this.loading = false;
-          },
+        },
       );
     }
   }
-
-
 }

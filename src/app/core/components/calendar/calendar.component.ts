@@ -52,8 +52,8 @@ export class CalendarComponent implements OnInit {
           date: day,
           events: this.events.filter(event => {
             return (
-              (event.date > day && event.date < nextDay) ||
-              (event.shotgunStartingDate > day && event.shotgunStartingDate < nextDay)
+              (event.date >= day && event.date < nextDay) ||
+              (event.shotgunStartingDate >= day && event.shotgunStartingDate < nextDay)
             );
           }),
         });

@@ -1,4 +1,4 @@
-import { NgModule, Optional, SkipSelf } from '@angular/core';
+import { ErrorHandler, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
@@ -24,6 +24,7 @@ import { CalendarDayComponent } from './components/calendar-day/calendar-day.com
 import { DatePickerComponent } from './components/date-picker/date-picker.component';
 import { EventSidenavComponent } from './components/event-sidenav.component';
 import { UserSidenavComponent } from './components/user-sidenav.component';
+import { SentryErrorHandler } from './services/sentry.service';
 
 export const COMPONENTS = [
   AppComponent,
@@ -47,8 +48,10 @@ export const SERVICES = [
   InfoService,
   UrlSafeStringService,
   JsonLdService,
+  SentryErrorHandler,
   { provide: HTTP_INTERCEPTORS, useClass: ErrorInterceptorService, multi: true },
   { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptorService, multi: true },
+  { provide: ErrorHandler, useClass: SentryErrorHandler },
 ];
 
 @NgModule({

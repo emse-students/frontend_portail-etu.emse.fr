@@ -2,7 +2,7 @@ import * as Sentry from '@sentry/browser';
 import { ErrorHandler, Injectable } from '@angular/core';
 
 Sentry.init({
-  dsn: '__PUBLIC_DSN__',
+  dsn: 'https://423b494d1a89445bba1e14eea01e8997@sentry.io/1472817',
 });
 
 @Injectable()

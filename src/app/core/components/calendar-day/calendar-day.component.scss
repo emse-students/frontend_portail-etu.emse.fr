@@ -54,3 +54,12 @@
     text-align: center;
   }
 }
+
+.today {
+  position: absolute;
+  width: calc(100% + 8px);
+  height: calc(100% + 8px);
+  margin: -4px;
+  border: solid #fac837 3px;
+  border-radius: 5px;
+}

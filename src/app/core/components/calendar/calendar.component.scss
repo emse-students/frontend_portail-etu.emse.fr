@@ -2,18 +2,18 @@ $calendarCellSize: 175px;
 $calendarMaxCellSize: 225px;
 
 .day {
-  width: calc(100% / 7);
+  width: calc(100% / 7 - 8px);
   min-height: $calendarCellSize;
   min-width: $calendarCellSize;
   max-width: $calendarMaxCellSize;
-  border: solid black 1px;
+  margin: 4px;
+  background-color: #f4f4f4;
 }
 
 .day-header {
   width: calc(100% / 7);
-  min-width: $calendarCellSize;
-  max-width: $calendarMaxCellSize;
+  min-width: $calendarCellSize + 8;
+  max-width: $calendarMaxCellSize + 8;
   text-align: center;
-  border: solid black 1px;
-  font-size: 1em;
+  font-size: 1.4em;
 }

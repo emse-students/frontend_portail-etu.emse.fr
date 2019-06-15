@@ -216,7 +216,9 @@
           />
         </div>
         <div class="event-background" [ngStyle]="asso | assoStyle: 'accent'"></div>
-        <div class="event-name">Nom de l'événement</div>
+        <div class="event-name" [ngStyle]="asso | assoStyle: 'accent':'text-shadow'">
+          Nom de l'événement
+        </div>
       </div>
     </div>
 

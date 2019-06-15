@@ -1,5 +1,12 @@
-<div class="date">
-  <span class="day-number">{{ day.date | date: 'd' }}</span>
+<div
+  class="date"
+  [ngStyle]="
+    day.events.length ? (day.events[0].association | assoStyle: 'accent':'text-shadow') : {}
+  "
+>
+  <span class="day-number">
+    {{ day.date | date: 'd' }}
+  </span>
   <span class="month">{{ day.date | date: 'M' | translateMonth }}</span>
 </div>
 <div
@@ -15,8 +22,11 @@
       style="width: 100%;"
     />
   </div>
-  <div class="event-background" [ngStyle]="event.association | assoStyle: 'accent'"></div>
-  <div class="event-name">
+  <div
+    class="event-background"
+    [ngStyle]="event.association | assoStyle: 'accent':'background'"
+  ></div>
+  <div class="event-name" [ngStyle]="event.association | assoStyle: 'accent':'text-shadow'">
     {{
       event.shotgunStartingDate > day.date && event.shotgunStartingDate < nextDay(event.date)
         ? 'Shotgun '

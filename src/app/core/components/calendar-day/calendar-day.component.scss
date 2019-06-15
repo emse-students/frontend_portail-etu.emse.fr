@@ -8,17 +8,17 @@
   position: absolute;
   margin: 2px;
   z-index: 5;
-  text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-  color: black;
+  color: grey;
 
   .day-number {
-    font-size: 1.2em;
+    font-size: 1.5em;
     line-height: 1;
   }
 
   .month {
-    font-size: 0.8em;
-    margin-left: 2px;
+    font-size: 0.7em;
+    margin-left: -2px;
+    vertical-align: text-top;
   }
 }
 
@@ -52,7 +52,5 @@
     z-index: 4;
     font-size: 1.2em;
     text-align: center;
-    text-shadow: -1px -1px 0 #ffffff, 1px -1px 0 #ffffff, -1px 1px 0 #ffffff, 1px 1px 0 #ffffff;
-    color: black;
   }
 }

@@ -6,7 +6,11 @@ interface AssoStyle {
 }
 @Pipe({ name: 'assoStyle', pure: false })
 export class AssoStylePipe implements PipeTransform {
-  transform(input: Association, color: 'primary' | 'accent' = 'primary'): AssoStyle {
+  transform(
+    input: Association,
+    color: 'primary' | 'accent' = 'primary',
+    type: 'all' | 'background' | 'text' | 'text-shadow' = 'all',
+  ): AssoStyle {
     if (!input) {
       return {};
     }
@@ -22,6 +26,21 @@ export class AssoStylePipe implements PipeTransform {
         background: input.color,
         color: input.contrastColor ? input.contrastColor : input.color2,
       };
+    }
+    if (type === 'text-shadow') {
+      style.textShadow = `
+        -1px -1px 0 ${style.background},
+        1px -1px 0 ${style.background},
+        -1px 1px 0 ${style.background},
+        1px 1px 0 ${style.background}
+      `;
+      delete style.background;
+    }
+    if (type === 'text') {
+      delete style.background;
+    }
+    if (type === 'background') {
+      delete style.color;
     }
     return style;
   }

@@ -14,9 +14,6 @@ import { UserService } from '../services/user.service';
           {{ event.name }}
         </span>
       </mat-toolbar>
-      <div class="d-flex justify-content-center absolute-bottom">
-        <button mat-button color="primary" (click)="closeNav()">Fermer</button>
-      </div>
       <mat-card>
         <app-event-description [event]="event"></app-event-description>
         <div class="row justify-content-around">
@@ -60,18 +57,39 @@ import { UserService } from '../services/user.service';
           </button>
         </div>
       </mat-card>
+      <div class="d-flex justify-content-center footer">
+        <button class="close-button" mat-button color="primary" (click)="closeNav()">Fermer</button>
+      </div>
     </ng-container>
   `,
   styles: [
     `
       :host {
-        width: 300px;
+        height: 100%;
+        display: flex;
+        flex-direction: column;
       }
-      .absolute-bottom {
-        position: absolute;
-        bottom: 5px;
-        left: 0;
-        right: 0;
+
+      mat-toolbar {
+        z-index: 2;
+        flex: 0 0 auto;
+      }
+
+      mat-card {
+        flex: 1 0 auto;
+      }
+
+      .footer {
+        flex: 0 0 auto;
+      }
+
+      .close-button {
+        padding: 10px;
+        width: 100%;
+      }
+
+      .close-button:hover {
+        background-color: #ececec;
       }
     `,
   ],

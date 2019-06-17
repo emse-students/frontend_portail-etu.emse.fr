@@ -1,19 +1,15 @@
 <div class="today" *ngIf="today"></div>
-<div
-  class="date"
-  [ngStyle]="
-    day.events.length ? (day.events[0].association | assoStyle: 'accent':'text-shadow') : {}
-  "
->
-  <span class="day-number">
+<div class="date" [ngStyle]="dateStyle()">
+  <div class="day-number">
     {{ day.date | date: 'd' }}
-  </span>
-  <span class="month">{{ day.date | date: 'M' | translateMonth }}</span>
+  </div>
+  <div class="month">{{ day.date | date: 'M' | translateMonth }}</div>
 </div>
+<div [ngStyle]="{ height: day.dayPadding * 2 + 'em' }"></div>
 <div
   class="event"
-  *ngFor="let event of day.events | orderBy: 'date'"
-  [ngStyle]="event.association | assoStyle: 'accent'"
+  *ngFor="let event of day.events | orderBy: 'date'; let i = index"
+  [ngStyle]="eventStyle(event, i)"
   (click)="selectEvent(event)"
 >
   <div class="logo-background" *ngIf="event.association.logo">

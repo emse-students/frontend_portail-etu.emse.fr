@@ -1,7 +1,7 @@
 import { Pipe, PipeTransform } from '@angular/core';
 import { Association } from '../../core/models/association.model';
 
-interface AssoStyle {
+export interface AssoStyle {
   [p: string]: string;
 }
 @Pipe({ name: 'assoStyle', pure: false })

@@ -7,7 +7,7 @@ import { Pipe, PipeTransform } from '@angular/core';
 
 @Pipe({ name: 'orderBy', pure: false })
 export class OrderByPipe implements PipeTransform {
-  value: string[] = [];
+  value: any[] = [];
 
   static _orderByComparator(a: any, b: any): number {
     if (a === null || typeof a === 'undefined') {
@@ -46,7 +46,7 @@ export class OrderByPipe implements PipeTransform {
     return 0; // equal each other
   }
 
-  transform(input: any, config: string[] | string = '+'): any {
+  transform<T>(input: T[], config: string[] | string = '+'): T[] {
     // invalid input given
     if (!input) {
       return input;

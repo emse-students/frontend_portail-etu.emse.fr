@@ -67,6 +67,15 @@ import { UserService } from '../services/user.service';
           <mat-icon>add_circle_outline</mat-icon>
           Nouvel Événement
         </a>
+        <a
+          mat-list-item
+          (click)="closeNav()"
+          [routerLink]="'/events-settings/new-band'"
+          *ngIf="authService.isAdmin()"
+        >
+          <mat-icon>add_circle_outline</mat-icon>
+          Nouveau Bandeau d'Événement
+        </a>
 
         <mat-list-item (click)="logoutUser()">
           <mat-icon>power_settings_new</mat-icon>

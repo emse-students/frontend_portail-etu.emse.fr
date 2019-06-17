@@ -151,5 +151,6 @@ import { EventDescriptionComponent } from './components/event-description.compon
     ImgUploadFormComponent,
     EventDescriptionComponent,
   ],
+  providers: [AssoStylePipe],
 })
 export class SharedModule {}

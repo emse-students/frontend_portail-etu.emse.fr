@@ -1,0 +1,114 @@
+<form [formGroup]="form" (ngSubmit)="submit()">
+  <p>
+    <mat-form-field class="w-100">
+      <input type="text" matInput placeholder="Texte" formControlName="text" />
+      <mat-error *ngIf="text.invalid">{{ getErrorMessage(text) }}</mat-error>
+    </mat-form-field>
+  </p>
+
+  <div class="row">
+    <mat-form-field class="col-sm-6">
+      <input
+        matInput
+        [matDatepicker]="picker"
+        placeholder="Date de début"
+        formControlName="startingDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker"></mat-datepicker-toggle>
+      <mat-datepicker #picker></mat-datepicker>
+      <mat-error *ngIf="startingDate.invalid">{{ getErrorMessage(startingDate) }}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="col-sm-6">
+      <input
+        matInput
+        [matDatepicker]="picker2"
+        placeholder="Date de fin"
+        formControlName="endingDate"
+      />
+      <mat-datepicker-toggle matSuffix [for]="picker2"></mat-datepicker-toggle>
+      <mat-datepicker #picker2></mat-datepicker>
+      <mat-error *ngIf="endingDate.invalid">{{ getErrorMessage(endingDate) }}</mat-error>
+    </mat-form-field>
+  </div>
+
+  <p *ngIf="startingDate.value || endingDate.value">
+    <span *ngIf="startingDate.value">
+      Du {{ startingDate.value | date: 'EEEE d M' | translateDay }}
+    </span>
+    <span *ngIf="endingDate.value">
+      Du {{ endingDate.value | date: 'EEEE d M' | translateDay }}
+    </span>
+  </p>
+  <h4>Couleurs</h4>
+  <div class="row justify-content-center">
+    <div class="col-md-5 d-flex flex-column align-items-center">
+      <div
+        class="color-picker-button"
+        [ngStyle]="{ background: color.value }"
+        [cpPosition]="'bottom'"
+        [cpPositionOffset]="'50%'"
+        [cpPositionRelativeToArrow]="true"
+        [colorPicker]="color.value"
+        (colorPickerChange)="color.setValue($event)"
+      ></div>
+      <p>Fond</p>
+    </div>
+    <div class="col-md-2 d-flex flex-column align-items-center justify-content-center">
+      <mat-icon class="swap-icon" (click)="switchColor()">swap_horizontal_circle</mat-icon>
+    </div>
+    <div class="col-md-5 d-flex flex-column align-items-center">
+      <div
+        class="color-picker-button"
+        [ngStyle]="{ background: contrastColor.value }"
+        [cpPosition]="'bottom'"
+        [cpPositionOffset]="'50%'"
+        [cpPositionRelativeToArrow]="true"
+        [colorPicker]="contrastColor.value"
+        (colorPickerChange)="contrastColor.setValue($event)"
+      ></div>
+      <p>Texte</p>
+    </div>
+  </div>
+  <div
+    class="row justify-content-center"
+    [ngStyle]="{ background: color.value, color: contrastColor.value }"
+  >
+    {{ text.value }}
+  </div>
+
+  <p class="loginButtons">
+    <button
+      class="m-2"
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="submit()"
+      *ngIf="isNew"
+    >
+      Créer
+    </button>
+    <button
+      class="m-2"
+      type="submit"
+      mat-flat-button
+      color="primary"
+      [disabled]="form.invalid"
+      (click)="submit()"
+      *ngIf="!isNew"
+    >
+      Sauver
+    </button>
+    <button
+      class="m-2"
+      type="submit"
+      mat-flat-button
+      color="warn"
+      [disabled]="form.invalid"
+      (click)="delete()"
+      *ngIf="!isNew"
+    >
+      Supprimer
+    </button>
+  </p>
+</form>

@@ -1,8 +1,22 @@
 <div class="row m-0 flex-nowrap justify-content-lg-center">
   <div class="day-header" *ngFor="let weekDay of weekDays">{{ weekDay }}</div>
 </div>
-<div class="row m-0 flex-nowrap justify-content-lg-center" *ngFor="let week of weeks">
-  <div class="day" *ngFor="let day of week">
+<div
+  class="row m-0 flex-nowrap justify-content-lg-center position-relative"
+  *ngFor="let week of weeks"
+>
+  <div
+    class="eventBand"
+    *ngFor="let eventBand of week.eventBands; let index = index"
+    [ngStyle]="eventBandStyle(eventBand)"
+  >
+    <span *ngIf="!isAdmin">{{ eventBand.eventBand.text }}</span>
+    <a [routerLink]="'/events-settings/band/' + eventBand.eventBand.id" *ngIf="isAdmin">
+      {{ eventBand.eventBand.text }}
+    </a>
+  </div>
+
+  <div class="day" *ngFor="let day of week.days">
     <app-calendar-day [day]="day"></app-calendar-day>
   </div>
 </div>

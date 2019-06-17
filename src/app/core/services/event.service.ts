@@ -17,7 +17,7 @@ import {
   providedIn: 'root',
 })
 export class EventService {
-  constructor(private http: HttpClient, private jsonLdService: JsonLdService) {}
+  constructor(private http: HttpClient) {}
 
   static parseDates(event: Event): Event {
     if (event.date) {

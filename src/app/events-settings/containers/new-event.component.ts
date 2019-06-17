@@ -102,7 +102,6 @@ export class NewEventComponent implements OnInit {
     this.associationService.allAssosAndLists.subscribe((assos: AssociationLight[]) => {
       if (assos) {
         const assoIds = this._authService.getAssoIdRightfullyEventEditable();
-        // console.log(assoIds);
         if (assoIds.length === 1 && assoIds[0] === 0) {
           this.assoAvailables = assos;
         } else if (assoIds.length > 0) {

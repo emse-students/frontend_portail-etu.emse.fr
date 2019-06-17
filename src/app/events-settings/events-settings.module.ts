@@ -17,6 +17,9 @@ import { BookingFilterComponent } from './components/booking-filter.component';
 import { EventAddBookingComponent } from './containers/event-add-booking.component';
 import { EventsModule } from '../events/events.module';
 import { MatSliderModule } from '@angular/material';
+import { NewEventBandComponent } from './containers/new-event-band.component';
+import { EventBandFormComponent } from './components/event-band-form/event-band-form.component';
+import { ModifyEventBandComponent } from './containers/modify-event-band.component';
 
 @NgModule({
   declarations: [
@@ -33,6 +36,9 @@ import { MatSliderModule } from '@angular/material';
     RegisteredListComponent,
     BookingFilterComponent,
     EventAddBookingComponent,
+    NewEventBandComponent,
+    EventBandFormComponent,
+    ModifyEventBandComponent,
   ],
   imports: [SharedModule, EventsSettingsRoutingModule, EventsModule, MatSliderModule],
   entryComponents: [EventSummaryComponent, EventCheckingComponent, EventModifyComponent],

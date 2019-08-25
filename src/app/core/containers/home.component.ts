@@ -28,6 +28,11 @@ import { Component, OnInit } from '@angular/core';
   `,
   styles: [
     `
+      :host {
+        flex: 1;
+        display: flex;
+        flex-direction: column;
+      }
       mat-card-title,
       mat-card-content,
       mat-card-footer {

@@ -12,6 +12,7 @@ import {
   PutBookingLight,
   EventBooking,
 } from '../models/event.model';
+import { getCalendarEndDate, getLastMonday } from './date.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -48,9 +49,10 @@ export class EventService {
   }
 
   public getCalendarEvents(date: Date = null): Observable<Event[]> {
-    const url = `${environment.api_url}/events?time=${
-      date ? date.getTime() / 1000 : 'now'
-    }&status=validated|inactive`;
+    const startDate = getLastMonday(date);
+    const endDate = getCalendarEndDate(date);
+    const url = `${environment.api_url}/events?startDate=${startDate.getTime() /
+      1000}&endDate=${endDate.getTime() / 1000}&status=validated|inactive`;
     return this.http
       .get<Event[]>(url)
       .pipe(

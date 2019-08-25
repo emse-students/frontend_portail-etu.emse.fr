@@ -6,6 +6,7 @@ import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
 import { EventBand } from '../models/event-band.model';
 import { Event } from '../models/event.model';
+import { getCalendarEndDate, getLastMonday } from './date.utils';
 
 @Injectable({
   providedIn: 'root',
@@ -34,7 +35,10 @@ export class EventBandService {
   }
 
   public getCalendarEventBands(date: Date = null): Observable<EventBand[]> {
-    const url = `${environment.api_url}/event_bands?time=${date ? date.getTime() / 1000 : 'now'}`;
+    const startDate = getLastMonday(date);
+    const endDate = getCalendarEndDate(date);
+    const url = `${environment.api_url}/event_bands?startDate=${startDate.getTime() /
+      1000}&endDate=${endDate.getTime() / 1000}`;
     return this.http
       .get<Event[]>(url)
       .pipe(

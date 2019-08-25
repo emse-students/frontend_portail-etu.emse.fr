@@ -3,6 +3,7 @@ import { Day } from '../../models/calendar.model';
 import { Event } from '../../models/event.model';
 import { EventBand } from '../../models/event-band.model';
 import { AssoStyle } from '../../../shared/pipes/asso-style.pipe';
+import { getLastMonday, getNextDay } from '../../services/date.utils';
 
 export interface EventBandSettings {
   eventBand: EventBand;
@@ -35,28 +36,12 @@ export class CalendarComponent implements OnInit {
   weeks: Week[] = [];
   weekDays: string[] = ['Lundi', 'Mardi', 'Mercredi', 'Jeudi', 'Vendredi', 'Samedi', 'Dimanche'];
 
-  static getLastMonday(currentDate: Date = null): Date {
-    currentDate = currentDate ? new Date(currentDate) : new Date();
-    const offsetDay = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1;
-    const lastmonday = new Date(currentDate.setDate(currentDate.getDate() - offsetDay));
-    lastmonday.setHours(0);
-    lastmonday.setMinutes(0);
-    lastmonday.setSeconds(0);
-    lastmonday.setMilliseconds(0);
-    return lastmonday;
-  }
-
-  static getNextDay(currentDate: Date = null): Date {
-    currentDate = currentDate ? new Date(currentDate) : new Date();
-    return new Date(currentDate.setDate(currentDate.getDate() + 1));
-  }
-
   ngOnInit() {
     this.buildCalendar();
   }
 
   buildCalendar() {
-    let day = CalendarComponent.getLastMonday(this.currentDate);
+    let day = getLastMonday(this.currentDate);
     this.weeks = [];
     for (let i = 0; i < 4; i++) {
       const week: Week = {
@@ -64,9 +49,9 @@ export class CalendarComponent implements OnInit {
         eventBands: [],
       };
       for (let j = 0; j < 7; j++) {
-        const nextDay = CalendarComponent.getNextDay(day);
+        const nextDay = getNextDay(day);
 
-        const dayPadding = this.buildEventBands(week, day, nextDay, j);
+        const dayPadding = this.buildEventBands(week, day, j);
         week.days.push({
           date: day,
           events: this.events.filter(event => {
@@ -83,7 +68,7 @@ export class CalendarComponent implements OnInit {
     }
   }
 
-  private buildEventBands(week: Week, day: Date, nextDay: Date, j: number) {
+  private buildEventBands(week: Week, day: Date, j: number) {
     const occupiedVerticalOffset = week.eventBands.reduce((occupiedVOffset, eventBandSettings) => {
       if (eventBandSettings.eventBand.endingDate >= day) {
         occupiedVOffset.push(eventBandSettings.verticalOffSet);
@@ -116,13 +101,12 @@ export class CalendarComponent implements OnInit {
         });
       }
     }
-    const dayPadding = occupiedVerticalOffset.reduce((max, offset) => {
+    return occupiedVerticalOffset.reduce((max, offset) => {
       if (max < offset + 1) {
         max = offset + 1;
       }
       return max;
     }, 0);
-    return dayPadding;
   }
 
   eventBandStyle(eventBandSettings: EventBandSettings): AssoStyle {

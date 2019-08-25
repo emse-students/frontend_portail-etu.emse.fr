@@ -3,8 +3,8 @@ import { Day } from '../../models/calendar.model';
 import { environment } from '../../../../environments/environment';
 import { EventSidenavService } from '../../services/event-sidenav.service';
 import { Event } from '../../models/event.model';
-import { CalendarComponent } from '../calendar/calendar.component';
 import { AssoStyle, AssoStylePipe } from '../../../shared/pipes/asso-style.pipe';
+import { getNextDay } from '../../services/date.utils';
 
 @Component({
   selector: 'app-calendar-day',
@@ -20,7 +20,7 @@ export class CalendarDayComponent implements OnInit {
   set day(day: Day) {
     this._day = day;
     const now = new Date();
-    const nextDay = CalendarComponent.getNextDay(day.date);
+    const nextDay = getNextDay(day.date);
     this.today = now >= day.date && now < nextDay;
   }
   get day() {
@@ -39,7 +39,7 @@ export class CalendarDayComponent implements OnInit {
   }
 
   nextDay(date: Date) {
-    return CalendarComponent.getNextDay(date);
+    return getNextDay(date);
   }
 
   eventStyle(event: Event, position: number): AssoStyle {
@@ -51,7 +51,7 @@ export class CalendarDayComponent implements OnInit {
   }
 
   dateStyle(): AssoStyle {
-    const style = this.day.events.length
+    return this.day.events.length
       ? this.assoStylePipe.transform(
           this.day.events.sort((a, b) => (a.date > b.date ? 1 : -1))[this.day.events.length - 1]
             .association,
@@ -59,6 +59,5 @@ export class CalendarDayComponent implements OnInit {
           'text-shadow',
         )
       : {};
-    return style;
   }
 }

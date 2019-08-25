@@ -8,6 +8,7 @@ import { BdeDebitFormComponent } from './components/bde-debit-form.component';
 import { BdeRechargeFormComponent } from './components/bde-recharge-form.component';
 import { BdeAccountComponent } from './containers/bde-account.component';
 import { BdeOperationListComponent } from './components/bde-operation-list.component';
+import { BdeContributionFormComponent } from './components/bde-contribution-form.component';
 
 @NgModule({
   declarations: [
@@ -17,6 +18,7 @@ import { BdeOperationListComponent } from './components/bde-operation-list.compo
     BdeRechargeFormComponent,
     BdeAccountComponent,
     BdeOperationListComponent,
+    BdeContributionFormComponent,
   ],
   imports: [SharedModule, BdeRoutingModule],
 })

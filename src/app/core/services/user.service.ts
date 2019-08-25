@@ -34,6 +34,11 @@ export class UserService {
     );
   }
 
+  public put(user: UserLight): Observable<UserLight> {
+    const url = `${environment.api_url}/users/${user.id}`;
+    return this.http.put<UserLight>(url, user);
+  }
+
   public getBalance() {
     if (this._user) {
       const url = `${environment.api_url}/users/${this._user.id}?properties[]=balance`;

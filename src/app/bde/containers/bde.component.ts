@@ -71,6 +71,25 @@ import { AuthService } from '../../core/services/auth.service';
               </mat-card-content>
             </mat-card>
           </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('contribution')">Cotisations</span>
+            </ng-template>
+
+            <mat-card>
+              <mat-card-title>Cotisations BDE</mat-card-title>
+              <app-bde-contribution-form
+                [users]="users"
+                (contribute)="contribute($event)"
+                (deleteContribution)="deleteContribution($event)"
+                *ngIf="!loading"
+              ></app-bde-contribution-form>
+              <mat-card-content *ngIf="loading">
+                <mat-spinner [diameter]="150" [strokeWidth]="5"></mat-spinner>
+              </mat-card-content>
+            </mat-card>
+          </mat-tab>
         </mat-tab-group>
       </mat-card>
       <mat-card *ngIf="users && unauthorized">
@@ -118,6 +137,8 @@ export class BdeComponent implements OnInit {
         return 1;
       case 'recharge':
         return 2;
+      case 'contribution':
+        return 3;
     }
   }
 
@@ -157,6 +178,34 @@ export class BdeComponent implements OnInit {
         this.infoService.pushSuccess('Operation effectuée');
         const user = operation.user.split('/');
         this.users.find(u => u.id === Number(user[user.length - 1])).balance += operation.amount;
+      },
+      () => {
+        this.loading = false;
+      },
+    );
+  }
+
+  contribute(user: UserLight) {
+    this.loading = true;
+    this.userService.put(user).subscribe(
+      () => {
+        this.infoService.pushSuccess('Cotisation effectuée');
+        this.users.find(u => u.id === user.id).contributeBDE = user.contributeBDE;
+        this.loading = false;
+      },
+      () => {
+        this.loading = false;
+      },
+    );
+  }
+
+  deleteContribution(user: UserLight) {
+    this.loading = true;
+    this.userService.put(user).subscribe(
+      () => {
+        this.infoService.pushSuccess('Cotisation annulée');
+        this.users.find(u => u.id === user.id).contributeBDE = user.contributeBDE;
+        this.loading = false;
       },
       () => {
         this.loading = false;

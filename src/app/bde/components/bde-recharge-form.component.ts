@@ -38,7 +38,9 @@ import { PaymentMeans } from '../../core/models/payment-means.model';
         {{ user.value.firstname }} {{ user.value.lastname }} {{ user.value.type }}
         {{ user.value.promo }} , solde :
         {{ user.value.balance | currency: 'EUR':'symbol':'1.2-2':'fr' }}
-        <button class="ml-2" mat-flat-button color="warn" (click)="user.reset()">Changer</button>
+        <button class="ml-2" mat-flat-button color="warn" (click)="user.reset(); userText.reset()">
+          Changer
+        </button>
       </div>
       <p>
         <mat-form-field class="w-100">
@@ -60,7 +62,7 @@ import { PaymentMeans } from '../../core/models/payment-means.model';
           </mat-select>
         </mat-form-field>
       </p>
-      <p>
+      <p *ngIf="user.value">
         Nouveau solde :
         {{ user.value.balance + amount.value | currency: 'EUR':'symbol':'1.2-2':'fr' }}
       </p>

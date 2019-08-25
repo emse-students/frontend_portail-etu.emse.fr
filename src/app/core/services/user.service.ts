@@ -17,7 +17,7 @@ export class UserService {
   private _user: User;
   user: Subject<User>;
 
-  constructor(private http: HttpClient, private jsonLdService: JsonLdService) {
+  constructor(private http: HttpClient) {
     this.user = new Subject<User>();
     this._user = null;
   }

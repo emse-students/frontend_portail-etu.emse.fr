@@ -7,6 +7,7 @@ import { OperationService } from '../../core/services/operation.service';
 import { InfoService } from '../../core/services/info.service';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 import { PaymentMeansService } from '../../core/services/payment-means.service';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-bde',
@@ -26,7 +27,11 @@ import { PaymentMeansService } from '../../core/services/payment-means.service';
                 (search)="search($event)"
                 placeholder="Rechercher un cotisant"
               ></app-search>
-              <app-bde-acounts-list [filter]="searchQuery" [users]="users"></app-bde-acounts-list>
+              <app-bde-acounts-list
+                *ngIf="!loading"
+                [filter]="searchQuery"
+                [users]="users"
+              ></app-bde-acounts-list>
             </mat-card>
           </mat-tab>
 
@@ -42,7 +47,9 @@ import { PaymentMeansService } from '../../core/services/payment-means.service';
                 (submitted)="createOperation($event)"
                 *ngIf="!loading"
               ></app-bde-debit-form>
-              <mat-spinner *ngIf="loading" [diameter]="150" [strokeWidth]="5"></mat-spinner>
+              <mat-card-content *ngIf="loading">
+                <mat-spinner [diameter]="150" [strokeWidth]="5"></mat-spinner>
+              </mat-card-content>
             </mat-card>
           </mat-tab>
 
@@ -59,7 +66,9 @@ import { PaymentMeansService } from '../../core/services/payment-means.service';
                 [paymentMeans]="paymentMeans"
                 *ngIf="!loading"
               ></app-bde-recharge-form>
-              <mat-spinner *ngIf="loading" [diameter]="150" [strokeWidth]="5"></mat-spinner>
+              <mat-card-content *ngIf="loading">
+                <mat-spinner [diameter]="150" [strokeWidth]="5"></mat-spinner>
+              </mat-card-content>
             </mat-card>
           </mat-tab>
         </mat-tab-group>
@@ -92,10 +101,11 @@ export class BdeComponent implements OnInit {
     private operationService: OperationService,
     private infoService: InfoService,
     private paymentMeansService: PaymentMeansService,
+    private authService: AuthService,
   ) {}
   selectedEventSetting;
   loading = false;
-  unauthorized = false;
+  unauthorized = true;
   users: UserLight[] = null;
   searchQuery = '';
   paymentMeans: PaymentMeans[] = null;
@@ -112,6 +122,14 @@ export class BdeComponent implements OnInit {
   }
 
   ngOnInit() {
+    this.authService.authenticatedUser.subscribe(authenticatedUser => {
+      if (!authenticatedUser) {
+        setTimeout(() => {
+          this.router.navigate(['/home']);
+        });
+      }
+    });
+    this.unauthorized = !this.authService.isAdmin();
     this.route.paramMap.subscribe(params => {
       this.selectedEventSetting = BdeComponent.strIdToTabId(params.get('id'));
     });
@@ -138,12 +156,7 @@ export class BdeComponent implements OnInit {
         this.loading = false;
         this.infoService.pushSuccess('Operation effectuée');
         const user = operation.user.split('/');
-        // console.log(Number(user[user.length - 1]));
-        for (let j = 0; j < this.users.length; j++) {
-          if (this.users[j].id === Number(user[user.length - 1])) {
-            this.users[j].balance += operation.amount;
-          }
-        }
+        this.users.find(u => u.id === Number(user[user.length - 1])).balance += operation.amount;
       },
       () => {
         this.loading = false;

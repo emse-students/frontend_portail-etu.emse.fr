@@ -151,11 +151,11 @@ export class AuthService {
   }
 
   isAdmin(): boolean {
-    return this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R0_A1');
+    return !!this._authenticatedUser && this._authenticatedUser.roles.includes('ROLE_R0_A1');
   }
 
   isBDEContributor(): boolean {
-    return this._authenticatedUser && this._authenticatedUser.contributeBDE;
+    return !!this._authenticatedUser && this._authenticatedUser.contributeBDE;
   }
 
   isCercleContributor(): boolean {

@@ -11,6 +11,7 @@ import { UserService } from '../../core/services/user.service';
         <mat-card-title>
           Historique de {{ user.firstname }} {{ user.lastname }} {{ user.type }} {{ user.promo }}
         </mat-card-title>
+        <h5>Solde : {{ user.balance | currency: 'EUR':'symbol':'1.2-2':'fr' }}</h5>
         <app-search
           [query]="searchQuery"
           (search)="search($event)"
@@ -27,7 +28,8 @@ import { UserService } from '../../core/services/user.service';
     `
       mat-card-title,
       mat-card-content,
-      mat-card-footer {
+      mat-card-footer,
+      h5 {
         display: flex;
         justify-content: center;
       }

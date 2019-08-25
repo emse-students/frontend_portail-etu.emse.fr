@@ -10,7 +10,7 @@ import { ActivatedRoute, Router } from '@angular/router';
   template: `
     <div class="container">
       <mat-card *ngIf="!unauthorized">
-        <mat-card-title>Nouveau Bandeau d'Événement</mat-card-title>
+        <mat-card-title>Modifier le bandeau d'Événement</mat-card-title>
         <app-event-band-form
           *ngIf="!pending"
           (submitted)="updateEventBand($event)"
@@ -87,7 +87,7 @@ export class ModifyEventBandComponent implements OnInit {
 
   updateEventBand(eventBand: EventBand) {
     this.pending = true;
-    this.eventBandService.put(eventBand).subscribe(newEventBand => {
+    this.eventBandService.put(eventBand).subscribe(() => {
       this.pending = false;
       this.infoService.pushSuccess("Bandeau d'Événement mis à jour avec succès");
       this.router.navigate(['/home']);

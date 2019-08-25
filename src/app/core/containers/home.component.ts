@@ -6,37 +6,25 @@ import { Component, OnInit } from '@angular/core';
     <mat-card>
       <mat-card-title>Bienvenue sur Portail-etu</mat-card-title>
       <mat-card-content>
-        <div>
-          <p>
-            Ce site a pour vocation de remplacer l'ancien site du BDE.
-            <br />
-            Vous y retrouverez l'historique de votre compte BDE. Mais de nouvelles fonctionnalités
-            sont disponibles :
-          </p>
-          <ul>
-            <li>La description de toutes les assos (plaquette alpha en ligne)</li>
-            <li>La gestion de tous les évènements des assos de l'école</li>
-            <li>
-              L'inscription en ligne aux évènements (permet après de savoir si on est déjà inscrit)
-            </li>
-            <li>
-              Paiement en ligne des événements avec le compte BDE ou Cercle en même temps que
-              l'inscription
-            </li>
-            <li>
-              Calendrier interactif (le même que celui envoyé par le BDE mais mis à jour au fur et à
-              mesure que les évènements sont créés)
-            </li>
-          </ul>
-          <p>
-            Le site est en cours de développement, merci de signaler à
-            <a href="corentin.doue@etu.emse.fr">corentin.doue@etu.emse.fr</a>
-            si vous rencontrez des bugs afin qu'ils soient corrigés
-          </p>
-        </div>
+        <p>
+          Vous y trouverez l'historique de vos paiements en compte BDE, la description de vos assos
+          préférées et l'ensemble des événements qu'elles organisent.
+          <br />
+          Les événements sont disponibles dans un calendrier interactif qui vous permets de vous y
+          inscrire et de les payer directement en ligne.
+        </p>
       </mat-card-content>
     </mat-card>
     <app-calendar-container></app-calendar-container>
+    <mat-card>
+      <mat-card-content>
+        <p>
+          Le site est en cours de développement, merci de signaler à
+          <a href="corentin.doue@etu.emse.fr">corentin.doue@etu.emse.fr</a>
+          si vous rencontrez des bugs afin qu'ils soient corrigés
+        </p>
+      </mat-card-content>
+    </mat-card>
   `,
   styles: [
     `

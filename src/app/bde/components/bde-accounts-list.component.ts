@@ -36,7 +36,13 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
         <th mat-header-cell *matHeaderCellDef>Historique</th>
         <td mat-cell *matCellDef="let element">
           <a [routerLink]="'/bde-settings/account/' + element.id">
-            <button mat-flat-button color="primary" routerLink="home">Historique</button>
+            <button
+              mat-flat-button
+              color="primary"
+              [routerLink]="'/bde-settings/account/' + element.id"
+            >
+              Historique
+            </button>
           </a>
         </td>
       </ng-container>

@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { AuthenticatedUser, EventUser } from '../../../core/models/auth.model';
-import { FormInput, FormOutput, Option } from '../../../core/models/form.model';
+import { FormInput, FormOutput } from '../../../core/models/form.model';
 import {
   AbstractControl,
   FormArray,
@@ -128,7 +128,7 @@ export class BookingFormComponent implements OnInit {
         cercleOperationAmount: [null],
         formOutputs: this.fb.array([]),
       },
-      { validators: this.positiveAccount() },
+      { validators: [this.positiveAccount(), this.noPaymentChange()] },
     );
     if (this.authenticatedUser) {
       this.form.removeControl('userName');
@@ -327,6 +327,14 @@ export class BookingFormComponent implements OnInit {
       for (let i = 0; i < outputsToRemove.length; i++) {
         this.formOutputs.removeAt(outputsToRemove[i]);
       }
+      if (this.operation.value) {
+        this.operation.setValue({
+          ...this.operation.value,
+          ['@id']: environment.api_uri + '/operations/' + this.operation.value.id,
+          paymentMeans:
+            environment.api_uri + '/payment_means/' + this.operation.value.paymentMeans.id,
+        });
+      }
       if (this.bdePayment.value) {
         this.paymentMeans.setValue(environment.api_uri + '/payment_means/1');
         if (!this.lastPrice || this.lastPrice !== totalPrice) {
@@ -371,6 +379,8 @@ export class BookingFormComponent implements OnInit {
       ? "Votre compte BDE ne contient pas assez d'argent"
       : formControl.hasError('cercleAccountToLow')
       ? "Votre compte Cercle ne contient pas assez d'argent"
+      : formControl.hasError('noPaymentChange')
+      ? 'Vous avez payé avec un moyen de paiement qui ne vous permet pas de modifier le prix de votre événement'
       : '';
   }
 
@@ -413,6 +423,22 @@ export class BookingFormComponent implements OnInit {
           (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.cercleBalance))
       ) {
         return { cercleAccountToLow: { value: this.totalPrice() } };
+      } else {
+        return null;
+      }
+    };
+  }
+
+  noPaymentChange(): ValidatorFn {
+    return (control: AbstractControl): { [key: string]: any } | null => {
+      if (
+        this.form &&
+        this.paid.value &&
+        this.lastPrice !== this.totalPrice() &&
+        this.paymentMeans.value.id !== 1 &&
+        this.paymentMeans.value.id !== 2
+      ) {
+        return { noPaymentChange: { value: this.totalPrice() } };
       } else {
         return null;
       }

@@ -110,13 +110,15 @@
       arrayFindById(relatedEvent.paymentMeans, 1) !== -1 &&
       !cerclePayment.value &&
       _authenticatedUser &&
-      _authenticatedUser.contributeBDE
+      _authenticatedUser.contributeBDE &&
+      currentUser
     "
   >
     <p>Solde BDE : {{ currentUser.balance | currency: 'EUR':'symbol':'1.0-2':'fr' }}</p>
     <mat-slide-toggle color="primary" formControlName="bdePayment">
       Payer maintenant par compte BDE ?
     </mat-slide-toggle>
+    <br />
   </ng-container>
   <br />
   <ng-container
@@ -133,6 +135,7 @@
     <mat-slide-toggle color="primary" formControlName="cerclePayment">
       Payer maintenant par compte Cercle ?
     </mat-slide-toggle>
+    <br />
   </ng-container>
   <br />
   <p *ngIf="paid.value && (!lastPrice || lastPrice === totalPrice())">
@@ -142,8 +145,10 @@
     Vous avez déjà payé {{ lastPrice | currency: 'EUR':'symbol':'1.2-2':'fr' }} par
     {{ paymentMeans.value.name }}, le nouveau prix est
     {{ totalPrice() | currency: 'EUR':'symbol':'1.2-2':'fr' }}.
-    <br />
-    Le nouveau prix va être appliqué automatiquement.
+    <span *ngIf="paymentMeans.value.id === 1 || paymentMeans.value.id === 2">
+      <br />
+      Le nouveau prix va être appliqué automatiquement.
+    </span>
   </p>
   <mat-error *ngIf="form.invalid">{{ getErrorMessage(form) }}</mat-error>
 

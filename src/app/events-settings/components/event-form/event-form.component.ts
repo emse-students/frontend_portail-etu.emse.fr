@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Association, AssociationLight } from '../../../core/models/association.model';
+import { AssociationLight } from '../../../core/models/association.model';
 import {
   AbstractControl,
   FormArray,
@@ -15,11 +15,6 @@ import { environment } from '../../../../environments/environment';
 import { setHourToDate } from '../../../core/services/utils';
 import { FileDTO, FileToUpload } from '../../../core/models/file.model';
 import { FileUploadService } from '../../../core/services/file-upload.service';
-
-interface BoolPaymentMeans {
-  selected: boolean;
-  paymentMeans: PaymentMeans;
-}
 
 @Component({
   selector: 'app-event-form',
@@ -176,15 +171,6 @@ export class EventFormComponent implements OnInit {
         );
       }
       this.association.setValue(environment.api_uri + '/associations/' + this.asso.id);
-      if (!this.closingDate.value) {
-        this.form.removeControl('closingDate');
-      }
-      if (!this.duration.value) {
-        this.form.removeControl('duration');
-      }
-      // if (!this.img.value) {
-      //   this.form.removeControl('img');
-      // }
       this.form.removeControl('payable');
       this.form.removeControl('shotgun');
       this.form.removeControl('hourDate');
@@ -416,7 +402,7 @@ export class EventFormComponent implements OnInit {
         this.imgFilename = imgDTO.filename;
         this.imgLoading = false;
       },
-      error => {
+      () => {
         this.imgLoading = false;
       },
     );

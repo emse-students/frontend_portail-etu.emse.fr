@@ -33,14 +33,15 @@
   <ng-container matColumnDef="modify">
     <mat-header-cell *matHeaderCellDef>Modifier</mat-header-cell>
     <mat-cell *matCellDef="let element">
-      <a
-        [routerLink]="'/events/booking/' + element.id"
-        *ngIf="
-          element.event.date > today &&
-          (!element.event.closingDate || element.event.closingDate > today)
-        "
-      >
-        <button mat-flat-button color="accent">Modifier</button>
+      <a [routerLink]="'/events/booking/' + element.id">
+        <button mat-flat-button color="accent">
+          {{
+            element.event.date > today &&
+            (!element.event.closingDate || element.event.closingDate > today)
+              ? 'Modifier'
+              : 'Voir'
+          }}
+        </button>
       </a>
     </mat-cell>
   </ng-container>

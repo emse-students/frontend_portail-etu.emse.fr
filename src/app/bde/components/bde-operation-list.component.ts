@@ -17,6 +17,13 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
         <td mat-cell *matCellDef="let element">{{ element.reason }}</td>
       </ng-container>
 
+      <ng-container matColumnDef="paymentMeans">
+        <th mat-header-cell *matHeaderCellDef mat-sort-header>Moyen de paiement</th>
+        <td mat-cell *matCellDef="let element">
+          {{ element.paymentMeans.name }}
+        </td>
+      </ng-container>
+
       <ng-container matColumnDef="amount">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Montant</th>
         <td mat-cell *matCellDef="let element">
@@ -69,7 +76,7 @@ export class BdeOperationListComponent implements OnInit {
   @ViewChild(MatPaginator) paginator: MatPaginator;
   dataSource = new MatTableDataSource();
 
-  displayedColumns: string[] = ['createdAt', 'reason', 'amount'];
+  displayedColumns: string[] = ['createdAt', 'reason', 'paymentMeans', 'amount'];
 
   ngOnInit(): void {}
 }

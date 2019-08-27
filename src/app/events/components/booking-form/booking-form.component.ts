@@ -335,11 +335,21 @@ export class BookingFormComponent implements OnInit {
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit',
+            paymentMeans: environment.api_uri + '/payment_means/1',
           });
         }
         this.paid.setValue(true);
       } else if (this.cerclePayment.value) {
         this.paymentMeans.setValue(environment.api_uri + '/payment_means/2');
+        if (!this.lastPrice || this.lastPrice !== totalPrice) {
+          this.operation.setValue({
+            user: environment.api_uri + '/users/' + this.authenticatedUser.id,
+            amount: -totalPrice,
+            reason: this.relatedEvent.name,
+            type: 'event_debit',
+            paymentMeans: environment.api_uri + '/payment_means/2',
+          });
+        }
         this.paid.setValue(true);
         this.cercleOperationAmount.setValue(totalPrice);
       } else {

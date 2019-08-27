@@ -161,7 +161,7 @@ export class EventCheckingComponent implements OnInit {
     if (booking) {
       for (let i = 0; i < this.event.bookings.length; i++) {
         if (this.event.bookings[i].id === booking.id) {
-          if (booking.operation) {
+          if (booking.operation && booking.operation.paymentMeans.id === 1) {
             for (let j = 0; j < this.users.length; j++) {
               if (this.users[j].id === booking.user.id) {
                 this.users[j].balance += booking.operation.amount;

@@ -9,6 +9,7 @@ import { AuthenticatedUser } from '../../core/models/auth.model';
 import { UserService } from '../../core/services/user.service';
 import { User } from '../../core/models/user.model';
 import { InfoService } from '../../core/services/info.service';
+import { environment } from '../../../environments/environment';
 
 @Component({
   selector: 'app-book',
@@ -160,7 +161,10 @@ export class BookComponent implements OnInit {
     this.pending = true;
     // console.log(newBooking);
     // setTimeout(() => {this.pending = false; }, 2000);
-    if (newBooking.operation) {
+    if (
+      newBooking.operation &&
+      newBooking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+    ) {
       this.userService.updateBalance(newBooking.operation.amount);
     }
     if (newBooking.cercleOperationAmount) {
@@ -186,7 +190,10 @@ export class BookComponent implements OnInit {
       },
       error => {
         this.pending = false;
-        if (newBooking.operation) {
+        if (
+          newBooking.operation &&
+          newBooking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+        ) {
           this.userService.updateBalance(-newBooking.operation.amount);
         }
         if (newBooking.cercleOperationAmount) {

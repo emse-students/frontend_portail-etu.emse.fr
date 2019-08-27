@@ -116,48 +116,35 @@ export class BookingComponent implements OnInit {
   book(booking: PutBooking) {
     this.pending = true;
     // console.log(booking);
-    if (booking.operation) {
-      if (this.booking.operation) {
-        this.userService.updateBalance(booking.operation.amount - this.booking.operation.amount);
-      } else {
-        this.userService.updateBalance(booking.operation.amount);
-      }
-    }
-    if (booking.cercleOperationAmount) {
-      if (this.booking.cercleOperationAmount) {
-        this.userService.updateCercleBalance(
-          this.booking.cercleOperationAmount - booking.cercleOperationAmount,
-        );
-      } else {
-        this.userService.updateCercleBalance(-booking.cercleOperationAmount);
-      }
-    }
     this.eventService.putBook(booking).subscribe(
       () => {
+        if (
+          booking.operation &&
+          booking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+        ) {
+          if (this.booking.operation) {
+            this.userService.updateBalance(
+              booking.operation.amount - this.booking.operation.amount,
+            );
+          } else {
+            this.userService.updateBalance(booking.operation.amount);
+          }
+        }
+        if (booking.cercleOperationAmount) {
+          if (this.booking.cercleOperationAmount) {
+            this.userService.updateCercleBalance(
+              this.booking.cercleOperationAmount - booking.cercleOperationAmount,
+            );
+          } else {
+            this.userService.updateCercleBalance(-booking.cercleOperationAmount);
+          }
+        }
         this.pending = false;
         this.infoService.pushSuccess('Modification effectuée');
         this.router.navigate(['events', 'my-bookings']);
       },
       error => {
         this.pending = false;
-        if (booking.operation) {
-          if (this.booking.operation) {
-            this.userService.updateBalance(
-              -booking.operation.amount + this.booking.operation.amount,
-            );
-          } else {
-            this.userService.updateBalance(-booking.operation.amount);
-          }
-        }
-        if (booking.cercleOperationAmount) {
-          if (this.booking.cercleOperationAmount) {
-            this.userService.updateCercleBalance(
-              booking.cercleOperationAmount - this.booking.cercleOperationAmount,
-            );
-          } else {
-            this.userService.updateCercleBalance(booking.cercleOperationAmount);
-          }
-        }
       },
     );
   }
@@ -167,7 +154,7 @@ export class BookingComponent implements OnInit {
       this.pending = true;
       this.eventService.deleteBooking(this.booking.id).subscribe(
         () => {
-          if (this.booking.operation) {
+          if (this.booking.operation && this.booking.operation.paymentMeans.id === 1) {
             this.userService.updateBalance(-this.booking.operation.amount);
           }
           this.pending = false;

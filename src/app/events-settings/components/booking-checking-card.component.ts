@@ -250,13 +250,15 @@ export class BookingCheckingCardComponent implements OnInit {
         booking['paid'] = true;
         booking['paymentMeans'] = environment.api_uri + '/payment_means/' + paymentMeansId;
       }
-      booking['operation'] = {
-        user: environment.api_uri + '/users/' + this.booking.user.id,
-        amount: -this.price(),
-        reason: this.event.name,
-        type: 'event_debit',
-        paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId,
-      };
+      if (this.booking.user) {
+        booking['operation'] = {
+          user: environment.api_uri + '/users/' + this.booking.user.id,
+          amount: -this.price(),
+          reason: this.event.name,
+          type: 'event_debit',
+          paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId,
+        };
+      }
       if (paymentMeansId === 2) {
         booking['cercleOperationAmount'] = this.price();
       }

@@ -239,59 +239,61 @@ export class BookingCheckingCardComponent implements OnInit {
   }
 
   book(paymentMeansId: number, checked = false) {
-    this.pending = true;
-    if (paymentMeansId === 0 && !checked) {
-      this.paid.emit(null);
-    } else {
-      const booking = {
-        id: this.booking.id,
-      };
-      if (paymentMeansId !== 0) {
-        booking['paid'] = true;
-        booking['paymentMeans'] = environment.api_uri + '/payment_means/' + paymentMeansId;
-      }
-      if (this.booking.user) {
-        booking['operation'] = {
-          user: environment.api_uri + '/users/' + this.booking.user.id,
-          amount: -this.price(),
-          reason: this.event.name,
-          type: 'event_debit',
-          paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId,
+    if (!this.pending) {
+      this.pending = true;
+      if (paymentMeansId === 0 && !checked) {
+        this.paid.emit(null);
+      } else {
+        const booking = {
+          id: this.booking.id,
         };
+        if (paymentMeansId !== 0) {
+          booking['paid'] = true;
+          booking['paymentMeans'] = environment.api_uri + '/payment_means/' + paymentMeansId;
+        }
+        if (this.booking.user) {
+          booking['operation'] = {
+            user: environment.api_uri + '/users/' + this.booking.user.id,
+            amount: -this.price(),
+            reason: this.event.name,
+            type: 'event_debit',
+            paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId,
+          };
+        }
+        if (paymentMeansId === 2) {
+          booking['cercleOperationAmount'] = this.price();
+        }
+        if (checked) {
+          booking['checked'] = true;
+        }
+        // console.log(booking);
+        this.eventService.putBook(booking).subscribe(
+          (b: Booking) => {
+            // console.log(b);
+            this.pending = false;
+            if (paymentMeansId !== 0) {
+              this.booking.paid = true;
+              this.booking.paymentMeans = b.paymentMeans;
+            }
+            if (checked) {
+              this.booking.checked = true;
+            }
+            this.booking.operation = b.operation;
+            if (paymentMeansId === 2) {
+              this.booking.cercleOperationAmount = b.cercleOperationAmount;
+            }
+            this.paid.emit(this.booking);
+            if (paymentMeansId !== 0) {
+              this.infoService.pushSuccess('Paiement effectué');
+            } else {
+              this.infoService.pushSuccess('Checké');
+            }
+          },
+          () => {
+            this.pending = false;
+          },
+        );
       }
-      if (paymentMeansId === 2) {
-        booking['cercleOperationAmount'] = this.price();
-      }
-      if (checked) {
-        booking['checked'] = true;
-      }
-      // console.log(booking);
-      this.eventService.putBook(booking).subscribe(
-        (b: Booking) => {
-          // console.log(b);
-          this.pending = false;
-          if (paymentMeansId !== 0) {
-            this.booking.paid = true;
-            this.booking.paymentMeans = b.paymentMeans;
-          }
-          if (checked) {
-            this.booking.checked = true;
-          }
-          this.booking.operation = b.operation;
-          if (paymentMeansId === 2) {
-            this.booking.cercleOperationAmount = b.cercleOperationAmount;
-          }
-          this.paid.emit(this.booking);
-          if (paymentMeansId !== 0) {
-            this.infoService.pushSuccess('Paiement effectué');
-          } else {
-            this.infoService.pushSuccess('Checké');
-          }
-        },
-        () => {
-          this.pending = false;
-        },
-      );
     }
   }
 

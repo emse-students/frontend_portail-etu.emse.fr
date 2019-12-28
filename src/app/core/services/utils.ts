@@ -32,3 +32,8 @@ export function setHourToDate(date: Date, hour: string): string {
   }
   return date.toISOString();
 }
+
+export function logTime(text: string): void {
+  const now = new Date();
+  console.log(`${text}: ${now.getMinutes()}-${now.getMilliseconds()}`);
+}

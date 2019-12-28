@@ -2,6 +2,7 @@ import { ErrorHandler, NgModule, Optional, SkipSelf } from '@angular/core';
 import { CommonModule } from '@angular/common';
 import { RouterModule } from '@angular/router';
 
+import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { AppComponent } from './app/app.component';
 import { NotFoundPageComponent } from './components/not-found-page.component';
 
@@ -13,7 +14,6 @@ import { ErrorInterceptorService } from './services/error-interceptor.service';
 import { JwtInterceptorService } from './services/jwt-interceptor.service';
 import { UrlSafeStringService } from './services/url-safe-string.service';
 import { JsonLdService } from './services/json-ld.service';
-import { HTTP_INTERCEPTORS } from '@angular/common/http';
 import { MenuListItemComponent } from './components/menu-list-item/menu-list-item.component';
 import { AdminGuard, AuthGuard } from './services/auth-guard.service';
 import { HomeComponent } from './containers/home.component';

@@ -1,5 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AssociationLight } from '../../../core/models/association.model';
 import {
   AbstractControl,
   FormArray,
@@ -9,6 +8,7 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { AssociationLight } from '../../../core/models/association.model';
 import { PaymentMeans } from '../../../core/models/payment-means.model';
 import { Event } from '../../../core/models/event.model';
 import { environment } from '../../../../environments/environment';
@@ -149,7 +149,7 @@ export class EventFormComponent implements OnInit {
           this.boolPaymentMeans.controls
             .map(v =>
               v.get('selected').value
-                ? environment.apiUri + '/payment_means/' + v.get('paymentMeans').value.id
+                ? `${environment.apiUri}/payment_means/${v.get('paymentMeans').value.id}`
                 : null,
             )
             .filter(v => v !== null),
@@ -170,7 +170,7 @@ export class EventFormComponent implements OnInit {
           setHourToDate(this.closingDate.value, this.hourClosingDate.value),
         );
       }
-      this.association.setValue(environment.apiUri + '/associations/' + this.asso.id);
+      this.association.setValue(`${environment.apiUri}/associations/${this.asso.id}`);
       this.form.removeControl('payable');
       this.form.removeControl('shotgun');
       this.form.removeControl('hourDate');
@@ -277,9 +277,8 @@ export class EventFormComponent implements OnInit {
           return { noShotgunListInt: { value: this.shotgunListLength.value } };
         }
         return null;
-      } else {
-        return null;
       }
+      return null;
     };
   }
 
@@ -296,9 +295,8 @@ export class EventFormComponent implements OnInit {
           }
         }
         return null;
-      } else {
-        return null;
       }
+      return null;
     };
   }
 
@@ -306,7 +304,7 @@ export class EventFormComponent implements OnInit {
     if (this._event) {
       this.form.patchValue(this._event);
       if (this._event.img) {
-        this.img.setValue(environment.apiUri + '/img_objects/' + this._event.img.id);
+        this.img.setValue(`${environment.apiUri}/img_objects/${this._event.img.id}`);
         this.imgFilename = this._event.img.filename;
       }
       if (this.price.value) {
@@ -359,7 +357,7 @@ export class EventFormComponent implements OnInit {
       for (let i = 0; i < this._event.formInputs.length; i++) {
         this.formInputs.push(
           this.fb.group({
-            '@id': [environment.apiUri + '/form_inputs/' + this._event.formInputs[i].id],
+            '@id': [`${environment.apiUri}/form_inputs/${this._event.formInputs[i].id}`],
             title: [this._event.formInputs[i].title, Validators.required],
             required: [this._event.formInputs[i].required],
             type: [this._event.formInputs[i].type],
@@ -369,7 +367,7 @@ export class EventFormComponent implements OnInit {
         for (let j = 0; j < this._event.formInputs[i].options.length; j++) {
           this.options(i).push(
             this.fb.group({
-              '@id': [environment.apiUri + '/options/' + this._event.formInputs[i].options[j].id],
+              '@id': [`${environment.apiUri}/options/${this._event.formInputs[i].options[j].id}`],
               value: [this._event.formInputs[i].options[j].value, Validators.required],
               price: [this._event.formInputs[i].options[j].price],
             }),
@@ -398,7 +396,7 @@ export class EventFormComponent implements OnInit {
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
-        this.img.setValue(environment.apiUri + '/img_objects/' + imgDTO.id);
+        this.img.setValue(`${environment.apiUri}/img_objects/${imgDTO.id}`);
         this.imgFilename = imgDTO.filename;
         this.imgLoading = false;
       },

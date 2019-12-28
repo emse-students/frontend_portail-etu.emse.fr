@@ -26,7 +26,7 @@ interface BookingRanked {
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date d'inscription</th>
         <td mat-cell *matCellDef="let element">
           {{ element.createdAt | date: 'EEEE d M' | translateDay }}
-          {{element.createdAt | date: 'H\\'h\\'mm \\'min\\' ss \\'s\\''}}
+          {{ element.createdAt | date: "H'h'mm 'min' ss 's'" }}
         </td>
       </ng-container>
 
@@ -99,7 +99,7 @@ export class EventBookingsListComponent implements OnInit {
     for (let i = 0; i < bookings.length; i++) {
       bookingsRanked.push({
         userName: bookings[i].user
-          ? bookings[i].user.firstname + ' ' + bookings[i].user.lastname
+          ? `${bookings[i].user.firstname} ${bookings[i].user.lastname}`
           : bookings[i].userName,
         createdAt: bookings[i].createdAt,
         rank: i + 1,

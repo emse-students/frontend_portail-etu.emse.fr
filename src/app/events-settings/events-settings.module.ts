@@ -1,5 +1,6 @@
 import { NgModule } from '@angular/core';
 
+import { MatSliderModule } from '@angular/material';
 import { EventsSettingsRoutingModule } from './events-settings-routing.module';
 import { SharedModule } from '../shared/shared.module';
 import { NewEventComponent } from './containers/new-event.component';
@@ -16,7 +17,6 @@ import { RegisteredListComponent } from './components/registered-list.component'
 import { BookingFilterComponent } from './components/booking-filter.component';
 import { EventAddBookingComponent } from './containers/event-add-booking.component';
 import { EventsModule } from '../events/events.module';
-import { MatSliderModule } from '@angular/material';
 import { NewEventBandComponent } from './containers/new-event-band.component';
 import { EventBandFormComponent } from './components/event-band-form/event-band-form.component';
 import { ModifyEventBandComponent } from './containers/modify-event-band.component';

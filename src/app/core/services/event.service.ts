@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { JsonLdService } from './json-ld.service';
 import { Observable } from 'rxjs';
-import { environment } from '../../../environments/environment';
 import { map } from 'rxjs/operators';
+import { JsonLdService } from './json-ld.service';
+import { environment } from '../../../environments/environment';
 import {
   Event,
   NewBooking,

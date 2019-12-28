@@ -6,6 +6,7 @@ import {
   ViewChild,
   ViewEncapsulation,
 } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../services/auth.service';
 import { AuthenticatedUser } from '../models/auth.model';
 import { NavItem, NavLink } from '../models/nav.model';
@@ -14,7 +15,6 @@ import { AssociationLight } from '../models/association.model';
 import { NavService } from '../services/nav.service';
 import { AssociationService } from '../services/association.service';
 import { UserService } from '../services/user.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EventSidenavService } from '../services/event-sidenav.service';
 
 @Component({
@@ -67,10 +67,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (!this.assoLoaded) {
         const newNav = this.allNav.slice(0);
         for (let i = 0; i < assos.length; i++) {
-          newNav.push({ label: assos[i].name, link: '/associations/' + assos[i].tag });
+          newNav.push({ label: assos[i].name, link: `/associations/${assos[i].tag}` });
           this.navItems[0].children.push({
             displayName: assos[i].name,
-            route: '/associations/' + assos[i].tag,
+            route: `/associations/${assos[i].tag}`,
           });
         }
         this.allNav = newNav;
@@ -82,10 +82,10 @@ export class AppComponent implements OnInit, AfterViewInit {
       if (!this.listsLoaded) {
         const newNav = this.allNav.slice(0);
         for (let i = 0; i < assos.length; i++) {
-          newNav.push({ label: assos[i].name, link: '/associations/' + assos[i].tag });
+          newNav.push({ label: assos[i].name, link: `/associations/${assos[i].tag}` });
           this.navItems[1].children.push({
             displayName: assos[i].name,
-            route: '/associations/' + assos[i].tag,
+            route: `/associations/${assos[i].tag}`,
           });
         }
         this.allNav = newNav;

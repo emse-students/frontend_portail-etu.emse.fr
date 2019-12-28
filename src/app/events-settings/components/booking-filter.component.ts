@@ -159,7 +159,7 @@ export class BookingFilterComponent implements OnInit {
       dChecked: true,
       dCancel: false,
       dSee: true,
-      inputs: inputs,
+      inputs,
       paymentMeans: {
         displayColumn: false,
         selectedOptions: [],

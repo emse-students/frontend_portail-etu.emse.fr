@@ -1,9 +1,9 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 import { EventBand } from '../../core/models/event-band.model';
 import { EventBandService } from '../../core/services/event-band.service';
 import { InfoService } from '../../core/services/info.service';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-event-band',

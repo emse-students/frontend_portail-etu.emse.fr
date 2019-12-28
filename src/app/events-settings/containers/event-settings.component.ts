@@ -247,7 +247,7 @@ export class EventSettingsComponent implements OnInit {
   }
 
   delete(booking) {
-    if (confirm('Voulez-vous vraiment annuler la réservation de ' + booking.userName + ' ?')) {
+    if (confirm(`Voulez-vous vraiment annuler la réservation de ${booking.userName} ?`)) {
       this.eventService.deleteBooking(booking.id).subscribe(
         () => {
           const bookings = this.event.bookings.filter((a: EventBooking) => a.id !== booking.id);
@@ -258,7 +258,7 @@ export class EventSettingsComponent implements OnInit {
           this.infoService.pushSuccess('Réservation annulée');
         },
         () => {
-          this.event = Object.assign({}, this.event);
+          this.event = { ...this.event };
         },
       );
     }

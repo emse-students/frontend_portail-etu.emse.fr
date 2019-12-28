@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import { AuthenticatedUser } from '../models/auth.model';
-import { environment } from '../../../environments/environment';
 import { HttpBackend, HttpRequest, HttpResponse } from '@angular/common/http';
 import { catchError, finalize, mergeMap } from 'rxjs/operators';
 import { Subject, throwError } from 'rxjs';
+import { environment } from '../../../environments/environment';
+import { AuthenticatedUser } from '../models/auth.model';
 import { InfoService } from './info.service';
 import { UserService } from './user.service';
 
@@ -19,7 +19,7 @@ export class AuthService {
     const m = window.location.href.match(/(.*)[&?]ticket=([^&?]*)$/);
     if (m) {
       const [, ourUrl, ticket] = m;
-      console.log('got ticket from url ' + ticket);
+      console.log(`got ticket from url ${ticket}`);
       this._pending = true;
       this.ticket2bearer(ticket, ourUrl)
         .pipe(
@@ -37,7 +37,7 @@ export class AuthService {
           console.log('logged in');
           localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser));
         });
-    } else if (localStorage['authenticatedUser']) {
+    } else if (localStorage.authenticatedUser) {
       console.log('logging from localStorage...');
       const retrievedObject = localStorage.getItem('authenticatedUser');
       const authenticatedUser = JSON.parse(retrievedObject);
@@ -71,8 +71,7 @@ export class AuthService {
     )}&ticket=${encodeURIComponent(ticket)}`;
     return this.http.handle(new HttpRequest('GET', url)).pipe(
       mergeMap(
-        resp =>
-          (resp instanceof HttpResponse && resp.body && [resp.body['authenticatedUser']]) || [],
+        resp => (resp instanceof HttpResponse && resp.body && [resp.body.authenticatedUser]) || [],
       ),
       catchError(err => {
         if (err.status === 401 && err.error.message) {
@@ -87,7 +86,7 @@ export class AuthService {
 
   logout() {
     this._authenticatedUser = null;
-    if (localStorage['authenticatedUser']) {
+    if (localStorage.authenticatedUser) {
       localStorage.removeItem('authenticatedUser');
     }
     this.userService.logout();
@@ -99,9 +98,8 @@ export class AuthService {
       return req.clone({
         setHeaders: { Authorization: `Bearer ${this._authenticatedUser.token.bearer}` },
       });
-    } else {
-      return req;
     }
+    return req;
   }
 
   refresh() {
@@ -112,11 +110,10 @@ export class AuthService {
 
   hasAssoRight(rightId: number, assoId = 1): boolean {
     if (this._authenticatedUser) {
-      const searchedRole = 'ROLE_R' + rightId + '_A' + assoId;
+      const searchedRole = `ROLE_R${rightId}_A${assoId}`;
       return this._authenticatedUser.roles.includes(searchedRole);
-    } else {
-      return false;
     }
+    return false;
   }
 
   hasAsso(): boolean {
@@ -124,14 +121,14 @@ export class AuthService {
       for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
         if (this._authenticatedUser.roles[i] === 'ROLE_R0_A1') {
           return true;
-        } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
+        }
+        if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
           return true;
         }
       }
       return false;
-    } else {
-      return false;
     }
+    return false;
   }
 
   getAssoIdRightfullyEventEditable(): number[] {
@@ -140,14 +137,14 @@ export class AuthService {
       for (let i = 0; i < this._authenticatedUser.roles.length; i++) {
         if (this._authenticatedUser.roles[i] === 'ROLE_R0_A1') {
           return [0];
-        } else if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
+        }
+        if (this._authenticatedUser.roles[i].match(/ROLE_R3/)) {
           assoIds.push(parseInt(this._authenticatedUser.roles[i].match(/ROLE_R3_A(\d+)/)[1], 10));
         }
       }
       return assoIds;
-    } else {
-      return [];
     }
+    return [];
   }
 
   isAdmin(): boolean {

@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserLight } from '../../core/models/auth.model';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import {
   AbstractControl,
@@ -11,6 +9,8 @@ import {
   Validators,
 } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { UserLight } from '../../core/models/auth.model';
 import { NewOperation } from '../../core/models/operation.model';
 
 @Component({
@@ -104,7 +104,7 @@ export class BdeDebitFormComponent implements OnInit {
       type: ['debit'],
       user: ['', Validators.required],
       reason: ['', Validators.required],
-      paymentMeans: [this.apiUrl + '/payment_means/1'],
+      paymentMeans: [`${this.apiUrl}/payment_means/1`],
       amount: [0],
     },
     { validators: this.positiveAccount() },
@@ -135,7 +135,7 @@ export class BdeDebitFormComponent implements OnInit {
   private _filter(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
     return this.users.filter((user: UserLight) =>
-      (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue),
+      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
     );
   }
 
@@ -143,7 +143,7 @@ export class BdeDebitFormComponent implements OnInit {
     if (this.form.valid) {
       this.form.removeControl('userText');
       this.amount.setValue(-this.amount.value);
-      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
+      this.user.setValue(`${this.apiUrl}/users/${this.user.value.id}`);
       this.submitted.emit(this.form.value);
     }
   }
@@ -165,9 +165,8 @@ export class BdeDebitFormComponent implements OnInit {
         this.user.value.balance < this.amount.value
       ) {
         return { accountToLow: { value: this.amount.value } };
-      } else {
-        return null;
       }
+      return null;
     };
   }
 }

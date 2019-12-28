@@ -8,7 +8,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
         <td mat-cell *matCellDef="let element">
-          {{element.createdAt | date: ' dd/MM/yyyy H\\'h\\'mm'}}
+          {{ element.createdAt | date: " dd/MM/yyyy H'h'mm" }}
         </td>
       </ng-container>
 

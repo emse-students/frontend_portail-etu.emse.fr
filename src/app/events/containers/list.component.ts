@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Event } from '../../core/models/event.model';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Event } from '../../core/models/event.model';
 import { EventService } from '../../core/services/event.service';
 
 @Component({

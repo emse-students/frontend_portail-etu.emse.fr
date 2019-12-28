@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router';
 import { UserService } from '../../core/services/user.service';
 import { Booking } from '../../core/models/event.model';
-import { Router } from '@angular/router';
 import { AuthService } from '../../core/services/auth.service';
 
 @Component({

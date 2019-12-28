@@ -7,29 +7,29 @@ export class TranslateMonthPipe implements PipeTransform {
     if (parsed.length === 2) {
       switch (parsed[1]) {
         case '1':
-          return parsed[0] + ' Janvier';
+          return `${parsed[0]} Janvier`;
         case '2':
-          return parsed[0] + ' Février';
+          return `${parsed[0]} Février`;
         case '3':
-          return parsed[0] + ' Mars';
+          return `${parsed[0]} Mars`;
         case '4':
-          return parsed[0] + ' Avril';
+          return `${parsed[0]} Avril`;
         case '5':
-          return parsed[0] + ' Mai';
+          return `${parsed[0]} Mai`;
         case '6':
-          return parsed[0] + ' Juin';
+          return `${parsed[0]} Juin`;
         case '7':
-          return parsed[0] + ' Juillet';
+          return `${parsed[0]} Juillet`;
         case '8':
-          return parsed[0] + ' Août';
+          return `${parsed[0]} Août`;
         case '9':
-          return parsed[0] + ' Septembre';
+          return `${parsed[0]} Septembre`;
         case '10':
-          return parsed[0] + ' Octobre';
+          return `${parsed[0]} Octobre`;
         case '11':
-          return parsed[0] + ' Novembre';
+          return `${parsed[0]} Novembre`;
         case '12':
-          return parsed[0] + ' Décembre';
+          return `${parsed[0]} Décembre`;
 
         default:
           return value;

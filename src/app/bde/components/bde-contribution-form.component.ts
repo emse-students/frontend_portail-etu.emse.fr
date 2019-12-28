@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserLight } from '../../core/models/auth.model';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { environment } from '../../../environments/environment';
+import { UserLight } from '../../core/models/auth.model';
 
 @Component({
   selector: 'app-bde-contribution-form',
@@ -130,7 +130,7 @@ export class BdeContributionFormComponent implements OnInit {
   private _filter(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
     return this.users.filter((user: UserLight) =>
-      (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue),
+      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
     );
   }
 

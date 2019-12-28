@@ -51,9 +51,8 @@ export class ImgUploadFormComponent implements OnInit {
         : formControl.hasError('fileNotValid')
         ? "Le fichier n'est pas une image valide"
         : '';
-    } else {
-      return '';
     }
+    return '';
   }
 
   onFileChange(event) {
@@ -61,7 +60,7 @@ export class ImgUploadFormComponent implements OnInit {
       const file = event.target.files.item(0);
       this.file.setValue(file);
       const now = new Date();
-      this.filename.setValue(this.imgName + '_' + now.getTime());
+      this.filename.setValue(`${this.imgName}_${now.getTime()}`);
       this.filetouched = true;
       this.cd.markForCheck();
     }

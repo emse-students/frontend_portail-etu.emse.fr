@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Event, EventBooking } from '../../core/models/event.model';
-import { PaymentMeans } from '../../core/models/payment-means.model';
-import { EventUser, UserLight } from '../../core/models/auth.model';
 import { map, startWith } from 'rxjs/operators';
 import { FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
+import { Event, EventBooking } from '../../core/models/event.model';
+import { PaymentMeans } from '../../core/models/payment-means.model';
+import { EventUser, UserLight } from '../../core/models/auth.model';
 import { arrayFindById } from '../../core/services/utils';
 
 @Component({
@@ -108,14 +108,12 @@ export class EventCheckingComponent implements OnInit {
     if (this.users) {
       return this.users.filter(user => {
         if (user.id) {
-          return (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue);
-        } else {
-          return user.username.toLowerCase().includes(filterValue);
+          return `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue);
         }
+        return user.username.toLowerCase().includes(filterValue);
       });
-    } else {
-      return [];
     }
+    return [];
   }
 
   select(user) {

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
-import { NewPosition, Position } from '../models/position.model';
 import { Observable } from 'rxjs';
+import { NewPosition, Position } from '../models/position.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

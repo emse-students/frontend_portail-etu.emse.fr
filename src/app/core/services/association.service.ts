@@ -1,17 +1,17 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable, of, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import {
   Association,
   AssociationDTO,
   AssociationLight,
   NewAssociation,
 } from '../models/association.model';
-import { Observable, of, Subject } from 'rxjs';
 import { environment } from '../../../environments/environment';
 import { JsonLdService } from './json-ld.service';
 import { arrayRemoveById } from './utils';
 import { InfoService } from './info.service';
-import { map } from 'rxjs/operators';
 import { EventService } from './event.service';
 
 @Injectable({
@@ -106,7 +106,7 @@ export class AssociationService {
     );
   }
 
-  public delete(id: number): Observable<Object> {
+  public delete(id: number): Observable<Record<string, any>> {
     const url = `${environment.apiUrl}/associations/${id}`;
     return this.http.delete(url).pipe(
       map(
@@ -184,38 +184,37 @@ export class AssociationService {
         }
       }
       return of(-1);
-    } else {
-      const url = `${environment.apiUrl}/associations`;
-      return this.http.get<AssociationLight[]>(url).pipe(
-        map((assos: AssociationLight[]) => {
-          const allAssos = JsonLdService.parseCollection<AssociationLight>(assos).collection;
-          this._allAssos = [];
-          this._allLists = [];
-          this._allAssosAndLists = [];
-          for (let i = 0; i < allAssos.length; i++) {
-            this._allAssosAndLists.push(allAssos[i]);
-            if (allAssos[i].isList) {
-              this._allLists.push(allAssos[i]);
-            } else {
-              this._allAssos.push(allAssos[i]);
-            }
-          }
-          this.allLists.next(this._allLists);
-          this.allAssos.next(this._allAssos);
-          this.allAssosAndLists.next(this._allAssosAndLists);
-          for (let _i = 0; _i < this._allAssos.length; _i++) {
-            if (this._allAssos[_i].tag === tag) {
-              return this._allAssos[_i].id;
-            }
-          }
-          for (let _i = 0; _i < this._allLists.length; _i++) {
-            if (this._allLists[_i].tag === tag) {
-              return this._allLists[_i].id;
-            }
-          }
-          return -1;
-        }),
-      );
     }
+    const url = `${environment.apiUrl}/associations`;
+    return this.http.get<AssociationLight[]>(url).pipe(
+      map((assos: AssociationLight[]) => {
+        const allAssos = JsonLdService.parseCollection<AssociationLight>(assos).collection;
+        this._allAssos = [];
+        this._allLists = [];
+        this._allAssosAndLists = [];
+        for (let i = 0; i < allAssos.length; i++) {
+          this._allAssosAndLists.push(allAssos[i]);
+          if (allAssos[i].isList) {
+            this._allLists.push(allAssos[i]);
+          } else {
+            this._allAssos.push(allAssos[i]);
+          }
+        }
+        this.allLists.next(this._allLists);
+        this.allAssos.next(this._allAssos);
+        this.allAssosAndLists.next(this._allAssosAndLists);
+        for (let _i = 0; _i < this._allAssos.length; _i++) {
+          if (this._allAssos[_i].tag === tag) {
+            return this._allAssos[_i].id;
+          }
+        }
+        for (let _i = 0; _i < this._allLists.length; _i++) {
+          if (this._allLists[_i].tag === tag) {
+            return this._allLists[_i].id;
+          }
+        }
+        return -1;
+      }),
+    );
   }
 }

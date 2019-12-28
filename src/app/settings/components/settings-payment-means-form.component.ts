@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PaymentMeans } from '../../core/models/payment-means.model';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { PaymentMeans } from '../../core/models/payment-means.model';
 
 @Component({
   selector: 'app-settings-payment-means-form',

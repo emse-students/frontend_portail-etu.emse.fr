@@ -10,14 +10,14 @@ export class InfoService {
     this.$infos = new Subject<Info>();
   }
   pushError(error: string, code?: number) {
-    this.$infos.next({ type: 'error', message: error, code: code });
+    this.$infos.next({ type: 'error', message: error, code });
   }
 
   pushSuccess(success: string, code?: number) {
-    this.$infos.next({ type: 'success', message: success, code: code });
+    this.$infos.next({ type: 'success', message: success, code });
   }
 
   pushInfo(info: string, code?: number) {
-    this.$infos.next({ type: 'info', message: info, code: code });
+    this.$infos.next({ type: 'info', message: info, code });
   }
 }

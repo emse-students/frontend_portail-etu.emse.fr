@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Event, NewBooking } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../core/services/event.service';
 import { AuthService } from '../../core/services/auth.service';
 import { PaymentMeansService } from '../../core/services/payment-means.service';
@@ -163,7 +163,7 @@ export class BookComponent implements OnInit {
     // setTimeout(() => {this.pending = false; }, 2000);
     if (
       newBooking.operation &&
-      newBooking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
+      newBooking.operation.paymentMeans === `${environment.apiUri}/payment_means/1`
     ) {
       this.userService.updateBalance(newBooking.operation.amount);
     }
@@ -176,9 +176,7 @@ export class BookComponent implements OnInit {
         this.pending = false;
         if (this.event.price && this.event.collectLink) {
           this.infoService.pushInfo(
-            'Avez vous payé ?<br> Payez en cliquant sur ce lien <a href="' +
-              this.event.collectLink +
-              '">Collecte Lydia</a>',
+            `Avez vous payé ?<br> Payez en cliquant sur ce lien <a href="${this.event.collectLink}">Collecte Lydia</a>`,
           );
         }
         this.infoService.pushSuccess('Réservation effectuée');
@@ -192,7 +190,7 @@ export class BookComponent implements OnInit {
         this.pending = false;
         if (
           newBooking.operation &&
-          newBooking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
+          newBooking.operation.paymentMeans === `${environment.apiUri}/payment_means/1`
         ) {
           this.userService.updateBalance(-newBooking.operation.amount);
         }

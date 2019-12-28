@@ -1,8 +1,8 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Booking, Event, PutBooking } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 import { AuthenticatedUser } from '../../core/models/auth.model';
-import { ActivatedRoute, Router } from '@angular/router';
 import { EventService } from '../../core/services/event.service';
 import { AuthService } from '../../core/services/auth.service';
 import { PaymentMeansService } from '../../core/services/payment-means.service';
@@ -164,7 +164,7 @@ export class BookingComponent implements OnInit {
       () => {
         if (
           booking.operation &&
-          booking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
+          booking.operation.paymentMeans === `${environment.apiUri}/payment_means/1`
         ) {
           if (this.booking.operation) {
             this.userService.updateBalance(

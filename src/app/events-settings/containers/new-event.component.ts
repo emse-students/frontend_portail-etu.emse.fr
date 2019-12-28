@@ -1,4 +1,5 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 import { PaymentMeansService } from '../../core/services/payment-means.service';
 import { AuthService } from '../../core/services/auth.service';
@@ -9,7 +10,6 @@ import { Event } from '../../core/models/event.model';
 import { EventService } from '../../core/services/event.service';
 import { InfoService } from '../../core/services/info.service';
 import { environment } from '../../../environments/environment';
-import { ActivatedRoute, Router } from '@angular/router';
 
 @Component({
   selector: 'app-new-event',
@@ -135,7 +135,7 @@ export class NewEventComponent implements OnInit {
       this.infoService.pushSuccess('Événement créé avec succès');
       if (newEvent.isBookable) {
         this.infoService.pushInfo(
-          "Url d'inscription : " + environment.home + 'events/' + newEvent.id + '/book',
+          `Url d'inscription : ${environment.home}events/${newEvent.id}/book`,
         );
       }
     });

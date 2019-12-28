@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
+import { ActivatedRoute, Router } from '@angular/router';
 import { Association } from '../../../core/models/association.model';
 import { AssociationService } from '../../../core/services/association.service';
-import { ActivatedRoute, Router } from '@angular/router';
 import { environment } from '../../../../environments/environment';
 import { FileDTO, FileToUpload } from '../../../core/models/file.model';
 import { FileUploadService } from '../../../core/services/file-upload.service';
@@ -148,7 +148,7 @@ export class AssociationsReviewComponent implements OnInit {
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
         this.associationService
-          .put({ id: this.asso.id, logo: environment.apiUri + '/img_objects/' + imgDTO.id })
+          .put({ id: this.asso.id, logo: `${environment.apiUri}/img_objects/${imgDTO.id}` })
           .subscribe(
             (asso: Association) => {
               this.asso = asso;

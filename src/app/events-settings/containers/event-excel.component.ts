@@ -29,7 +29,7 @@ export class EventExcelComponent implements OnInit {
     this.excelService.generateBookingExcel(this.event.id).subscribe(
       ans => {
         this.loading = false;
-        window.open(environment.excelUrl + '/' + ans.name);
+        window.open(`${environment.excelUrl}/${ans.name}`);
       },
       () => {
         this.loading = false;

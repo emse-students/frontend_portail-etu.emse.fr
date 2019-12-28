@@ -4,13 +4,13 @@ import { Injectable } from '@angular/core';
 export class UrlSafeStringService {
   maxLen = 100;
   lowercaseOnly = true;
-  regexRemovePattern: RegExp = /((?!([a-z0-9])).)/gi;
+  regexRemovePattern = /((?!([a-z0-9])).)/gi;
   joinString = '-';
   trimWhitespace = true;
 
   public generate(text: string): string {
-    const joinString = this.joinString;
-    const reJoinString = new RegExp(joinString + '+', 'g');
+    const { joinString } = this;
+    const reJoinString = new RegExp(`${joinString}+`, 'g');
 
     if (this.trimWhitespace) {
       text = text.trim();

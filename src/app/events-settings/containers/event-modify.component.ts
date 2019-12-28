@@ -1,9 +1,9 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Router } from '@angular/router';
 import { Event } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 import { EventService } from '../../core/services/event.service';
 import { InfoService } from '../../core/services/info.service';
-import { Router } from '@angular/router';
 
 @Component({
   selector: 'app-event-modify',

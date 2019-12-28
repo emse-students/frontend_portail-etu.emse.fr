@@ -1,10 +1,10 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { UserLight } from '../../core/models/auth.model';
-import { NewOperation } from '../../core/models/operation.model';
-import { environment } from '../../../environments/environment';
 import { Observable } from 'rxjs';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
+import { UserLight } from '../../core/models/auth.model';
+import { NewOperation } from '../../core/models/operation.model';
+import { environment } from '../../../environments/environment';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 
 @Component({
@@ -145,14 +145,14 @@ export class BdeRechargeFormComponent implements OnInit {
   private _filter(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
     return this.users.filter((user: UserLight) =>
-      (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue),
+      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
     );
   }
 
   submit() {
     if (this.form.valid) {
       this.form.removeControl('userText');
-      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
+      this.user.setValue(`${this.apiUrl}/users/${this.user.value.id}`);
       this.submitted.emit(this.form.value);
     }
   }

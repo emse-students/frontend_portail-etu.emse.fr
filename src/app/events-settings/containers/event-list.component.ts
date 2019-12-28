@@ -4,6 +4,7 @@ import { FormInput } from '../../core/models/form.model';
 import { environment } from '../../../environments/environment';
 import { BookingFilter } from '../components/booking-filter.component';
 import { PaymentMeans } from '../../core/models/payment-means.model';
+
 export interface DisplayedColumns {
   inputs: FormInput[];
   checked: boolean;
@@ -70,16 +71,16 @@ export class EventListComponent implements OnInit {
     for (let i = 0; i < bookings.length; i++) {
       const booking = bookings[i];
       booking.userName = bookings[i].user
-        ? bookings[i].user.firstname + ' ' + bookings[i].user.lastname
+        ? `${bookings[i].user.firstname} ${bookings[i].user.lastname}`
         : bookings[i].userName;
-      booking['rank'] = i + 1;
+      booking.rank = i + 1;
       bookingsRanked.push(booking);
     }
     return bookingsRanked;
   }
 
   static resolveFormInput(formInputId: string): number {
-    const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
+    const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
     const id = re.exec(formInputId)['1'];
     return Number(id);
   }

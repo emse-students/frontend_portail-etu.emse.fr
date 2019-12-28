@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
 import { CanActivate, Router } from '@angular/router';
-import { AuthService } from './auth.service';
 import { of } from 'rxjs';
+import { AuthService } from './auth.service';
 
 @Injectable()
 export class AuthGuard implements CanActivate {
@@ -10,9 +10,8 @@ export class AuthGuard implements CanActivate {
   canActivate() {
     if (this.authService.isAuthenticated()) {
       return of(true);
-    } else {
-      this.router.navigateByUrl('/home');
     }
+    this.router.navigateByUrl('/home');
   }
 }
 
@@ -23,8 +22,7 @@ export class AdminGuard implements CanActivate {
   canActivate() {
     if (this.authService.isAdmin()) {
       return of(true);
-    } else {
-      this.router.navigateByUrl('/home');
     }
+    this.router.navigateByUrl('/home');
   }
 }

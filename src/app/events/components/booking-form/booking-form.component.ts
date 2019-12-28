@@ -1,6 +1,4 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { AuthenticatedUser, EventUser } from '../../../core/models/auth.model';
-import { FormInput, FormOutput } from '../../../core/models/form.model';
 import {
   AbstractControl,
   FormArray,
@@ -10,6 +8,8 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { AuthenticatedUser, EventUser } from '../../../core/models/auth.model';
+import { FormInput, FormOutput } from '../../../core/models/form.model';
 import { environment } from '../../../../environments/environment';
 import { NewBooking, Event, Booking, PutBooking } from '../../../core/models/event.model';
 import { arrayFindById } from '../../../core/services/utils';
@@ -218,7 +218,7 @@ export class BookingFormComponent implements OnInit {
     if (formInput.required && formInput.type === 'text') {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
+          '@id': [`${environment.apiUri}/form_outputs/${formOutput.id}`],
           answer: [formOutput.answer, Validators.required],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -231,7 +231,7 @@ export class BookingFormComponent implements OnInit {
     ) {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
+          '@id': [`${environment.apiUri}/form_outputs/${formOutput.id}`],
           answer: [''],
           boolOptions: this.fb.array([], this.optionRequired()),
           options: [[]],
@@ -241,7 +241,7 @@ export class BookingFormComponent implements OnInit {
     } else {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
+          '@id': [`${environment.apiUri}/form_outputs/${formOutput.id}`],
           answer: [formOutput.answer],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -290,23 +290,23 @@ export class BookingFormComponent implements OnInit {
       if (this.isNew) {
         this.form.removeControl('id');
       }
-      this.event.setValue(environment.apiUri + '/events/' + this.relatedEvent.id);
+      this.event.setValue(`${environment.apiUri}/events/${this.relatedEvent.id}`);
       if (this.authenticatedUser) {
-        this.user.setValue(environment.apiUri + '/users/' + this.authenticatedUser.id);
+        this.user.setValue(`${environment.apiUri}/users/${this.authenticatedUser.id}`);
       } else {
         this.form.removeControl('user');
       }
       const outputsToRemove = [];
       for (let i = 0; i < this.formOutputs.controls.length; i++) {
-        const type = this.formInput(i).value.type;
+        const { type } = this.formInput(i).value;
         this.formInput(i).setValue(
-          environment.apiUri + '/form_inputs/' + this.formInput(i).value.id,
+          `${environment.apiUri}/form_inputs/${this.formInput(i).value.id}`,
         );
         this.options(i).patchValue(
           this.boolOptions(i)
             .value.map(v => {
               totalPrice += v.selected ? v.option.price : 0;
-              return v.selected ? environment.apiUri + '/options/' + v.option.id : null;
+              return v.selected ? `${environment.apiUri}/options/${v.option.id}` : null;
             })
             .filter(v => v !== null),
         );
@@ -330,32 +330,31 @@ export class BookingFormComponent implements OnInit {
       if (this.operation.value) {
         this.operation.setValue({
           ...this.operation.value,
-          ['@id']: environment.apiUri + '/operations/' + this.operation.value.id,
-          paymentMeans:
-            environment.apiUri + '/payment_means/' + this.operation.value.paymentMeans.id,
+          '@id': `${environment.apiUri}/operations/${this.operation.value.id}`,
+          paymentMeans: `${environment.apiUri}/payment_means/${this.operation.value.paymentMeans.id}`,
         });
       }
       if (this.bdePayment.value) {
-        this.paymentMeans.setValue(environment.apiUri + '/payment_means/1');
+        this.paymentMeans.setValue(`${environment.apiUri}/payment_means/1`);
         if (!this.lastPrice || this.lastPrice !== totalPrice) {
           this.operation.setValue({
-            user: environment.apiUri + '/users/' + this.authenticatedUser.id,
+            user: `${environment.apiUri}/users/${this.authenticatedUser.id}`,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit',
-            paymentMeans: environment.apiUri + '/payment_means/1',
+            paymentMeans: `${environment.apiUri}/payment_means/1`,
           });
         }
         this.paid.setValue(true);
       } else if (this.cerclePayment.value) {
-        this.paymentMeans.setValue(environment.apiUri + '/payment_means/2');
+        this.paymentMeans.setValue(`${environment.apiUri}/payment_means/2`);
         if (!this.lastPrice || this.lastPrice !== totalPrice) {
           this.operation.setValue({
-            user: environment.apiUri + '/users/' + this.authenticatedUser.id,
+            user: `${environment.apiUri}/users/${this.authenticatedUser.id}`,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit',
-            paymentMeans: environment.apiUri + '/payment_means/2',
+            paymentMeans: `${environment.apiUri}/payment_means/2`,
           });
         }
         this.paid.setValue(true);
@@ -413,7 +412,8 @@ export class BookingFormComponent implements OnInit {
         (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.balance)
       ) {
         return { bdeAccountToLow: { value: this.totalPrice() } };
-      } else if (
+      }
+      if (
         this.form &&
         this.relatedEvent.price &&
         this.cerclePayment &&
@@ -423,9 +423,8 @@ export class BookingFormComponent implements OnInit {
         (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.cercleBalance)
       ) {
         return { cercleAccountToLow: { value: this.totalPrice() } };
-      } else {
-        return null;
       }
+      return null;
     };
   }
 
@@ -439,31 +438,30 @@ export class BookingFormComponent implements OnInit {
         this.paymentMeans.value.id !== 2
       ) {
         return { noPaymentChange: { value: this.totalPrice() } };
-      } else {
-        return null;
       }
+      return null;
     };
   }
 
   totalPrice() {
     if (!this.relatedEvent.price) {
       return 0;
-    } else if (!this.formOutputs.controls.length || !this.boolOptions(0)) {
+    }
+    if (!this.formOutputs.controls.length || !this.boolOptions(0)) {
       return this.relatedEvent.price;
-    } else {
-      let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
-      for (let i = 0; i < this.formOutputs.controls.length; i++) {
-        for (let j = 0; j < this.boolOptions(i).length; j++) {
-          if (
-            this.boolOptions(i).controls[j].get('selected').value &&
-            this.boolOptions(i).controls[j].get('option').value.price
-          ) {
-            totalPrice += this.boolOptions(i).controls[j].get('option').value.price;
-          }
+    }
+    let totalPrice = this.relatedEvent.price ? this.relatedEvent.price : 0;
+    for (let i = 0; i < this.formOutputs.controls.length; i++) {
+      for (let j = 0; j < this.boolOptions(i).length; j++) {
+        if (
+          this.boolOptions(i).controls[j].get('selected').value &&
+          this.boolOptions(i).controls[j].get('option').value.price
+        ) {
+          totalPrice += this.boolOptions(i).controls[j].get('option').value.price;
         }
       }
-      return totalPrice;
     }
+    return totalPrice;
   }
 
   onLoginClick() {

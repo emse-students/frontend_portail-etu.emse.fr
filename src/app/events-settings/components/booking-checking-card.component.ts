@@ -213,7 +213,7 @@ export class BookingCheckingCardComponent implements OnInit {
   ngOnInit() {}
 
   resolveFormInput(formInputId: string): FormInput {
-    const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
+    const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
     const id = re.exec(formInputId)['1'];
     for (let i = 0; i < this.event.formInputs.length; i++) {
       if (this.event.formInputs[i].id === Number(id)) {
@@ -224,7 +224,7 @@ export class BookingCheckingCardComponent implements OnInit {
 
   price(): number {
     if (this.event.price) {
-      let price = this.event.price;
+      let { price } = this.event;
       for (let i = 0; i < this.booking.formOutputs.length; i++) {
         for (let j = 0; j < this.booking.formOutputs[i].options.length; j++) {
           if (this.booking.formOutputs[i].options[j].price) {
@@ -233,9 +233,8 @@ export class BookingCheckingCardComponent implements OnInit {
         }
       }
       return price;
-    } else {
-      return 0;
     }
+    return 0;
   }
 
   book(paymentMeansId: number, checked = false) {
@@ -248,23 +247,23 @@ export class BookingCheckingCardComponent implements OnInit {
           id: this.booking.id,
         };
         if (paymentMeansId !== 0) {
-          booking['paid'] = true;
-          booking['paymentMeans'] = environment.apiUri + '/payment_means/' + paymentMeansId;
+          booking.paid = true;
+          booking.paymentMeans = `${environment.apiUri}/payment_means/${paymentMeansId}`;
           if (this.booking.user) {
-            booking['operation'] = {
-              user: environment.apiUri + '/users/' + this.booking.user.id,
+            booking.operation = {
+              user: `${environment.apiUri}/users/${this.booking.user.id}`,
               amount: -this.price(),
               reason: this.event.name,
               type: 'event_debit',
-              paymentMeans: environment.apiUri + '/payment_means/' + paymentMeansId,
+              paymentMeans: `${environment.apiUri}/payment_means/${paymentMeansId}`,
             };
           }
           if (paymentMeansId === 2) {
-            booking['cercleOperationAmount'] = this.price();
+            booking.cercleOperationAmount = this.price();
           }
         }
         if (checked) {
-          booking['checked'] = true;
+          booking.checked = true;
         }
         // console.log(booking);
         this.eventService.putBook(booking).subscribe(

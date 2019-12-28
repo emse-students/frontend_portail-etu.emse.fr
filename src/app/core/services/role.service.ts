@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { NewRole, Right, Role } from '../models/role.model';
-import { map } from 'rxjs/operators';
 import { JsonLdService } from './json-ld.service';
 
 @Injectable({

@@ -7,12 +7,12 @@ import {
   ValidatorFn,
   Validators,
 } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
+import { Observable } from 'rxjs';
 import { NewPosition } from '../../../core/models/position.model';
 import { environment } from '../../../../environments/environment';
 import { Right, Role } from '../../../core/models/role.model';
 import { UserLight } from '../../../core/models/auth.model';
-import { map, startWith } from 'rxjs/operators';
-import { Observable } from 'rxjs';
 import { Association } from '../../../core/models/association.model';
 
 interface BoolRight {
@@ -97,7 +97,7 @@ export class AddPositionFormComponent implements OnInit {
   private _filterUsers(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
     return this.users.filter((user: UserLight) =>
-      (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue),
+      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
     );
   }
 
@@ -108,12 +108,12 @@ export class AddPositionFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.association.setValue(environment.apiUri + '/associations/' + this.asso.id);
-      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
+      this.association.setValue(`${environment.apiUri}/associations/${this.asso.id}`);
+      this.user.setValue(`${this.apiUrl}/users/${this.user.value.id}`);
       if (this.newRole.value) {
         this.rights.patchValue(
           this.boolRights
-            .map(v => (v.selected ? environment.apiUri + '/user_rights/' + v.right.id : null))
+            .map(v => (v.selected ? `${environment.apiUri}/user_rights/${v.right.id}` : null))
             .filter(v => v !== null),
         );
         this.role.setValue({
@@ -122,7 +122,7 @@ export class AddPositionFormComponent implements OnInit {
           rights: this.rights.value,
         });
       } else {
-        this.role.setValue(this.apiUrl + '/roles/' + this.role.value.id);
+        this.role.setValue(`${this.apiUrl}/roles/${this.role.value.id}`);
       }
       this.form.removeControl('userText');
       this.form.removeControl('roleText');
@@ -147,14 +147,13 @@ export class AddPositionFormComponent implements OnInit {
       if (this.form && this.newRole && this.newRole.value) {
         if (control.value && !this.existInRoles(control.value)) {
           return null;
-        } else if (control.value) {
-          return { notUniq: { value: control.value } };
-        } else {
-          return { required: { value: control.value } };
         }
-      } else {
-        return null;
+        if (control.value) {
+          return { notUniq: { value: control.value } };
+        }
+        return { required: { value: control.value } };
       }
+      return null;
     };
   }
 
@@ -162,9 +161,8 @@ export class AddPositionFormComponent implements OnInit {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.form && this.newRole && !this.newRole.value && !control.value) {
         return { required: { value: control.value } };
-      } else {
-        return null;
       }
+      return null;
     };
   }
 

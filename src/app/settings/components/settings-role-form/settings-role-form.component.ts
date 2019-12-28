@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Right, Role } from '../../../core/models/role.model';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
+import { Right, Role } from '../../../core/models/role.model';
 import { environment } from '../../../../environments/environment';
 
 interface BoolRight {
@@ -83,7 +83,7 @@ export class SettingsRoleFormComponent implements OnInit {
       }
       this.rights.patchValue(
         this.boolRights
-          .map(v => (v.selected ? environment.apiUri + '/user_rights/' + v.right.id : null))
+          .map(v => (v.selected ? `${environment.apiUri}/user_rights/${v.right.id}` : null))
           .filter(v => v !== null),
       );
       this.submitted.emit(this.form.value);

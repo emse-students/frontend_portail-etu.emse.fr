@@ -52,25 +52,25 @@ export class TranslateDayPipe implements PipeTransform {
     }
     switch (parsed[0]) {
       case 'Monday':
-        return 'Lundi ' + parsed[1] + month;
+        return `Lundi ${parsed[1]}${month}`;
 
       case 'Tuesday':
-        return 'Mardi ' + parsed[1] + month;
+        return `Mardi ${parsed[1]}${month}`;
 
       case 'Wednesday':
-        return 'Mercredi ' + parsed[1] + month;
+        return `Mercredi ${parsed[1]}${month}`;
 
       case 'Thursday':
-        return 'Jeudi ' + parsed[1] + month;
+        return `Jeudi ${parsed[1]}${month}`;
 
       case 'Friday':
-        return 'Vendredi ' + parsed[1] + month;
+        return `Vendredi ${parsed[1]}${month}`;
 
       case 'Saturday':
-        return 'Samedi ' + parsed[1] + month;
+        return `Samedi ${parsed[1]}${month}`;
 
       case 'Sunday':
-        return 'Dimanche ' + parsed[1] + month;
+        return `Dimanche ${parsed[1]}${month}`;
 
       default:
         return value;

@@ -40,9 +40,7 @@ export class SettingsPaymentMeansListComponent implements OnInit {
 
   delete(item: NamedItem) {
     if (
-      confirm(
-        'Vous vous apprêtez à supprimer ' + this.itemName + ' ' + item.name + '.\n' + 'Continuer ?',
-      )
+      confirm(`Vous vous apprêtez à supprimer ${this.itemName} ${item.name}.\n` + `Continuer ?`)
     ) {
       this.deleted.emit(item.id);
     }

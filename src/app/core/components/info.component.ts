@@ -38,12 +38,12 @@ export class InfoComponent {
 
   displaySnackBar() {
     const info = this.infos[0];
-    const message = info.code ? info.code + ' : ' + info.message : info.message;
+    const message = info.code ? `${info.code} : ${info.message}` : info.message;
     const snackBar = this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: message,
       verticalPosition: 'top',
       duration: info.type === 'error' ? 20000 : 'info' ? 10000 : 2000,
-      panelClass: [info.type + '-snackbar'],
+      panelClass: [`${info.type}-snackbar`],
     });
     // const snackBar = this.snackBar.open(message, 'Ok', {
     //   verticalPosition: 'top',

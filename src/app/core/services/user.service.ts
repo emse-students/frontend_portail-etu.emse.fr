@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { Observable, Subject } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { environment } from '../../../environments/environment';
 import { UserLight } from '../models/auth.model';
-import { map } from 'rxjs/operators';
 import { JsonLdService } from './json-ld.service';
 import { Booking } from '../models/event.model';
 import { CercleUserDTO, User, UserBookings, UserDTO, UserOperation } from '../models/user.model';
@@ -97,7 +97,7 @@ export class UserService {
     if (!this._user || this._user.id !== userId) {
       this._user = {
         id: userId,
-        login: login,
+        login,
         balance: null,
         cercleBalance: null,
         eventsBooked: null,
@@ -131,9 +131,8 @@ export class UserService {
   public hasBooked(eventId: number) {
     if (this._user && this._user.eventsBooked) {
       return this._user.eventsBooked.includes(eventId);
-    } else {
-      return false;
     }
+    return false;
   }
 
   public book(eventId: number) {

@@ -34,7 +34,7 @@ export class SettingsAssoListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'put'];
 
   delete(asso: AssociationLight) {
-    if (confirm("Vous vous apprêtez à supprimer l'asso " + asso.name + '.\n' + 'Continuer ?')) {
+    if (confirm(`Vous vous apprêtez à supprimer l'asso ${asso.name}.\n` + `Continuer ?`)) {
       this.deleted.emit(asso.id);
     }
   }

@@ -1,7 +1,7 @@
 import { Injectable } from '@angular/core';
-import { FileDTO, FileToUpload } from '../models/file.model';
 import { HttpClient } from '@angular/common/http';
 import { Observable } from 'rxjs';
+import { FileDTO, FileToUpload } from '../models/file.model';
 import { environment } from '../../../environments/environment';
 
 @Injectable({

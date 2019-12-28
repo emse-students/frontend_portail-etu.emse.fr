@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output, ViewChild } from '@angular/core';
-import { BookingRanked, Event } from '../../core/models/event.model';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { BookingRanked, Event } from '../../core/models/event.model';
 import { FormInput } from '../../core/models/form.model';
 import { environment } from '../../../environments/environment';
 import { DisplayedColumns } from '../containers/event-list.component';
@@ -145,7 +145,7 @@ export class RegisteredListComponent implements OnInit {
       this.displayedColumns.push('checked');
     }
     for (let i = 0; i < dCol.inputs.length; i++) {
-      this.displayedColumns.push('input_' + i);
+      this.displayedColumns.push(`input_${i}`);
     }
     if (dCol.see) {
       this.displayedColumns.push('select');
@@ -182,11 +182,11 @@ export class RegisteredListComponent implements OnInit {
       if (re.exec(property)) {
         const id = re.exec(property)['1'];
         return this.resolveAnswer(item, this.displayedCol.inputs[id]);
-      } else if (property === 'paymentMeans' && item.paymentMeans) {
-        return item.paymentMeans.name;
-      } else {
-        return item[property];
       }
+      if (property === 'paymentMeans' && item.paymentMeans) {
+        return item.paymentMeans.name;
+      }
+      return item[property];
     };
   }
 
@@ -209,12 +209,13 @@ export class RegisteredListComponent implements OnInit {
 
   resolveAnswer(element: BookingRanked, input: FormInput) {
     for (let i = 0; i < element.formOutputs.length; i++) {
-      const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
+      const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
       const id = re.exec(element.formOutputs[i].formInput)['1'];
       if (input && input.id === Number(id)) {
         if (input.type === 'singleOption') {
           return element.formOutputs[i].options[0].value;
-        } else if (input.type === 'multipleOptions') {
+        }
+        if (input.type === 'multipleOptions') {
           let str = '';
           for (let j = 0; j < element.formOutputs[i].options.length; j++) {
             if (str) {

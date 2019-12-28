@@ -1,6 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { Setting, SETTINGS, strIdToTabId } from '../../models/settings.models';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Setting, SETTINGS, strIdToTabId } from '../../models/settings.models';
 
 @Component({
   selector: 'app-settings',

@@ -47,7 +47,8 @@ import { UserService } from '../services/user.service';
             *ngIf="
               !allReadyBooked &&
               !(event.date < today) &&
-              event.closingDate && event.closingDate < today
+              event.closingDate &&
+              event.closingDate < today
             "
           >
             Deadline passée

@@ -1,11 +1,11 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Observable } from 'rxjs';
+import { FormBuilder, FormGroup } from '@angular/forms';
+import { map, startWith } from 'rxjs/operators';
 import { Event, EventBooking, NewBooking } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
-import { Observable } from 'rxjs';
 import { EventUser, UserLight } from '../../core/models/auth.model';
-import { FormBuilder, FormGroup } from '@angular/forms';
 import { UserService } from '../../core/services/user.service';
-import { map, startWith } from 'rxjs/operators';
 import { EventService } from '../../core/services/event.service';
 import { InfoService } from '../../core/services/info.service';
 
@@ -77,7 +77,7 @@ export class EventAddBookingComponent implements OnInit {
   set selectedUser(selectedUser) {
     if (selectedUser) {
       this.select(selectedUser);
-      this.userText.setValue(selectedUser.firstname + ' ' + selectedUser.lastname);
+      this.userText.setValue(`${selectedUser.firstname} ${selectedUser.lastname}`);
     }
   }
   @Input() isAdmin: boolean;
@@ -123,11 +123,10 @@ export class EventAddBookingComponent implements OnInit {
     const filterValue = value.toLowerCase();
     if (this.users) {
       return this.users.filter(user =>
-        (user.firstname + ' ' + user.lastname).toLowerCase().includes(filterValue),
+        `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
       );
-    } else {
-      return [];
     }
+    return [];
   }
 
   select(user) {

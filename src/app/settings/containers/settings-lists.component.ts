@@ -88,7 +88,7 @@ export class SettingsListsComponent implements OnInit {
   onSubmit(asso) {
     this.loading = true;
     if (this.newAsso) {
-      asso['isList'] = true;
+      asso.isList = true;
       this.associationService.create(asso).subscribe(
         () => {
           this.loading = false;

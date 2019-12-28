@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
-import { JsonLdCollection, JsonLdPage } from '../models/json-ld.model';
 import { error } from 'util';
+import { JsonLdCollection, JsonLdPage } from '../models/json-ld.model';
 
 @Injectable()
 export class JsonLdService {
@@ -34,7 +34,7 @@ export class JsonLdService {
     return {
       collection: jsonLd['hydra:member'],
       totalItems: jsonLd['hydra:totalItems'],
-      pages: pages,
+      pages,
     };
   }
 }

@@ -1,10 +1,10 @@
 import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
+import { Observable } from 'rxjs';
+import { map } from 'rxjs/operators';
 import { JsonLdService } from './json-ld.service';
 import { NewPaymentMeans, PaymentMeans } from '../models/payment-means.model';
-import { Observable } from 'rxjs';
 import { environment } from '../../../environments/environment';
-import { map } from 'rxjs/operators';
 
 @Injectable({
   providedIn: 'root',

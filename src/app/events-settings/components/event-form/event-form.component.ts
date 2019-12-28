@@ -44,85 +44,82 @@ export class EventFormComponent implements OnInit {
 
   form: FormGroup;
 
-  get id() {
+  get id(): AbstractControl {
     return this.form.get('id');
   }
-  get association() {
+  get association(): AbstractControl {
     return this.form.get('association');
   }
-  get name() {
+  get name(): AbstractControl {
     return this.form.get('name');
   }
-  get description() {
+  get description(): AbstractControl {
     return this.form.get('description');
   }
-  get date() {
+  get date(): AbstractControl {
     return this.form.get('date');
   }
-  get hourDate() {
+  get hourDate(): AbstractControl {
     return this.form.get('hourDate');
   }
-  get duration() {
+  get duration(): AbstractControl {
     return this.form.get('duration');
   }
-  get payable() {
+  get payable(): AbstractControl {
     return this.form.get('payable');
   }
-  get price() {
+  get price(): AbstractControl {
     return this.form.get('price');
   }
-  get place() {
+  get place(): AbstractControl {
     return this.form.get('place');
   }
-  get paymentMeans() {
+  get paymentMeans(): AbstractControl {
     return this.form.get('paymentMeans');
   }
-  get shotgun() {
+  get shotgun(): AbstractControl {
     return this.form.get('shotgun');
   }
-  get shotgunListLength() {
+  get shotgunListLength(): AbstractControl {
     return this.form.get('shotgunListLength');
   }
-  get shotgunWaitingList() {
+  get shotgunWaitingList(): AbstractControl {
     return this.form.get('shotgunWaitingList');
   }
-  get shotgunStartingDate() {
+  get shotgunStartingDate(): AbstractControl {
     return this.form.get('shotgunStartingDate');
   }
-  get hourShotgunStartingDate() {
+  get hourShotgunStartingDate(): AbstractControl {
     return this.form.get('hourShotgunStartingDate');
   }
-  get closingDate() {
+  get closingDate(): AbstractControl {
     return this.form.get('closingDate');
   }
-  get hourClosingDate() {
+  get hourClosingDate(): AbstractControl {
     return this.form.get('hourClosingDate');
   }
-  get formInputs() {
+  get formInputs(): FormArray {
     return this.form.get('formInputs') as FormArray;
   }
-  options(i) {
+  options(i): FormArray {
     return this.formInputs.controls[i].get('options') as FormArray;
   }
-  get status() {
+  get status(): AbstractControl {
     return this.form.get('status');
   }
-  get open() {
-    return this.form.get('open');
-  }
-  get img() {
+  get img(): AbstractControl {
     return this.form.get('img');
   }
-  get collectLink() {
+  get collectLink(): AbstractControl {
     return this.form.get('collectLink');
   }
-  get boolPaymentMeans() {
+  get boolPaymentMeans(): FormArray {
     return this.form.get('boolPaymentMeans') as FormArray;
   }
-  boolPaymentMean(i) {
+  boolPaymentMean(i): AbstractControl {
     return this.boolPaymentMeans.controls[i];
   }
-  get isBookable() {
+  get isBookable(): AbstractControl {
     return this.form.get('isBookable');
   }
   asFormArray(value): FormArray {
@@ -136,7 +133,7 @@ export class EventFormComponent implements OnInit {
     this.patch();
   }
 
-  submit() {
+  submit(): void {
     if (this.form.valid) {
       if (this.isNew) {
         this.form.removeControl('id');
@@ -181,7 +178,7 @@ export class EventFormComponent implements OnInit {
     }
   }
 
-  initForm() {
+  initForm(): void {
     this.form = this.fb.group(
       {
         id: [''],
@@ -214,7 +211,7 @@ export class EventFormComponent implements OnInit {
     );
   }
 
-  perm() {
+  perm(): void {
     this.name.setValue('Perm ');
     this.date.setValue(new Date());
     this.hourDate.setValue('22:00');
@@ -222,7 +219,7 @@ export class EventFormComponent implements OnInit {
     this.duration.setValue("Jusqu'au bout de la nuit");
   }
 
-  addFormInput() {
+  addFormInput(): void {
     this.formInputs.push(
       this.fb.group({
         title: ['', Validators.required],
@@ -233,11 +230,11 @@ export class EventFormComponent implements OnInit {
     );
   }
 
-  delFormInput(index: number) {
+  delFormInput(index: number): void {
     this.formInputs.removeAt(index);
   }
 
-  addOption(index: number) {
+  addOption(index: number): void {
     this.options(index).push(
       this.fb.group({
         value: ['', Validators.required],
@@ -246,31 +243,31 @@ export class EventFormComponent implements OnInit {
     );
   }
 
-  delOption(inputIndex: number, optionIndex: number) {
+  delOption(inputIndex: number, optionIndex: number): void {
     this.options(inputIndex).removeAt(optionIndex);
   }
 
-  getErrorMessage(formControl: FormControl | FormGroup | AbstractControl) {
-    // eslint-disable-next-line no-nested-ternary
-    return formControl.hasError('required')
-      ? 'Ce champs ne doit pas être vide'
-      : // eslint-disable-next-line no-nested-ternary
-      formControl.hasError('noShotgunDate')
-      ? 'Indiquez une date de début de shotgun'
-      : // eslint-disable-next-line no-nested-ternary
-      formControl.hasError('noShotgunList')
-      ? 'Le nombre de place au shotgun doit être supérieur à 0'
-      : // eslint-disable-next-line no-nested-ternary
-      formControl.hasError('noShotgunListInt')
-      ? 'Le nombre de place au shotgun doit être un entier'
-      : formControl.hasError('noCollectLink')
-      ? 'Indiquez un lien de collect Lydia'
-      : '';
+  getErrorMessage(formControl: FormControl | FormGroup | AbstractControl): string {
+    if (formControl.hasError('required')) {
+      return 'Ce champs ne doit pas être vide';
+    }
+    if (formControl.hasError('noShotgunDate')) {
+      return 'Indiquez une date de début de shotgun';
+    }
+    if (formControl.hasError('noShotgunList')) {
+      return 'Le nombre de place au shotgun doit être supérieur à 0';
+    }
+    if (formControl.hasError('noShotgunListInt')) {
+      return 'Le nombre de place au shotgun doit être un entier';
+    }
+    if (formControl.hasError('noCollectLink')) {
+      return 'Indiquez un lien de collect Lydia';
+    }
+    return '';
   }
 
   shotgunRequired(): ValidatorFn {
-    // eslint-disable-next-line no-unused-vars
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (): { [key: string]: { value: any } } | null => {
       if (this.form && this.shotgun && this.shotgun.value) {
         if (!this.shotgunStartingDate.value) {
           return { noShotgunDate: { value: this.shotgunStartingDate.value } };
@@ -288,8 +285,7 @@ export class EventFormComponent implements OnInit {
   }
 
   collectLinkRequired(): ValidatorFn {
-    // eslint-disable-next-line no-unused-vars
-    return (control: AbstractControl): { [key: string]: any } | null => {
+    return (): { [key: string]: any } | null => {
       if (this.form && this.boolPaymentMeans && this.collectLink) {
         for (let i = 0; i < this.boolPaymentMeans.controls.length; i++) {
           if (
@@ -306,7 +302,7 @@ export class EventFormComponent implements OnInit {
     };
   }
 
-  patch() {
+  patch(): void {
     if (this._event) {
       this.form.patchValue(this._event);
       if (this._event.img) {
@@ -320,42 +316,29 @@ export class EventFormComponent implements OnInit {
         this.shotgun.setValue(true);
       }
       this.hourDate.setValue(
-        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-        ((<Date>this.date.value).getHours() > 9 ? '' : '0') +
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          (<Date>this.date.value).getHours() +
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          ((<Date>this.date.value).getMinutes() > 9 ? ':' : ':0') +
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          (<Date>this.date.value).getMinutes(),
+        ((this.date.value as Date).getHours() > 9 ? '' : '0') +
+          (this.date.value as Date).getHours() +
+          ((this.date.value as Date).getMinutes() > 9 ? ':' : ':0') +
+          (this.date.value as Date).getMinutes(),
       );
       if (this.closingDate.value) {
         this.hourClosingDate.setValue(
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          ((<Date>this.closingDate.value).getHours() > 9 ? '' : '0') +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            (<Date>this.closingDate.value).getHours() +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            ((<Date>this.closingDate.value).getMinutes() > 9 ? ':' : ':0') +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            (<Date>this.closingDate.value).getMinutes(),
+          ((this.closingDate.value as Date).getHours() > 9 ? '' : '0') +
+            (this.closingDate.value as Date).getHours() +
+            ((this.closingDate.value as Date).getMinutes() > 9 ? ':' : ':0') +
+            (this.closingDate.value as Date).getMinutes(),
         );
       }
       if (this.shotgunStartingDate.value) {
         this.hourShotgunStartingDate.setValue(
-          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-          ((<Date>this.shotgunStartingDate.value).getHours() > 9 ? '' : '0') +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            (<Date>this.shotgunStartingDate.value).getHours() +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            ((<Date>this.shotgunStartingDate.value).getMinutes() > 9 ? ':' : ':0') +
-            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
-            (<Date>this.shotgunStartingDate.value).getMinutes(),
+          ((this.shotgunStartingDate.value as Date).getHours() > 9 ? '' : '0') +
+            (this.shotgunStartingDate.value as Date).getHours() +
+            ((this.shotgunStartingDate.value as Date).getMinutes() > 9 ? ':' : ':0') +
+            (this.shotgunStartingDate.value as Date).getMinutes(),
         );
       }
       if (this._event.paymentMeans) {
-        // eslint-disable-next-line array-callback-return
-        this.allPaymentMeans.map(c => {
+        this.allPaymentMeans.forEach(c => {
           this.boolPaymentMeans.push(
             this.fb.group({
               selected: [this._event.paymentMeans.map(r => r.id).includes(c.id)],
@@ -364,8 +347,7 @@ export class EventFormComponent implements OnInit {
           );
         });
       } else {
-        // eslint-disable-next-line array-callback-return
-        this.allPaymentMeans.map(c => {
+        this.allPaymentMeans.forEach(c => {
           this.boolPaymentMeans.push(
             this.fb.group({
               selected: [false],
@@ -395,8 +377,7 @@ export class EventFormComponent implements OnInit {
         }
       }
     } else {
-      // eslint-disable-next-line array-callback-return
-      this.allPaymentMeans.map(c => {
+      this.allPaymentMeans.forEach(c => {
         this.boolPaymentMeans.push(
           this.fb.group({
             selected: [false],
@@ -407,16 +388,15 @@ export class EventFormComponent implements OnInit {
     }
   }
 
-  delete() {
+  delete(): void {
     this.deleted.emit(this._event);
   }
 
-  uploadImg(img: FileToUpload) {
+  uploadImg(img: FileToUpload): void {
     this.addImg = false;
     this.imgLoading = true;
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
-        // console.log(imgDTO);
         this.img.setValue(`${environment.apiUri}/img_objects/${imgDTO.id}`);
         this.imgFilename = imgDTO.filename;
         this.imgLoading = false;

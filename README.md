@@ -18,10 +18,10 @@ $ yarn
 ```
 
 ### 3. Update `src/environments/*` with your local information :
-- `cas_login_url` : The url of the CAS which be call to login
-- `api_login_url` : The url of the API which check your CAS authentication, check that the user exist on the database and five back a token
-- `api_url` : the endpoint of the API
-- `img_url` : the url where the downloaded images are stored
+- `casLoginUrl` : The url of the CAS which be call to login
+- `apiLoginUrl` : The url of the API which check your CAS authentication, check that the user exist on the database and five back a token
+- `apiUrl` : the endpoint of the API
+- `imgUrl` : the url where the downloaded images are stored
 - `production` : a boolean to toogle production mode
 
 ### 4. Serve in dev mode locally or build the project

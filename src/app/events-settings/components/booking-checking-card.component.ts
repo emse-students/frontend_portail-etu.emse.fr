@@ -213,7 +213,7 @@ export class BookingCheckingCardComponent implements OnInit {
   ngOnInit() {}
 
   resolveFormInput(formInputId: string): FormInput {
-    const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
+    const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
     const id = re.exec(formInputId)['1'];
     for (let i = 0; i < this.event.formInputs.length; i++) {
       if (this.event.formInputs[i].id === Number(id)) {
@@ -249,14 +249,14 @@ export class BookingCheckingCardComponent implements OnInit {
         };
         if (paymentMeansId !== 0) {
           booking['paid'] = true;
-          booking['paymentMeans'] = environment.api_uri + '/payment_means/' + paymentMeansId;
+          booking['paymentMeans'] = environment.apiUri + '/payment_means/' + paymentMeansId;
           if (this.booking.user) {
             booking['operation'] = {
-              user: environment.api_uri + '/users/' + this.booking.user.id,
+              user: environment.apiUri + '/users/' + this.booking.user.id,
               amount: -this.price(),
               reason: this.event.name,
               type: 'event_debit',
-              paymentMeans: environment.api_uri + '/payment_means/' + paymentMeansId,
+              paymentMeans: environment.apiUri + '/payment_means/' + paymentMeansId,
             };
           }
           if (paymentMeansId === 2) {

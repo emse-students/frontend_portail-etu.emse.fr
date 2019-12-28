@@ -99,7 +99,7 @@ export class BdeContributionFormComponent implements OnInit {
   @Output() contribute = new EventEmitter<UserLight>();
   @Output() deleteContribution = new EventEmitter<UserLight>();
 
-  api_url = environment.api_uri;
+  apiUrl = environment.apiUri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group({

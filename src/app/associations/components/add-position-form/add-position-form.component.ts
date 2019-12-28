@@ -31,7 +31,7 @@ export class AddPositionFormComponent implements OnInit {
   @Input() users: UserLight[];
   @Input() allRights: Right[];
   @Output() submitted = new EventEmitter<NewPosition>();
-  api_url = environment.api_uri;
+  apiUrl = environment.apiUri;
   filteredUsers: Observable<UserLight[]>;
   filteredRoles: Observable<Role[]>;
   boolRights: BoolRight[];
@@ -108,12 +108,12 @@ export class AddPositionFormComponent implements OnInit {
 
   submit() {
     if (this.form.valid) {
-      this.association.setValue(environment.api_uri + '/associations/' + this.asso.id);
-      this.user.setValue(this.api_url + '/users/' + this.user.value.id);
+      this.association.setValue(environment.apiUri + '/associations/' + this.asso.id);
+      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
       if (this.newRole.value) {
         this.rights.patchValue(
           this.boolRights
-            .map(v => (v.selected ? environment.api_uri + '/user_rights/' + v.right.id : null))
+            .map(v => (v.selected ? environment.apiUri + '/user_rights/' + v.right.id : null))
             .filter(v => v !== null),
         );
         this.role.setValue({
@@ -122,7 +122,7 @@ export class AddPositionFormComponent implements OnInit {
           rights: this.rights.value,
         });
       } else {
-        this.role.setValue(this.api_url + '/roles/' + this.role.value.id);
+        this.role.setValue(this.apiUrl + '/roles/' + this.role.value.id);
       }
       this.form.removeControl('userText');
       this.form.removeControl('roleText');
@@ -141,7 +141,7 @@ export class AddPositionFormComponent implements OnInit {
       ? 'Ce role éxiste déjà'
       : '';
   }
-  // api_url + '/roles/' + selectRole.id
+  // apiUrl + '/roles/' + selectRole.id
   uniqRequired(): ValidatorFn {
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.form && this.newRole && this.newRole.value) {

@@ -50,7 +50,7 @@ import { environment } from '../../../environments/environment';
           l'inscription sans être connecté
         </p>
       </mat-card>
-      <mat-card *ngIf="loaded && (event.closingDate && event.closingDate < today)">
+      <mat-card *ngIf="loaded && event.closingDate && event.closingDate < today">
         <mat-card-title class="h4">
           Vous ne pouvez plus vous inscrire à l'événement {{ event.name }}
         </mat-card-title>
@@ -163,7 +163,7 @@ export class BookComponent implements OnInit {
     // setTimeout(() => {this.pending = false; }, 2000);
     if (
       newBooking.operation &&
-      newBooking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+      newBooking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
     ) {
       this.userService.updateBalance(newBooking.operation.amount);
     }
@@ -192,7 +192,7 @@ export class BookComponent implements OnInit {
         this.pending = false;
         if (
           newBooking.operation &&
-          newBooking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+          newBooking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
         ) {
           this.userService.updateBalance(-newBooking.operation.amount);
         }

@@ -218,7 +218,7 @@ export class BookingFormComponent implements OnInit {
     if (formInput.required && formInput.type === 'text') {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
+          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
           answer: [formOutput.answer, Validators.required],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -231,7 +231,7 @@ export class BookingFormComponent implements OnInit {
     ) {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
+          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
           answer: [''],
           boolOptions: this.fb.array([], this.optionRequired()),
           options: [[]],
@@ -241,7 +241,7 @@ export class BookingFormComponent implements OnInit {
     } else {
       this.formOutputs.push(
         this.fb.group({
-          '@id': [environment.api_uri + '/form_outputs/' + formOutput.id],
+          '@id': [environment.apiUri + '/form_outputs/' + formOutput.id],
           answer: [formOutput.answer],
           boolOptions: this.fb.array([]),
           options: [[]],
@@ -290,9 +290,9 @@ export class BookingFormComponent implements OnInit {
       if (this.isNew) {
         this.form.removeControl('id');
       }
-      this.event.setValue(environment.api_uri + '/events/' + this.relatedEvent.id);
+      this.event.setValue(environment.apiUri + '/events/' + this.relatedEvent.id);
       if (this.authenticatedUser) {
-        this.user.setValue(environment.api_uri + '/users/' + this.authenticatedUser.id);
+        this.user.setValue(environment.apiUri + '/users/' + this.authenticatedUser.id);
       } else {
         this.form.removeControl('user');
       }
@@ -300,13 +300,13 @@ export class BookingFormComponent implements OnInit {
       for (let i = 0; i < this.formOutputs.controls.length; i++) {
         const type = this.formInput(i).value.type;
         this.formInput(i).setValue(
-          environment.api_uri + '/form_inputs/' + this.formInput(i).value.id,
+          environment.apiUri + '/form_inputs/' + this.formInput(i).value.id,
         );
         this.options(i).patchValue(
           this.boolOptions(i)
             .value.map(v => {
               totalPrice += v.selected ? v.option.price : 0;
-              return v.selected ? environment.api_uri + '/options/' + v.option.id : null;
+              return v.selected ? environment.apiUri + '/options/' + v.option.id : null;
             })
             .filter(v => v !== null),
         );
@@ -330,32 +330,32 @@ export class BookingFormComponent implements OnInit {
       if (this.operation.value) {
         this.operation.setValue({
           ...this.operation.value,
-          ['@id']: environment.api_uri + '/operations/' + this.operation.value.id,
+          ['@id']: environment.apiUri + '/operations/' + this.operation.value.id,
           paymentMeans:
-            environment.api_uri + '/payment_means/' + this.operation.value.paymentMeans.id,
+            environment.apiUri + '/payment_means/' + this.operation.value.paymentMeans.id,
         });
       }
       if (this.bdePayment.value) {
-        this.paymentMeans.setValue(environment.api_uri + '/payment_means/1');
+        this.paymentMeans.setValue(environment.apiUri + '/payment_means/1');
         if (!this.lastPrice || this.lastPrice !== totalPrice) {
           this.operation.setValue({
-            user: environment.api_uri + '/users/' + this.authenticatedUser.id,
+            user: environment.apiUri + '/users/' + this.authenticatedUser.id,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit',
-            paymentMeans: environment.api_uri + '/payment_means/1',
+            paymentMeans: environment.apiUri + '/payment_means/1',
           });
         }
         this.paid.setValue(true);
       } else if (this.cerclePayment.value) {
-        this.paymentMeans.setValue(environment.api_uri + '/payment_means/2');
+        this.paymentMeans.setValue(environment.apiUri + '/payment_means/2');
         if (!this.lastPrice || this.lastPrice !== totalPrice) {
           this.operation.setValue({
-            user: environment.api_uri + '/users/' + this.authenticatedUser.id,
+            user: environment.apiUri + '/users/' + this.authenticatedUser.id,
             amount: -totalPrice,
             reason: this.relatedEvent.name,
             type: 'event_debit',
-            paymentMeans: environment.api_uri + '/payment_means/2',
+            paymentMeans: environment.apiUri + '/payment_means/2',
           });
         }
         this.paid.setValue(true);
@@ -409,8 +409,8 @@ export class BookingFormComponent implements OnInit {
         this.bdePayment &&
         this.bdePayment.value &&
         this.currentUser &&
-        (this.totalPrice() > this.currentUser.balance &&
-          (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.balance))
+        this.totalPrice() > this.currentUser.balance &&
+        (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.balance)
       ) {
         return { bdeAccountToLow: { value: this.totalPrice() } };
       } else if (
@@ -419,8 +419,8 @@ export class BookingFormComponent implements OnInit {
         this.cerclePayment &&
         this.cerclePayment.value &&
         this.currentUser &&
-        (this.totalPrice() > this.currentUser.cercleBalance &&
-          (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.cercleBalance))
+        this.totalPrice() > this.currentUser.cercleBalance &&
+        (!this.lastPrice || this.totalPrice() - this.lastPrice > this.currentUser.cercleBalance)
       ) {
         return { cercleAccountToLow: { value: this.totalPrice() } };
       } else {

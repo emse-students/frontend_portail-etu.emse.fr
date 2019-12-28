@@ -24,7 +24,7 @@ import { JsonLdService } from '../../../core/services/json-ld.service';
 export class AssociationsReviewComponent implements OnInit {
   asso: Association | null = null;
   loaded = false;
-  imgPath = environment.img_url;
+  imgPath = environment.imgUrl;
   addLogo = false;
   addDesc = false;
   changeName = false;
@@ -148,7 +148,7 @@ export class AssociationsReviewComponent implements OnInit {
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
         this.associationService
-          .put({ id: this.asso.id, logo: environment.api_uri + '/img_objects/' + imgDTO.id })
+          .put({ id: this.asso.id, logo: environment.apiUri + '/img_objects/' + imgDTO.id })
           .subscribe(
             (asso: Association) => {
               this.asso = asso;

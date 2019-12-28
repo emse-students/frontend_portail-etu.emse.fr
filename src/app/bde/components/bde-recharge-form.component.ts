@@ -55,7 +55,7 @@ import { PaymentMeans } from '../../core/models/payment-means.model';
           <mat-select placeholder="Moyen de paiement" formControlName="paymentMeans">
             <mat-option
               *ngFor="let paymentMean of paymentMeans"
-              [value]="api_url + '/payment_means/' + paymentMean.id"
+              [value]="apiUrl + '/payment_means/' + paymentMean.id"
             >
               {{ paymentMean.name }}
             </mat-option>
@@ -108,7 +108,7 @@ export class BdeRechargeFormComponent implements OnInit {
     return this._paymentMeans;
   }
   @Output() submitted = new EventEmitter<NewOperation>();
-  api_url = environment.api_uri;
+  apiUrl = environment.apiUri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group({
@@ -152,7 +152,7 @@ export class BdeRechargeFormComponent implements OnInit {
   submit() {
     if (this.form.valid) {
       this.form.removeControl('userText');
-      this.user.setValue(this.api_url + '/users/' + this.user.value.id);
+      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
       this.submitted.emit(this.form.value);
     }
   }

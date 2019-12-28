@@ -18,7 +18,7 @@ import { DisplayedColumns } from '../containers/event-list.component';
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date d'inscription</th>
         <td mat-cell *matCellDef="let element">
           {{ element.createdAt | date: 'EEEE d M' | translateDay }}
-          {{element.createdAt | date: 'H\\'h\\'mm \\'min\\' ss \\'s\\''}}
+          {{ element.createdAt | date: "H'h'mm 'min' ss 's'" }}
         </td>
       </ng-container>
 
@@ -209,7 +209,7 @@ export class RegisteredListComponent implements OnInit {
 
   resolveAnswer(element: BookingRanked, input: FormInput) {
     for (let i = 0; i < element.formOutputs.length; i++) {
-      const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
+      const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
       const id = re.exec(element.formOutputs[i].formInput)['1'];
       if (input && input.id === Number(id)) {
         if (input.type === 'singleOption') {

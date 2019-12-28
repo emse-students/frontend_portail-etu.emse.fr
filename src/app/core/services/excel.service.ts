@@ -11,7 +11,7 @@ export class ExcelService {
   constructor(private http: HttpClient) {}
 
   public generateBookingExcel(eventId: number): Observable<ExcelAnswer> {
-    const url = `${environment.api_url}/excel/generate/${eventId}`;
+    const url = `${environment.apiUrl}/excel/generate/${eventId}`;
     return this.http.get<ExcelAnswer>(url);
   }
 }

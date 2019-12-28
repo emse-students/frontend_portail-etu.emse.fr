@@ -60,13 +60,13 @@ export class AuthService {
   private _pending = false;
 
   static login() {
-    window.location.href = `${environment.cas_login_url}?service=${encodeURIComponent(
+    window.location.href = `${environment.casLoginUrl}?service=${encodeURIComponent(
       window.location.href,
     )}`;
   }
 
   ticket2bearer(ticket, service) {
-    const url = `${environment.api_login_url}?service=${encodeURIComponent(
+    const url = `${environment.apiLoginUrl}?service=${encodeURIComponent(
       service,
     )}&ticket=${encodeURIComponent(ticket)}`;
     return this.http.handle(new HttpRequest('GET', url)).pipe(

@@ -20,7 +20,7 @@ export class SettingsComponent implements OnInit {
     });
   }
 
-  goTo(str_id: string) {
-    this.router.navigate(['/settings', str_id]);
+  goTo(strId: string) {
+    this.router.navigate(['/settings', strId]);
   }
 }

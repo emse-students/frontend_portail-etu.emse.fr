@@ -12,7 +12,7 @@ import { getNextDay } from '../../services/date.utils';
   styleUrls: ['./calendar-day.component.scss'],
 })
 export class CalendarDayComponent implements OnInit {
-  imgPath = environment.img_url;
+  imgPath = environment.imgUrl;
 
   _day: Day;
   today: boolean;

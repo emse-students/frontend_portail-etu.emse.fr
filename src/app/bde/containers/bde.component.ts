@@ -166,8 +166,8 @@ export class BdeComponent implements OnInit {
     this.searchQuery = event;
   }
 
-  goTo(str_id: string) {
-    this.router.navigate(['/bde-settings', str_id]);
+  goTo(strId: string) {
+    this.router.navigate(['/bde-settings', strId]);
   }
 
   createOperation(operation: NewOperation) {

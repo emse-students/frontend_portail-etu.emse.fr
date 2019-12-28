@@ -23,7 +23,7 @@ export class UserService {
   }
 
   public getAllUsers(): Observable<UserLight[]> {
-    const url = `${environment.api_url}/users`;
+    const url = `${environment.apiUrl}/users`;
     return this.http.get<UserLight[]>(url).pipe(
       map(users => JsonLdService.parseCollection<UserLight>(users).collection),
       map(users =>
@@ -35,13 +35,13 @@ export class UserService {
   }
 
   public put(user: UserLight): Observable<UserLight> {
-    const url = `${environment.api_url}/users/${user.id}`;
+    const url = `${environment.apiUrl}/users/${user.id}`;
     return this.http.put<UserLight>(url, user);
   }
 
   public getBalance() {
     if (this._user) {
-      const url = `${environment.api_url}/users/${this._user.id}?properties[]=balance`;
+      const url = `${environment.apiUrl}/users/${this._user.id}?properties[]=balance`;
       return this.http.get<UserDTO>(url).subscribe((user: UserDTO) => {
         this._user.balance = user.balance;
         this.getCercleInfo();
@@ -51,9 +51,7 @@ export class UserService {
 
   public getInfo() {
     if (this._user) {
-      const url = `${environment.api_url}/users/${
-        this._user.id
-      }/info?properties[]=balance&properties[]=eventsBooked`;
+      const url = `${environment.apiUrl}/users/${this._user.id}/info?properties[]=balance&properties[]=eventsBooked`;
       return this.http.get<UserDTO>(url).subscribe((user: UserDTO) => {
         this._user.balance = user.balance;
         this._user.eventsBooked = user.eventsBooked;
@@ -64,7 +62,7 @@ export class UserService {
 
   public getCercleInfo() {
     if (this._user) {
-      const url = `${environment.api_url}/get-cercle-info`;
+      const url = `${environment.apiUrl}/get-cercle-info`;
       return this.http
         .post<CercleUserDTO>(url, { login: this._user.login })
         .subscribe((user: CercleUserDTO) => {
@@ -76,13 +74,13 @@ export class UserService {
   }
 
   public getMultipleCercleInfos(logins: string[]): Observable<CercleUserDTO[]> {
-    const url = `${environment.api_url}/get-cercle-infos`;
+    const url = `${environment.apiUrl}/get-cercle-infos`;
     return this.http.post<CercleUserDTO[]>(url, { logins });
   }
 
   public getBookings(): Observable<Booking[]> {
     if (this._user) {
-      const url = `${environment.api_url}/users/${this._user.id}?properties[]=bookings`;
+      const url = `${environment.apiUrl}/users/${this._user.id}?properties[]=bookings`;
       return this.http.get<UserBookings>(url).pipe(
         map(user => user.bookings),
         map(bookings =>
@@ -150,7 +148,7 @@ export class UserService {
   }
 
   public getUserOperations(userId: number) {
-    const url = `${environment.api_url}/users/${userId}/info?properties[]=balance&
+    const url = `${environment.apiUrl}/users/${userId}/info?properties[]=balance&
     properties[]=operations&properties[]=lastname&properties[]=firstname&properties[]=promo&properties[]=type`;
     return this.http.get<UserOperation>(url).pipe(
       map((user: UserOperation) => {

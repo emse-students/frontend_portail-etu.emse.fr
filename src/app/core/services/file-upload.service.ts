@@ -14,7 +14,7 @@ export class FileUploadService {
     const formData: FormData = new FormData();
     formData.append('file', file.file);
     formData.append('filename', file.filename);
-    const url = `${environment.api_url}/img_objects`;
+    const url = `${environment.apiUrl}/img_objects`;
     return this.http.post<FileDTO>(url, formData);
   }
 }

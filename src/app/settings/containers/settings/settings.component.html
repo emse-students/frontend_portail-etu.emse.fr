@@ -2,7 +2,7 @@
   <mat-tab-group [dynamicHeight]="true" [selectedIndex]="selectedSetting">
     <mat-tab *ngFor="let setting of settings">
       <ng-template mat-tab-label>
-        <span class="mat-tab-label" (click)="goTo(setting.str_id)">{{ setting.name }}</span>
+        <span class="mat-tab-label" (click)="goTo(setting.strId)">{{ setting.name }}</span>
       </ng-template>
 
       <mat-card>

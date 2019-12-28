@@ -37,7 +37,7 @@ export class EventFormComponent implements OnInit {
   addImg = false;
   imgLoading = false;
   imgFilename = null;
-  imgPath = environment.img_url;
+  imgPath = environment.imgUrl;
 
   @Output() submitted = new EventEmitter<Event>();
   @Output() deleted = new EventEmitter<Event>();
@@ -149,7 +149,7 @@ export class EventFormComponent implements OnInit {
           this.boolPaymentMeans.controls
             .map(v =>
               v.get('selected').value
-                ? environment.api_uri + '/payment_means/' + v.get('paymentMeans').value.id
+                ? environment.apiUri + '/payment_means/' + v.get('paymentMeans').value.id
                 : null,
             )
             .filter(v => v !== null),
@@ -170,7 +170,7 @@ export class EventFormComponent implements OnInit {
           setHourToDate(this.closingDate.value, this.hourClosingDate.value),
         );
       }
-      this.association.setValue(environment.api_uri + '/associations/' + this.asso.id);
+      this.association.setValue(environment.apiUri + '/associations/' + this.asso.id);
       this.form.removeControl('payable');
       this.form.removeControl('shotgun');
       this.form.removeControl('hourDate');
@@ -306,7 +306,7 @@ export class EventFormComponent implements OnInit {
     if (this._event) {
       this.form.patchValue(this._event);
       if (this._event.img) {
-        this.img.setValue(environment.api_uri + '/img_objects/' + this._event.img.id);
+        this.img.setValue(environment.apiUri + '/img_objects/' + this._event.img.id);
         this.imgFilename = this._event.img.filename;
       }
       if (this.price.value) {
@@ -359,7 +359,7 @@ export class EventFormComponent implements OnInit {
       for (let i = 0; i < this._event.formInputs.length; i++) {
         this.formInputs.push(
           this.fb.group({
-            '@id': [environment.api_uri + '/form_inputs/' + this._event.formInputs[i].id],
+            '@id': [environment.apiUri + '/form_inputs/' + this._event.formInputs[i].id],
             title: [this._event.formInputs[i].title, Validators.required],
             required: [this._event.formInputs[i].required],
             type: [this._event.formInputs[i].type],
@@ -369,7 +369,7 @@ export class EventFormComponent implements OnInit {
         for (let j = 0; j < this._event.formInputs[i].options.length; j++) {
           this.options(i).push(
             this.fb.group({
-              '@id': [environment.api_uri + '/options/' + this._event.formInputs[i].options[j].id],
+              '@id': [environment.apiUri + '/options/' + this._event.formInputs[i].options[j].id],
               value: [this._event.formInputs[i].options[j].value, Validators.required],
               price: [this._event.formInputs[i].options[j].price],
             }),
@@ -398,7 +398,7 @@ export class EventFormComponent implements OnInit {
     this.fileUploadService.uploadImg(img).subscribe(
       (imgDTO: FileDTO) => {
         // console.log(imgDTO);
-        this.img.setValue(environment.api_uri + '/img_objects/' + imgDTO.id);
+        this.img.setValue(environment.apiUri + '/img_objects/' + imgDTO.id);
         this.imgFilename = imgDTO.filename;
         this.imgLoading = false;
       },

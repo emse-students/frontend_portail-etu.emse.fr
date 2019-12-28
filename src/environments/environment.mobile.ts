@@ -3,22 +3,22 @@
 // The list of file replacements can be found in `angular.json`.
 
 // export const environment = {
-//   cas_login_url: 'https://cas.emse.fr',
-//   api_login_url: 'http://portail-test-api.emse.fr/index.php/login',
-//   api_url: 'http://portail-test-api.emse.fr/index.php/api',
-//   api_uri: 'http://portail-test-api.emse.fr/index.php/api',
-//   api_suffix: '/index.php/api',
-//   img_url: 'http://portail-test-api.emse.fr/img',
+//   casLoginUrl: 'https://cas.emse.fr',
+//   apiLoginUrl: 'http://portail-test-api.emse.fr/index.php/login',
+//   apiUrl: 'http://portail-test-api.emse.fr/index.php/api',
+//   apiUri: 'http://portail-test-api.emse.fr/index.php/api',
+//   apiSuffix: '/index.php/api',
+//   imgUrl: 'http://portail-test-api.emse.fr/img',
 //   production: false
 // };
 export const environment = {
-  cas_login_url: 'https://cas.emse.fr',
-  api_login_url: 'http://192.168.0.11/api/login',
-  api_url: 'http://192.168.0.11/api/api',
-  api_uri: 'api',
-  api_suffix: '/api/api',
-  img_url: 'http://192.168.0.11/api/img',
-  excel_url: 'http://192.168.0.11/api/excel',
+  casLoginUrl: 'https://cas.emse.fr',
+  apiLoginUrl: 'http://192.168.0.11/api/login',
+  apiUrl: 'http://192.168.0.11/api/api',
+  apiUri: 'api',
+  apiSuffix: '/api/api',
+  imgUrl: 'http://192.168.0.11/api/img',
+  excelUrl: 'http://192.168.0.11/api/excel',
   home: 'http://192.168.0.11/',
   production: false,
 };

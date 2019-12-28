@@ -13,34 +13,34 @@ export class RoleService {
   constructor(private http: HttpClient, private jsonLdService: JsonLdService) {}
 
   public create(role: NewRole): Observable<Role> {
-    const url = `${environment.api_url}/roles`;
+    const url = `${environment.apiUrl}/roles`;
     return this.http.post<Role>(url, role);
   }
 
   public gets(): Observable<Role[]> {
-    const url = `${environment.api_url}/roles`;
+    const url = `${environment.apiUrl}/roles`;
     return this.http
       .get<Role[]>(url)
       .pipe(map(roles => JsonLdService.parseCollection<Role>(roles).collection));
   }
 
   public getRights(): Observable<Right[]> {
-    const url = `${environment.api_url}/user_rights`;
+    const url = `${environment.apiUrl}/user_rights`;
     return this.http.get<Right[]>(url);
   }
 
   public get(roleId: number): Observable<Role> {
-    const url = `${environment.api_url}/roles/${roleId}`;
+    const url = `${environment.apiUrl}/roles/${roleId}`;
     return this.http.get<Role>(url);
   }
 
   public delete(id: number): Observable<any> {
-    const url = `${environment.api_url}/roles/${id}`;
+    const url = `${environment.apiUrl}/roles/${id}`;
     return this.http.delete(url);
   }
 
   public put(role: Role): Observable<Role> {
-    const url = `${environment.api_url}/roles/${role.id}`;
+    const url = `${environment.apiUrl}/roles/${role.id}`;
     return this.http.put<Role>(url, role);
   }
 }

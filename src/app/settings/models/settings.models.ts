@@ -5,7 +5,7 @@ import { SettingsListsComponent } from '../containers/settings-lists.component';
 
 export interface Setting {
   id: number;
-  str_id: string;
+  strId: string;
   name: string;
   component: any;
 }
@@ -13,25 +13,25 @@ export interface Setting {
 export const SETTINGS: Setting[] = [
   {
     id: 0,
-    str_id: 'associations',
+    strId: 'associations',
     name: 'Associations',
     component: SettingsAssociationsComponent,
   },
   {
     id: 1,
-    str_id: 'lists',
+    strId: 'lists',
     name: 'Listes',
     component: SettingsListsComponent,
   },
   {
     id: 2,
-    str_id: 'roles',
+    strId: 'roles',
     name: 'Roles',
     component: SettingsRolesComponent,
   },
   {
     id: 3,
-    str_id: 'means-of-payment',
+    strId: 'means-of-payment',
     name: 'Moyens de payement',
     component: SettingsMeansPaymentComponent,
   },
@@ -39,7 +39,7 @@ export const SETTINGS: Setting[] = [
 
 export function strIdToTabId(strId: string) {
   for (let _i = 0; _i < SETTINGS.length; _i++) {
-    if (SETTINGS[_i].str_id === strId) {
+    if (SETTINGS[_i].strId === strId) {
       return SETTINGS[_i].id;
     }
   }

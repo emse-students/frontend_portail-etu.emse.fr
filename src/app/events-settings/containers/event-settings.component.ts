@@ -232,9 +232,9 @@ export class EventSettingsComponent implements OnInit {
     }
   }
 
-  goTo(str_id: string) {
-    this.router.navigate(['/events-settings', this.event.id, str_id]);
-    if (str_id === 'summary') {
+  goTo(strId: string) {
+    this.router.navigate(['/events-settings', this.event.id, strId]);
+    if (strId === 'summary') {
       this.summary.compute();
     }
   }

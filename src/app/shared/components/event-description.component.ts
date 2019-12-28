@@ -12,13 +12,11 @@ import { environment } from '../../../environments/environment';
       </a>
     </p>
 
-    <p>
-      Le {{ event.date | date: 'EEEE d M' | translateDay }} à {{event.date | date: 'H\\'h\\'mm'}}
-    </p>
+    <p>Le {{ event.date | date: 'EEEE d M' | translateDay }} à {{ event.date | date: "H'h'mm" }}</p>
 
     <h4 *ngIf="event.closingDate">
       Attention deadline le {{ event.closingDate | date: 'EEEE d M' | translateDay }} à
-      {{event.closingDate | date: 'H\\'h\\'mm'}}
+      {{ event.closingDate | date: "H'h'mm" }}
     </h4>
 
     <img
@@ -47,7 +45,7 @@ import { environment } from '../../../environments/environment';
 
     <p *ngIf="event.shotgunListLength">
       Début du shotgun le {{ event.shotgunStartingDate | date: 'EEEE d M' | translateDay }} à
-      {{event.shotgunStartingDate | date: 'H\\'h\\'mm'}}
+      {{ event.shotgunStartingDate | date: "H'h'mm" }}
     </p>
 
     <p *ngIf="event.shotgunListLength">Nombre de places : {{ event.shotgunListLength }}</p>
@@ -75,7 +73,7 @@ import { environment } from '../../../environments/environment';
 })
 export class EventDescriptionComponent implements OnInit {
   @Input() event: Event;
-  imgPath = environment.img_url;
+  imgPath = environment.imgUrl;
   constructor() {}
 
   ngOnInit() {}

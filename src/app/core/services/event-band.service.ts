@@ -25,19 +25,19 @@ export class EventBandService {
   }
 
   public create(eventBand: EventBand): Observable<EventBand> {
-    const url = `${environment.api_url}/event_bands`;
+    const url = `${environment.apiUrl}/event_bands`;
     return this.http.post<EventBand>(url, eventBand).pipe(map(EventBandService.parseDates));
   }
 
   public get(eventBandId: number): Observable<EventBand> {
-    const url = `${environment.api_url}/event_bands/${eventBandId}`;
+    const url = `${environment.apiUrl}/event_bands/${eventBandId}`;
     return this.http.get<EventBand>(url).pipe(map(EventBandService.parseDates));
   }
 
   public getCalendarEventBands(date: Date = null): Observable<EventBand[]> {
     const startDate = getLastMonday(date);
     const endDate = getCalendarEndDate(date);
-    const url = `${environment.api_url}/event_bands?startDate=${startDate.getTime() /
+    const url = `${environment.apiUrl}/event_bands?startDate=${startDate.getTime() /
       1000}&endDate=${endDate.getTime() / 1000}`;
     return this.http
       .get<Event[]>(url)
@@ -51,12 +51,12 @@ export class EventBandService {
   }
 
   public delete(id: number): Observable<any> {
-    const url = `${environment.api_url}/event_bands/${id}`;
+    const url = `${environment.apiUrl}/event_bands/${id}`;
     return this.http.delete(url);
   }
 
   public put(eventBand: EventBand): Observable<EventBand> {
-    const url = `${environment.api_url}/event_bands/${eventBand.id}`;
+    const url = `${environment.apiUrl}/event_bands/${eventBand.id}`;
     return this.http.put<EventBand>(url, eventBand).pipe(map(EventBandService.parseDates));
   }
 }

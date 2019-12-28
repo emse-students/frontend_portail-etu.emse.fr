@@ -11,12 +11,12 @@ export class PositionService {
   constructor(private http: HttpClient) {}
 
   public create(position: NewPosition): Observable<Position> {
-    const url = `${environment.api_url}/positions`;
+    const url = `${environment.apiUrl}/positions`;
     return this.http.post<Position>(url, position);
   }
 
   public delete(positionId: number): Observable<Position> {
-    const url = `${environment.api_url}/positions/${positionId}`;
+    const url = `${environment.apiUrl}/positions/${positionId}`;
     return this.http.delete<Position>(url);
   }
 }

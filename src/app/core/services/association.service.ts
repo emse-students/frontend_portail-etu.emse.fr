@@ -38,7 +38,7 @@ export class AssociationService {
   }
 
   public create(asso: NewAssociation): Observable<AssociationLight> {
-    const url = `${environment.api_url}/associations`;
+    const url = `${environment.apiUrl}/associations`;
     return this.http.post<AssociationLight>(url, asso).pipe(
       map(
         newAsso => {
@@ -73,7 +73,7 @@ export class AssociationService {
       });
     } else if (!this.gettingLights) {
       this.gettingLights = true;
-      const url = `${environment.api_url}/associations`;
+      const url = `${environment.apiUrl}/associations`;
       this.http.get<AssociationLight[]>(url).subscribe((assos: AssociationLight[]) => {
         const allAssos = JsonLdService.parseCollection<AssociationLight>(assos).collection;
         // console.log(allAssos);
@@ -97,7 +97,7 @@ export class AssociationService {
   }
 
   public get(assoId: number): Observable<Association> {
-    const url = `${environment.api_url}/associations/${assoId}`;
+    const url = `${environment.apiUrl}/associations/${assoId}`;
     return this.http.get<Association>(url).pipe(
       map((association: Association) => {
         association.events.map(EventService.parseDates);
@@ -107,7 +107,7 @@ export class AssociationService {
   }
 
   public delete(id: number): Observable<Object> {
-    const url = `${environment.api_url}/associations/${id}`;
+    const url = `${environment.apiUrl}/associations/${id}`;
     return this.http.delete(url).pipe(
       map(
         a => {
@@ -127,7 +127,7 @@ export class AssociationService {
   }
 
   public put(asso: AssociationDTO): Observable<Association> {
-    const url = `${environment.api_url}/associations/${asso.id}`;
+    const url = `${environment.apiUrl}/associations/${asso.id}`;
     const $asso = new Subject<Association>();
     return this.http.put<Association>(url, asso).pipe(
       map(
@@ -185,7 +185,7 @@ export class AssociationService {
       }
       return of(-1);
     } else {
-      const url = `${environment.api_url}/associations`;
+      const url = `${environment.apiUrl}/associations`;
       return this.http.get<AssociationLight[]>(url).pipe(
         map((assos: AssociationLight[]) => {
           const allAssos = JsonLdService.parseCollection<AssociationLight>(assos).collection;

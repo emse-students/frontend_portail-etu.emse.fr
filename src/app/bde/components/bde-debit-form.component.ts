@@ -95,7 +95,7 @@ export class BdeDebitFormComponent implements OnInit {
     return this._users;
   }
   @Output() submitted = new EventEmitter<NewOperation>();
-  api_url = environment.api_uri;
+  apiUrl = environment.apiUri;
   filteredOptions: Observable<UserLight[]>;
 
   form: FormGroup = this.fb.group(
@@ -104,7 +104,7 @@ export class BdeDebitFormComponent implements OnInit {
       type: ['debit'],
       user: ['', Validators.required],
       reason: ['', Validators.required],
-      paymentMeans: [this.api_url + '/payment_means/1'],
+      paymentMeans: [this.apiUrl + '/payment_means/1'],
       amount: [0],
     },
     { validators: this.positiveAccount() },
@@ -143,7 +143,7 @@ export class BdeDebitFormComponent implements OnInit {
     if (this.form.valid) {
       this.form.removeControl('userText');
       this.amount.setValue(-this.amount.value);
-      this.user.setValue(this.api_url + '/users/' + this.user.value.id);
+      this.user.setValue(this.apiUrl + '/users/' + this.user.value.id);
       this.submitted.emit(this.form.value);
     }
   }

@@ -47,7 +47,7 @@ import { UserService } from '../services/user.service';
             *ngIf="
               !allReadyBooked &&
               !(event.date < today) &&
-              (event.closingDate && event.closingDate < today)
+              event.closingDate && event.closingDate < today
             "
           >
             Deadline passée
@@ -98,7 +98,7 @@ export class EventSidenavComponent implements OnInit {
   @Input() show: boolean;
   today = new Date();
   event: Event;
-  imgPath = environment.img_url;
+  imgPath = environment.imgUrl;
   allReadyBooked = false;
   isRightful = false;
   @Output() close = new EventEmitter<boolean>();

@@ -44,14 +44,14 @@ export class EventService {
   }
 
   public create(event: Event): Observable<Event> {
-    const url = `${environment.api_url}/events`;
+    const url = `${environment.apiUrl}/events`;
     return this.http.post<Event>(url, event).pipe(map(EventService.parseDates));
   }
 
   public getCalendarEvents(date: Date = null): Observable<Event[]> {
     const startDate = getLastMonday(date);
     const endDate = getCalendarEndDate(date);
-    const url = `${environment.api_url}/events?startDate=${startDate.getTime() /
+    const url = `${environment.apiUrl}/events?startDate=${startDate.getTime() /
       1000}&endDate=${endDate.getTime() / 1000}&status=validated|inactive`;
     return this.http
       .get<Event[]>(url)
@@ -63,29 +63,29 @@ export class EventService {
   }
 
   public get(eventId: number): Observable<Event> {
-    const url = `${environment.api_url}/events/${eventId}`;
+    const url = `${environment.apiUrl}/events/${eventId}`;
     return this.http.get<Event>(url).pipe(map(EventService.parseDates));
   }
 
   public delete(id: number): Observable<any> {
-    const url = `${environment.api_url}/events/${id}`;
+    const url = `${environment.apiUrl}/events/${id}`;
     return this.http.delete(url);
   }
 
   public put(event: Event): Observable<Event> {
-    const url = `${environment.api_url}/events/${event.id}`;
+    const url = `${environment.apiUrl}/events/${event.id}`;
     return this.http.put<Event>(url, event).pipe(map(EventService.parseDates));
   }
 
   public book(booking: NewBooking): Observable<EventBooking> {
-    const url = `${environment.api_url}/bookings`;
+    const url = `${environment.apiUrl}/bookings`;
     return this.http
       .post<EventBooking>(url, booking)
       .pipe(map(b => EventService.parseBookingDates(b)));
   }
 
   public getBooking(bookingId: number): Observable<Booking> {
-    const url = `${environment.api_url}/bookings/${bookingId}`;
+    const url = `${environment.apiUrl}/bookings/${bookingId}`;
     return this.http.get<Booking>(url).pipe(
       map((booking: Booking) => {
         booking.event = EventService.parseDates(booking.event);
@@ -95,17 +95,17 @@ export class EventService {
   }
 
   public putBook(putBooking: PutBooking | PutBookingLight): Observable<Booking> {
-    const url = `${environment.api_url}/bookings/${putBooking.id}`;
+    const url = `${environment.apiUrl}/bookings/${putBooking.id}`;
     return this.http.put<Booking>(url, putBooking);
   }
 
   public deleteBooking(bookingiId: number): Observable<Booking> {
-    const url = `${environment.api_url}/bookings/${bookingiId}`;
+    const url = `${environment.apiUrl}/bookings/${bookingiId}`;
     return this.http.delete<Booking>(url);
   }
 
   public getBookings(eventId: number): Observable<Event> {
-    const url = `${environment.api_url}/events/${eventId}/bookings`;
+    const url = `${environment.apiUrl}/events/${eventId}/bookings`;
     return this.http.get<Event>(url).pipe(
       map(event => {
         event.bookings = event.bookings.map(EventService.parseBookingDates);

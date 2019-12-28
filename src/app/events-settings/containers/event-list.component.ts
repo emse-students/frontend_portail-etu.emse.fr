@@ -79,7 +79,7 @@ export class EventListComponent implements OnInit {
   }
 
   static resolveFormInput(formInputId: string): number {
-    const re = new RegExp(environment.api_suffix + '/form_inputs/(.*)');
+    const re = new RegExp(environment.apiSuffix + '/form_inputs/(.*)');
     const id = re.exec(formInputId)['1'];
     return Number(id);
   }

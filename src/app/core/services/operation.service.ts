@@ -18,7 +18,7 @@ export class OperationService {
   ) {}
 
   public create(operation: NewOperation): Observable<Operation> {
-    const url = `${environment.api_url}/operations`;
+    const url = `${environment.apiUrl}/operations`;
     return this.http.post<Operation>(url, operation).pipe(
       tap(() => {
         this.userService.updateBalance(operation.amount);
@@ -27,19 +27,19 @@ export class OperationService {
   }
 
   public gets(): Observable<Operation[]> {
-    const url = `${environment.api_url}/operations`;
+    const url = `${environment.apiUrl}/operations`;
     return this.http
       .get<Operation[]>(url)
       .pipe(map(operations => JsonLdService.parseCollection<Operation>(operations).collection));
   }
 
   public get(operationId: number): Observable<Operation> {
-    const url = `${environment.api_url}/operations/${operationId}`;
+    const url = `${environment.apiUrl}/operations/${operationId}`;
     return this.http.get<Operation>(url);
   }
 
   public delete(operation: Operation): Observable<any> {
-    const url = `${environment.api_url}/operations/${operation.id}`;
+    const url = `${environment.apiUrl}/operations/${operation.id}`;
     return this.http.delete(url).pipe(
       tap(() => {
         this.userService.updateBalance(-operation.amount);

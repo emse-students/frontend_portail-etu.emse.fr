@@ -164,7 +164,7 @@ export class BookingComponent implements OnInit {
       () => {
         if (
           booking.operation &&
-          booking.operation.paymentMeans === environment.api_uri + '/payment_means/1'
+          booking.operation.paymentMeans === environment.apiUri + '/payment_means/1'
         ) {
           if (this.booking.operation) {
             this.userService.updateBalance(

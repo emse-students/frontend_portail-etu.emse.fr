@@ -13,12 +13,12 @@ export class PaymentMeansService {
   constructor(private http: HttpClient, private jsonLdService: JsonLdService) {}
 
   public create(paymentMeans: NewPaymentMeans): Observable<PaymentMeans> {
-    const url = `${environment.api_url}/payment_means`;
+    const url = `${environment.apiUrl}/payment_means`;
     return this.http.post<PaymentMeans>(url, paymentMeans);
   }
 
   public gets(): Observable<PaymentMeans[]> {
-    const url = `${environment.api_url}/payment_means`;
+    const url = `${environment.apiUrl}/payment_means`;
     return this.http
       .get<PaymentMeans[]>(url)
       .pipe(
@@ -27,17 +27,17 @@ export class PaymentMeansService {
   }
 
   public get(paymentMeansId: number): Observable<PaymentMeans> {
-    const url = `${environment.api_url}/payment_means/${paymentMeansId}`;
+    const url = `${environment.apiUrl}/payment_means/${paymentMeansId}`;
     return this.http.get<PaymentMeans>(url);
   }
 
   public delete(id: number): Observable<any> {
-    const url = `${environment.api_url}/payment_means/${id}`;
+    const url = `${environment.apiUrl}/payment_means/${id}`;
     return this.http.delete(url);
   }
 
   public put(paymentMeans: PaymentMeans): Observable<PaymentMeans> {
-    const url = `${environment.api_url}/payment_means/${paymentMeans.id}`;
+    const url = `${environment.apiUrl}/payment_means/${paymentMeans.id}`;
     return this.http.put<PaymentMeans>(url, paymentMeans);
   }
 }

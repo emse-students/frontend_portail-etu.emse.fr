@@ -207,7 +207,7 @@ export class EventFormComponent implements OnInit {
         boolPaymentMeans: this.fb.array([]),
         isBookable: [false],
       },
-      { validators: [this.shotgunRequired(), this.collectLinkRequired()] },
+      { validators: [this.shotgunRequired(), this.collectLinkRequired(), this.priceRequired()] },
     );
   }
 
@@ -263,6 +263,9 @@ export class EventFormComponent implements OnInit {
     if (formControl.hasError('noCollectLink')) {
       return 'Indiquez un lien de collect Lydia';
     }
+    if (formControl.hasError('noPrice')) {
+      return 'Un prix est requis';
+    }
     return '';
   }
 
@@ -295,6 +298,18 @@ export class EventFormComponent implements OnInit {
           ) {
             return { noCollectLink: { value: this.collectLink.value } };
           }
+        }
+        return null;
+      }
+      return null;
+    };
+  }
+
+  priceRequired(): ValidatorFn {
+    return (): { [key: string]: { value: any } } | null => {
+      if (this.form && this.payable && this.payable.value) {
+        if (!this.price.value) {
+          return { noPrice: { value: this.price.value } };
         }
         return null;
       }

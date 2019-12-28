@@ -217,7 +217,7 @@ export class EventSettingsComponent implements OnInit {
   }
 
   strIdToTabId(strId: string): number {
-    if (this.event && this.event.isBookable) {
+    if (this.event && !this.event.isBookable) {
       return 0;
     }
     switch (strId) {
@@ -240,6 +240,7 @@ export class EventSettingsComponent implements OnInit {
 
   goTo(strId: string): void {
     this.router.navigate(['/events-settings', this.event.id, strId]);
+    this.selectedEventSetting = this.strIdToTabId(strId);
     if (strId === 'summary') {
       this.summary.compute();
     } else if (strId === 'list') {

@@ -7,7 +7,8 @@
     "build": "ng build",
     "build:prod": "ng build --prod",
     "lint": "ng lint",
-    "e2e": "ng e2e"
+    "prettier": "prettier -c 'src/**/*.{ts,html,json}'",
+    "prettier:fix": "prettier --write 'assets/**/*.{ts,html,json}'"
   },
   "private": true,
   "dependencies": {

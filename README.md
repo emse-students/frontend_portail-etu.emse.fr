@@ -32,6 +32,19 @@ or
 ``` bash    
 $ yarn build
 ```
+### 5. Code quality
+Tslint:
+``` bash    
+$ yarn lint
+```
+Prettier:
+``` bash    
+$ yarn prettier
+```
+Prettier auto fix:
+``` bash    
+$ yarn prettier:fix
+```
 
 Angular information
 ------------

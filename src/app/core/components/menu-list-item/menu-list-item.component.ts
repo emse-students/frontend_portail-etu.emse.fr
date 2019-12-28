@@ -43,6 +43,7 @@ export class MenuListItemComponent implements OnInit {
     if (!item.children || !item.children.length) {
       const m = item.route.match(/^http(.*)/);
       if (m) {
+        // eslint-disable-next-line no-undef
         window.location.href = item.route;
       } else {
         this.router.navigate([item.route]);

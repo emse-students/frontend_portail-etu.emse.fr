@@ -34,6 +34,7 @@ export class SettingsAssoListComponent implements OnInit {
   displayedColumns: string[] = ['name', 'put'];
 
   delete(asso: AssociationLight) {
+    // eslint-disable-next-line no-restricted-globals, no-undef, no-useless-concat
     if (confirm(`Vous vous apprêtez à supprimer l'asso ${asso.name}.\n` + `Continuer ?`)) {
       this.deleted.emit(asso.id);
     }
@@ -43,5 +44,6 @@ export class SettingsAssoListComponent implements OnInit {
     this.selected.emit(id);
   }
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 }

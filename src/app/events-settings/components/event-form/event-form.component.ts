@@ -251,13 +251,17 @@ export class EventFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | FormGroup | AbstractControl) {
+    // eslint-disable-next-line no-nested-ternary
     return formControl.hasError('required')
       ? 'Ce champs ne doit pas être vide'
-      : formControl.hasError('noShotgunDate')
+      : // eslint-disable-next-line no-nested-ternary
+      formControl.hasError('noShotgunDate')
       ? 'Indiquez une date de début de shotgun'
-      : formControl.hasError('noShotgunList')
+      : // eslint-disable-next-line no-nested-ternary
+      formControl.hasError('noShotgunList')
       ? 'Le nombre de place au shotgun doit être supérieur à 0'
-      : formControl.hasError('noShotgunListInt')
+      : // eslint-disable-next-line no-nested-ternary
+      formControl.hasError('noShotgunListInt')
       ? 'Le nombre de place au shotgun doit être un entier'
       : formControl.hasError('noCollectLink')
       ? 'Indiquez un lien de collect Lydia'
@@ -265,6 +269,7 @@ export class EventFormComponent implements OnInit {
   }
 
   shotgunRequired(): ValidatorFn {
+    // eslint-disable-next-line no-unused-vars
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.form && this.shotgun && this.shotgun.value) {
         if (!this.shotgunStartingDate.value) {
@@ -283,6 +288,7 @@ export class EventFormComponent implements OnInit {
   }
 
   collectLinkRequired(): ValidatorFn {
+    // eslint-disable-next-line no-unused-vars
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (this.form && this.boolPaymentMeans && this.collectLink) {
         for (let i = 0; i < this.boolPaymentMeans.controls.length; i++) {
@@ -314,28 +320,41 @@ export class EventFormComponent implements OnInit {
         this.shotgun.setValue(true);
       }
       this.hourDate.setValue(
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         ((<Date>this.date.value).getHours() > 9 ? '' : '0') +
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           (<Date>this.date.value).getHours() +
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           ((<Date>this.date.value).getMinutes() > 9 ? ':' : ':0') +
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           (<Date>this.date.value).getMinutes(),
       );
       if (this.closingDate.value) {
         this.hourClosingDate.setValue(
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           ((<Date>this.closingDate.value).getHours() > 9 ? '' : '0') +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             (<Date>this.closingDate.value).getHours() +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             ((<Date>this.closingDate.value).getMinutes() > 9 ? ':' : ':0') +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             (<Date>this.closingDate.value).getMinutes(),
         );
       }
       if (this.shotgunStartingDate.value) {
         this.hourShotgunStartingDate.setValue(
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           ((<Date>this.shotgunStartingDate.value).getHours() > 9 ? '' : '0') +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             (<Date>this.shotgunStartingDate.value).getHours() +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             ((<Date>this.shotgunStartingDate.value).getMinutes() > 9 ? ':' : ':0') +
+            // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
             (<Date>this.shotgunStartingDate.value).getMinutes(),
         );
       }
       if (this._event.paymentMeans) {
+        // eslint-disable-next-line array-callback-return
         this.allPaymentMeans.map(c => {
           this.boolPaymentMeans.push(
             this.fb.group({
@@ -345,6 +364,7 @@ export class EventFormComponent implements OnInit {
           );
         });
       } else {
+        // eslint-disable-next-line array-callback-return
         this.allPaymentMeans.map(c => {
           this.boolPaymentMeans.push(
             this.fb.group({
@@ -375,6 +395,7 @@ export class EventFormComponent implements OnInit {
         }
       }
     } else {
+      // eslint-disable-next-line array-callback-return
       this.allPaymentMeans.map(c => {
         this.boolPaymentMeans.push(
           this.fb.group({

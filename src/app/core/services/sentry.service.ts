@@ -8,6 +8,7 @@ Sentry.init({
 
 @Injectable()
 export class SentryErrorHandler implements ErrorHandler {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
   handleError(error) {
     if (environment.production) {

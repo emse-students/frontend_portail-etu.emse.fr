@@ -22,6 +22,7 @@ export class EventExcelComponent implements OnInit {
   loading = false;
   constructor(private excelService: ExcelService) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   generate() {
@@ -29,6 +30,7 @@ export class EventExcelComponent implements OnInit {
     this.excelService.generateBookingExcel(this.event.id).subscribe(
       ans => {
         this.loading = false;
+        // eslint-disable-next-line no-undef
         window.open(`${environment.excelUrl}/${ans.name}`);
       },
       () => {

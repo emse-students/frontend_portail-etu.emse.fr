@@ -85,5 +85,6 @@ export class BdeAccountsListComponent implements OnInit {
 
   displayedColumns: string[] = ['firstname', 'lastname', 'type', 'promo', 'balance', 'history'];
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 }

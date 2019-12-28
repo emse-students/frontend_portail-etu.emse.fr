@@ -89,6 +89,7 @@ export class BdeContributionFormComponent implements OnInit {
   _users: UserLight[];
   @Input()
   set users(users) {
+    // eslint-disable-next-line no-nested-ternary
     this._users = users.sort((a, b) => (a.contributeBDE ? 1 : b.contributeBDE ? -1 : 0));
   }
   get users() {

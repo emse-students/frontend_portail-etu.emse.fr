@@ -1,0 +1,271 @@
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/components/add-position-form/add-position-form.component.ts 1 errors
+line 138: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/components/events-list/events-list.component.ts 2 errors
+line 13: @typescript-eslint/no-empty-function
+line 16: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/components/positions-list.component.ts 2 errors
+line 162: @typescript-eslint/no-empty-function
+line 165: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/components/text-area-form/text-area-form.component.ts 1 errors
+line 32: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/components/title-form.component.ts 1 errors
+line 61: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/associations/containers/associations-review/associations-review.component.ts 6 errors
+line 157: no-unused-vars
+line 163: no-unused-vars
+line 178: no-unused-vars
+line 193: no-unused-vars
+line 227: no-unused-vars
+line 239: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/components/bde-accounts-list.component.ts 1 errors
+line 88: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/components/bde-contribution-form.component.ts 1 errors
+line 92: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/components/bde-debit-form.component.ts 2 errors
+line 152: no-nested-ternary
+line 161: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/components/bde-operation-list.component.ts 1 errors
+line 81: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/components/bde-recharge-form.component.ts 1 errors
+line 161: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/bde/containers/bde.component.ts 2 errors
+line 132: consistent-return
+line 134: default-case
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/components/calendar/calendar.component.ts 5 errors
+line 24: @typescript-eslint/no-empty-function
+line 58: no-loop-func
+line 86: no-param-reassign
+line 92: no-loop-func
+line 110: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/components/calendar-day/calendar-day.component.ts 1 errors
+line 35: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/components/date-picker/date-picker.component.ts 4 errors
+line 13: no-param-reassign
+line 19: no-param-reassign
+line 23: @typescript-eslint/no-empty-function
+line 26: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/components/info.component.ts 1 errors
+line 45: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/components/menu-list-item/menu-list-item.component.ts 1 errors
+line 46: no-undef
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/containers/home.component.ts 2 errors
+line 46: @typescript-eslint/no-empty-function
+line 49: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/association.service.ts 3 errors
+line 60: no-unused-vars
+line 123: no-unused-vars
+line 164: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/auth-guard.service.ts 3 errors
+line 1: max-classes-per-file
+line 11: consistent-return
+line 24: consistent-return
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/auth.service.ts 10 errors
+line 19: no-undef
+line 29: no-restricted-globals
+line 31: no-restricted-globals
+line 41: no-undef
+line 44: no-undef
+line 47: no-undef
+line 69: no-undef
+line 71: no-undef
+line 97: no-undef
+line 99: no-undef
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/date.utils.ts 3 errors
+line 2: no-param-reassign
+line 14: no-param-reassign
+line 20: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/event-band.service.ts 2 errors
+line 19: no-param-reassign
+line 23: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/event.service.ts 7 errors
+line 25: no-param-reassign
+line 29: no-param-reassign
+line 33: no-param-reassign
+line 41: no-param-reassign
+line 45: no-param-reassign
+line 96: no-param-reassign
+line 117: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/file-upload.service.ts 1 errors
+line 14: no-undef
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/json-ld.service.ts 1 errors
+line 7: consistent-return
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/jwt-interceptor.service.ts 3 errors
+line 11: no-param-reassign
+line 14: no-undef
+line 16: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/sentry.service.ts 1 errors
+line 11: @typescript-eslint/no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/url-safe-string.service.ts 6 errors
+line 16: no-param-reassign
+line 20: no-param-reassign
+line 23: no-param-reassign
+line 28: no-param-reassign
+line 38: no-param-reassign
+line 43: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/core/services/user.service.ts 7 errors
+line 31: no-nested-ternary
+line 43: consistent-return
+line 54: consistent-return
+line 66: consistent-return
+line 85: consistent-return
+line 93: no-param-reassign
+line 161: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events/components/booking-form/booking-form.component.ts 9 errors
+line 307: no-loop-func
+line 315: @typescript-eslint/consistent-type-assertions
+line 318: @typescript-eslint/consistent-type-assertions
+line 329: no-nested-ternary
+line 379: no-nested-ternary
+line 382: no-nested-ternary
+line 385: no-nested-ternary
+line 411: no-unused-vars
+line 440: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events/components/bookings-list/bookings-list.component.ts 1 errors
+line 55: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events/components/event-bookings-list.component.ts 1 errors
+line 95: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events/containers/booking.component.ts 1 errors
+line 197: no-restricted-globals
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/booking-checking-card.component.ts 3 errors
+line 213: no-empty-function
+line 216: consistent-return
+line 302: no-restricted-globals
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/booking-filter.component.ts 1 errors
+line 133: @typescript-eslint/no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/event-form/event-form.component.ts 21 errors
+line 254: no-nested-ternary
+line 257: no-nested-ternary
+line 260: no-nested-ternary
+line 263: no-nested-ternary
+line 272: no-unused-vars
+line 291: no-unused-vars
+line 323: @typescript-eslint/consistent-type-assertions
+line 325: @typescript-eslint/consistent-type-assertions
+line 327: @typescript-eslint/consistent-type-assertions
+line 329: @typescript-eslint/consistent-type-assertions
+line 334: @typescript-eslint/consistent-type-assertions
+line 336: @typescript-eslint/consistent-type-assertions
+line 338: @typescript-eslint/consistent-type-assertions
+line 340: @typescript-eslint/consistent-type-assertions
+line 346: @typescript-eslint/consistent-type-assertions
+line 348: @typescript-eslint/consistent-type-assertions
+line 350: @typescript-eslint/consistent-type-assertions
+line 352: @typescript-eslint/consistent-type-assertions
+line 357: array-callback-return
+line 367: array-callback-return
+line 398: array-callback-return
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/event-summary/event-summary.component.ts 1 errors
+line 32: @typescript-eslint/no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/registered-list.component.ts 3 errors
+line 161: @typescript-eslint/adjacent-overload-signatures
+line 171: @typescript-eslint/no-empty-function
+line 212: consistent-return
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/components/select-asso-form.component.ts 1 errors
+line 44: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/event-add-booking.component.ts 1 errors
+line 159: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/event-excel.component.ts 2 errors
+line 25: no-empty-function
+line 33: no-undef
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/event-list.component.ts 1 errors
+line 67: @typescript-eslint/no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/event-modify.component.ts 1 errors
+line 40: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/event-settings.component.ts 5 errors
+line 193: no-param-reassign
+line 195: no-param-reassign
+line 217: consistent-return
+line 222: default-case
+line 254: no-restricted-globals
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/events-settings/containers/new-event-band.component.ts 1 errors
+line 79: no-unused-vars
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/settings/components/settings-asso-form/settings-asso-form.component.ts 1 errors
+line 52: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/settings/components/settings-asso-list/settings-asso-list.component.ts 2 errors
+line 37: no-restricted-globals
+line 47: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/settings/components/settings-name-list/settings-name-list.component.ts 2 errors
+line 44: no-restricted-globals
+line 55: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/settings/components/settings-payment-means-list/settings-payment-means-list.component.ts 2 errors
+line 43: no-restricted-globals
+line 54: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/settings/containers/settings-lists.component.ts 1 errors
+line 91: no-param-reassign
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/components/event-description.component.ts 2 errors
+line 77: @typescript-eslint/no-empty-function
+line 80: no-empty-function
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/components/img-upload-form/img-upload-form.component.ts 2 errors
+line 39: no-empty-function
+line 50: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/directives/resolve-component.directive.ts 3 errors
+line 36: @typescript-eslint/consistent-type-assertions
+line 40: @typescript-eslint/consistent-type-assertions
+line 44: @typescript-eslint/consistent-type-assertions
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/pipes/date-difference.pipe.ts 2 errors
+line 7: no-unused-vars
+line 10: no-nested-ternary
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/pipes/order-by.pipe.ts 3 errors
+line 14: no-param-reassign
+line 18: no-param-reassign
+line 30: no-restricted-globals
+###
+/home/cdoue/www-dev/EMSE/frontend_portail-etu.emse.fr/src/app/shared/pipes/translate-status.pipe.ts 2 errors
+line 7: consistent-return
+line 9: default-case

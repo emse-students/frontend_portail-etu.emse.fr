@@ -158,6 +158,7 @@ export class RegisteredListComponent implements OnInit {
     return this._displayedCol;
   }
 
+  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
   get bookings() {
     return this._bookings;
   }
@@ -167,6 +168,7 @@ export class RegisteredListComponent implements OnInit {
     this.dataSource.filter = search;
   }
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   _bookings: BookingRanked[];
@@ -207,6 +209,7 @@ export class RegisteredListComponent implements OnInit {
     this.deleteBooking.emit(booking);
   }
 
+  // eslint-disable-next-line consistent-return
   resolveAnswer(element: BookingRanked, input: FormInput) {
     for (let i = 0; i < element.formOutputs.length; i++) {
       const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);

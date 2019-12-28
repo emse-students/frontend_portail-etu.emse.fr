@@ -194,6 +194,7 @@ export class BookingComponent implements OnInit {
   }
 
   delete() {
+    // eslint-disable-next-line no-restricted-globals, no-undef
     if (confirm('Voulez-vous vraiment annuler votre réservation ?')) {
       this.pending = true;
       this.eventService.deleteBooking(this.booking.id).subscribe(

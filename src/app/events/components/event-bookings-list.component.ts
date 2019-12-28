@@ -92,6 +92,7 @@ export class EventBookingsListComponent implements OnInit {
   userRank: number;
 
   static parseBookings(bookings: EventBooking[]): BookingRanked[] {
+    // eslint-disable-next-line no-param-reassign
     bookings = bookings.sort((a: EventBooking, b: EventBooking) =>
       a.createdAt > b.createdAt ? 1 : -1,
     );

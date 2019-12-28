@@ -16,6 +16,7 @@ export class AuthService {
   ) {
     this.authenticatedUser = new Subject<AuthenticatedUser | null>();
     this._authenticatedUser = null;
+    // eslint-disable-next-line no-undef
     const m = window.location.href.match(/(.*)[&?]ticket=([^&?]*)$/);
     if (m) {
       const [, ourUrl, ticket] = m;
@@ -25,7 +26,9 @@ export class AuthService {
         .pipe(
           finalize(() => {
             // remove from url:
+            // eslint-disable-next-line no-restricted-globals, no-undef
             history.replaceState({}, null, ourUrl);
+            // eslint-disable-next-line no-restricted-globals, no-undef
             history.pushState({}, null, ourUrl);
           }),
         )
@@ -35,10 +38,13 @@ export class AuthService {
           this.authenticatedUser.next(authenticatedUser);
           this._pending = false;
           console.log('logged in');
+          // eslint-disable-next-line no-undef
           localStorage.setItem('authenticatedUser', JSON.stringify(authenticatedUser));
         });
+      // eslint-disable-next-line no-undef
     } else if (localStorage.authenticatedUser) {
       console.log('logging from localStorage...');
+      // eslint-disable-next-line no-undef
       const retrievedObject = localStorage.getItem('authenticatedUser');
       const authenticatedUser = JSON.parse(retrievedObject);
       // console.log(authenticatedUser);
@@ -60,7 +66,9 @@ export class AuthService {
   private _pending = false;
 
   static login() {
+    // eslint-disable-next-line no-undef
     window.location.href = `${environment.casLoginUrl}?service=${encodeURIComponent(
+      // eslint-disable-next-line no-undef
       window.location.href,
     )}`;
   }
@@ -86,7 +94,9 @@ export class AuthService {
 
   logout() {
     this._authenticatedUser = null;
+    // eslint-disable-next-line no-undef
     if (localStorage.authenticatedUser) {
+      // eslint-disable-next-line no-undef
       localStorage.removeItem('authenticatedUser');
     }
     this.userService.logout();

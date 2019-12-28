@@ -304,6 +304,7 @@ export class BookingFormComponent implements OnInit {
         );
         this.options(i).patchValue(
           this.boolOptions(i)
+            // eslint-disable-next-line no-loop-func
             .value.map(v => {
               totalPrice += v.selected ? v.option.price : 0;
               return v.selected ? `${environment.apiUri}/options/${v.option.id}` : null;
@@ -311,8 +312,10 @@ export class BookingFormComponent implements OnInit {
             .filter(v => v !== null),
         );
         if (!this.formOutputs.controls[i].get('answer').value) {
+          // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
           (<FormGroup>this.formOutputs.controls[i]).removeControl('answer');
         }
+        // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
         (<FormGroup>this.formOutputs.controls[i]).removeControl('boolOptions');
         if (
           type === 'title' ||
@@ -323,6 +326,7 @@ export class BookingFormComponent implements OnInit {
           outputsToRemove.push(i);
         }
       }
+      // eslint-disable-next-line no-nested-ternary
       outputsToRemove.sort((a: number, b: number) => (a > b ? -1 : a < b ? 1 : 0));
       for (let i = 0; i < outputsToRemove.length; i++) {
         this.formOutputs.removeAt(outputsToRemove[i]);
@@ -372,11 +376,14 @@ export class BookingFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
+    // eslint-disable-next-line no-nested-ternary
     return formControl.hasError('required')
       ? 'Ce champs ne doit pas être vide'
-      : formControl.hasError('bdeAccountToLow')
+      : // eslint-disable-next-line no-nested-ternary
+      formControl.hasError('bdeAccountToLow')
       ? "Votre compte BDE ne contient pas assez d'argent"
-      : formControl.hasError('cercleAccountToLow')
+      : // eslint-disable-next-line no-nested-ternary
+      formControl.hasError('cercleAccountToLow')
       ? "Votre compte Cercle ne contient pas assez d'argent"
       : formControl.hasError('noPaymentChange')
       ? 'Vous avez payé avec un moyen de paiement qui ne vous permet pas de modifier le prix de votre événement'
@@ -401,6 +408,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   positiveAccount(): ValidatorFn {
+    // eslint-disable-next-line no-unused-vars
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (
         this.form &&
@@ -429,6 +437,7 @@ export class BookingFormComponent implements OnInit {
   }
 
   noPaymentChange(): ValidatorFn {
+    // eslint-disable-next-line no-unused-vars
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (
         this.form &&

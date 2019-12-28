@@ -1,4 +1,5 @@
 export const getLastMonday = (currentDate: Date = null): Date => {
+  // eslint-disable-next-line no-param-reassign
   currentDate = currentDate ? new Date(currentDate) : new Date();
   const offsetDay = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1;
   const lastmonday = new Date(currentDate.setDate(currentDate.getDate() - offsetDay));
@@ -10,11 +11,13 @@ export const getLastMonday = (currentDate: Date = null): Date => {
 };
 
 export const getNextDay = (currentDate: Date = null): Date => {
+  // eslint-disable-next-line no-param-reassign
   currentDate = currentDate ? new Date(currentDate) : new Date();
   return new Date(currentDate.setDate(currentDate.getDate() + 1));
 };
 
 export const getCalendarEndDate = (currentDate: Date = null): Date => {
+  // eslint-disable-next-line no-param-reassign
   currentDate = currentDate ? new Date(currentDate) : new Date();
   const offsetDay = currentDate.getDay() === 0 ? 6 : currentDate.getDay() - 1;
   const endDate = new Date(currentDate.setDate(currentDate.getDate() + 4 * 7 - offsetDay));

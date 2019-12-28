@@ -58,6 +58,7 @@ export class TitleFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   submit() {

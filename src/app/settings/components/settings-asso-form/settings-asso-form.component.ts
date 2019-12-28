@@ -49,6 +49,7 @@ export class SettingsAssoFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private urlSafeStringService: UrlSafeStringService) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   submit() {

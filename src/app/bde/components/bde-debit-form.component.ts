@@ -149,6 +149,7 @@ export class BdeDebitFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
+    // eslint-disable-next-line no-nested-ternary
     return formControl.hasError('required')
       ? 'Ce champs ne doit pas être vide'
       : formControl.hasError('accountToLow')
@@ -157,6 +158,7 @@ export class BdeDebitFormComponent implements OnInit {
   }
 
   positiveAccount(): ValidatorFn {
+    // eslint-disable-next-line no-unused-vars
     return (control: AbstractControl): { [key: string]: any } | null => {
       if (
         this.form &&

@@ -30,7 +30,7 @@
       mat-flat-button
       disabled
       *ngIf="
-        !allReadyBooked && !(event.date < today) && (event.closingDate && event.closingDate < today)
+        !allReadyBooked && !(event.date < today) && event.closingDate && event.closingDate < today
       "
     >
       Deadline passée

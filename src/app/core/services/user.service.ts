@@ -28,6 +28,7 @@ export class UserService {
       map(users => JsonLdService.parseCollection<UserLight>(users).collection),
       map(users =>
         users.sort((a, b) =>
+          // eslint-disable-next-line no-nested-ternary, no-nested-ternary
           a.promo < b.promo ? 1 : a.promo > b.promo ? -1 : a.type === 'ICM' ? -1 : 1,
         ),
       ),
@@ -39,6 +40,7 @@ export class UserService {
     return this.http.put<UserLight>(url, user);
   }
 
+  // eslint-disable-next-line consistent-return
   public getBalance() {
     if (this._user) {
       const url = `${environment.apiUrl}/users/${this._user.id}?properties[]=balance`;
@@ -49,6 +51,7 @@ export class UserService {
     }
   }
 
+  // eslint-disable-next-line consistent-return
   public getInfo() {
     if (this._user) {
       const url = `${environment.apiUrl}/users/${this._user.id}/info?properties[]=balance&properties[]=eventsBooked`;
@@ -60,6 +63,7 @@ export class UserService {
     }
   }
 
+  // eslint-disable-next-line consistent-return
   public getCercleInfo() {
     if (this._user) {
       const url = `${environment.apiUrl}/get-cercle-info`;
@@ -78,6 +82,7 @@ export class UserService {
     return this.http.post<CercleUserDTO[]>(url, { logins });
   }
 
+  // eslint-disable-next-line consistent-return
   public getBookings(): Observable<Booking[]> {
     if (this._user) {
       const url = `${environment.apiUrl}/users/${this._user.id}?properties[]=bookings`;
@@ -85,6 +90,7 @@ export class UserService {
         map(user => user.bookings),
         map(bookings =>
           bookings.map(booking => {
+            // eslint-disable-next-line no-param-reassign
             booking.event = EventService.parseDates(booking.event);
             return booking;
           }),
@@ -152,6 +158,7 @@ export class UserService {
     return this.http.get<UserOperation>(url).pipe(
       map((user: UserOperation) => {
         for (let i = 0; i < user.operations.length; i++) {
+          // eslint-disable-next-line no-param-reassign
           user.operations[i].createdAt = new Date(user.operations[i].createdAt);
         }
         return user;

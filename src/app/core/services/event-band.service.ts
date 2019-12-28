@@ -16,9 +16,11 @@ export class EventBandService {
 
   static parseDates(eventBand: EventBand): EventBand {
     if (eventBand.endingDate) {
+      // eslint-disable-next-line no-param-reassign
       eventBand.endingDate = new Date(eventBand.endingDate);
     }
     if (eventBand.startingDate) {
+      // eslint-disable-next-line no-param-reassign
       eventBand.startingDate = new Date(eventBand.startingDate);
     }
     return eventBand;

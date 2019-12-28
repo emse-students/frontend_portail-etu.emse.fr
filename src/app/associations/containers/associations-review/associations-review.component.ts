@@ -154,11 +154,13 @@ export class AssociationsReviewComponent implements OnInit {
               this.asso = asso;
               this.logoLoading = false;
             },
+            // eslint-disable-next-line no-unused-vars
             error => {
               this.logoLoading = false;
             },
           );
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.logoLoading = false;
       },
@@ -173,6 +175,7 @@ export class AssociationsReviewComponent implements OnInit {
         this.asso = asso;
         this.descLoading = false;
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.descLoading = false;
       },
@@ -187,6 +190,7 @@ export class AssociationsReviewComponent implements OnInit {
         this.asso = asso;
         this.nameLoading = false;
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.nameLoading = false;
       },
@@ -220,6 +224,7 @@ export class AssociationsReviewComponent implements OnInit {
         }
         this.positionLoading = false;
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.positionLoading = false;
       },
@@ -231,6 +236,7 @@ export class AssociationsReviewComponent implements OnInit {
       () => {
         this.asso.positions = arrayRemoveById(this.asso.positions, positionId);
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.asso.positions[arrayFindById(this.asso.positions, positionId)].loading = false;
         this.asso.positions = this.asso.positions.slice(0);

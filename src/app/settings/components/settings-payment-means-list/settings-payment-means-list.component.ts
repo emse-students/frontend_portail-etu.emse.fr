@@ -40,6 +40,7 @@ export class SettingsPaymentMeansListComponent implements OnInit {
 
   delete(item: NamedItem) {
     if (
+      // eslint-disable-next-line no-restricted-globals, no-undef, no-useless-concat
       confirm(`Vous vous apprêtez à supprimer ${this.itemName} ${item.name}.\n` + `Continuer ?`)
     ) {
       this.deleted.emit(item.id);
@@ -50,5 +51,6 @@ export class SettingsPaymentMeansListComponent implements OnInit {
     this.selected.emit(id);
   }
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 }

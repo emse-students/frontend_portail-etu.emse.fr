@@ -4,6 +4,7 @@ import { JsonLdCollection, JsonLdPage } from '../models/json-ld.model';
 
 @Injectable()
 export class JsonLdService {
+  // eslint-disable-next-line consistent-return
   private static idPageParser(urlPage: string): number | null {
     if (urlPage === undefined) {
       return null;

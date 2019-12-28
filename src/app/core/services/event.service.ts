@@ -22,12 +22,15 @@ export class EventService {
 
   static parseDates(event: Event): Event {
     if (event.date) {
+      // eslint-disable-next-line no-param-reassign
       event.date = new Date(event.date);
     }
     if (event.closingDate) {
+      // eslint-disable-next-line no-param-reassign
       event.closingDate = new Date(event.closingDate);
     }
     if (event.shotgunStartingDate) {
+      // eslint-disable-next-line no-param-reassign
       event.shotgunStartingDate = new Date(event.shotgunStartingDate);
     }
     return event;
@@ -35,9 +38,11 @@ export class EventService {
 
   static parseBookingDates(booking: EventBooking): EventBooking {
     if (booking.createdAt) {
+      // eslint-disable-next-line no-param-reassign
       booking.createdAt = new Date(booking.createdAt);
     }
     if (booking.event) {
+      // eslint-disable-next-line no-param-reassign
       booking.event = EventService.parseDates(booking.event);
     }
     return booking;
@@ -88,6 +93,7 @@ export class EventService {
     const url = `${environment.apiUrl}/bookings/${bookingId}`;
     return this.http.get<Booking>(url).pipe(
       map((booking: Booking) => {
+        // eslint-disable-next-line no-param-reassign
         booking.event = EventService.parseDates(booking.event);
         return booking;
       }),
@@ -108,6 +114,7 @@ export class EventService {
     const url = `${environment.apiUrl}/events/${eventId}/bookings`;
     return this.http.get<Event>(url).pipe(
       map(event => {
+        // eslint-disable-next-line no-param-reassign
         event.bookings = event.bookings.map(EventService.parseBookingDates);
         return event;
       }),

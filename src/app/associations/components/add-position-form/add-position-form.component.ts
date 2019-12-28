@@ -135,6 +135,7 @@ export class AddPositionFormComponent implements OnInit {
   }
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
+    // eslint-disable-next-line no-nested-ternary
     return formControl.hasError('required')
       ? 'Ce champs ne doit pas être vide'
       : formControl.hasError('notUniq')

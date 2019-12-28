@@ -76,6 +76,7 @@ export class NewEventBandComponent implements OnInit {
   createEventBand(eventBand: EventBand) {
     // console.log(eventBand);
     this.pending = true;
+    // eslint-disable-next-line no-unused-vars
     this.eventBandService.create(eventBand).subscribe(newEventBand => {
       this.pending = false;
       this.infoService.pushSuccess("Bandeau d'Événement créé avec succès");

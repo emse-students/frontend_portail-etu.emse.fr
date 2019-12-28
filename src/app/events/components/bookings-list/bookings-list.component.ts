@@ -52,6 +52,7 @@ export class BookingsListComponent implements OnInit, AfterViewInit {
     'modify',
   ];
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 
   ngAfterViewInit() {

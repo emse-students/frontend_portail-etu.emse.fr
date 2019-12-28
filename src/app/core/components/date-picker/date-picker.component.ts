@@ -10,16 +10,20 @@ export class DatePickerComponent implements OnInit {
   @Output() dateChange: EventEmitter<Date> = new EventEmitter<Date>();
 
   static getThirdNextWeek(currentDate: Date = null): Date {
+    // eslint-disable-next-line no-param-reassign
     currentDate = currentDate ? new Date(currentDate) : new Date();
     return new Date(currentDate.setDate(currentDate.getDate() + 21));
   }
 
   static getThirdLastWeek(currentDate: Date = null): Date {
+    // eslint-disable-next-line no-param-reassign
     currentDate = currentDate ? new Date(currentDate) : new Date();
     return new Date(currentDate.setDate(currentDate.getDate() - 21));
   }
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   next() {

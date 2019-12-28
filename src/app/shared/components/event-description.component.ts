@@ -74,7 +74,9 @@ import { environment } from '../../../environments/environment';
 export class EventDescriptionComponent implements OnInit {
   @Input() event: Event;
   imgPath = environment.imgUrl;
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 }

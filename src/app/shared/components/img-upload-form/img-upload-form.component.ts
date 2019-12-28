@@ -36,6 +36,7 @@ export class ImgUploadFormComponent implements OnInit {
 
   constructor(private fb: FormBuilder, private cd: ChangeDetectorRef) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   submit() {
@@ -46,6 +47,7 @@ export class ImgUploadFormComponent implements OnInit {
 
   getErrorMessage(formControl: FormControl | AbstractControl) {
     if (this.filetouched) {
+      // eslint-disable-next-line no-nested-ternary
       return formControl.hasError('required')
         ? 'Veuillez charger un fichier'
         : formControl.hasError('fileNotValid')

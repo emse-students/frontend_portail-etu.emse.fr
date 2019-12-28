@@ -33,12 +33,15 @@ export class ResolveComponentDirective implements OnInit {
     this.viewContainerRef.clear();
     const componentRef = this.viewContainerRef.createComponent(componentFactory);
     if (this.event) {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       (<EventComponent>componentRef.instance).event = this.event;
     }
     if (typeof this.isAdmin !== 'undefined') {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       (<EventComponent>componentRef.instance).isAdmin = this.isAdmin;
     }
     if (typeof this.paymentMeans !== 'undefined') {
+      // eslint-disable-next-line @typescript-eslint/consistent-type-assertions
       (<EventComponent>componentRef.instance).paymentMeans = this.paymentMeans;
     }
   }

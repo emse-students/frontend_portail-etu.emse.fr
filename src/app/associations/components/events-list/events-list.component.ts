@@ -10,7 +10,9 @@ export class EventsListComponent implements OnInit {
   @Input() asso: Association;
   @Input() isRightful: boolean;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 }

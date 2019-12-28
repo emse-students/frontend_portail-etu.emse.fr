@@ -21,6 +21,7 @@ interface Week {
   styleUrls: ['./calendar.component.scss'],
 })
 export class CalendarComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
   _currentDate: Date;
   @Input()
@@ -54,6 +55,7 @@ export class CalendarComponent implements OnInit {
         const dayPadding = this.buildEventBands(week, day, j);
         week.days.push({
           date: day,
+          // eslint-disable-next-line no-loop-func
           events: this.events.filter(event => {
             return (
               (event.date >= day && event.date < nextDay) ||
@@ -81,11 +83,13 @@ export class CalendarComponent implements OnInit {
     for (let k = 0; k < eventBands.length; k++) {
       const index = week.eventBands.findIndex(args => args.eventBand === eventBands[k]);
       if (index !== -1) {
+        // eslint-disable-next-line no-param-reassign
         week.eventBands[index].length++;
       } else {
         let found = true;
         let verticalOffSet = 0;
         while (found) {
+          // eslint-disable-next-line no-loop-func
           if (occupiedVerticalOffset.findIndex(offset => offset === verticalOffSet) !== -1) {
             verticalOffSet++;
           } else {
@@ -103,6 +107,7 @@ export class CalendarComponent implements OnInit {
     }
     return occupiedVerticalOffset.reduce((max, offset) => {
       if (max < offset + 1) {
+        // eslint-disable-next-line no-param-reassign
         max = offset + 1;
       }
       return max;

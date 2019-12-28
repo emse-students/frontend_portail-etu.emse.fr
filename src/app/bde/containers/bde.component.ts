@@ -129,7 +129,9 @@ export class BdeComponent implements OnInit {
   searchQuery = '';
   paymentMeans: PaymentMeans[] = null;
 
+  // eslint-disable-next-line consistent-return
   static strIdToTabId(strId: string): number {
+    // eslint-disable-next-line default-case
     switch (strId) {
       case 'list':
         return 0;

@@ -1,0 +1,15 @@
+no-nested-ternary 17 errors
+@typescript-eslint/no-empty-function 31 errors
+no-empty-function 20 errors
+no-unused-vars 18 errors
+consistent-return 12 errors
+default-case 3 errors
+no-loop-func 3 errors
+no-param-reassign 32 errors
+no-undef 20 errors
+max-classes-per-file 1 errors
+no-restricted-globals 12 errors
+@typescript-eslint/consistent-type-assertions 17 errors
+array-callback-return 3 errors
+@typescript-eslint/adjacent-overload-signatures 1 errors
+no-useless-concat 3 errors

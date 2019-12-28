@@ -11,6 +11,7 @@ export class FileUploadService {
   constructor(private http: HttpClient) {}
 
   public uploadImg(file: FileToUpload): Observable<FileDTO> {
+    // eslint-disable-next-line no-undef
     const formData: FormData = new FormData();
     formData.append('file', file.file);
     formData.append('filename', file.filename);

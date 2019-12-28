@@ -78,5 +78,6 @@ export class BdeOperationListComponent implements OnInit {
 
   displayedColumns: string[] = ['createdAt', 'reason', 'paymentMeans', 'amount'];
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit(): void {}
 }

@@ -156,6 +156,7 @@ export class EventAddBookingComponent implements OnInit {
         this.infoService.pushSuccess('Réservation effectuée');
         this.clear();
       },
+      // eslint-disable-next-line no-unused-vars
       error => {
         this.pending = false;
       },

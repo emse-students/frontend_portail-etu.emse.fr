@@ -88,6 +88,7 @@ export class SettingsListsComponent implements OnInit {
   onSubmit(asso) {
     this.loading = true;
     if (this.newAsso) {
+      // eslint-disable-next-line no-param-reassign
       asso.isList = true;
       this.associationService.create(asso).subscribe(
         () => {

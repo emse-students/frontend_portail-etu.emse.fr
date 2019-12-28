@@ -130,6 +130,7 @@ export class BookingFilterComponent implements OnInit {
   @Input() paymentMeans: PaymentMeans[];
   filter: BookingFilter;
   @Output() change = new EventEmitter<BookingFilter>();
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   ngOnInit() {

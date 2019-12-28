@@ -57,6 +57,7 @@ export class AssociationService {
           }
           return newAsso;
         },
+        // eslint-disable-next-line no-unused-vars
         error => {
           this.allAssos.next(this._allAssos);
         },
@@ -119,6 +120,7 @@ export class AssociationService {
           this.allAssosAndLists.next(this._allAssosAndLists.slice(0));
           return a;
         },
+        // eslint-disable-next-line no-unused-vars
         error => {
           this.allAssos.next(this._allAssos);
         },
@@ -159,6 +161,7 @@ export class AssociationService {
           }
           return updatedAsso;
         },
+        // eslint-disable-next-line no-unused-vars
         error => {
           this.allAssos.next(this._allAssos);
           $asso.error('Error');

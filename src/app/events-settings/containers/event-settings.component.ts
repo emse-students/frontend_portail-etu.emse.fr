@@ -190,7 +190,9 @@ export class EventSettingsComponent implements OnInit {
                 .subscribe(cercleUsers => {
                   this.users = users.map(user => {
                     if (cercleUsers[user.login]) {
+                      // eslint-disable-next-line no-param-reassign
                       user.cercleBalance = cercleUsers[user.login].balance;
+                      // eslint-disable-next-line no-param-reassign
                       user.contributeCercle = cercleUsers[user.login].contribute;
                     }
                     return user;
@@ -212,10 +214,12 @@ export class EventSettingsComponent implements OnInit {
     });
   }
 
+  // eslint-disable-next-line consistent-return
   strIdToTabId(strId: string): number {
     if (this.event && this.event.isBookable) {
       return 0;
     }
+    // eslint-disable-next-line default-case
     switch (strId) {
       case 'summary':
         return 0;
@@ -247,6 +251,7 @@ export class EventSettingsComponent implements OnInit {
   }
 
   delete(booking) {
+    // eslint-disable-next-line no-restricted-globals, no-undef
     if (confirm(`Voulez-vous vraiment annuler la réservation de ${booking.userName} ?`)) {
       this.eventService.deleteBooking(booking.id).subscribe(
         () => {

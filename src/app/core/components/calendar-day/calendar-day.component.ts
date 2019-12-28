@@ -32,6 +32,7 @@ export class CalendarDayComponent implements OnInit {
     private assoStylePipe: AssoStylePipe,
   ) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
   selectEvent(event: Event) {

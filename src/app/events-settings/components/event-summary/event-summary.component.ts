@@ -29,6 +29,7 @@ export class EventSummaryComponent implements OnInit {
   realIncome: Income[];
   environmentHome = environment.home;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   ngOnInit() {

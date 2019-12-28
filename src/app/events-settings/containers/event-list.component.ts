@@ -64,6 +64,7 @@ export class EventListComponent implements OnInit {
   searchQuery = '';
   displayedColumns: DisplayedColumns;
 
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
   static rank(bookings: EventBooking[]): BookingRanked[] {

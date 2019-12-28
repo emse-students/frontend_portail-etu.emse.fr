@@ -4,8 +4,10 @@ import { Pipe, PipeTransform } from '@angular/core';
   name: 'dateDifference',
 })
 export class DateDifferencePipe implements PipeTransform {
+  // eslint-disable-next-line no-unused-vars
   transform(value: any, args?: any): any {
     const days = Math.floor(value / (1000 * 60 * 60 * 24));
+    // eslint-disable-next-line no-nested-ternary
     const dayPart = days === 1 ? `${days} jour, ` : days > 0 ? `${days} jours, ` : '';
     const hours = Math.floor((value - days * (1000 * 60 * 60 * 24)) / (1000 * 60 * 60));
     const hourPart = hours ? `${hours} h ` : '';

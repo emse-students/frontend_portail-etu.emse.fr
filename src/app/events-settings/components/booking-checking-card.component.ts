@@ -210,8 +210,10 @@ export class BookingCheckingCardComponent implements OnInit {
 
   constructor(private eventService: EventService, private infoService: InfoService) {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 
+  // eslint-disable-next-line consistent-return
   resolveFormInput(formInputId: string): FormInput {
     const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
     const id = re.exec(formInputId)['1'];
@@ -297,6 +299,7 @@ export class BookingCheckingCardComponent implements OnInit {
   }
 
   unpay() {
+    // eslint-disable-next-line no-restricted-globals, no-undef
     if (confirm('Voulez-vous annuler le paiement ?')) {
       this.pending = true;
       const booking = {

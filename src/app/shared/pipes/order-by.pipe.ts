@@ -11,9 +11,11 @@ export class OrderByPipe implements PipeTransform {
 
   static _orderByComparator(a: any, b: any): number {
     if (a === null || typeof a === 'undefined') {
+      // eslint-disable-next-line no-param-reassign
       a = 0;
     }
     if (b === null || typeof b === 'undefined') {
+      // eslint-disable-next-line no-param-reassign
       b = 0;
     }
 
@@ -25,6 +27,7 @@ export class OrderByPipe implements PipeTransform {
       if (a > b) {
         return 1;
       }
+      // eslint-disable-next-line no-restricted-globals, no-restricted-globals, no-restricted-globals, no-restricted-globals
     } else if (isNaN(parseFloat(a)) || !isFinite(a) || isNaN(parseFloat(b)) || !isFinite(b)) {
       // Isn't a number so lowercase the string to properly compare
       if (a.toLowerCase() < b.toLowerCase()) {

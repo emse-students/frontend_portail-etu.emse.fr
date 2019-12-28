@@ -42,6 +42,7 @@ export class InfoComponent {
     const snackBar = this.snackBar.openFromComponent(CustomSnackbarComponent, {
       data: message,
       verticalPosition: 'top',
+      // eslint-disable-next-line no-nested-ternary
       duration: info.type === 'error' ? 20000 : 'info' ? 10000 : 2000,
       panelClass: [`${info.type}-snackbar`],
     });

@@ -43,7 +43,9 @@ import { Component, OnInit } from '@angular/core';
   ],
 })
 export class HomeComponent implements OnInit {
+  // eslint-disable-next-line @typescript-eslint/no-empty-function
   constructor() {}
 
+  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
   ngOnInit() {}
 }

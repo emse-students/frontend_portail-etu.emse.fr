@@ -1,5 +1,5 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { Booking, Event, EventBooking } from '../../core/models/event.model';
+import { Booking, Event, EventBooking, PutBooking } from '../../core/models/event.model';
 import { FormInput } from '../../core/models/form.model';
 import { environment } from '../../../environments/environment';
 import { EventService } from '../../core/services/event.service';
@@ -247,7 +247,7 @@ export class BookingCheckingCardComponent implements OnInit {
       } else {
         const booking = {
           id: this.booking.id,
-        };
+        } as PutBooking;
         if (paymentMeansId !== 0) {
           booking.paid = true;
           booking.paymentMeans = `${environment.apiUri}/payment_means/${paymentMeansId}`;

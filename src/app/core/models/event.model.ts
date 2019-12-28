@@ -125,6 +125,7 @@ export interface PutBooking {
   operation: NewOperation;
   formOutputs: NewFormOutput[];
   cercleOperationAmount: number;
+  checked?: boolean;
 }
 
 export interface PutBookingLight {

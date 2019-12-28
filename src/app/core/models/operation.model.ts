@@ -15,7 +15,7 @@ export interface Operation {
 
 export interface NewOperation {
   user: string;
-  booking: string;
+  booking?: string;
   amount: number;
   reason: string;
   type: string;

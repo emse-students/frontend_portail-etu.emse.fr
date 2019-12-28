@@ -64,9 +64,6 @@ export class EventListComponent implements OnInit {
   searchQuery = '';
   displayedColumns: DisplayedColumns;
 
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
-
   static rank(bookings: EventBooking[]): BookingRanked[] {
     const bookingsRanked: BookingRanked[] = [];
     for (let i = 0; i < bookings.length; i++) {
@@ -74,8 +71,8 @@ export class EventListComponent implements OnInit {
       booking.userName = bookings[i].user
         ? `${bookings[i].user.firstname} ${bookings[i].user.lastname}`
         : bookings[i].userName;
-      booking.rank = i + 1;
-      bookingsRanked.push(booking);
+      const rankedBooking = { ...booking, rank: i + 1 };
+      bookingsRanked.push(rankedBooking);
     }
     return bookingsRanked;
   }

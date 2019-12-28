@@ -117,11 +117,9 @@ export class RegisteredListComponent implements OnInit {
     this.dataSource.data = bookings;
     this.dataSource.sort = this.sort;
     this.dataSource.paginator = this.paginator;
-    // this.sort.sort({
-    //   disableClear: false,
-    //   id: 'rank',
-    //   start: 'asc'
-    // });
+  }
+  get bookings(): BookingRanked[] {
+    return this._bookings;
   }
   _displayedCol: DisplayedColumns;
   @Input()
@@ -154,22 +152,14 @@ export class RegisteredListComponent implements OnInit {
       this.displayedColumns.push('delete');
     }
   }
-  get displayedCol() {
+  get displayedCol(): DisplayedColumns {
     return this._displayedCol;
-  }
-
-  // eslint-disable-next-line @typescript-eslint/adjacent-overload-signatures
-  get bookings() {
-    return this._bookings;
   }
 
   @Input()
   set filter(search: string) {
     this.dataSource.filter = search;
   }
-
-  // eslint-disable-next-line @typescript-eslint/no-empty-function
-  constructor() {}
 
   _bookings: BookingRanked[];
   @ViewChild(MatSort) sort: MatSort;
@@ -192,7 +182,7 @@ export class RegisteredListComponent implements OnInit {
     };
   }
 
-  select(booking: BookingRanked) {
+  select(booking: BookingRanked): void {
     if (booking.user) {
       this.selectUser.emit({
         id: booking.user.id,
@@ -205,30 +195,20 @@ export class RegisteredListComponent implements OnInit {
     }
   }
 
-  delete(booking: BookingRanked) {
+  delete(booking: BookingRanked): void {
     this.deleteBooking.emit(booking);
   }
 
-  // eslint-disable-next-line consistent-return
-  resolveAnswer(element: BookingRanked, input: FormInput) {
-    for (let i = 0; i < element.formOutputs.length; i++) {
-      const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
-      const id = re.exec(element.formOutputs[i].formInput)['1'];
-      if (input && input.id === Number(id)) {
-        if (input.type === 'singleOption') {
-          return element.formOutputs[i].options[0].value;
-        }
-        if (input.type === 'multipleOptions') {
-          let str = '';
-          for (let j = 0; j < element.formOutputs[i].options.length; j++) {
-            if (str) {
-              str += ', ';
-            }
-            str += element.formOutputs[i].options[j].value;
-          }
-          return str;
-        }
-      }
+  resolveAnswer(element: BookingRanked, input: FormInput): string {
+    const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
+
+    const matchingOutput = element.formOutputs.find(formOutput => {
+      const id = re.exec(formOutput.formInput)['1'];
+      return input && input.id === Number(id);
+    });
+    if (!matchingOutput || !matchingOutput.options) {
+      return '';
     }
+    return matchingOutput.options.join(', ');
   }
 }

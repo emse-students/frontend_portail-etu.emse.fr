@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { Observable } from 'rxjs';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { map, startWith } from 'rxjs/operators';
 import { Event, EventBooking, NewBooking } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
@@ -89,7 +89,7 @@ export class EventAddBookingComponent implements OnInit {
   set users(users: EventUser[]) {
     this._users = users.filter(user => !!user.id);
   }
-  get users() {
+  get users(): EventUser[] {
     return this._users;
   }
   alreadyBooked = false;
@@ -101,7 +101,7 @@ export class EventAddBookingComponent implements OnInit {
     userText: [''],
   });
 
-  get userText() {
+  get userText(): AbstractControl {
     return this.form.get('userText');
   }
 
@@ -112,7 +112,7 @@ export class EventAddBookingComponent implements OnInit {
     private infoService: InfoService,
   ) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filteredOptions = this.userText.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
@@ -134,7 +134,7 @@ export class EventAddBookingComponent implements OnInit {
     return [];
   }
 
-  select(user) {
+  select(user): void {
     for (let i = 0; i < this.event.bookings.length; i++) {
       if (this.event.bookings[i].user && this.event.bookings[i].user.id === user.id) {
         this.alreadyBooked = true;
@@ -143,13 +143,13 @@ export class EventAddBookingComponent implements OnInit {
     this.newBookingUser = user;
   }
 
-  clear() {
+  clear(): void {
     this.userText.setValue('');
     this.newBookingUser = null;
     this.alreadyBooked = false;
   }
 
-  book(newBooking: NewBooking) {
+  book(newBooking: NewBooking): void {
     this.pending = true;
     // console.log(newBooking);
     // setTimeout(() => {this.pending = false; }, 2000);

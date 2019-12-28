@@ -1,6 +1,6 @@
 import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { map, startWith } from 'rxjs/operators';
-import { FormBuilder, FormGroup } from '@angular/forms';
+import { AbstractControl, FormBuilder, FormGroup } from '@angular/forms';
 import { Observable } from 'rxjs';
 import { Event, EventBooking } from '../../core/models/event.model';
 import { PaymentMeans } from '../../core/models/payment-means.model';
@@ -90,20 +90,20 @@ export class EventCheckingComponent implements OnInit {
     userText: [''],
   });
 
-  get userText() {
+  get userText(): AbstractControl {
     return this.form.get('userText');
   }
 
   constructor(private fb: FormBuilder) {}
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.filteredOptions = this.userText.valueChanges.pipe(
       startWith(''),
       map(value => this._filter(value)),
     );
   }
 
-  _filter(value: string) {
+  _filter(value: string): EventUser[] {
     const filterValue = value.toLowerCase();
     if (this.users) {
       return this.users
@@ -118,7 +118,7 @@ export class EventCheckingComponent implements OnInit {
     return [];
   }
 
-  select(user) {
+  select(user): void {
     if (user.bookingIndex !== undefined) {
       this.unbookedUser = null;
       this.booking = this.event.bookings[user.bookingIndex];
@@ -138,7 +138,6 @@ export class EventCheckingComponent implements OnInit {
           found = true;
         }
       }
-      // console.log(this.booking);
       if (!found) {
         this.booking = null;
         this.unbookedUser = user;
@@ -146,18 +145,18 @@ export class EventCheckingComponent implements OnInit {
     }
   }
 
-  createBooking(user) {
+  createBooking(user): void {
     this.clear();
     this.newBooking.emit(user);
   }
 
-  clear() {
+  clear(): void {
     this.userText.setValue('');
     this.booking = null;
     this.unbookedUser = null;
   }
 
-  majBookings(booking: EventBooking) {
+  majBookings(booking: EventBooking): void {
     if (booking) {
       for (let i = 0; i < this.event.bookings.length; i++) {
         if (this.event.bookings[i].id === booking.id) {

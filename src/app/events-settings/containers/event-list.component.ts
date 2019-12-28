@@ -52,7 +52,7 @@ export class EventListComponent implements OnInit {
     this._event = event;
     this.updateList();
   }
-  get event() {
+  get event(): Event {
     return this._event;
   }
   filteredBookings: BookingRanked[];
@@ -87,7 +87,7 @@ export class EventListComponent implements OnInit {
     this.filteredBookings = this.rankedBookings;
   }
 
-  private static optionFoundInBooking(a: BookingRanked, filter: BookingFilter, i: number) {
+  private static optionFoundInBooking(a: BookingRanked, filter: BookingFilter, i: number): boolean {
     for (let j = 0; j < a.formOutputs.length; j++) {
       if (
         EventListComponent.resolveFormInput(a.formOutputs[j].formInput) ===
@@ -103,7 +103,11 @@ export class EventListComponent implements OnInit {
     return false;
   }
 
-  private static optionsAllFoundInBooking(a: BookingRanked, filter: BookingFilter, i: number) {
+  private static optionsAllFoundInBooking(
+    a: BookingRanked,
+    filter: BookingFilter,
+    i: number,
+  ): boolean {
     for (let j = 0; j < a.formOutputs.length; j++) {
       if (
         EventListComponent.resolveFormInput(a.formOutputs[j].formInput) ===
@@ -126,7 +130,7 @@ export class EventListComponent implements OnInit {
     return false;
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.displayedColumns = {
       inputs: [],
       paid: true,
@@ -139,12 +143,11 @@ export class EventListComponent implements OnInit {
     };
   }
 
-  search(event: string) {
+  search(event: string): void {
     this.searchQuery = event;
   }
 
-  filter(filter: BookingFilter) {
-    // console.log(filter);
+  filter(filter: BookingFilter): void {
     const displayedInputs = [];
     for (let i = 0; i < filter.inputs.length; i++) {
       if (filter.inputs[i].displayColumn) {
@@ -202,11 +205,11 @@ export class EventListComponent implements OnInit {
     });
   }
 
-  select(event) {
+  select(event): void {
     this.selectUser.emit(event);
   }
 
-  delete(booking: BookingRanked) {
+  delete(booking: BookingRanked): void {
     this.deleteBooking.emit(booking);
   }
 }

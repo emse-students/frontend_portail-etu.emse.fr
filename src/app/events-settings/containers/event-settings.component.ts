@@ -135,7 +135,7 @@ import { EventListComponent } from './event-list.component';
   ],
 })
 export class EventSettingsComponent implements OnInit {
-  get authService() {
+  get authService(): AuthService {
     return this._authService;
   }
 
@@ -160,7 +160,7 @@ export class EventSettingsComponent implements OnInit {
   @ViewChild('summary') summary: EventSummaryComponent;
   @ViewChild('list') list: EventListComponent;
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
       if (!authenticatedUser) {
         setTimeout(() => {
@@ -182,7 +182,6 @@ export class EventSettingsComponent implements OnInit {
           this.event = event;
           this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
             this.event.bookings = eventWithBookings.bookings;
-            // console.log(this.event.bookings);
             this.unauthorized =
               !this.authService.hasAssoRight(3, event.association.id) &&
               !this.authService.isAdmin();
@@ -217,12 +216,10 @@ export class EventSettingsComponent implements OnInit {
     });
   }
 
-  // eslint-disable-next-line consistent-return
   strIdToTabId(strId: string): number {
     if (this.event && this.event.isBookable) {
       return 0;
     }
-    // eslint-disable-next-line default-case
     switch (strId) {
       case 'summary':
         return 0;
@@ -236,10 +233,12 @@ export class EventSettingsComponent implements OnInit {
         return 4;
       case 'excel':
         return 5;
+      default:
+        return 0;
     }
   }
 
-  goTo(strId: string) {
+  goTo(strId: string): void {
     this.router.navigate(['/events-settings', this.event.id, strId]);
     if (strId === 'summary') {
       this.summary.compute();
@@ -248,14 +247,14 @@ export class EventSettingsComponent implements OnInit {
     }
   }
 
-  refreshEvent(event: Event) {
+  refreshEvent(event: Event): void {
     this.eventService.getBookings(event.id).subscribe((eventWithBookings: Event) => {
       this.event = event;
       this.event.bookings = eventWithBookings.bookings;
     });
   }
 
-  delete(booking) {
+  delete(booking): void {
     // eslint-disable-next-line no-restricted-globals, no-undef
     if (confirm(`Voulez-vous vraiment annuler la réservation de ${booking.userName} ?`)) {
       this.eventService.deleteBooking(booking.id).subscribe(
@@ -274,7 +273,7 @@ export class EventSettingsComponent implements OnInit {
     }
   }
 
-  addBooking(booking) {
+  addBooking(booking): void {
     this.event = {
       ...this.event,
       bookings: [...this.event.bookings, booking],
@@ -287,12 +286,13 @@ export class EventSettingsComponent implements OnInit {
     }
   }
 
-  selectUser(user) {
+  selectUser(user): void {
+    console.log('event setting');
     this.selectedUser = user;
     this.goTo('checking');
   }
 
-  selectUserToAddBooking(user) {
+  selectUserToAddBooking(user): void {
     this.selectedUserToAddBooking = user;
     this.goTo('add-booking');
   }

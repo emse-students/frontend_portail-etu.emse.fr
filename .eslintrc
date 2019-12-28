@@ -1,44 +1,52 @@
 {
-  "parser": "babel-eslint",
-  "extends": ["prettier"],
-  "plugins": [
-    "import",
-    "mysticatea",
-    "prefer-object-spread",
-    "prettier"
-  ],
   "env": {
-    "browser": true,
     "es6": true,
-    "jest": true,
-    "jest/globals": true,
-    "mocha": true,
     "node": true
   },
-  "globals": {
-    "alert": true,
-    "document": true,
-    "localStorage": true,
-    "navigator": true,
-    "window": true,
-    "HTMLElement": true
+  "extends": [
+    "plugin:@typescript-eslint/recommended",
+    "eslint:recommended",
+    "airbnb-base",
+    "plugin:jest/recommended",
+    "prettier",
+    "prettier/@typescript-eslint"
+  ],
+  "parser": "@typescript-eslint/parser",
+  "plugins": ["@typescript-eslint", "prettier"],
+  "parserOptions": {
+    "project": "./tsconfig.json",
+    "ecmaVersion": 2018,
+    "sourceType": "module"
   },
   "rules": {
-    "prettier/prettier": [
+    "prettier/prettier": "error",
+    "import/extensions": [
       "error",
+      "ignorePackages",
       {
-        "singleQuote": true,
-        "trailingComma": "all",
-        "bracketSpacing": true
+        "ts": "never",
+        "js": "never"
       }
     ],
-    "import/extensions": 0,
-    "import/no-extraneous-dependencies": 0,
-    "import/no-unresolved": 0,
+    "lines-between-class-members": "off",
     "import/prefer-default-export": 0,
-    "import/no-relative-parent-imports": 0,
-    "mysticatea/no-useless-rest-spread": "error",
-    "prefer-object-spread/prefer-object-spread": 2,
-    "quotes": ["error", "single", {"avoidEscape": true}]
+    "no-useless-constructor": 0,
+    "no-empty-function": [
+      "error", { "allow": [
+        "constructors"
+      ] }],
+    "class-methods-use-this": 0,
+    "no-plusplus": "off",
+    "no-underscore-dangle": "off"
+  },
+  "settings": {
+    "import/resolver": {
+      "alias": {
+        "extensions": [
+          ".ts",
+          ".js"
+        ]
+      }
+    }
   }
 }

@@ -50,11 +50,7 @@ export class EventListComponent implements OnInit {
   @Input()
   set event(event: Event) {
     this._event = event;
-    const bookings = this.event.bookings.sort((a: EventBooking, b: EventBooking) =>
-      a.createdAt > b.createdAt ? 1 : -1,
-    );
-    this.rankedBookings = EventListComponent.rank(bookings);
-    this.filteredBookings = this.rankedBookings;
+    this.updateList();
   }
   get event() {
     return this._event;
@@ -81,6 +77,14 @@ export class EventListComponent implements OnInit {
     const re = new RegExp(`${environment.apiSuffix}/form_inputs/(.*)`);
     const id = re.exec(formInputId)['1'];
     return Number(id);
+  }
+
+  updateList(): void {
+    const bookings = this.event.bookings.sort((a: EventBooking, b: EventBooking) =>
+      a.createdAt > b.createdAt ? 1 : -1,
+    );
+    this.rankedBookings = EventListComponent.rank(bookings);
+    this.filteredBookings = this.rankedBookings;
   }
 
   private static optionFoundInBooking(a: BookingRanked, filter: BookingFilter, i: number) {

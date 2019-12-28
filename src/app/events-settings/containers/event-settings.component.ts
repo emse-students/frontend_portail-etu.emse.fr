@@ -10,6 +10,7 @@ import { InfoService } from '../../core/services/info.service';
 import { EventUser, UserLight } from '../../core/models/auth.model';
 import { UserService } from '../../core/services/user.service';
 import { arrayFindById } from '../../core/services/utils';
+import { EventListComponent } from './event-list.component';
 
 @Component({
   selector: 'app-event-settings',
@@ -55,6 +56,7 @@ import { arrayFindById } from '../../core/services/utils';
               <mat-card-title>Liste</mat-card-title>
 
               <app-event-list
+                #list
                 [event]="event"
                 [paymentMeans]="event.paymentMeans"
                 (selectUser)="selectUser($event)"
@@ -156,6 +158,7 @@ export class EventSettingsComponent implements OnInit {
   selectedEventSetting: number;
   paymentMeans: PaymentMeans[];
   @ViewChild('summary') summary: EventSummaryComponent;
+  @ViewChild('list') list: EventListComponent;
 
   ngOnInit() {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
@@ -240,6 +243,8 @@ export class EventSettingsComponent implements OnInit {
     this.router.navigate(['/events-settings', this.event.id, strId]);
     if (strId === 'summary') {
       this.summary.compute();
+    } else if (strId === 'list') {
+      this.list.updateList();
     }
   }
 

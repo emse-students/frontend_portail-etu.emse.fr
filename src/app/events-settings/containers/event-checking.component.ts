@@ -117,7 +117,7 @@ export class EventCheckingComponent implements OnInit {
   }
 
   select(user) {
-    if (user.bookingIndex) {
+    if (user.bookingIndex !== undefined) {
       this.unbookedUser = null;
       this.booking = this.event.bookings[user.bookingIndex];
     } else if (user.bookingId) {

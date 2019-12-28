@@ -89,7 +89,7 @@ import { InfoService } from '../../core/services/info.service';
                 class="m-1"
                 mat-flat-button
                 color="primary"
-                *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
+                *ngIf="paymentMeans.id === 2 && booking.user && booking.user.contributeCercle"
                 [disabled]="!booking.user || booking.user.cercleBalance < price()"
                 (click)="book(paymentMeans.id)"
               >
@@ -99,7 +99,7 @@ import { InfoService } from '../../core/services/info.service';
                 class="m-1"
                 mat-flat-button
                 color="accent"
-                *ngIf="paymentMeans.id === 2 && booking.user.contributeCercle"
+                *ngIf="paymentMeans.id === 2 && booking.user && booking.user.contributeCercle"
                 [disabled]="!booking.user || booking.user.cercleBalance < price()"
                 (click)="book(paymentMeans.id, true)"
               >

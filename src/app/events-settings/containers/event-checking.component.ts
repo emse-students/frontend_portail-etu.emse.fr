@@ -106,12 +106,14 @@ export class EventCheckingComponent implements OnInit {
   _filter(value: string) {
     const filterValue = value.toLowerCase();
     if (this.users) {
-      return this.users.filter(user => {
-        if (user.id) {
-          return `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue);
-        }
-        return user.username.toLowerCase().includes(filterValue);
-      });
+      return this.users
+        .filter(user => {
+          if (user.id) {
+            return `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue);
+          }
+          return user.username.toLowerCase().includes(filterValue);
+        })
+        .slice(0, 20);
     }
     return [];
   }

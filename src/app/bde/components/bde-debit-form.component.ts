@@ -134,9 +134,11 @@ export class BdeDebitFormComponent implements OnInit {
 
   private _filter(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter((user: UserLight) =>
-      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
-    );
+    return this.users
+      .filter((user: UserLight) =>
+        `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
+      )
+      .slice(0, 20);
   }
 
   submit() {

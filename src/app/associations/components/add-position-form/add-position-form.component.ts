@@ -96,14 +96,18 @@ export class AddPositionFormComponent implements OnInit {
 
   private _filterUsers(value: string): UserLight[] {
     const filterValue = value.toLowerCase();
-    return this.users.filter((user: UserLight) =>
-      `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
-    );
+    return this.users
+      .filter((user: UserLight) =>
+        `${user.firstname} ${user.lastname}`.toLowerCase().includes(filterValue),
+      )
+      .slice(0, 20);
   }
 
   private _filterRoles(value: string): Role[] {
     const filterValue = value.toLowerCase();
-    return this.roles.filter((role: Role) => role.name.toLowerCase().includes(filterValue));
+    return this.roles
+      .filter((role: Role) => role.name.toLowerCase().includes(filterValue))
+      .slice(0, 20);
   }
 
   submit() {

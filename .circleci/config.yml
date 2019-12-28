@@ -16,7 +16,7 @@ jobs:
 
       - run:
           name: Install
-          command: npm install
+          command: yarn install --frozen-lockfile
 
       - save_cache:
           paths:
@@ -36,7 +36,7 @@ jobs:
 
       - run:
           name: Lint
-          command: npm run lint
+          command: yarn lint
 
   build:
     <<: *defaults
@@ -47,7 +47,7 @@ jobs:
 
       - run:
           name: Build
-          command: npm run buildProd
+          command: yarn build:prod
 
       - persist_to_workspace:
           root: ~/

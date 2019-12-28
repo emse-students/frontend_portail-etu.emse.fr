@@ -14,7 +14,7 @@ $ git clone https://github.com/CorentinDoue/frontend_portail-etu.emse.fr.git
 
 ### 2. Install the dependencies :
 ``` bash    
-$ npm install
+$ yarn
 ```
 
 ### 3. Update `src/environments/*` with your local information :
@@ -24,13 +24,13 @@ $ npm install
 - `img_url` : the url where the downloaded images are stored
 - `production` : a boolean to toogle production mode
 
-### 4. Serve in dev mode locally or build the project to put it in production
+### 4. Serve in dev mode locally or build the project
 ``` bash    
-$ ng serve
+$ yarn start
 ```
 or
 ``` bash    
-$ ng build
+$ yarn build
 ```
 
 Angular information

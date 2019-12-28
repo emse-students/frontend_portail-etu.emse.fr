@@ -129,22 +129,22 @@ export class BdeComponent implements OnInit {
   searchQuery = '';
   paymentMeans: PaymentMeans[] = null;
 
-  // eslint-disable-next-line consistent-return
   static strIdToTabId(strId: string): number {
-    // eslint-disable-next-line default-case
     switch (strId) {
       case 'list':
         return 0;
       case 'debit':
-        return 1;
-      case 'recharge':
         return 2;
-      case 'contribution':
+      case 'recharge':
         return 3;
+      case 'contribution':
+        return 4;
+      default:
+        return 0;
     }
   }
 
-  ngOnInit() {
+  ngOnInit(): void {
     this.authService.authenticatedUser.subscribe(authenticatedUser => {
       if (!authenticatedUser) {
         setTimeout(() => {
@@ -164,15 +164,15 @@ export class BdeComponent implements OnInit {
     });
   }
 
-  search(event: string) {
+  search(event: string): void {
     this.searchQuery = event;
   }
 
-  goTo(strId: string) {
+  goTo(strId: string): void {
     this.router.navigate(['/bde-settings', strId]);
   }
 
-  createOperation(operation: NewOperation) {
+  createOperation(operation: NewOperation): void {
     this.loading = true;
     this.operationService.create(operation).subscribe(
       () => {
@@ -187,7 +187,7 @@ export class BdeComponent implements OnInit {
     );
   }
 
-  contribute(user: UserLight) {
+  contribute(user: UserLight): void {
     this.loading = true;
     this.userService.put(user).subscribe(
       () => {
@@ -201,7 +201,7 @@ export class BdeComponent implements OnInit {
     );
   }
 
-  deleteContribution(user: UserLight) {
+  deleteContribution(user: UserLight): void {
     this.loading = true;
     this.userService.put(user).subscribe(
       () => {

@@ -1,5 +1,6 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
+import { Operation } from '../../core/models/operation.model';
 
 @Component({
   selector: 'app-bde-operation-list',
@@ -49,7 +50,7 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
     `,
   ],
 })
-export class BdeOperationListComponent implements OnInit {
+export class BdeOperationListComponent {
   _operations;
   @Input()
   set operations(operations) {
@@ -64,7 +65,7 @@ export class BdeOperationListComponent implements OnInit {
     });
   }
 
-  get operations() {
+  get operations(): Operation[] {
     return this._operations;
   }
 
@@ -77,7 +78,4 @@ export class BdeOperationListComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   displayedColumns: string[] = ['createdAt', 'reason', 'paymentMeans', 'amount'];
-
-  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
-  ngOnInit(): void {}
 }

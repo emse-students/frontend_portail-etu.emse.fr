@@ -43,8 +43,5 @@ testem.log
 .DS_Store
 Thumbs.db
 
-# Local env
-src/environments/environment.ts
-
 # cache
 .eslintcache

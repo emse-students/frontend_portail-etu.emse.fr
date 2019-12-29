@@ -9,6 +9,8 @@ import { BdeRechargeFormComponent } from './components/bde-recharge-form.compone
 import { BdeAccountComponent } from './containers/bde-account.component';
 import { BdeOperationListComponent } from './components/bde-operation-list.component';
 import { BdeContributionFormComponent } from './components/bde-contribution-form.component';
+import { BdeOperationHistoryComponent } from './components/bde-operation-history.component';
+import { OperationFilterComponent } from './components/operation-filter.component';
 
 @NgModule({
   declarations: [
@@ -19,6 +21,8 @@ import { BdeContributionFormComponent } from './components/bde-contribution-form
     BdeAccountComponent,
     BdeOperationListComponent,
     BdeContributionFormComponent,
+    BdeOperationHistoryComponent,
+    OperationFilterComponent,
   ],
   imports: [SharedModule, BdeRoutingModule],
 })

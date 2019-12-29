@@ -1,13 +1,24 @@
 import { Component, OnInit } from '@angular/core';
 import { ActivatedRoute, Router } from '@angular/router';
+import { Sort } from '@angular/material';
 import { UserLight } from '../../core/models/auth.model';
 import { UserService } from '../../core/services/user.service';
-import { NewOperation } from '../../core/models/operation.model';
+import { NewOperation, Operation } from '../../core/models/operation.model';
 import { OperationService } from '../../core/services/operation.service';
 import { InfoService } from '../../core/services/info.service';
 import { PaymentMeans } from '../../core/models/payment-means.model';
 import { PaymentMeansService } from '../../core/services/payment-means.service';
 import { AuthService } from '../../core/services/auth.service';
+import { JsonLdCollection } from '../../core/models/json-ld.model';
+import { OperationFilter } from '../components/operation-filter.component';
+
+export interface OperationHistoryMeta {
+  search: string;
+  pageIndex: number;
+  createdAtSort: 'desc' | 'asc';
+  filter: OperationFilter;
+  searchQuery: string;
+}
 
 @Component({
   selector: 'app-bde',
@@ -32,6 +43,31 @@ import { AuthService } from '../../core/services/auth.service';
                 [filter]="searchQuery"
                 [users]="users"
               ></app-bde-acounts-list>
+            </mat-card>
+          </mat-tab>
+
+          <mat-tab>
+            <ng-template mat-tab-label>
+              <span class="mat-tab-label" (click)="goTo('operation-history')">
+                Historique
+              </span>
+            </ng-template>
+            <mat-card>
+              <mat-card-title>Historique des opérations</mat-card-title>
+              <app-search
+                [query]="history.searchQuery"
+                (search)="updateHistorySearchFilter($event)"
+                placeholder="Rechercher une opération"
+              ></app-search>
+              <app-operation-filter
+                [paymentMeans]="paymentMeans"
+                (change)="updateFilter($event)"
+              ></app-operation-filter>
+              <app-bde-operation-history
+                [operations]="operations"
+                (pageChange)="pageChange($event)"
+                (sortChange)="sortChange($event)"
+              ></app-bde-operation-history>
             </mat-card>
           </mat-tab>
 
@@ -126,6 +162,17 @@ export class BdeComponent implements OnInit {
   loading = false;
   unauthorized = true;
   users: UserLight[] = null;
+  operations: JsonLdCollection<Operation>;
+  history: OperationHistoryMeta = {
+    search: '',
+    pageIndex: 1,
+    createdAtSort: 'desc',
+    filter: {
+      paymentMeans: [],
+      recharge: false,
+    },
+    searchQuery: '',
+  };
   searchQuery = '';
   paymentMeans: PaymentMeans[] = null;
 
@@ -133,6 +180,8 @@ export class BdeComponent implements OnInit {
     switch (strId) {
       case 'list':
         return 0;
+      case 'operation-history':
+        return 1;
       case 'debit':
         return 2;
       case 'recharge':
@@ -162,6 +211,7 @@ export class BdeComponent implements OnInit {
     this.paymentMeansService.gets().subscribe((paymentMeans: PaymentMeans[]) => {
       this.paymentMeans = paymentMeans;
     });
+    this.fetchOperationsHistory();
   }
 
   search(event: string): void {
@@ -213,5 +263,44 @@ export class BdeComponent implements OnInit {
         this.loading = false;
       },
     );
+  }
+
+  fetchOperationsHistory(): void {
+    this.operationService
+      .gets(
+        this.history.pageIndex,
+        this.history.createdAtSort,
+        this.history.filter.paymentMeans.map(paymentMean => paymentMean.id),
+        this.history.filter.recharge ? 'Rechargement' : null,
+        this.history.searchQuery,
+      )
+      .subscribe((operations: JsonLdCollection<Operation>) => {
+        this.operations = operations;
+      });
+  }
+
+  pageChange(page: number): void {
+    this.history.pageIndex = page;
+    this.fetchOperationsHistory();
+  }
+
+  sortChange(sort: Sort): void {
+    if (sort.direction && this.history.createdAtSort !== sort.direction) {
+      this.history.createdAtSort = sort.direction;
+      this.history.pageIndex = 1;
+      this.fetchOperationsHistory();
+    }
+  }
+
+  updateFilter(filter: OperationFilter): void {
+    this.history.filter = filter;
+    this.history.pageIndex = 1;
+    this.fetchOperationsHistory();
+  }
+
+  updateHistorySearchFilter(search: string): void {
+    this.history.searchQuery = search;
+    this.history.pageIndex = 1;
+    this.fetchOperationsHistory();
   }
 }

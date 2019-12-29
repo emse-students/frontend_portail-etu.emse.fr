@@ -9,13 +9,11 @@ export interface BookingFilterInput {
   selectedOption?: Option;
   selectedOptions?: Option[];
   displayColumn: boolean;
-  opened?: boolean;
 }
 
 export interface PayementFilter {
   displayColumn: boolean;
   selectedOptions: PaymentMeans[];
-  opened: boolean;
 }
 
 export interface BookingFilter {
@@ -45,7 +43,7 @@ export interface BookingFilter {
       </mat-form-field>
 
       <mat-form-field *ngIf="event.price">
-        <mat-label (click)="filter.paymentMeans.opened = !filter.paymentMeans.opened">
+        <mat-label>
           Moyens de paiement
         </mat-label>
         <mat-select multiple="true">
@@ -76,7 +74,7 @@ export interface BookingFilter {
         </mat-form-field>
 
         <mat-form-field *ngIf="input.formInput.type === 'multipleOptions'">
-          <mat-label (click)="input.opened = !input.opened">{{ input.formInput.title }}</mat-label>
+          <mat-label>{{ input.formInput.title }}</mat-label>
           <mat-select multiple="true">
             <mat-option
               *ngFor="let option of input.formInput.options"
@@ -146,7 +144,6 @@ export class BookingFilterComponent implements OnInit {
         inputs.push({
           formInput: this.event.formInputs[i],
           selectedOptions: [],
-          opened: false,
           displayColumn: false,
         });
       }
@@ -164,7 +161,6 @@ export class BookingFilterComponent implements OnInit {
       paymentMeans: {
         displayColumn: false,
         selectedOptions: [],
-        opened: false,
       },
     };
   }

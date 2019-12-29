@@ -30,7 +30,13 @@ export class JsonLdService {
         next: JsonLdService.idPageParser(jsonLd['hydra:view']['hydra:next']),
       };
     } else {
-      pages = null;
+      pages = {
+        current: 1,
+        first: 1,
+        last: 1,
+        previous: 1,
+        next: 1,
+      };
     }
     return {
       collection: jsonLd['hydra:member'],

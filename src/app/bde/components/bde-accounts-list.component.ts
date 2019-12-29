@@ -1,9 +1,10 @@
-import { Component, Input, OnInit, ViewChild } from '@angular/core';
+import { Component, Input, ViewChild } from '@angular/core';
 import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
 
 @Component({
   selector: 'app-bde-acounts-list',
   template: `
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
       <ng-container matColumnDef="firstname">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Prénom</th>
@@ -50,12 +51,10 @@ import { MatPaginator, MatSort, MatTableDataSource } from '@angular/material';
       <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
       <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
     </table>
-
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
   styles: [],
 })
-export class BdeAccountsListComponent implements OnInit {
+export class BdeAccountsListComponent {
   _users;
   @Input()
   set users(users) {
@@ -84,7 +83,4 @@ export class BdeAccountsListComponent implements OnInit {
   dataSource = new MatTableDataSource();
 
   displayedColumns: string[] = ['firstname', 'lastname', 'type', 'promo', 'balance', 'history'];
-
-  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
-  ngOnInit(): void {}
 }

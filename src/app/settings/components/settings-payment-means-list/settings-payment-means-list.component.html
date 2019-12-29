@@ -1,3 +1,4 @@
+<mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
 <table mat-table [dataSource]="dataSource" matSort class="w-100">
   <ng-container matColumnDef="name">
     <th mat-header-cell *matHeaderCellDef mat-sort-header>Nom</th>
@@ -14,5 +15,3 @@
   <tr mat-header-row *matHeaderRowDef="displayedColumns"></tr>
   <tr mat-row *matRowDef="let row; columns: displayedColumns"></tr>
 </table>
-
-<mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>

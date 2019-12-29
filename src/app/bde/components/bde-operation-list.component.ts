@@ -5,6 +5,7 @@ import { Operation } from '../../core/models/operation.model';
 @Component({
   selector: 'app-bde-operation-list',
   template: `
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
       <ng-container matColumnDef="createdAt">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Date</th>
@@ -39,8 +40,6 @@ import { Operation } from '../../core/models/operation.model';
         [ngClass]="{ greenRow: row.amount > 0 }"
       ></tr>
     </table>
-
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
   styles: [
     `

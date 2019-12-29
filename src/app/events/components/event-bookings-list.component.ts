@@ -16,6 +16,7 @@ interface BookingRanked {
     <p class="text-center" *ngIf="event.shotgunListLength && userRank">
       Votre place : {{ userRank }}
     </p>
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
       <ng-container matColumnDef="rank">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Place</th>
@@ -46,8 +47,6 @@ interface BookingRanked {
         }"
       ></tr>
     </table>
-
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
   styles: [
     `

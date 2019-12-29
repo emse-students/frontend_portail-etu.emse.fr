@@ -8,6 +8,8 @@ import { DisplayedColumns } from '../containers/event-list.component';
 @Component({
   selector: 'app-registered-list',
   template: `
+    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
+
     <table mat-table [dataSource]="dataSource" matSort class="w-100">
       <ng-container matColumnDef="rank">
         <th mat-header-cell *matHeaderCellDef mat-sort-header>Place</th>
@@ -90,8 +92,6 @@ import { DisplayedColumns } from '../containers/event-list.component';
         [ngClass]="{ redRow: event.shotgunListLength && row.rank > event.shotgunListLength }"
       ></tr>
     </table>
-
-    <mat-paginator showFirstLastButtons pageSize="30" hidePageSize></mat-paginator>
   `,
   styles: [
     `

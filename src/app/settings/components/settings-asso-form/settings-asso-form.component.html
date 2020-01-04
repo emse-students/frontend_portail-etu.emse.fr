@@ -6,6 +6,11 @@
         <mat-error *ngIf="name.invalid">{{ getErrorMessage(name) }}</mat-error>
       </mat-form-field>
     </p>
+    <p>
+      <mat-slide-toggle formControlName="isActive">
+        Actif
+      </mat-slide-toggle>
+    </p>
 
     <p class="loginButtons">
       <mat-spinner *ngIf="ispending" [diameter]="35"></mat-spinner>

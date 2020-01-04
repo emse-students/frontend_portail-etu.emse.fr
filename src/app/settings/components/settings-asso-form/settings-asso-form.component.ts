@@ -1,4 +1,4 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 import { AbstractControl, FormBuilder, FormControl, FormGroup, Validators } from '@angular/forms';
 import { UrlSafeStringService } from '../../../core/services/url-safe-string.service';
 import { AssociationLight } from '../../../core/models/association.model';
@@ -8,7 +8,7 @@ import { AssociationLight } from '../../../core/models/association.model';
   templateUrl: './settings-asso-form.component.html',
   styleUrls: ['./settings-asso-form.component.scss'],
 })
-export class SettingsAssoFormComponent implements OnInit {
+export class SettingsAssoFormComponent {
   ispending;
 
   @Input()
@@ -38,21 +38,22 @@ export class SettingsAssoFormComponent implements OnInit {
     id: [null],
     tag: [''],
     name: ['', Validators.required],
+    isActive: [true],
   });
 
-  get name() {
+  get name(): AbstractControl {
     return this.form.get('name');
   }
-  get tag() {
+  get tag(): AbstractControl {
     return this.form.get('tag');
+  }
+  get isActive(): AbstractControl {
+    return this.form.get('isActive');
   }
 
   constructor(private fb: FormBuilder, private urlSafeStringService: UrlSafeStringService) {}
 
-  // eslint-disable-next-line no-empty-function, @typescript-eslint/no-empty-function
-  ngOnInit() {}
-
-  submit() {
+  submit(): void {
     if (this.form.valid) {
       if (this.isNew) {
         this.form.removeControl('id');
@@ -62,7 +63,7 @@ export class SettingsAssoFormComponent implements OnInit {
     }
   }
 
-  getErrorMessage(formControl: FormControl | AbstractControl) {
+  getErrorMessage(formControl: FormControl | AbstractControl): string {
     return formControl.hasError('required') ? 'Ce champs ne doit pas être vide' : '';
   }
 }

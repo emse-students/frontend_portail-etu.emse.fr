@@ -27,14 +27,14 @@ import { InfoService } from '../../core/services/info.service';
       (search)="search($event)"
       placeholder="Rechercher une liste"
     ></app-search>
-    <app-settings-name-list
+    <app-settings-asso-list
       *ngIf="assos"
-      [items]="assos"
+      [assos]="assos"
       (deleted)="delete($event)"
       (selected)="select($event)"
       [filter]="searchQuery"
       itemName="la liste"
-    ></app-settings-name-list>
+    ></app-settings-asso-list>
   `,
   styles: [],
 })

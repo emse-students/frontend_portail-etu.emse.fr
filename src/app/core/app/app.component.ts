@@ -65,30 +65,28 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.associationService.allAssos.subscribe((assos: AssociationLight[] | null) => {
       if (!this.assoLoaded) {
-        const newNav = this.allNav.slice(0);
-        for (let i = 0; i < assos.length; i++) {
-          newNav.push({ label: assos[i].name, link: `/associations/${assos[i].tag}` });
+        assos.forEach(asso => {
+          this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
           this.navItems[0].children.push({
-            displayName: assos[i].name,
-            route: `/associations/${assos[i].tag}`,
+            displayName: asso.name,
+            route: `/associations/${asso.tag}`,
           });
-        }
-        this.allNav = newNav;
+        });
+
         this.assoLoaded = true;
       }
     });
 
     this.associationService.allLists.subscribe((assos: AssociationLight[] | null) => {
       if (!this.listsLoaded) {
-        const newNav = this.allNav.slice(0);
-        for (let i = 0; i < assos.length; i++) {
-          newNav.push({ label: assos[i].name, link: `/associations/${assos[i].tag}` });
+        assos.forEach(asso => {
+          this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
           this.navItems[1].children.push({
-            displayName: assos[i].name,
-            route: `/associations/${assos[i].tag}`,
+            displayName: asso.name,
+            route: `/associations/${asso.tag}`,
           });
-        }
-        this.allNav = newNav;
+        });
+
         this.listsLoaded = true;
       }
     });

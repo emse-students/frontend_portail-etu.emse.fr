@@ -16,6 +16,7 @@ export interface Association {
   positions: Position[];
   events: EventLight[];
   isList: boolean;
+  isActive: boolean;
 }
 
 export interface NewAssociation {
@@ -29,6 +30,7 @@ export interface AssociationLight {
   name: string;
   tag: string;
   isList: boolean;
+  isActive: boolean;
 }
 
 export interface AssociationDTO {

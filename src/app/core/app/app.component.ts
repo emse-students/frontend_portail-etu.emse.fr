@@ -65,13 +65,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.associationService.allAssos.subscribe((assos: AssociationLight[] | null) => {
       if (!this.assoLoaded) {
-        assos.forEach(asso => {
-          this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
-          this.navItems[0].children.push({
-            displayName: asso.name,
-            route: `/associations/${asso.tag}`,
+        assos
+          .filter(asso => asso.isActive)
+          .forEach(asso => {
+            this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
+            this.navItems[0].children.push({
+              displayName: asso.name,
+              route: `/associations/${asso.tag}`,
+            });
           });
-        });
 
         this.assoLoaded = true;
       }
@@ -79,13 +81,15 @@ export class AppComponent implements OnInit, AfterViewInit {
 
     this.associationService.allLists.subscribe((assos: AssociationLight[] | null) => {
       if (!this.listsLoaded) {
-        assos.forEach(asso => {
-          this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
-          this.navItems[1].children.push({
-            displayName: asso.name,
-            route: `/associations/${asso.tag}`,
+        assos
+          .filter(asso => asso.isActive)
+          .forEach(asso => {
+            this.allNav.push({ label: asso.name, link: `/associations/${asso.tag}` });
+            this.navItems[1].children.push({
+              displayName: asso.name,
+              route: `/associations/${asso.tag}`,
+            });
           });
-        });
 
         this.listsLoaded = true;
       }

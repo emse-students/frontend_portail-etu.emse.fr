@@ -7,7 +7,7 @@
   </a>
 </div>
 <div class="row">
-  <ng-container *ngFor="let event of asso.events | orderBy: '-date'">
+  <ng-container *ngFor="let event of events | orderBy: '-date'">
     <app-event-card
       class="col-md-6"
       *ngIf="event.status === 'validated' || event.status === 'inactive' || isRightful"
@@ -16,4 +16,14 @@
       [isRightful]="isRightful"
     ></app-event-card>
   </ng-container>
+</div>
+<div class="row justify-content-center" *ngIf="moreThan10Events && events.length <= 10">
+  <button
+    class="m-2"
+    mat-raised-button
+    [ngStyle]="asso | assoStyle: 'accent'"
+    (click)="displayAll()"
+  >
+    Voir les anciens événements
+  </button>
 </div>

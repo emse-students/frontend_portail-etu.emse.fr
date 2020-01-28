@@ -288,7 +288,6 @@ export class EventSettingsComponent implements OnInit {
   }
 
   selectUser(user): void {
-    console.log('event setting');
     this.selectedUser = user;
     this.goTo('checking');
   }

@@ -209,6 +209,6 @@ export class RegisteredListComponent implements OnInit {
     if (!matchingOutput || !matchingOutput.options) {
       return '';
     }
-    return matchingOutput.options.join(', ');
+    return matchingOutput.options.map(option => option.value).join(', ');
   }
 }

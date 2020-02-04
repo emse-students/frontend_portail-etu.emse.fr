@@ -126,19 +126,18 @@ export class EventCheckingComponent implements OnInit {
       this.unbookedUser = null;
       this.booking = this.event.bookings[arrayFindById(this.event.bookings, user.bookingId)];
     } else {
-      let found = false;
-      for (let i = 0; i < this.event.bookings.length; i++) {
-        if (this.event.bookings[i].user && this.event.bookings[i].user.id === user.id) {
-          this.unbookedUser = null;
-          this.booking = this.event.bookings[i];
-          this.booking.user.balance = user.balance;
-          this.booking.user.contributeBDE = user.contributeBDE;
-          this.booking.user.cercleBalance = user.cercleBalance;
-          this.booking.user.contributeCercle = user.contributeCercle;
-          found = true;
-        }
-      }
-      if (!found) {
+      const booking = this.event.bookings.find(
+        _booking => _booking.user && _booking.user.id === user.id,
+      );
+      if (booking) {
+        this.unbookedUser = null;
+        this.booking = booking;
+        const userWithBalances = this.users.find(_user => _user.id === user.id);
+        this.booking.user.balance = userWithBalances.balance;
+        this.booking.user.contributeBDE = userWithBalances.contributeBDE;
+        this.booking.user.cercleBalance = userWithBalances.cercleBalance;
+        this.booking.user.contributeCercle = userWithBalances.contributeCercle;
+      } else {
         this.booking = null;
         this.unbookedUser = user;
       }

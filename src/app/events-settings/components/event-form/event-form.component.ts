@@ -125,6 +125,9 @@ export class EventFormComponent implements OnInit {
   asFormArray(value): FormArray {
     return value;
   }
+  get open(): AbstractControl {
+    return this.form.get('open');
+  }
 
   constructor(private fb: FormBuilder, private fileUploadService: FileUploadService) {}
 

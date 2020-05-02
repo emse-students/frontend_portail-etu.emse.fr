@@ -3,6 +3,8 @@ import { ActivatedRoute, Router } from '@angular/router';
 import { Event } from '../../core/models/event.model';
 import { EventService } from '../../core/services/event.service';
 import { UserService } from '../../core/services/user.service';
+import { AuthenticatedUser } from '../../core/models/auth.model';
+import { AuthService } from '../../core/services/auth.service';
 
 @Component({
   selector: 'app-review',
@@ -20,7 +22,8 @@ import { UserService } from '../../core/services/user.service';
             (!event.closingDate || event.closingDate > today) &&
             event.date > today &&
             event.status != 'inactive' &&
-            event.isBookable
+            event.isBookable &&
+            (event.open || (authenticatedUser && authenticatedUser.contributeBDE))
           "
         >
           <a [routerLink]="'/events/' + event.id + '/book'">
@@ -52,12 +55,14 @@ export class ReviewComponent implements OnInit {
   loaded;
   allReadyBooked: boolean;
   event: Event;
+  authenticatedUser: AuthenticatedUser;
 
   constructor(
     private route: ActivatedRoute,
     private router: Router,
     private eventService: EventService,
     private userService: UserService,
+    private authService: AuthService,
   ) {}
 
   ngOnInit() {
@@ -73,5 +78,9 @@ export class ReviewComponent implements OnInit {
         });
       }
     });
+    this.authService.authenticatedUser.subscribe(authenticatedUser => {
+      this.authenticatedUser = authenticatedUser;
+    });
+    this.authService.refresh();
   }
 }

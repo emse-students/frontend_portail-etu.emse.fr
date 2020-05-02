@@ -4,6 +4,7 @@ import { EventSidenavService } from '../services/event-sidenav.service';
 import { environment } from '../../../environments/environment';
 import { AuthService } from '../services/auth.service';
 import { UserService } from '../services/user.service';
+import { AuthenticatedUser } from '../models/auth.model';
 
 @Component({
   selector: 'app-event-sidenav',
@@ -33,7 +34,8 @@ import { UserService } from '../services/user.service';
               (!event.closingDate || event.closingDate > today) &&
               event.date > today &&
               (event.status != 'inactive' || isRightful) &&
-              event.isBookable
+              event.isBookable &&
+              (event.open || (authenticatedUser && authenticatedUser.contributeBDE))
             "
           >
             <button mat-flat-button [ngStyle]="event.association | assoStyle" (click)="closeNav()">
@@ -102,6 +104,7 @@ export class EventSidenavComponent implements OnInit {
   imgPath = environment.imgUrl;
   allReadyBooked = false;
   isRightful = false;
+  authenticatedUser: AuthenticatedUser;
   @Output() close = new EventEmitter<boolean>();
 
   constructor(
@@ -111,6 +114,10 @@ export class EventSidenavComponent implements OnInit {
   ) {}
 
   ngOnInit() {
+    this.authService.authenticatedUser.subscribe(authenticatedUser => {
+      this.authenticatedUser = authenticatedUser;
+    });
+    this.authService.refresh();
     this.eventSidenavService.event.subscribe((event: Event) => {
       this.event = event;
       this.allReadyBooked = this.userService.hasBooked(event.id);

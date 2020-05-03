@@ -20,7 +20,8 @@
         (!event.closingDate || event.closingDate > today) &&
         event.date > today &&
         (event.status != 'inactive' || isRightful) &&
-        event.isBookable
+        event.isBookable &&
+        (event.open || (authenticatedUser && authenticatedUser.contributeBDE))
       "
     >
       <button mat-flat-button [ngStyle]="asso | assoStyle">S'inscrire</button>

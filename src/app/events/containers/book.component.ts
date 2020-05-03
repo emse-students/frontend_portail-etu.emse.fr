@@ -28,7 +28,8 @@ import { environment } from '../../../environments/environment';
             event.shotgunListLength &&
             !event.shotgunWaitingList &&
             event.shotgunListLength <= event.countBookings
-          )
+          ) &&
+          (event.open || (authenticatedUser && authenticatedUser.contributeBDE))
         "
       >
         <mat-card-title class="h4">Réservation</mat-card-title>
@@ -62,7 +63,13 @@ import { environment } from '../../../environments/environment';
         </mat-card-title>
         <p class="text-center">L'événement est passé</p>
       </mat-card>
-      <mat-card *ngIf="loaded && event.status !== 'validated' && unauthorized">
+      <mat-card
+        *ngIf="
+          loaded &&
+          ((event.status !== 'validated' && unauthorized) ||
+            (!event.open && (!authenticatedUser || !authenticatedUser.contributeBDE)))
+        "
+      >
         <mat-card-title class="h4">
           Vous ne pouvez pas vous inscrire à l'événement {{ event.name }}
         </mat-card-title>

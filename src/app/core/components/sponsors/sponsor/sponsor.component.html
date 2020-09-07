@@ -1,11 +1,6 @@
 <mat-card>
   <mat-card-header>
-    <div
-      mat-card-avatar
-      [ngStyle]="{
-        'background-image': 'url()'
-      }"
-    ></div>
+    <div mat-card-avatar [ngStyle]="{ background: 'url(' + sponsor.logo + ')' }"></div>
     <mat-card-title>{{ sponsor.name }}</mat-card-title>
   </mat-card-header>
   <mat-card-content>

@@ -1,0 +1,17 @@
+<mat-card>
+  <mat-card-header>
+    <div mat-card-avatar [ngStyle]="{ background: 'url(' + sponsor.logo + ')' }"></div>
+    <mat-card-title>{{ sponsor.name }}</mat-card-title>
+  </mat-card-header>
+  <mat-card-content>
+    <mat-list>
+      <mat-list-item *ngFor="let incentive of sponsor.incentives">
+        <mat-icon mat-list-icon color="accent">check_circle</mat-icon>
+        <p mat-line>{{ incentive }}</p>
+      </mat-list-item>
+    </mat-list>
+  </mat-card-content>
+  <!-- <mat-card-actions>
+    <button mat-raised-button color="primary" routerLink="/">Take Me Home</button>
+  </mat-card-actions> -->
+</mat-card>

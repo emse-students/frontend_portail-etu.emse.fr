@@ -80,6 +80,7 @@
       <button mat-button [matMenuTriggerFor]="menuAssos">Associations</button>
       <button mat-button [matMenuTriggerFor]="menuLists">Listes</button>
       <button mat-button [matMenuTriggerFor]="pages">Autres Sites</button>
+      <button mat-button routerLink="sponsors" routerLinkActive="active">Partenariats</button>
 
       <mat-menu #menuAssos="matMenu">
         <ng-container *ngIf="navItems[0]">

@@ -3,6 +3,7 @@ import { Routes, RouterModule } from '@angular/router';
 import { NotFoundPageComponent } from './core/components/not-found-page.component';
 import { AdminGuard } from './core/services/auth-guard.service';
 import { HomeComponent } from './core/containers/home.component';
+import { SponsorsComponent } from './core/components/sponsors/sponsors.component';
 
 const routes: Routes = [
   {
@@ -23,6 +24,10 @@ const routes: Routes = [
   {
     path: 'associations',
     loadChildren: './associations/associations.module#AssociationsModule',
+  },
+  {
+    path: 'sponsors',
+    component: SponsorsComponent,
   },
   {
     path: 'events-settings',

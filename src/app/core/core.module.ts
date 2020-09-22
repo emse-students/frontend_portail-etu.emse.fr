@@ -25,6 +25,8 @@ import { DatePickerComponent } from './components/date-picker/date-picker.compon
 import { EventSidenavComponent } from './components/event-sidenav.component';
 import { UserSidenavComponent } from './components/user-sidenav.component';
 import { SentryErrorHandler } from './services/sentry.service';
+import { SponsorsComponent } from './components/sponsors/sponsors.component';
+import { SponsorComponent } from './components/sponsors/sponsor/sponsor.component';
 
 export const COMPONENTS = [
   AppComponent,
@@ -39,6 +41,8 @@ export const COMPONENTS = [
   DatePickerComponent,
   EventSidenavComponent,
   UserSidenavComponent,
+  SponsorsComponent,
+  SponsorComponent,
 ];
 
 export const SERVICES = [

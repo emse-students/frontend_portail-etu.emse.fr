@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SPONSORS_DATA } from '../../data/sponsors.data';
 import { Sponsor } from '../../models/sponsor.model';
 

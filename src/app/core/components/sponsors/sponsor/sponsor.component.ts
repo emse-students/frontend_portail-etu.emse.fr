@@ -1,5 +1,5 @@
 import { Component, OnInit, Input } from '@angular/core';
-import { Sponsor } from '../../../models/sponsor.model';
+import { Sponsor } from 'src/app/core/models/sponsor.model';
 
 @Component({
   selector: 'app-sponsor',
@@ -8,4 +8,8 @@ import { Sponsor } from '../../../models/sponsor.model';
 })
 export class SponsorComponent implements OnInit {
   @Input() sponsor: Sponsor;
+
+  constructor() {}
+
+  ngOnInit() {}
 }

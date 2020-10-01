@@ -6,6 +6,6 @@ import { Sponsor } from '../../../models/sponsor.model';
   templateUrl: './sponsor.component.html',
   styleUrls: ['./sponsor.component.scss'],
 })
-export class SponsorComponent implements OnInit {
+export class SponsorComponent {
   @Input() sponsor: Sponsor;
 }

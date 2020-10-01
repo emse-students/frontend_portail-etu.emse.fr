@@ -7,6 +7,6 @@ import { Sponsor } from '../../models/sponsor.model';
   templateUrl: './sponsors.component.html',
   styleUrls: ['./sponsors.component.scss'],
 })
-export class SponsorsComponent implements OnInit {
+export class SponsorsComponent {
   sponsors: Sponsor[] = SPONSORS_DATA;
 }

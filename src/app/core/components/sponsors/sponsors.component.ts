@@ -9,8 +9,4 @@ import { Sponsor } from '../../models/sponsor.model';
 })
 export class SponsorsComponent implements OnInit {
   sponsors: Sponsor[] = SPONSORS_DATA;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

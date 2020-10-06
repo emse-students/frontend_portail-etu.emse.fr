@@ -1,4 +1,4 @@
-import { Component, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { SPONSORS_DATA } from '../../data/sponsors.data';
 import { Sponsor } from '../../models/sponsor.model';
 
@@ -7,10 +7,6 @@ import { Sponsor } from '../../models/sponsor.model';
   templateUrl: './sponsors.component.html',
   styleUrls: ['./sponsors.component.scss'],
 })
-export class SponsorsComponent implements OnInit {
+export class SponsorsComponent {
   sponsors: Sponsor[] = SPONSORS_DATA;
-
-  constructor() {}
-
-  ngOnInit() {}
 }

@@ -118,6 +118,11 @@ export class AppComponent implements OnInit, AfterViewInit {
       route: '',
       children: [],
     });
+    this.navItems.push({
+      displayName: 'Partenariats',
+      route: '/sponsors',
+      children: [],
+    });
     for (let i = 0; i < NAV_LINKS.length; i++) {
       this.navItems[2].children.push({
         displayName: NAV_LINKS[i].label,

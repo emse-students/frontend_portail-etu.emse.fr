@@ -11,14 +11,14 @@ export const SPONSORS_DATA: Sponsor[] = [
     logo: '../../../assets/sponsors/BNPParibas.png',
     incentives: [
       '70€ offerts à l’ouverture d’un compte',
-      'Carte VISA Gold gratuite',
+      'Carte VISA Premier gratuite',
       'Prêts étudiants à taux très intéressants',
     ],
   },
   {
     name: 'Auto-Ecole - Conduite Passion',
     logo: '../../../assets/sponsors/ConduitePassion.png',
-    incentives: ["Plus de 110e d'économie sur le code, passage du permis gratuit"],
+    incentives: ["Plus de 110€ d'économie sur le code, passage du permis gratuit"],
   },
   {
     name: 'Livraison de courses - U Express',

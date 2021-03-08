@@ -114,6 +114,9 @@ export class AssociationsReviewComponent implements OnInit {
           this.asso = asso;
           this.asso.color = this.asso.color ? this.asso.color : '#61259e';
           this.asso.color2 = this.asso.color2 ? this.asso.color2 : '#ffca28';
+          this.asso.events = this.asso.events.filter(
+            ({ publicEvent }) => publicEvent || this._authService.isAuthenticated(),
+          );
           if (this.authService.hasAssoRight(2, this.asso.id) || this.authService.isAdmin()) {
             let roleLoaded = false;
             let usersLoaded = false;

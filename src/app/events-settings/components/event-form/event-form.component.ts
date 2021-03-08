@@ -128,6 +128,9 @@ export class EventFormComponent implements OnInit {
   get open(): AbstractControl {
     return this.form.get('open');
   }
+  get publicEvent(): AbstractControl {
+    return this.form.get('publicEvent');
+  }
 
   constructor(private fb: FormBuilder, private fileUploadService: FileUploadService) {}
 
@@ -205,6 +208,7 @@ export class EventFormComponent implements OnInit {
         formInputs: this.fb.array([]),
         status: ['new'],
         open: [true],
+        publicEvent: [true],
         img: [null],
         collectLink: [''],
         boolPaymentMeans: this.fb.array([]),

@@ -21,6 +21,7 @@ export interface Event {
   price: number;
   place: string;
   open: boolean;
+  publicEvent: boolean;
   paymentMeans: PaymentMeans[];
   shotgunListLength: number;
   shotgunWaitingList: boolean;
@@ -43,6 +44,7 @@ export interface EventLight {
   price: number;
   place: string;
   open: boolean;
+  publicEvent: boolean;
   shotgunListLength: number;
   shotgunStartingDate: string | Date;
   closingDate: string | Date;
@@ -59,6 +61,7 @@ export interface NewEvent {
   price: number;
   place: string;
   open: boolean;
+  publicEvent: boolean;
   paymentMeans: string[];
   shotgunListLength: number;
   shotgunWaitingList: boolean;

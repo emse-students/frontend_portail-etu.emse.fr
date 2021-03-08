@@ -87,7 +87,9 @@ export class CalendarContainerComponent implements OnInit {
 
   fetch(date: Date = null) {
     this.eventService.getCalendarEvents(date).subscribe(events => {
-      this.events = events;
+      this.events = events.filter(
+        ({ publicEvent }) => publicEvent || this._authService.isAuthenticated(),
+      );
       this.eventsPending = false;
     });
     this.eventBandService.getCalendarEventBands(date).subscribe(eventBands => {
